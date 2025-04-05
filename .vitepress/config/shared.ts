@@ -29,6 +29,8 @@ export const shared = defineConfig({
     },
 
     themeConfig: {
+        logo: '/logo.png',
+        siteTitle: false,
         socialLinks: [
             {icon: 'github', link: 'https://github.com/goravel/goravel'},
             {icon: 'discord', link: 'https://discord.gg/cFc5csczzS'},
