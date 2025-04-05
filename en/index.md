@@ -6,6 +6,7 @@ hero:
   name: "Goravel"
   text: "The Go Framework For Web Artisans"
   tagline: The framework's design is consistent with Laravel. Kudos to Laravel!
+  image: /logo-mini.png
   actions:
     - theme: brand
       text: 🌟 Star
