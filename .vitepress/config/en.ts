@@ -4,19 +4,42 @@ export const en = defineConfig({
     lang: 'en-US',
     description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
 
+    head: [
+        [
+            "script",
+            {
+                crossorigin: "anonymous",
+                async: "true",
+                src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4978322804450032",
+            },
+        ],
+        [
+            "script",
+            {
+                async: "true",
+                src: "https://www.googletagmanager.com/gtag/js?id=G-HJQNEG5H69",
+            },
+        ],
+        [
+            "script",
+            {},
+            "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-HJQNEG5H69');",
+        ],
+    ],
+
     themeConfig: {
         nav: nav(),
 
         sidebar: {
-            '/quickstart/': { base: '/quickstart/', items: sidebarQuickstart() },
-            '/upgrade/': { base: '/upgrade/', items: sidebarUpgrade() },
-            '/foundation/': { base: '/foundation/', items: sidebarFoundation() },
-            '/basic/': { base: '/basic/', items: sidebarBasic() },
-            '/advanced/': { base: '/advanced/', items: sidebarAdvanced() },
-            '/security/': { base: '/security/', items: sidebarSecurity() },
-            '/orm/': { base: '/orm/', items: sidebarOrm() },
-            '/testing/': { base: '/testing/', items: sidebarTesting() },
-            '/other/': { base: '/other/', items: sidebarOther() },
+            '/en/quickstart/': { base: '/en/quickstart/', items: sidebarQuickstart() },
+            '/en/upgrade/': { base: '/en/upgrade/', items: sidebarUpgrade() },
+            '/en/foundation/': { base: '/en/foundation/', items: sidebarFoundation() },
+            '/en/basic/': { base: '/en/basic/', items: sidebarBasic() },
+            '/en/advanced/': { base: '/en/advanced/', items: sidebarAdvanced() },
+            '/en/security/': { base: '/en/security/', items: sidebarSecurity() },
+            '/en/orm/': { base: '/en/orm/', items: sidebarOrm() },
+            '/en/testing/': { base: '/en/testing/', items: sidebarTesting() },
+            '/en/other/': { base: '/en/other/', items: sidebarOther() },
         },
 
         editLink: {
@@ -25,8 +48,8 @@ export const en = defineConfig({
         },
 
         footer: {
-            message: 'Released under the MIT License.',
-            copyright: `Copyright © 2019-${new Date().getFullYear()} Goravel`
+            message: 'Released under the MIT License',
+            copyright: `Copyright © 2021-${new Date().getFullYear()} Goravel`
         }
     }
 })
@@ -35,48 +58,48 @@ function nav(): DefaultTheme.NavItem[] {
     return [
         {
             text: 'Quickstart',
-            link: '/quickstart/installation',
-            activeMatch: '/quickstart'
+            link: '/en/quickstart/installation',
+            activeMatch: '/en/quickstart/'
         },
         {
             text: 'Upgrade',
-            link: '/upgrade/v1.15',
-            activeMatch: '/upgrade'
+            link: '/en/upgrade/v1.15',
+            activeMatch: '/en/upgrade/'
         },
         {
             text: 'Foundation',
-            link: '/foundation/lifecycle',
-            activeMatch: '/foundation'
+            link: '/en/foundation/lifecycle',
+            activeMatch: '/en/foundation/'
         },
         {
             text: 'Basic',
-            link: '/basic/routing',
-            activeMatch: '/basic'
+            link: '/en/basic/routing',
+            activeMatch: '/en/basic/'
         },
         {
             text: 'Advanced',
-            link: '/advanced/artisan',
-            activeMatch: '/advanced'
+            link: '/en/advanced/artisan',
+            activeMatch: '/en/advanced/'
         },
         {
             text: 'Security',
-            link: '/security/authentication',
-            activeMatch: '/security'
+            link: '/en/security/authentication',
+            activeMatch: '/en/security/'
         },
         {
             text: 'ORM',
-            link: '/orm/quickstart',
-            activeMatch: '/orm'
+            link: '/en/orm/quickstart',
+            activeMatch: '/orm/'
         },
         {
             text: 'Testing',
-            link: '/testing/quickstart',
-            activeMatch: '/testing'
+            link: '/en/testing/quickstart',
+            activeMatch: '/testing/'
         },
         {
             text: 'Other',
-            link: '/other/contributing',
-            activeMatch: '/other'
+            link: '/en/other/contributing',
+            activeMatch: '/other/'
         },
     ]
 }

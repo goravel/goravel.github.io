@@ -6,7 +6,6 @@ import {defineConfig} from "vitepress";
 
 export const shared = defineConfig({
     title: 'Goravel',
-    lang: 'en',
 
     /*rewrites: {
         'en/:rest*': ':rest*'
@@ -30,7 +29,6 @@ export const shared = defineConfig({
     },
 
     themeConfig: {
-        // https://vitepress.dev/reference/default-theme-config
         socialLinks: [
             {icon: 'github', link: 'https://github.com/goravel/goravel'},
             {icon: 'discord', link: 'https://discord.gg/cFc5csczzS'},
