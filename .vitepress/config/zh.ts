@@ -88,7 +88,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
             collapsed: false,
             items: [
                 { text: '什么是 VitePress？', link: 'what-is-vitepress' },
-                { text: '快速开始', link: 'getting-started' },
+                { text: '快速开始', link: 'quickstart' },
                 { text: '路由', link: 'routing' },
                 { text: '部署', link: 'deploy' }
             ]

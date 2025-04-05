@@ -14,5 +14,3 @@ in `config/app.go`.
 
 The framework comes with a blank service provider `app/providers/app_service_provider.go` where you can implement simple
 boot logic. In bigger projects, you have the option to create new service providers for more precise control.
-
-<CommentService/>

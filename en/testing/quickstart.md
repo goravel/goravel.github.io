@@ -90,7 +90,7 @@ Goravel model factories and Seeders can easily create test database records for 
 
 If you're conducting tests, it might be necessary to add some records to your database before running the test. You
 don't have to manually input the values of each column for the test data creation. With Goravel, you can set default
-attributes for your models via [factories](../orm/factories.md).
+attributes for your models via [factories](../orm/factories).
 
 ```go
 var user models.User
@@ -99,7 +99,7 @@ err := facades.Orm().Factory().Create(&user)
 
 ### Running Seeders
 
-If you would like to use [database seeders](../orm/seeding.md) to populate your database during a feature test, you may
+If you would like to use [database seeders](../orm/seeding) to populate your database during a feature test, you may
 invoke the `Seed` method. By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of
 your other seeders. Alternatively, you can pass a specific seeder struct to the `Seed` method:
 
@@ -202,7 +202,7 @@ config := database.Config()
 
 #### Running Seeders
 
-If you wish to use [seeder](../orm/seeding.md) to populate the database during testing, you can call the `Seed` method.
+If you wish to use [seeder](../orm/seeding) to populate the database during testing, you can call the `Seed` method.
 By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of your other seeders.
 Alternatively, you can pass a specific seeder struct to the `Seed` method:
 

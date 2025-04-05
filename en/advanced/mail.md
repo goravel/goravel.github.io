@@ -120,5 +120,3 @@ Then you can use the `Mailalbe` in the `Send` and `Queue` methods:
 err := facades.Mail().Send(mails.NewOrderShipped())
 err := facades.Mail().Queue(mails.NewOrderShipped())
 ```
-
-<CommentService/>

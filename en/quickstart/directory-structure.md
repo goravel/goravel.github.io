@@ -28,7 +28,7 @@ The `public` directory contains some static resources, such as images, certifica
 
 ### `resources` Directory
 
-The `resources` directory contains your [views](../the-basics/views.md) as well as your raw, un-compiled assets such as
+The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
 CSS or JavaScript.
 
 ### `routes` Directory
@@ -48,7 +48,7 @@ The `tests` directory contains your automated tests.
 ### `console` Directory
 
 The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../digging-deeper/task-scheduling.md)
+`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
 
 ### `http` Directory
 
@@ -66,8 +66,6 @@ The `models` directory contains all data models.
 
 ### `providers` Directory
 
-The `providers` directory contains all [Service Providers](../architecutre-concepts/service-providers.md) in the
+The `providers` directory contains all [Service Providers](../foundation/providers) in the
 program. The service provider guides the application to respond to incoming requests by binding services, registering
 for events, or performing any other tasks.
-
-<CommentService/>

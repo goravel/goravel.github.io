@@ -114,7 +114,7 @@ err := facades.Orm().Factory().Create(&user, map[string]any{
 
 ### Ignore Model Event
 
-There may be [model event](../orm/getting-started.md#events) defined on the model, you can ignore those events with the
+There may be [model event](../orm/quickstart#events) defined on the model, you can ignore those events with the
 `CreateQuietly` method:
 
 ```go

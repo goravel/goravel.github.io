@@ -147,5 +147,3 @@ func (h *Hook) Fire(entry log.Entry) error {
   return nil
 }
 ```
-
-<CommentService/>

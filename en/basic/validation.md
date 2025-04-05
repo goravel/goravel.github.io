@@ -179,7 +179,7 @@ Check more rules in the [Available Validation Rules](#available-validation-rules
 The form request class also contains an `Authorize` method. Within this method, you may determine if the authenticated
 user actually has the authority to update a given resource. For example, you may determine if a user actually owns a
 blog comment they are attempting to update. Most likely, you will interact with
-your [authorization gates and policies](../security/authorization.md) within this method:
+your [authorization gates and policies](../security/authorization) within this method:
 
 ```go
 func (r *StorePostRequest) Authorize(ctx http.Context) error {
@@ -659,5 +659,3 @@ func (receiver *ValidationServiceProvider) filters() []validation.Filter {
   }
 }
 ```
-
-<CommentService/>

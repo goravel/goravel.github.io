@@ -8,7 +8,7 @@ The service container provides powerful support for third-party packages around 
 
 ### Simple Bindings
 
-Almost all of your service container bindings will be registered within [service providers](./service-providers.md).
+Almost all of your service container bindings will be registered within [service providers](./providers).
 Within a service provider, you always have access to the container via the `app` parameter, then register a binding
 using the `Bind` method, passing the `key` that we wish to register along with a closure that returns an instance of the
 class:

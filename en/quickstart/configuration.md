@@ -63,5 +63,3 @@ You can use the `artisan about` command to view the framework version, configura
 ```bash
 go run . artisan about
 ```
-
-<CommentService/>

@@ -90,5 +90,3 @@ docker-compose up
 ## Reduce package size
 
 Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
-
-<CommentService/>

@@ -603,5 +603,3 @@ Asserts that the response has a `422 Unprocessable Entity` HTTP status code:
 ```go
 response.AssertUnprocessableEntity()
 ```
-
-<CommentService/>

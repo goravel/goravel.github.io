@@ -113,7 +113,7 @@ your listener's `Handle` method.
 ## Queued Event Listeners
 
 Queueing listeners can be beneficial if your listener is going to perform a slow task such as sending an email or making
-an HTTP request. Before using queued listeners, make sure to [configure your queue](queues.md) and start a queue worker
+an HTTP request. Before using queued listeners, make sure to [configure your queue](queues) and start a queue worker
 on your server or local development environment.
 
 ```go
@@ -203,5 +203,3 @@ string
 []float64
 []string
 ```
-
-<CommentService/>

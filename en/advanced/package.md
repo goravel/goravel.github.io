@@ -23,7 +23,7 @@ go run . artisan make:package --root=pkg sms
 
 ## Service Providers
 
-[Service providers](../architecutre-concepts/service-providers.md) act as the bridge between your package and Goravel.
+[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
 They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
 items into Goravel's service container and guide Goravel in loading package resources.
 
@@ -51,7 +51,7 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 
 ### Routes
 
-If there are [routes](../the-basics/routing.md) in your package, you can use `app.MakeRoute()` to resolve
+If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
 `facades.Route()`, then add the routes to the project:
 
 ```go
@@ -63,7 +63,7 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 
 ### Migrations
 
-If there are [migrations](../orm/migrations.md) in your package, you can publish them by the `Publishes` method:
+If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -76,7 +76,7 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 ## Commands
 
 You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../digging-deeper/artisan-console.md) after registering them.
+using [Artisan CLI](../advanced/artisan) after registering them.
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -134,5 +134,3 @@ The command can use the following options:
 | --tag       | -t    | Resource Group                                                                                                                                                                                                      |
 | --force     | -f    | Overwrite any existing files                                                                                                                                                                                        |
 | --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                               |
-
-<CommentService/>

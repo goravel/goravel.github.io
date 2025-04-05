@@ -88,10 +88,8 @@ go run . artisan key:generate
 
 ### Generate JWT Token
 
-You need to generate JWT Token if you use [Authentication](../security/authentication.md).
+You need to generate JWT Token if you use [Authentication](../security/authentication).
 
 ```shell
 go run . artisan jwt:secret
 ```
-
-<CommentService/>

@@ -39,7 +39,7 @@ func (kernel Kernel) Schedule() []schedule.Event {
 
 ### Scheduling Artisan Commands
 
-In addition to scheduling closures, you can also schedule [Artisan commands](./artisan-console.md). For example, you may
+In addition to scheduling closures, you can also schedule [Artisan commands](./artisan). For example, you may
 use the `Command` method to schedule an Artisan command using either the command's name or class.
 
 ```go
@@ -185,5 +185,3 @@ go func() {
 
 select {}
 ```
-
-<CommentService/>

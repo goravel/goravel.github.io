@@ -85,5 +85,3 @@ facades.Route().Resource("photos", controllers.NewPhotoController())
 | GET       | `/photos/{photo}` | Show    |
 | PUT/PATCH | `/photos/{photo}` | Update  |
 | DELETE    | `/photos/{photo}` | Destroy |
-
-<CommentService/>

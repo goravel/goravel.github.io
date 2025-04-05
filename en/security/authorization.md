@@ -1,6 +1,6 @@
 # Authorization
 
-Goravel offers built-in [authentication](./authentication.md) services and an easy-to-use authorization feature to
+Goravel offers built-in [authentication](./authentication) services and an easy-to-use authorization feature to
 manage user actions on resources. Even if a user is authenticated, they may not have the authority to modify or delete
 certain Eloquent models or database records. Goravel's authorization feature allows for a systematic way of managing
 these authorization checks.
@@ -208,5 +208,3 @@ facades.Gate().Define("update-post", policies.NewPostPolicy().Update)
 As you work on authorizing different actions, you can add more methods to your policy. For instance, you can create
 `View` or `Delete` methods to authorize various model-related actions. Feel free to name your policy methods as you see
 fit.
-
-<CommentService/>

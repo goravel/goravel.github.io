@@ -640,7 +640,7 @@ err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
 
 Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
 Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
-use [Lazy Eager Loading](./relationships.md#lazy-eager-loading) to load relationship in the `for` logic.
+use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
@@ -1103,5 +1103,3 @@ err := facades.Orm().Query().FindOrFail(&user, 1)
 user.Name = "Goravel"
 err := facades.Orm().Query().SaveQuietly(&user)
 ```
-
-<CommentService/>

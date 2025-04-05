@@ -113,5 +113,3 @@ token, err := facades.Auth(ctx).Guard("admin").User(&user)
 ```
 
 > When the default guard is not used, the `Guard` method must be called before calling the above methods.
-
-<CommentService/>

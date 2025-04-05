@@ -75,5 +75,3 @@ ctx.Request().Abort()
 ctx.Request().Abort(http.StatusNotFound)
 ctx.Response().String(http.StatusNotFound, "Not Found").Abort()
 ```
-
-<CommentService/>

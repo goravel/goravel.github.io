@@ -8,9 +8,9 @@ export const shared = defineConfig({
     title: 'Goravel',
     lang: 'en',
 
-    rewrites: {
+    /*rewrites: {
         'en/:rest*': ':rest*'
-    },
+    },*/
 
     lastUpdated: true,
     cleanUrls: true,

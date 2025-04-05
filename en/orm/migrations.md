@@ -401,5 +401,3 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
   table.DropForeignByName("user_id_foreign")
 })
 ```
-
-<CommentService/>

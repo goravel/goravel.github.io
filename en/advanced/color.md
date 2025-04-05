@@ -1,7 +1,7 @@
 # Color
 
 The `color` package provides a set of functions to colorize the output of the terminal
-using [PTerm](github.com/pterm/pterm) library.
+using [PTerm](https://github.com/pterm/pterm) library.
 
 ## Specific Color
 
@@ -48,5 +48,3 @@ import "github.com/goravel/framework/support/color"
 
 color.New(color.FgRed).Println("Hello, Goravel!")
 ```
-
-<CommentService/>

@@ -201,7 +201,7 @@ facades.Route().Get("/input/{id}", func(ctx http.Context) http.Response {
 })
 ```
 
-Detail [Request](./request.md)
+Detail [Request](./requests)
 
 ## Middleware
 
@@ -211,7 +211,7 @@ import "github.com/goravel/framework/http/middleware"
 facades.Route().Middleware(middleware.Cors()).Get("users", userController.Show)
 ```
 
-Detail [Middleware](./middleware.md)
+Detail [Middleware](./middlewares)
 
 ## Fallback Routes
 
@@ -341,5 +341,3 @@ Goravel has CORS enabled by default, the configuration can be modified in `confi
 
 > For more information on CORS and CORS headers, please consult
 > the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
-
-<CommentService/>

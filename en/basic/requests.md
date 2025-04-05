@@ -213,5 +213,3 @@ func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
   ...
 }
 ```
-
-<CommentService/>

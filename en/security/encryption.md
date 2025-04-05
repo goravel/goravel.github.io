@@ -31,5 +31,3 @@ decrypted, such as when the message authentication code is invalid, an error wil
 ```go
 str, err := facades.Crypt().DecryptString(secret)
 ```
-
-<CommentService/>

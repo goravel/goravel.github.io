@@ -708,5 +708,3 @@ import "github.com/goravel/framework/support/collect"
 values := collect.Values(map[string]string{"name": "Goravel", "language": "Go"})
 // []string{"Goravel", "Go"}
 ```
-
-<CommentService/>

@@ -539,5 +539,3 @@ func TestView(t *testing.T) {
  mockView.AssertExpectations(t)
 }
 ```
-
-<CommentService/>
