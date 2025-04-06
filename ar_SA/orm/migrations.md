@@ -1,210 +1,210 @@
-# Migrations
+# الهجرات
 
-When multiple people collaborate to develop applications, it's crucial to have a standardized database structure for
-synchronization. Without this, there could be chaos as everyone's individual data won't match up. Database migration is
-the solution to this problem. The database structure is version-controlled to ensure its consistency within all
+عندما يتعاون أشخاص متعددون لتطوير التطبيقات، من الأهمية بمكان أن يكون لدينا بنية قاعدة بيانات موحدة للمزامنة
+. وبدون هذا، يمكن أن تكون هناك فوضى لأن البيانات الفردية للجميع لن تتطابق. ترحيل قاعدة البيانات هو
+الحل لهذه المشكلة. The database structure is version-controlled to ensure its consistency within all
 developers.
 
 ## الإعدادات
 
-The database migration files are stored in the `database/migrations` directory. You can configure the database
-connection information in the `config/database.go` file. Currently, there are two drivers available for migrations: Go
-language migration and SQL migration. However, the SQL migration will be removed in future versions.
+وتخزن ملفات ترحيل قاعدة البيانات في دليل "قاعدة البيانات/الهجرات". يمكنك تكوين قاعدة البيانات
+معلومات الاتصال في ملف \`config/database.go'. Currently, there are two drivers available for migrations: Go
+language migration and SQL migration. ومع ذلك، ستتم إزالة ترحيل SQL في الإصدارات المقبلة.
 
 ```go
-// Available Drivers: "default", "sql"
-"migrations": map[string]any{
-  "driver": "default",
-  // You can cumstomize the table name of migrations
-  "table":  "migrations",
-},
+// السائقين المتاحين: "الافتراضي"، "sql"
+"الهجرات": map[string]any{
+  "السائق": "الافتراضي"،
+  // يمكنك تجميع اسم جدول الهجرات
+  "الجدول": "الهجرات"،
+}،
 ```
 
-## Create Migrations
+## إنشاء عمليات هجرة
 
-Use the `make:migration` command to create the migration:
+استخدم الأمر \`make:migration' لإنشاء الهجرة:
 
 ```shell
-go run . artisan make:migration create_users_table
+إذهب للتشغيل. صانع حرفي:migration create_users_table
 ```
 
-This command will generate migration files in the `database/migrations` directory. Each migration file will begin with a
-timestamp, which Goravel will use to determine the execution order of the migration files.
+سيؤدي هذا الأمر إلى إنشاء ملفات هجرة في دليل "قاعدة البيانات/الهجرات". سيبدأ كل ملف من ملفات الترحيل بطابع زمني
+الذي سيستخدمه Goravel لتحديد أمر التنفيذ لملفات الترحيل.
 
-### Quickly Create
+### إنشاء سريع
 
-Use `create_users_table` to automatically generate a table containing the infrastructure of `users`:
+استخدم `create_users_table' لإنشاء جدول يحتوي على البنية التحتية لـ `المستخدمين':
 
 ```
 ^create_(\w+)_table$
 ^create_(\w+)$
 ```
 
-Use `add_avatar_to_users_table` to automatically generate a structure for adding fields to the `users` table:
+استخدم `add_avatar_to_users_table` لإنشاء بنية تلقائية لإضافة الحقول إلى جدول 'المستخدمين\`:
 
 ```
-_(to|from|in)_(\w+)_table$
-_(to|from|in)_(\w+)$
+_(to<unk> from<unk> in)_(\w+)_table$
+_(to<unk> from<unk> in)_(\w+)$
 ```
 
-If the above conditions are not matched, the framework will generate an empty migration file.
+وإذا لم تكن الشروط المذكورة أعلاه متطابقة، فإن الإطار سينشئ ملف هجرة فارغ.
 
-## Migration Structure
+## هيكل الهجرة
 
-### Go Language Migration
+### انتقل إلى نقل اللغة
 
-The migration struct contains two methods: `Up` and `Down`. The `Up` method is used to add new tables, columns, or
-indexes to the database, while the `Down` method is used to undo the operations performed by the `Up` method. In these
-two methods, you can use `facades.Schema()` to create and operate database tables. For available methods, see
-the [documentation](#tables). The following migration will create a `users` table:
+يحتوي هيكل الترحيل على طريقتين: 'أعلى` و 'أسفل`. يتم استخدام طريقة "الارتفاع" لإضافة جداول جديدة أو أعمدة أو فهرسات
+إلى قاعدة البيانات، بينما يتم استخدام طريقة "أسفل" للتراجع عن العمليات التي تقوم بها طريقة "أعلى". In these
+two methods, you can use `facades.Schema()` to create and operate database tables. وللاطلاع على الأساليب المتاحة، انظر
+[documentation](#tables). ستنشئ الترحيل التالي جدول "المستخدمين":
 
 ```go
-package migrations
+ترحيل الحزمة
 
-import (
+استيراد (
  "github.com/goravel/framework/contracts/database/schema"
- "github.com/goravel/framework/facades"
-)
+ "github. om/goravel/framework/facades"
 
-type M20241207095921CreateUsersTable struct {
-}
 
-// Signature The unique signature for the migration.
+نوع M20241207095921CreateUserstable struct {
+
+
+// توقيع التوقيع الفريد للهجرة.
 func (r *M20241207095921CreateUsersTable) Signature() string {
  return "20241207095921_create_users_table"
-}
+A)
 
-// Up Run the migrations.
-func (r *M20241207095921CreateUsersTable) Up() error {
- if !facades.Schema().HasTable("users") {
-  return facades.Schema().Create("users", func(table schema.Blueprint) {
-   table.ID()
-   table.String("name").Nullable()
-   table.String("email").Nullable()
-   table.Timestamps()
+// Up تشغيل الهجرة.
+الفونك (r *M20241207095921CreateUsersTable) أعلى() خطأ {
+ إذا كان !واجه. chema().HasTable("المستخدمون") {
+  Refacades.Schema().Create("المستخدمون"، وظيفة (الجدول المخطط البياني Blueprint) {
+   الجدول. D()
+   table.String("الاسم").Nullable()
+   table.String("البريد الإلكتروني").Nullable()
+   ، الجدول. imestamps()
   })
- }
 
- return nil
+
+ refl
 }
 
-// Down Reverse the migrations.
-func (r *M20241207095921CreateUsersTable) Down() error {
- return facades.Schema().DropIfExists("users")
+/// Down Rereverse of the Migations.
+فوتوك (r *M20241207095921CreateUsersTable) Down() error {
+ Refacades.Schema().DropIfExists("المستخدمون")
 }
 ```
 
-#### Set Migration Connection
+#### تعيين اتصال الهجرة
 
 If the migration will interact with a database connection other than the application's default database connection, you
 should use the migration's `Connection` method:
 
 ```go
-func (r *M20241207095921CreateUsersTable) Connection() string {
-  return "connection-name"
+مربع (r *M20241207095921CreateUsersTable) الاتصال() السلسلة {
+  العودة "Connection-name"
 }
 ```
 
-### SQL Migration
+### هجرة SQL
 
-The migration command will generate two migration files: `***.up.sql` and `***.down.sql`, corresponding to execution and
-rollback, respectively. You can write SQL statements directly in these two files.
+سيولد أمر الهجرة ملفين للترحيل: `***.up.sql` و `***.down.sql`، المقابل للتنفيذ و
+التراجع، على التوالي. يمكنك كتابة بيانات SQL مباشرة في هذين الملفين.
 
 ```sql
--- ***.up.sql
-CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+-- ***.Up. ql
+إنشاء 'مستخدمين' ' (
+  'id' كبير(20) لم يتم التوقيع NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULLL
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL NULL,
+  مفتاح بريميري (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci؛
 
--- ***.down.sql
-DROP TABLE `users`;
+-- ***. 'ussql
+DROP TABLE 'users';
 ```
 
-## Register Migrations
+## تسجيل الهجرات
 
-When using Go language migrations, you need to register the migration files in the `database/kernel.go` file after the
-migration files are generated:
+عند استخدام ترحيل اللغة، تحتاج إلى تسجيل ملفات الترحيل في ملف "قاعدة البيانات/kernel.go" بعد إنشاء ملفات الترحيل
+:
 
 ```go
-// database/kernel.go
+//database/kernel.go
 func (kernel Kernel) Migrations() []schema.Migration {
  return []schema.Migration{
-  &migrations.M20241207095921CreateUsersTable{},
- }
+  &migations.M20241207095921CreateUsersTable{},
+ A}
 }
 ```
 
-SQL migrations do not need to be registered, as the framework will automatically scan the SQL files in the
-`database/migrations` directory.
+لا تحتاج ترحيل SQL إلى تسجيل، لأن الإطار سيقوم تلقائياً بمسح ملفات SQL في دليل "قاعدة البيانات"
+A.
 
-## Run Migrations
+## تشغيل عمليات الترحيل
 
-To run all of your outstanding migrations, execute the `migrate` Artisan command:
-
-```shell
-go run . artisan migrate
-```
-
-If you would like to see which migrations have run thus far, you may use the `migrate:status` Artisan command:
+لتشغيل جميع الهجرات المعلقة لديك، قم بتنفيذ الأمر الفني 'migrate' :
 
 ```shell
-go run . artisan migrate:status
+إذهب للتشغيل. هجرة حرفية
 ```
 
-## Rolling Back Migrations
-
-To roll back the latest migration, use the `rollback` Artisan command. This command rolls back the last "batch" of
-migrations, which may include multiple migration files:
+إذا كنت ترغب في رؤية أي عمليات هجرة تم تنفيذها حتى الآن، يمكنك استخدام الأمر الفني \`migrate:status': Artisan:
 
 ```shell
-go run . artisan migrate:rollback
+إذهب إلى التشغيل. ترحيل حرفي: الحالة
 ```
 
-You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example,
+## هجرات الرجوع المتدحرجة
+
+لدحر آخر هجرة، استخدم أمر "التراجع" الفنون. هذا الأمر يعيد آخر "دفعة" من الهجرات
+، والتي قد تتضمن ملفات ترحيل متعددة:
+
+```shell
+اذهب للتشغيل. ترحيل حرفي: التراجع
+```
+
+يمكنك الرجوع إلى عدد محدود من عمليات الترحيل عن طريق تقديم خيار "الخطوة" إلى الأمر "التراجع. For example,
 the following command will roll back the last five migrations:
 
 ```shell
-go run . artisan migrate:rollback --step=5
+بدء التشغيل. ترحيل الحرفي:التراجع --step=5
 ```
 
-The `migrate:reset` command will roll back all of your application's migrations:
+الأمر 'migrate:reset' سوف يعيد جميع عمليات هجرة تطبيقك:
 
 ```shell
-go run . artisan migrate:reset
+إذهب للتشغيل. ترحيل حرفي:reset
 ```
 
-### Roll Back & Migrate Using A Single Command
+### عودة و هجرة باستخدام أمر واحد
 
-The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command
-effectively re-creates your entire database:
+الأمر 'migrate:refresh' سوف يعيد جميع الهجرات الخاصة بك ثم ينفذ الأمر 'migrate'. هذا الأمر
+يعيد بالفعل إنشاء قاعدة البيانات الخاصة بك بأكملها:
 
 ```shell
-go run . artisan migrate:refresh
+ابدأ في التشغيل. ترحيل الحرفي: التحديث
 ```
 
-You may roll back and re-migrate a limited number of migrations by providing the `step` option to the `refresh` command.
-For example, the following command will roll back and re-migrate the last five migrations:
+يمكنك التراجع وإعادة ترحيل عدد محدود من الهجرات عن طريق توفير خيار "الخطوة" لأمر "التحديث".
+وعلى سبيل المثال، فإن القيادة التالية ستتراجع عن الهجرات الخمس الأخيرة وتعيد ترحيلها:
 
 ```shell
-go run . artisan migrate:refresh --step=5
+ابدأ التشغيل. ترحيل الحرفي:refresh --step=5
 ```
 
-### Drop All Tables & Migrate
+### إسقاط جميع الجداول و الترحيل
 
-The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+الأمر 'migrate:fresh' سوف يسقط جميع الجداول من قاعدة البيانات ثم ينفذ الأمر 'migrate':
 
 ```shell
-go run . artisan migrate:fresh
+اذهب للتشغيل. ترحيل حرفي:fresh
 ```
 
-## Tables
+## الجداول
 
-### Create Table
+### إنشاء جدول
 
 ```go
 facades.Schema().Create("users", func(table schema.Blueprint) {
@@ -215,7 +215,7 @@ facades.Schema().Create("users", func(table schema.Blueprint) {
 })
 ```
 
-### Check If Table / Column Exists
+### تحقق إذا كان الجدول / العمود موجود
 
 ```go
 if facades.Schema().HasTable("users") {}
@@ -224,7 +224,7 @@ if facades.Schema().HasColumns("users", []string{"name", "email"}) {}
 if facades.Schema().HasIndex("users", "email_unique") {}
 ```
 
-### Database Connection
+### اتصال بقاعدة البيانات
 
 ```go
 facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprint) {
@@ -232,7 +232,7 @@ facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprin
 })
 ```
 
-### Update Table
+### تحديث الجدول
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -240,46 +240,46 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Rename / Drop Table
+### إعادة التسمية / إسقاط الجدول
 
 ```go
-facades.Schema().Rename("users", "new_users")
-facades.Schema().Drop("users")
-facades.Schema().DropIfExists("users")
+facades.Schema().Rename("المستخدمون", "new_users")
+facades.Schema().Drop("المستخدمون")
+facades.Schema().DropIfExists("المستخدمون")
 
 ```
 
-## Columns
+## الأعمدة
 
-### Available Column Types
+### أنواع الأعمدة المتاحة
 
 |                     |                    |                       |                             |
 | ------------------- | ------------------ | --------------------- | --------------------------- |
-| BigIncrements       | BigInteger         | Boolean               | Char                        |
-| Date                | DateTime           | DateTimeTz            | Decimal                     |
-| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
-| Increments          | Integer            | IntegerIncrements     | Json                        |
-| Increments          | LongText           | MediumIncrements      | MediumInteger               |
-| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
-| SoftDeletesTz       | String             | Text                  | Time                        |
-| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
-| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
+| زيادة               | BigInteger         | Boolean               | تشار                        |
+| التاريخ             | التاريخ            | التاريخ تيميتز        | عشري                        |
+| مزدوج               | [Enum](#enum)      | عائم                  | [ID](#id)                   |
+| زيادة               | عدد صحيح           | زيادة عددية           | Json                        |
+| زيادة               | LongText           | زيادة متوسطة          | MediumInteger               |
+| النص المتوسط        | الزيادات الصغيرة   | عدد أصغر              | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz       | سلسلة              | نص                    | الوقت                       |
+| TimeTz              | الطابع الزمني      | الطوابع الزمنية       | تايمز                       |
+| تايمز               | UnsignedBigInteger | زيادة                 | TinyInteger                 |
 | TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
 | UnsignedTinyInteger |                    |                       |                             |
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
-`Sqlserver` databases, it is a `String` type.
+إنشاء حقل 'Enum' الذي يمكن تخزينه في 'Mysql' وفقا للنوع في '[]any'، ولكن في قواعد البيانات `Postgres` و`Sqlite` و
+`Sqlserver` ، إنه نوع `String`.
 
 ```go
-table.Enum("difficulty", []any{"easy", "hard"})
+table.Enum.Enum("الصعوبة"، []any{"easy", "hard"})
 table.Enum("num", []any{1, 2})
 ```
 
 #### ID
 
-The `ID` method is an alias for the `BigIncrements` method. By default, this method will create an `id` column; however,
+طريقة 'المعرف` هي عبارة عن اسم مستعار لطريقة 'الزيادة الثنائية`. By default, this method will create an `id` column; however,
 if you would like to assign a different name to the column, you may pass the column name:
 
 ```go
@@ -289,26 +289,26 @@ table.ID("user_id")
 
 #### SoftDeletes
 
-The `SoftDeletes` method adds a nullable `deleted_at` `TIMESTAMP` column. This column is intended to store the
-`deleted_at` timestamp required for the Orm "soft delete" feature:
+وتضيف طريقة "SoftDeletes" عمودا `TIMESTAMP` غير قابل للإلغاء. القصد من هذا العمود تخزين
+\`حذف_at' الوقت المطلوب لميزة "حذف ناعم" Orm :
 
 ```go
-table.SoftDeletes()
+الجدول.SoftDeletes()
 ```
 
-#### Custom column
+#### عمود مخصص
 
-If you are using column types that framework does not support yet, you can use the `Column` method to customize the
-field type:
+إذا كنت تستخدم أنواع الأعمدة التي لا يدعمها الإطار حتى الآن، يمكنك استخدام طريقة "العمود" لتخصيص نوع الحقل
+:
 
 ```go
-table.Column("geometry", "geometry")
+الجدول - عمود ("الهندسة"، "الهندسة")
 ```
 
-### Column Modifiers
+### تعديل العمود
 
-In addition to the column types listed above, when adding a column to a database table, you can also add "modifiers" to
-the column. For example, to allow a column to be "nullable," you can use the `Nullable` method:
+بالإضافة إلى أنواع الأعمدة المذكورة أعلاه، عند إضافة عمود إلى جدول قاعدة البيانات، يمكنك أيضًا إضافة "تعديلات" إلى
+العمود. على سبيل المثال، للسماح بأن يكون العمود "nullable،" يمكنك استخدام طريقة "Nullable":
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -316,19 +316,19 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-The following table contains all available column modifiers:
+يحتوي الجدول التالي على جميع تعديلات الأعمدة المتاحة:
 
-| Modified                 | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.AutoIncrement()`       | Sets an integer column as auto-incrementing (primary key)                                                     |
-| `.Comment("my comment")` | Adds a comment to the column (MySQL / PostgreSQL)                                                             |
-| `.Default(value)`        | Sets the default value for the column                                                                                            |
-| `.Nullable()`            | Allows NULL values to be inserted into the column                                                                                |
-| `.Unsigned()`            | Sets an integer column as UNSIGNED (MySQL only)                                                               |
-| `.UseCurrent()`          | Sets a timestamp column to use CURRENT_TIMESTAMP as the default value                                       |
-| `.UseCurrentOnUpdate()`  | Sets a timestamp column to use CURRENT_TIMESTAMP when the record is updated (MySQL only) |
+| معدّل                   | الوصف                                                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `.AutoZment()`          | تعيين عمود صحيح كزيادة تلقائية (المفتاح الأساسي)                                                     |
+| `.Comment("تعليقي")`    | إضافة تعليق إلى العمود (MySQL / PostgreSQL)                                                          |
+| `.Default(value)`       | تعيين القيمة الافتراضية للعمود                                                                                          |
+| `.Nullable()`           | يسمح بإدخال قيم NULL في العمود                                                                                          |
+| `.unsigned()`           | تعيين عمود صحيح كـ UNSIGNED (ميSQL فقط)                                                              |
+| `.Usecurrent()`         | تعيين عمود طابع زمني لاستخدام CURRENT_TIMESTAMP كقيمة افتراضية                                     |
+| `.UsecurrentOnUpdate()` | يعين العمود الزمني لاستخدام CURRENT_TIMESTAMP عندما يتم تحديث السجل (MySQL فقط) |
 
-### Drop Column
+### إسقاط العمود
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -337,32 +337,32 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-## Indexes
+## الفهارس
 
-### Create Index
+### إنشاء فهرس
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
-  // Add primary key
-  table.Primary("id")
-  // Add composite primary key
-  table.Primary("id", "name")
+  // إضافة المفتاح الرئيسي
+  الجدول rimary("id")
+  // إضافة المفتاح الأساسي المركب
+  table.Primary("المعرف"، "name")
 
-  // Add unique index
-  table.Unique("name")
-  table.Unique("name", "age")
+  // إضافة فهرس فريد
+  . nque("name")
+  table.Unique("الاسم"، "age")
 
-  // Add normal index
-  table.Index("name")
-  table.Index("name", "age")
+  // إضافة المؤشر العادي
+  table.Index("الاسم")
+  الجدول ndex("الاسم"، "age")
 
-  // Add fulltext index
-  table.FullText("name")
-  table.FullText("name", "age")
+  // إضافة فهرس النص الكامل
+  table.FullText("الاسم")
+  table.FullText("الاسم"، "age")
 })
 ```
 
-### Rename Index
+### إعادة تسمية الفهرس
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -370,30 +370,30 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Index
+### فهرس الإسقاط
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
+facades.Schema().Table("المستخدمون", func(table schema.Blueprint) {
   table.DropPrimary("id")
   table.DropUnique("name")
   table.DropUniqueByName("name_unique")
   table.DropIndex("name")
   table.DropIndexByName("name_index")
-  table.DropFullText("name")
-  table.DropFullTextByName("name_fulltext")
+  table.DropFullT("name")
+  table.DropFullTextByyName")
 })
 ```
 
-### Create Foreign Key
+### إنشاء مفتاح أجنبي
 
 ```go
 facades.Schema().Table("posts", func(table schema.Blueprint) {
-  table.UnsignedBigInteger("user_id")
+  table.unsignedBigInteger("user_id")
   table.Foreign("user_id").References("id").On("users")
 })
 ```
 
-### Drop Foreign Key
+### إسقاط المفتاح الأجنبي
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
