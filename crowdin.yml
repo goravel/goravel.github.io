@@ -4,6 +4,6 @@ pull_request_labels:
   - i18n
 files:
   - source: /en/**/*.md
-    translation: /%locale%/**/%file_name%.md
+    translation: /%locale_with_underscore%/**/%file_name%.md
   - source: /.vitepress/config/en.ts
-    translation: /.vitepress/locales/%locale%.ts
+    translation: /.vitepress/config/%locale_with_underscore%.ts
