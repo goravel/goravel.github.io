@@ -1,39 +1,39 @@
 # Hashing
 
-The Goravel `facades.Hash()` provides secure Argon2id and Bcrypt hashing for storing user passwords. If you are using
-one of the Goravel application starter kits, Argon2id will be used for registration and authentication by default.
+O Goravel `facades.Hash()` fornece Argon2id e hash Bcrypt seguro para armazenar senhas de usuário. Se você estiver usando
+um dos kits de iniciadores de aplicativo do Goravel, o Argon2id será usado para registro e autenticação por padrão.
 
 ## Configuração
 
-The default hashing driver for your application is configured in your application's `config/hashing.go` configuration
-file. There are currently several supported drivers: Argon2id and Bcrypt.
+O hashing padrão para sua aplicação está configurado no arquivo
+de configuração `config/hashing.go` da sua aplicação. Atualmente existem vários motoristas suportados: Argon2id e Bcrypt.
 
-## Basic Usage
+## Uso básico
 
-### Hashing Passwords
+### Senhas de hash
 
-You may hash a password by calling the `Make` method on the `facades.Hash()`:
+Você pode hash uma senha chamando o método `Make` em `facades.Hash()`:
 
 ```go
-password, err := facades.Hash().Make(password)
+senhas, err := facades.Hash().Make(senha)
 ```
 
-### Verifying That A Password Matches A Hash
+### Verificar se uma senha corresponde a um Hash
 
 The `Check` method provided by the Hash facade allows you to verify that a given plain-text string corresponds to a
 given hash:
 
 ```go
 if facades.Hash().Check('plain-text', hashedPassword) {
-    // The passwords match...
+    // As senhas coincidem...
 }
 ```
 
-### Determining If A Password Needs To Be Rehashed
+### Determinar se uma senha precisa ser Rehashed
 
-The `NeedsRehash` method provided by the Hash facade allows you to determine if the work factor used by the hasher has
-changed since the password was hashed. Some applications choose to perform this check during the application's
-authentication process:
+O método `NeedsRehash` fornecido pela fachada de hash permite que você determine se o fator de trabalho usado pela pressa
+mudou desde que a senha foi hashada. Algumas aplicações optam por realizar esta verificação durante o processo de autenticação
+do aplicativo:
 
 ```go
 if facades.Hash().NeedsRehash(hashed) {
