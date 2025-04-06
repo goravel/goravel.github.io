@@ -1,32 +1,31 @@
-# Logging
+# 日志记录
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+为了了解应用程序的运行状态，Goravel 提供了强大的日志服务，可以通过 `facades.Log()` 将日志消息和系统错误记录到文件或其他渠道。
 
-## Configuration
+## 配置
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+要配置各种日志渠道，可以在 `config/logging.go` 中进行自定义配置。
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` 默认使用 `stack` 渠道记录日志，`stack` 允许将日志转发到多个渠道。
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+`single` 和 `daily` 驱动程序中的 `print` 配置可以控制日志输出到控制台。
 
-## Available channel drivers
+## 可用的渠道驱动程序
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| 名称       | 描述       |
+| -------- | -------- |
+| `stack`  | 允许多个渠道   |
+| `single` | 单个日志文件   |
+| `daily`  | 每天一个日志文件 |
+| `custom` | 自定义驱动    |
 
-### Inject Context
+### 注入上下文
 
 ```go
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## 写入日志消息
 
 ```go
 facades.Log().Debug(message)
@@ -43,46 +42,45 @@ facades.Log().Panic(message)
 facades.Log().Panicf(message, args)
 ```
 
-### Write to a specific channel
+### 写入特定通道
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+有时，您可能希望将消息记录到应用程序默认通道以外的通道：
 
 ```go
 facades.Log().Channel("single").Info(message)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+如果您想同时写入多个通道，可以使用 `Stack` 方法：
 
 ```go
 facades.Log().Stack([]string{"single", "slack"}).Info(message)
 ```
 
-## Chain Methods
+## 链式方法
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+Goravel 提供了方便的链式方法，可以轻松地在日志中插入更多有用的信息：
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| 方法  | 作用                                  |
+| --- | ----------------------------------- |
+| 代码  | 设置描述日志的代码或标识。                       |
+| 提示  | 设置提示以加快调试速度。                        |
+| 在   | 设置日志条目相关的功能类别或域。                    |
+| 所有者 | 对警报目的很有用。                           |
+| 请求  | 提供一个 http.Request。  |
+| 响应  | 提供一个 http.Response。 |
+| 标签  | 添加多个标签，描述返回错误的功能。                   |
+| 用户  | 设置与日志条目关联的用户。                       |
+| 使用  | 向日志条目的上下文添加键值对。                     |
+| 带跟踪 | 向日志条目添加堆栈信息。                        |
 
-## Create a custom channel
+## 创建自定义通道
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+如果你想定义一个完全自定义的通道，你可以在 `config/logging.go` 配置文件中指定 `custom` 驱动类型。
+然后包含一个 `via` 选项来实现 `framework\contracts\log\Logger` 结构：
 
 ```go
 // config/logging.go
@@ -92,21 +90,21 @@ Then include a `via` option to implement a `framework\contracts\log\Logger` stru
 },
 ```
 
-### Implement Driver
+### 实现驱动程序
 
-Implement `framework\contracts\log\Logger` interface.
+实现 `framework\contracts\log\Logger` 接口。
 
 ```go
 // framework/contracts/log/Logger
 package log
 
 type Logger interface {
-  // Handle pass channel config path here
+  // 在此处传递通道配置路径
   Handle(channel string) (Hook, error)
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). Example:
+文件可以存储在 `app/extensions` 文件夹中（可修改）。 示例：
 
 ```go
 package extensions
@@ -120,7 +118,7 @@ import (
 type Logger struct {
 }
 
-// Handle pass channel config path here
+// Handle 在此处传递通道配置路径
 func (logger *Logger) Handle(channel string) (log.Hook, error) {
   return &Hook{}, nil
 }
@@ -128,7 +126,7 @@ func (logger *Logger) Handle(channel string) (log.Hook, error) {
 type Hook struct {
 }
 
-// Levels monitoring level
+// Levels 监控级别
 func (h *Hook) Levels() []log.Level {
   return []log.Level{
     log.DebugLevel,
@@ -140,7 +138,7 @@ func (h *Hook) Levels() []log.Level {
   }
 }
 
-// Fire execute logic when trigger
+// Fire 触发时执行逻辑
 func (h *Hook) Fire(entry log.Entry) error {
   fmt.Printf("context=%v level=%v time=%v message=%s", entry.Context(), entry.Level(), entry.Time(), entry.Message())
 
