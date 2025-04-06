@@ -1,92 +1,92 @@
-# Compile
+# 编译
 
-## Compile command
+## 编译命令
 
-The Goravel project can be compiled with the following command:
+Goravel项目可以通过以下命令进行编译：
 
 ```
-// Select the system to compile
-go run . artisan build
+// 选择要编译
+的系统运行。手工构建一个
 
-// Specify the system to compile
-go run . artisan build --os=linux
-go run . artisan build -o=linux
+// 指定要编译
+运行的系统。 手工构建--os=linux
+转运行。手工构建-o=linux
 
-// Static compilation
-go run . artisan build --static
-go run . artisan build -s
+// 静态编译
+转运行. 手工构建--static
+转运行。手工构建-s
 
-// Specify the output file name
-go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+// 指定输出文件名
+转运行. 艺人建筑 --name=goravel
+运行。手工建筑-n=goravel
 ```
 
-## Manual compilation
+## 手动编译
 
-### Regular compilation
+### 定期汇编
 
 ```shell
-go build .
+去构建...
 ```
 
-#### Deploy Server
+#### 部署服务器
 
-The Following files and folders need to be uploaded to the server during deployment:
+以下文件和文件夹需要在部署过程中上传到服务器：
 
 ```
-./main // Compile the resulting binary file
+./main // 编译由此产生的二进制文件
 .env
-./database
+./data
 ./public
 ./storage
 ./resources
 ```
 
-### Static compilation
+### 静态编译
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
-
-```shell
-go build --ldflags "-extldflags -static" -o main .
-```
-
-### Cross compile
-
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+定期编纂的一揽子计划还需要依靠部署环境的支助。 静态
+编译的文件可以在没有环境配置的情况下在指定的平台上免费运行。
 
 ```shell
-// Compile Linux environment
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
-
-// Compile Windows environment
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
-
-// Compile Mac environment
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
+去build--ldflags "-extldflags -static" -o main
 ```
 
-## Docker
+### 交叉编译
+
+编译按平台进行区分，您需要根据部署
+的情况选择匹配的编译方法。
+
+```shell
+/ Compile Linux 环境
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build.
+
+// Compile Windows 环境
+CGO_ENABLED=0 GOOS=winds GOARCH=amd64 go building.
+
+// 编译Mac 环境
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build。
+```
+
+## 停靠栏
 
 Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
 be `0.0.0.0` at this time.
 
 ```shell
-docker build .
+停靠构建。
 ```
 
-### Docker Compose
+### Docker 配置
 
-You can also quickly start the service with the following command:
+您也可以通过以下命令快速启动服务：
 
 ```shell
-docker-compose build
+docker-compose building
 docker-compose up
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> 注意：如果您需要外部访问，您需要将 APP_HOST 更改为 0.0.0.0
 
-## Reduce package size
+## 减少软件包大小
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+评论`config/app.go:providers`中未使用的 `ServiceProvider` 将有效地减少包装体积。
