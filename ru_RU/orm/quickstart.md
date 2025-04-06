@@ -1,6 +1,6 @@
-# Getting Started
+# Начало работы
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
+Goravel позволяет разработчикам взаимодействовать с базами данных с помощью `facades.Orm()`. Currently, it provides official
 support for the following four databases:
 
 - MySQL 5.7+
@@ -8,85 +8,85 @@ support for the following four databases:
 - SQLite 3.8.8+
 - SQL Server 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+Перед началом настройте базу данных в файле `.env` и подтвердите конфигурацию `default` в файле `config/database.go`.
 
 # Конфигурация
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
+Для настройки баз данных перейдите в `config/database.go`. Здесь вы можете настроить все подключения к базе данных и
+выберите соединение `default`. The configuration in this file relies on the project's environment variables and
 showcases various database configurations that Goravel supports.
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+Вы также можете использовать DSN для прямого подключения к базе данных, просто настройте поле `dsn` в конфигурационном файле:
 
 ```go
 "postgres": map[string]any{
-  "driver":   "postgres",
-++  "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
+  "driver": "postgres",
+++ "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
   ...
 }
 ```
 
-### Read & Write Connections
+### Чтение и запись подключений
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+Иногда вы хотите использовать одно соединение с базой данных для операторов `SELECT`, а другое - для операторов `INSERT`, `UPDATE` и
+`DELETE`. Горавель делает это бризом.
 
-To see how read/write connections should be configured, let's look at this example:
+Чтобы увидеть, как должны быть настроены соединения чтения/записи, посмотрим на этот пример:
 
 ```go
-import "github.com/goravel/framework/contracts/database"
+импорт "github.com/goravel/framework/contracts/database"
 
-// config/database.go
+// config/database. o
 "connections": map[string]any{
   "mysql": map[string]any{
     "driver": "mysql",
-    "read": []database.Config{
-      {Host: "192.168.1.1", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "read": []-база данных. onfig{
+      {Host: "192.168.1. ", Порт: 3306, База данных: "forge", Логин: "root", Пароль: "123123"},
     },
-    "write": []database.Config{
-      {Host: "192.168.1.2", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "write": []database. onfig{
+      {Host: "192.168.1. ", Порт: 3306, База данных: "forge", Имя пользователя: "root", Пароль: "123123"},
     },
-    "host": config.Env("DB_HOST", "127.0.0.1"),
-    "port":     config.Env("DB_PORT", 3306),
-    "database": config.Env("DB_DATABASE", "forge"),
+    "host": config. nv("DB_HOST", "127.0.0.1"),
+    "port": config.Env("DB_PORT", 3306),
+    "database": config. nv("DB_DATABASE", "forge"),
     "username": config.Env("DB_USERNAME", ""),
-    "password": config.Env("DB_PASSWORD", ""),
-    "charset":  "utf8mb4",
-    "loc":      "Local",
+    "password": config. nv("DB_PASSWORD", ""),
+    "charset": "utf8mb4",
+    "loc": "Local",
   },
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+Мы обновили массив конфигурации двумя новыми ключами - `read` и `write`. Соединение `read` будет использовать
+`192.168.1.1` в качестве хоста, в то время как подключение `write` будет использовать `192.168.1.2`. Both connections will share the same
+database prefix, character set, and other options specified in the main mysql array. В случае нескольких значений в массиве конфигурации
+`host` для каждого запроса будет случайным образом выбран хост базы данных.
 
-### Connection Pool
+### Пул подключений
 
 You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
 can greatly improve concurrency performance:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| Спецификация                                                                     | Действие                                  |
+| -------------------------------------------------------------------------------- | ----------------------------------------- |
+| pool.max_idle_conns    | Максимальное число простоев               |
+| pool.max_open_conns    | Макс. открытых соединений |
+| pool.conn_max_idletime | Максимальное время простоя соединений     |
+| pool.conn_max_lifetime | Максимальное время жизни подключений      |
 
-### Schema
+### Схема
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres и Sqlserver поддерживают настройку Схемы. Postgres могут напрямую установить схему в конфигурационном файле, в то время как
+Sqlserver должен указать схему с помощью метода `TableName` в модели.
 
 #### Postgres
 
 ```go
 "connections": map[string]any{
   "postgres": map[string]any{
-    "driver":   "postgres",
+    "driver": "postgres",
     ...
     "schema": "goravel",
   },
@@ -101,89 +101,89 @@ func (r *User) TableName() string {
 }
 ```
 
-### Get Database Information
+### Получить информацию о базе данных
 
-You can use the `db:show` command to view all tables in the database.
-
-```bash
-go run . artisan db:show
-```
-
-You can also use the `db:table` command to view the structure of a specific table.
+Вы можете использовать команду `db:show` для просмотра всех таблиц в базе данных.
 
 ```bash
-go run . artisan db:table
-go run . artisan db:table users
+перейти к бегу . artisan db:show
 ```
 
-## Model Definition
+Вы также можете использовать команду `db:table` для просмотра структуры конкретной таблицы.
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+```bash
+перейти к бегу . artisan db:table
+запускать . artisan db:table пользователей
+```
 
-### Model Convention
+## Определение модели
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+Для создания пользовательской модели обратитесь к файлу модели `app/models/user.go`, который включен в фреймворк. The `struct`
+in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. Эти фреймворки определяют свойства
+`id`, `created_at`, `updated_at`, и `deleted_at` соответственно. С помощью `orm.SoftDeletes` вы можете включить мягкое
+удаление для модели.
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+### Типовая конвенция
 
-### Create Model
+1. Модель названа с большой влажностью;
+2. Использовать множественную форму модели "названия змеи" в качестве названия таблицы;
 
-Use the `make:model` command to create a model:
+Например, название модели `UserOrder`, а название таблицы `user_orders`.
+
+### Создать модель
+
+Используйте команду `make:model` для создания модели:
 
 ```shell
-go run . artisan make:model User
+перейти к запуску . artisan make:model User
 go run . artisan make:model user/User
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+Файл созданной модели находится в файле `app/models/user.go`, его содержимое выглядит следующим образом:
 
 ```go
-package models
+модели пакетов
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+тип User struct {
+  orm. odel
+  Имя строка
+  Аватар строка
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+Если вы хотите установить поле модели в `any`, вам нужно добавить дополнительный тег: \`gorm:"type:text":
 
 ```go
 type User struct {
   orm.Model
-  Name   string
+  Name string
   Avatar string
-  Detail any `gorm:"type:text"`
+  Подробно о `gorm:"type:text"`
   orm.SoftDeletes
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+Подробнее об использовании тегов можно найти здесь: <https://gorm.io/docs/models.html>.
 
-### Specify Table Name
+### Укажите название таблицы
 
 ```go
-package models
+модели пакетов
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+тип User struct {
+  orm. odel
+  Имя строка
+  Аватар строка
+  или м. oftDeletes
 }
 
 func (r *User) TableName() string {
@@ -191,24 +191,24 @@ func (r *User) TableName() string {
 }
 ```
 
-### Database Connections
+### Соединения с базой данных
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
-distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
-model.
+По умолчанию все модели используют соединение с базой данных по умолчанию, настроенное для вашего приложения. Если вы хотите указать отдельную связь
+для взаимодействия с конкретной моделью, нужно определить метод `Connection` в модели
+.
 
 ```go
-package models
+модели пакетов
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+тип User struct {
+  orm. odel
+  Имя строка
+  Аватар строка
+  или м. oftDeletes
 }
 
 func (r *User) Connection() string {
@@ -216,81 +216,81 @@ func (r *User) Connection() string {
 }
 ```
 
-## facades.Orm() available functions
+## функции facades.Orm()
 
-| Name        | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| Наименование       | Действие                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| Подключение        | [Укажите соединение с базой данных](#specify-database-connection)                                |
+| БД                 | [Универсальный интерфейс базы данных sql.DB](#generic-database-interface-sql-db) |
+| Запрос             | [Получить экземпляр базы данных](#get-database-instance)                                         |
+| Транзакция         | [Transaction](#transaction)                                                                      |
+| Выход из контекста | [Inject Context](#inject-context)                                                                |
 
-## facades.Orm().Query() available functions
+## facades.Orm().Query() доступные функции
 
-| Functions       | Action                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Delete          | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| Водитель        | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Get             | [Query multiple lines](#query-multiple-lines)                                 |
-| Group           | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Update          | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| Функции             | Действие                                                                      |
+| ------------------- | ----------------------------------------------------------------------------- |
+| Начать              | [Начать транзакцию](#transaction)                                             |
+| Коммит              | [Зафиксировать транзакцию](#transaction)                                      |
+| Счетчик             | [Count](#count)                                                               |
+| Создать             | [Create](#create)                                                             |
+| Cursor              | [Cursor](#cursor)                                                             |
+| Удалить             | [Delete](#delete)                                                             |
+| Различия            | [Повтор фильтров](#filter-repetition)                                         |
+| Водитель            | [Get Driver](#get-driver)                                                     |
+| Раз                 | [Выполнить собственное обновление SQL](#execute-native-update-sql)            |
+| Существуют          | [Exists](#exists)                                                             |
+| Найти               | [Запрос одной или нескольких строк по ID](#query-one-or-multiple-lines-by-id) |
+| Неудачный поиск     | [Не найдена ошибка возврата](#not-found-return-error)                         |
+| Первое              | [Запросить одну линию](#query-one-line)                                       |
+| Сперва              | [Запрашивать или возвращать данные через обратный вызов](#query-one-line)     |
+| Первое создание     | [Получение или создание моделей](#retrieving-or-creating-models)              |
+| Первый Новый        | [Получение новых моделей](#retrieving-or-creating-models)                     |
+| Первый Удар         | [Не найдена ошибка](#not-found-error)                                         |
+| Удалить             | [Принудительно удалить](#delete)                                              |
+| Приобрести          | [Запрос нескольких строк](#query-multiple-lines)                              |
+| Группа              | [Group](#group-by--having)                                                    |
+| Имея                | [Having](#group-by-having)                                                    |
+| Присоединиться      | [Join](#join)                                                                 |
+| Лимит               | [Limit](#limit)                                                               |
+| LockForUpdate       | [Пессимистическая блокировка](#pessimistic-locking)                           |
+| Модель              | [Укажите модель](#specify-table-query)                                        |
+| Смещение            | [Offset](#offset)                                                             |
+| Заказ               | [Order](#order)                                                               |
+| Заказ по            | [Order](#order)                                                               |
+| OrderByDesc         | [Order](#order)                                                               |
+| Случайный порядок   | [Order](#order)                                                               |
+| Где                 | [OrWhere](#where)                                                             |
+| Где нет             | [OrWhereNotIn](#where)                                                        |
+| OrWhereNull         | [OrWhereNull](#where)                                                         |
+| Где                 | [OrWhereIn](#where)                                                           |
+| Язык                | [Paginate](#paginate)                                                         |
+| Застрял             | [Запросить один столбец](#query-single-column)                                |
+| Сырье               | [Выполнить родной SQL](#execute-native-sql)                                   |
+| Восстановить        | [Restore](#restore)                                                           |
+| Rollback            | [Откат транзакции](#transaction)                                              |
+| Сохранить           | [Обновить существующую модель](#update-a-existing-model)                      |
+| СохранитьQuietly    | [Сохранение одной модели без событий](#saving-a-single-model-without-events)  |
+| Сканировать         | [Сканировать](#execute-native-sql)                                            |
+| Области             | [Scopes](#scopes)                                                             |
+| Выбрать             | [Указать поля](#specify-fields)                                               |
+| Общая блокировка    | [Пессимистическая блокировка](#pessimistic-locking)                           |
+| Sum                 | [Sum](#sum)                                                                   |
+| Таблица             | [Укажите таблицу](#specify-table-query)                                       |
+| ToSql               | [Get SQL](#get-sql)                                                           |
+| ToRawSql            | [Get SQL](#get-sql)                                                           |
+| Обновить            | [Обновить один столбец](#update-a-single-column)                              |
+| Обновить OrCreate   | [Обновить или создать](#update-or-create)                                     |
+| Где                 | [Where](#where)                                                               |
+| Где                 | [WhereBetween](#where)                                                        |
+| В промежутке        | [WhereNotBetween](#where)                                                     |
+| Где нет             | [WhereNotIn](#where)                                                          |
+| ГдеNull             | [WhereNull](#where)                                                           |
+| Где                 | [WhereIn](#where)                                                             |
+| Выход из событий    | [Отключение событий](#muting-events)                                          |
+| Выведено из корзины | [Запрос мягких данных удаления](#query-soft-delete-data)                      |
 
-## Query Builder
+## Построитель запросов
 
 ### Вставить контекст
 
@@ -298,19 +298,19 @@ func (r *User) Connection() string {
 facades.Orm().WithContext(ctx)
 ```
 
-### Specify Database Connection
+### Укажите соединение с базой данных
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
+Если несколько подключений к базе данных определены в `config/database.go`, их можно использовать с помощью функции `Connection`
+из `facades.Orm()`. Имя подключения передано в `Connection` должно быть одним из соединений, настроенных в
 `config/database.go`:
 
 ```go
 facades.Orm().Connection("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### Универсальный интерфейс базы данных sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+Общий интерфейс базы данных sql.DB, затем используйте функциональность, которую она предоставляет:
 
 ```go
 db, err := facades.Orm().DB()
@@ -319,25 +319,25 @@ db, err := facades.Orm().Connection("mysql").DB()
 // Ping
 db.Ping()
 
-// Close
-db.Close()
+// Закрытие
+db. lose()
 
-// Returns database statistics
+// Возвращает статистику базы данных
 db.Stats()
 
-// SetMaxIdleConns sets the maximum number of connections in the idle connection pool
-db.SetMaxIdleConns(10)
+// SetMaxIdleConns устанавливает максимальное количество соединений в пуле бездействия
+db. etMaxIdleConns(10)
 
-// SetMaxOpenConns sets the maximum number of open connections to the database
-db.SetMaxOpenConns(100)
+// SetMaxOpenConns устанавливает максимальное количество открытых подключений к базе данных
+db. etMaxOpenConns(100)
 
-// SetConnMaxLifetime sets the maximum amount of time a connection may be reused
+// SetConnMaxLifetime устанавливает максимальное количество времени, которое может быть использовано соединением
 db.SetConnMaxLifetime(time.Hour)
 ```
 
-### Get Database Instance
+### Получить экземпляр базы данных
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+Перед каждой конкретной операцией в базе данных необходимо получить экземпляр базы данных.
 
 ```go
 facades.Orm().Query()
@@ -345,57 +345,57 @@ facades.Orm().Connection("mysql").Query()
 facades.Orm().WithContext(ctx).Query()
 ```
 
-### Select
+### Выбрать
 
-#### Query one line
+#### Запросить одну строку
 
 ```go
-var user models.User
+модели пользователей var.
 facades.Orm().Query().First(&user)
 // SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+Иногда вы хотите выполнить какое-то другое действие, если ничего не найдено. Метод `FirstOr` возвращает экземпляр одной модели
+или, если результатов не найдено, выполните данные замыкания. Вы можете установить модели в замыкании:
 
 ```go
-facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
+facades.Orm().Query().Where("имя", "first_user").FirstOr(&user, func() error {
   user.Name = "goravel"
 
   return nil
 })
 ```
 
-#### Query one or multiple lines by ID
+#### Запрос одной или нескольких строк по ID
 
 ```go
-var user models.User
+модели пользователей var.
 facades.Orm().Query().Find(&user, 1)
 // SELECT * FROM `users` WHERE `users`.`id` = 1;
 
-var users []models.User
+вар пользователей []модели. ser
 facades.Orm().Query().Find(&users, []int{1,2,3})
 // SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
 ```
 
-#### Not found return error
+#### Ошибка возврата не найдена
 
 ```go
-var user models.User
+модели пользователей вар. Пользователь
 err := facades.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### Когда основной ключом таблицы пользователя является тип «string», необходимо указать первичный ключ при вызове
 
-`Find` method
+Метод `Find`
 
 ```go
-var user models.User
+модели пользователей var.
 facades.Orm().Query().Find(&user, "uuid=?" ,"a")
 // SELECT * FROM `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### Запрашивать несколько строк
 
 ```go
 var users []models.User
@@ -403,46 +403,46 @@ facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
 // SELECT * FROM `users` WHERE id in (1,2,3);
 ```
 
-#### Retrieving Or Creating Models
+#### Получение или создание моделей
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
-found in the database, it creates a new record with the attributes from merging the first argument with the optional
-second argument.
+Метод `FirstOrCreate` ищет запись в базе данных, используя пары столбцов/значений. Если модель не может быть
+найдена в базе данных, создаёт новую запись с атрибутами из объединения первого аргумента с дополнительным аргументом
+.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
-if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
+Аналогично, метод `FirstOrNew` также пытается найти запись в базе данных на основе данных атрибутов. Однако,
+если он не найден, возвращается новый экземпляр модели. It's important to note that this new model has not been
 saved to the database yet and you need to manually call the `Save` method to do so.
 
 ```go
-var user models.User
+модели пользователей var.
 facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+// SELECT * FROM `users` WHERE `gender` = 1 И `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32. 56','2023-09-18 12:51:32.556','tom');
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models. ser{Avatar: "avatar"})
+// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`. id` LIMIT 1;
 // INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
 
-var user models.User
+var user models. ser
 facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// SELECT * FROM `users` WHERE `gender` = 1 AND `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, модели. ser{Avatar: "avatar"})
+// SELECT * FROM `users` WHERE `gender` = 1 И `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 ```
 
-#### Not Found Error
+#### Ошибка не найдена
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
+Если запрошенный элемент не найден, метод `First` не генерирует ошибку. To generate an error, use the
 `FirstOrFail` method:
 
 ```go
-var user models.User
+модели пользователей var. User
 err := facades.Orm().Query().FirstOrFail(&user)
 // err == orm.ErrRecordNotFound
 ```
 
-### Where
+### Где
 
 ```go
 facades.Orm().Query().Where("name", "tom")
@@ -451,8 +451,8 @@ facades.Orm().Query().Where("name = ?", "tom")
 facades.Orm().Query().WhereBetween("age", 1, 10)
 facades.Orm().Query().WhereNotBetween("age", 1, 10)
 facades.Orm().Query().WhereNotIn("name", []any{"a"})
-facades.Orm().Query().WhereNull("name")
-facades.Orm().Query().WhereIn("name", []any{"a"})
+facades. rm().Query().WhereNull("name")
+facades.Orm().Query().WhereIn("name", []any{"})
 
 facades.Orm().Query().OrWhere("name = ?", "tom")
 facades.Orm().Query().OrWhereNotIn("name", []any{"a"})
@@ -460,7 +460,7 @@ facades.Orm().Query().OrWhereNull("name")
 facades.Orm().Query().OrWhereIn("name", []any{"a"})
 ```
 
-### Limit
+### Лимит
 
 ```go
 var users []models.User
@@ -468,7 +468,7 @@ facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
 ```
 
-### Offset
+### Смещение
 
 ```go
 var users []models.User
@@ -476,37 +476,37 @@ facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### Заказ
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
+facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc"). et(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
+facades. rm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
+facades.Orm().Query().Where("name = ?", "tom"). rderBy("sort", "desc").Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
+facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort"). et(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
+facades.Orm().Query(). here("name = ?", "tom").InRandomOrder().Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### Paginate
+### Язык
 
 ```go
-var users []models.User
-var total int64
-facades.Orm().Query().Paginate(1, 10, &users, &total)
+var пользователей []models.User
+вар всего int64
+facades.Orm().Query(). aginate(1, 10, &users, &total)
 // SELECT count(*) FROM `users`;
 // SELECT * FROM `users` LIMIT 10;
 ```
 
-### Query Single Column
+### Запросить один столбец
 
 ```go
 var ages []int64
@@ -514,11 +514,11 @@ facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
 // SELECT `age` FROM `users`;
 ```
 
-### Specify Table Query
+### Укажите запрос к таблицам
 
-If you want to query some aggregate data, you need to specify a specific table.
+Если вы хотите получить некоторые агрегированные данные, необходимо указать конкретную таблицу.
 
-Specify a model
+Укажите модель
 
 ```go
 var count int64
@@ -526,7 +526,7 @@ facades.Orm().Query().Model(&models.User{}).Count(&count)
 // SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
 ```
 
-Specify a table
+Укажите таблицу
 
 ```go
 var count int
@@ -536,24 +536,24 @@ facades.Orm().Query().Table("users").Count(&count)
 
 ### Get SQL
 
-Get SQL with placeholder:
+Получить SQL с заполнителем:
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
+// ПОЛУЧИТЬ * ИЗ "users" WHERE "id" = $1 И "users"."deleted_at" НЕЛЬКО
 ```
 
-Get SQL with value:
+Получить SQL со значением:
 
 ```go
 facades.Orm().Query().ToRawSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
+// SELECT * FROM "users" WHERE "id" = 1 И "users"."deleted_at" НЕ НОЛЬ
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
+Методы можно вызывать после `ToSql` и `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
 `Save`, `Sum`, `Update`.
 
-### Count
+### Счетчик
 
 ```go
 var count int64
@@ -561,9 +561,9 @@ facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
 // SELECT count(*) FROM `users` WHERE name = 'tom';
 ```
 
-### Specify Fields
+### Укажите поля
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+`Select` позволяет указать, какие поля для извлечения из базы данных, по умолчанию ORM получает все поля.
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
@@ -573,74 +573,74 @@ facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
 // SELECT `name`,`age` FROM `users`;
 ```
 
-### Group By & Having
+### Группировать по & иметь
 
 ```go
 type Result struct {
-  Name  string
+  Name string
   Total int
 }
 
 var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
+facades.Orm().Query().Model(&models.User{}). elect("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
 // SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
 ```
 
-### Join
+### Присоединиться
 
 ```go
 type Result struct {
-  Name  string
+  Name string
   Email string
 }
 
 var result Result
-facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
+facades.Orm().Query().Model(&models.User{}).Select("users. ame, emails.email").Join("left join email on emails.user_id = users.id").Scan(&result)
 // SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
 ```
 
-### Create
+### Создать
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
-// INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
+пользователя := models.User{Name: "tom", Age: 18}
+err := facades.Orm().Query(). reate(&user)
+// ИНSERT INTO пользователей (имя, возраст, created_at, updated_at) VALUES ("то", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// Не запускать события модели
+err := фасады. rm().Query().Table("users").Create(map[string]any{
   "name": "Goravel",
 })
 
 // Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
-  "name": "Goravel",
+err := facades. rm().Query().Model(&models.User{}).Create(map[string]any{
+  "name": "Горавел",
 })
 ```
 
-### Multiple create
+### Создание нескольких
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+пользователей := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("users"). reate(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm(). uery().Model(&models.User{}).Create(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> `created_at` и `updated_at` будут заполнены автоматически.
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
-use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
+Может быть использовано для существенного уменьшения потребления памяти вашего приложения при итерации через десятки тысяч
+Eloquent моделей записей. Обратите внимание, что метод «Курсор» может быть использован одновременно с «With», пожалуйста
+используйте [Lazy Eager Loading](./relationships#lazy-eager-loading) для загрузки связей в логике `for`.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
@@ -648,7 +648,7 @@ if err != nil {
   return err
 }
 for row := range cursor {
-  var user models.User
+  var user models. ser
   if err := row.Scan(&user); err != nil {
     return err
   }
@@ -656,9 +656,9 @@ for row := range cursor {
 }
 ```
 
-### Save Model
+### Сохранить модель
 
-#### Update an existing model
+#### Обновить существующую модель
 
 ```go
 var user models.User
@@ -670,56 +670,56 @@ facades.Orm().Query().Save(&user)
 // UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
 ```
 
-#### Update columns
+#### Обновить столбцы
 
 ```go
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
 // UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
+facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models. ser{Name: "hello", Возраст: 18})
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
 // UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
-> time.
+> При обновлении с помощью `struct`, Orm будет обновлять только не-нулевые поля. Вы можете использовать `map` для обновления атрибутов или
+> используйте `Select` для указания полей для обновления. Обратите внимание, что `struct` может быть `Model`, если вы хотите обновить не
+> `Model`, вам нужно использовать `. able("users")`, однако, поле `updated_at` не может быть автоматически обновлено в это время
+> .
 
-#### Update or create
+#### Обновить или создать
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+Запрос по `name`, если не существует, создайте по `name`, `avatar`, если существует, обновите `avatar` на основе `name`:
 
 ```go
 facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
+// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` Является NULL ORDER BY `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08. 69',NULL,'name','avatar');
 // UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### Delete
+### Удалить
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+Исключить моделью, количество строк, затронутых утверждением, возвращается методом:
 
 ```go
-var user models.User
+модели пользователей вара.Пользователь
 facades.Orm().Query().Find(&user, 1)
 res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
+res, err := facades.Orm().Query().Model(&models.User{}). here("id", 1).Delete()
 res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
 // DELETE FROM `users` WHERE `users`.`id` = 1;
 
 num := res.RowsAffected
 ```
 
-Multiple delete
+Удаление нескольких
 
 ```go
 facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
-// DELETE FROM `users` WHERE name = 'tom';
+// УДАЛИТЬ FROM `users` WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+Хотите принудительно удалить данные с помощью софт-удаления.
 
 ```go
 facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
@@ -727,94 +727,94 @@ facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
 facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
 ```
 
-You can delete records with model associations via `Select`:
+Вы можете удалить записи с модельными ассоциациями через `Select`:
 
 ```go
-// Delete Account of user when deleting user
+// Удаление учетной записи пользователя при удалении пользователя
 facades.Orm().Query().Select("Account").Delete(&user)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// Удаление заказов и CreditCards пользователя при удалении пользователя
+facades.Orm().Query().Select("Orders", "CreditCards"). elete(&user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// Удаляем все дочерние ассоциации пользователя при удалении пользователя
+facades.Orm().Query().Select(orm.Associations). elete(&user)
 
-// Delete all Account of users when deleting users
-facades.Orm().Query().Select("Account").Delete(&users)
+// Удаляем учётную запись пользователей при удалении пользователей
+facades.Orm().Query().Select("Account").Удалить(&users)
 ```
 
 Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
 keys as conditions to delete associated records:
 
 ```go
-// Delete user that name='goravel', but don't delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{})
+// Удаляем пользователя с именем ='goravel', но не удаляем учётную запись пользователя
+facades.Orm().Query().Select("Account").Where("name = ?", "goravel"). elete(&models.User{})
 
-// Delete user that name='goravel' and id = 1, and delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
+// Удаляем пользователя с имя='goravel' и id = 1, удаляем учётную запись пользователя
+фасадов. rm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
 
-// Delete user that id = 1 and delete account of that user
+// Удаляем пользователя, который id = 1 и удаляем учётную запись этого пользователя
 facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
-conditions, or use native SQL.
+Если выполнить пакетное удаление без каких-либо условий, ORM не делает это и возвращает ошибку. Итак, вы должны добавить некоторые условия
+или использовать родной SQL.
 
-### Query Soft Delete Data
+### Запрос софт удалить данные
 
 ```go
-var user models.User
+модели пользователей вара.Пользователь
 facades.Orm().Query().WithTrashed().First(&user)
 ```
 
-### Filter Repetition
+### Фильтр повторения
 
 ```go
-var users []models.User
+вар пользователей []модели.Пользователь
 facades.Orm().Query().Distinct("name").Find(&users)
 ```
 
-### Get Driver
+### Получить водителя
 
 ```go
-driver := facades.Orm().Query().Driver()
+драйвер := facades.Orm().Query().Driver()
 
-// Judge driver
+// Драйвер судьи
 if driver == orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### Выполнить базовый SQL
 
 ```go
 type Result struct {
-  ID   int
+  ID int
   Name string
-  Age  int
+  Age int
 }
 
 var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+facades. rm().Query().Raw("SELECT id, name, age FROM WHERE name = ?", "tom").Scan(&result)
 ```
 
-### Execute Native Update SQL
+### Выполнить базовое обновление SQL
 
-The number of rows affected by the statement is returned by the method:
+Количество строк в выписке возвращается методом:
 
 ```go
-res, err := facades.Orm().Query().Exec("DROP TABLE users")
+res, err := facades.Orm().Query().Exec("DROP TABLE")
 // DROP TABLE `users`;
 
 num := res.RowsAffected
 ```
 
-### Exists
+### Существуют
 
 ```go
-var exists bool
+var существует bool
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
 ```
 
-### Restore
+### Восстановить
 
 ```go
 facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
@@ -822,9 +822,9 @@ facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
 // UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
 ```
 
-### Transaction
+### Транзакция
 
-You can execute a transaction by `Transaction` function.
+Вы можете выполнить транзакцию с помощью функции `Transaction`.
 
 ```go
 import (
@@ -834,7 +834,7 @@ import (
   "goravel/app/models"
 )
 
-...
+. .
 
 return facades.Orm().Transaction(func(tx orm.Query) error {
   var user models.User
@@ -843,40 +843,40 @@ return facades.Orm().Transaction(func(tx orm.Query) error {
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+Вы также можете вручную контролировать поток транзакции самостоятельно:
 
 ```go
 tx, err := facades.Orm().Query().Begin()
-user := models.User{Name: "Goravel"}
-if err := tx.Create(&user); err != nil {
+пользователя := models.User{Name: "Goravel"}
+if err := tx. reate(&user); err != nil {
   err := tx.Rollback()
 } else {
   err := tx.Commit()
 }
 ```
 
-### Scopes
+### Области
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+Позволяет указать часто используемые запросы, на которые можно ссылаться при вызове метода.
 
 ```go
-func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
+func Paginator(page string, limit string) function (methods orm.Query) orm. uery {
   return func(query orm.Query) orm.Query {
-    page, _ := strconv.Atoi(page)
-    limit, _ := strconv.Atoi(limit)
-    offset := (page - 1) * limit
+    page, _ := strconv. toi(page)
+    limit, _ := strconv. toi(limit)
+    смещение := (page - 1) * limit
 
-    return query.Offset(offset).Limit(limit)
+    return query. ffset(offset).Limit(limit)
   }
 }
 
-// scopes.Paginator is a custom function: func(ormcontract.Query) ormcontract.Query
+// scopes.Paginator это пользовательская функция: func(ormcontract.Query) ormcontract.Query
 facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### Сырые выражения
 
-You can use the `db.Raw` method to update fields:
+Вы можете использовать метод `db.Raw` для обновления поля:
 
 ```go
 import "github.com/goravel/framework/database/db"
@@ -885,31 +885,31 @@ facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
 // UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### Pessimistic Locking
+### Праздничная блокировка
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+Конструктор запросов также включает несколько функций, которые помогут вам достичь "пессимистической блокировки" при выполнении ваших операторов `select`
+.
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+Чтобы выполнить оператор «общей блокировкой», вы можете вызвать метод «SharedLock». Общая блокировка предотвращает изменение выбранных
+строк до тех пор, пока не будет произведена транзакция:
 
 ```go
-var users []models.User
+var пользователей []models.User
 facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
+Кроме того, вы можете использовать метод `LockForUpdate`. A "for update" lock prevents the selected records from being
 modified or from being selected with another shared lock:
 
 ```go
-var users []models.User
+var пользователей []models.User
 facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
 ```
 
 ### Sum
 
 ```go
-var sum int
+Сумма var int
 if err := facades.Orm().Query().Model(models.User{}).Sum("id", &sum); err != nil {
   return err
 }
@@ -918,18 +918,18 @@ fmt.Println(sum)
 
 ## События
 
-Orm models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `Retrieved`,
-`Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
+Модели Orm отправляют несколько событий, позволяя вам заходить в следующие моменты жизненного цикла модели: `Retrieved`,
+`Creating`, `Создано`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
 `Restored`, `Restoring`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
+Событие «Получено» будет отправлено, когда существующая модель будет извлечена из базы данных. Когда новая модель будет сохранена для
+в первый раз, события `Creating` и `Created` будут отправлены. События «Обновить» / «Обновить» будут появляться при изменении
+существующей модели и вызове метода «Сохранить». The `Saving` / `Saved` events will dispatch when a model
 is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
 dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
 changes to the model are persisted.
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
+Чтобы начать слушать моделирование событий, определите метод «DispatchesEvents» в вашей модели. This property maps various points
 of the model's lifecycle to your own event classes.
 
 ```go
@@ -988,37 +988,37 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> Примечание: Просто зарегистрируйте все необходимые события. События модели не отправляются при выполнении пакетных операций через Orm.
 
-### Observers
+### Наблюдатели
 
-#### Defining Observers
+#### Определение Наблюдателей
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
-new observer class:
+Если вы слушаете много событий на данной модели, вы можете использовать наблюдателей для группировки всех ваших слушателей в один класс
+. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
+receives the affected model as their only argument. Команда `make:observer` - это самый простой способ создать
+новый класс наблюдателей:
 
 ```shell
 go run . artisan make:observer UserObserver
 go run . artisan make:observer user/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+Эта команда поместит нового наблюдателя в папку `app/observers`. Если эта директория не существует, режиссер
+создаст её для вас. Ваш свежий наблюдатель будет выглядеть следующим образом:
 
 ```go
-package observers
+пакетные наблюдатели
 
-import (
+импорт (
  "fmt"
 
  "github.com/goravel/framework/contracts/database/orm"
 )
 
-type UserObserver struct{}
+тип UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+func (u *UserObserver) Created(event orm. vent) ошибка {
  return nil
 }
 
@@ -1026,25 +1026,25 @@ func (u *UserObserver) Updated(event orm.Event) error {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) Deleted(event orm. ошибка {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+func (u *UserObserver) ForceDeleted(event orm.Event) ошибка {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+Наблюдатель от шаблона содержит только некоторые события, вы можете добавить другие события в соответствии с вашими потребностями.
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
+Для регистрации наблюдателя необходимо вызвать метод `Observe` на модели, которую вы хотите наблюдать. You may register
 observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
 
 ```go
-package providers
+поставщики пакетов
 
-import (
- "github.com/goravel/framework/facades"
+импорт (
+ "github. om/goravel/framework/facades"
 
  "goravel/app/models"
  "goravel/app/observers"
@@ -1053,12 +1053,12 @@ import (
 type EventServiceProvider struct {
 }
 
-func (receiver *EventServiceProvider) Register(app foundation.Application) {
- facades.Event().Register(receiver.listen())
+func (receiver *EventServiceProvider) Register(app foundation. pplication) {
+ facades.Event().Register(receiver. isten())
 }
 
 func (receiver *EventServiceProvider) Boot(app foundation.Application) {
- facades.Orm().Observe(models.User{}, &observers.UserObserver{})
+ facades.Orm().Observe(models.User{}, &observers. serObserver{})
 }
 
 func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener {
@@ -1066,40 +1066,40 @@ func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener 
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> Примечание: Если вы установите `DispatchesEvents` и `Observer` одновременно, будет применяться только `DispatchesEvents`.
 
-#### Parameter in Observer
+#### Параметр в наблюдателе
 
-The `event` parameter will be passed to all observers:
+Параметр `event` будет передан всем наблюдателям:
 
-| Method       | Action                                                                                                     |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| Метод              | Действие                                                                                                                           |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Контекст           | Получить контекст, передаваемый `facades.Orm().WithContext()`                                                                      |
+| Получение атрибута | Получить измененное значение, если не было изменено, получить исходное значение, если исходное значение отсутствует, возвращает nl |
+| Оригинал           | Получить исходное значение, если исходное значение отсутствует, возвращает номер                                                   |
+| Грязь              | Определяет, изменяется ли поле                                                                                                     |
+| IsClean            | IsDirty обратная                                                                                                                   |
+| Запрос             | Получите новый запрос, который можно использовать с транзакцией                                                                    |
+| SetAttribute       | Установить новое значение для поля                                                                                                 |
 
-### Muting Events
+### События мутации
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+Иногда может потребоваться временно "заглушать" все события, запущенные моделью. Достичь этого можно с помощью метода
+`WithoutEvents`:
 
 ```go
-var user models.User
+модели пользователей вара.Пользователь
 facades.Orm().Query().WithoutEvents().Find(&user, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### Сохранение одной модели без событий
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
+Иногда вы можете захотеть «сохранить» заданную модель без отправки событий. You may accomplish this with the
 `SaveQuietly` method:
 
 ```go
-var user models.User
+модели вар. Пользователь
 err := facades.Orm().Query().FindOrFail(&user, 1)
-user.Name = "Goravel"
+пользователь.Name = "Goravel"
 err := facades.Orm().Query().SaveQuietly(&user)
 ```
