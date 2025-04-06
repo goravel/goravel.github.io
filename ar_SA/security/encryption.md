@@ -1,33 +1,33 @@
-# Encryption
+# التشفير
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
+توفر خدمات التشفير في غورافيل واجهة بسيطة ومريحة لتشفير وفك تشفير النص عن طريق OpenSSL
+باستخدام تشفير AES-256. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
 that their underlying value can not be modified or tampered with once encrypted.
 
 ## الإعدادات
 
-Before using Goravel's encrypter, you must set the `key` configuration option in your `config/app.go` configuration
-file. This option is driven by the `APP_KEY` environment variable. Use the `go run . artisan key:generate` command to
-generate this variable's value since the `key:generate` command will utilize Golang's secure random bytes generator to
-create a secure cryptographic key for your application.
+قبل استخدام تشفير Goravel's ، يجب عليك تعيين خيار التكوين 'key' في ملف إعدادات 'config/app.go'
+الخاص بك. هذا الخيار يقوده متغير البيئة "APP_KEY". استخدم \`تشغيل التشغيل'. أمر Arsan key:generate' لـ
+إنشاء قيمة هذا المتغير لأن الأمر 'key:generate' سوف يستخدم مولد البايت العشوائي الآمن للجولانج إلى
+إنشاء مفتاح تشفير آمن لتطبيقك.
 
-## Using The Encrypter
+## استخدام التشفير
 
-### Encrypting A Value
+### تشفير قيمة
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+لتشفير قيمة، يمكنك استخدام طريقة `EncryptString` في `facades.Crypt()`. هذه الطريقة تشفير القيم باستخدام شفرة
+OpenSSL و AES-256-GCM. وبالإضافة إلى ذلك، يتم توقيع جميع القيم المشفرة برمز مصادقة الرسائل (GMAC)
+لمنع فك التشفير من قبل المستخدمين الخادعين الذين يحاولون التلاعب بالبيانات.
 
 ```go
-secret, err := facades.Crypt().EncryptString("goravel")
+سري، إخطار:= facades.Crypt().EncryptString("goravel")
 ```
 
-### Decrypting A Value
+### فك تشفير قيمة
 
-You can use the `DecryptString` method from `facades.Crypt()` to decrypt values. If the value can not be properly
-decrypted, such as when the message authentication code is invalid, an error will be returned.
+يمكنك استخدام طريقة 'DecryptString' من 'facades.Crypt()' إلى فك تشفير القيم. إذا كانت القيمة لا يمكن أن تكون بشكل صحيح
+فك تشفير، مثل عندما يكون رمز مصادقة الرسالة غير صالح، سيتم إرجاع خطأ.
 
 ```go
-str, err := facades.Crypt().DecryptString(secret)
+السلسلة، الخطأ := facades.Crypt().DecryptString(سري)
 ```
