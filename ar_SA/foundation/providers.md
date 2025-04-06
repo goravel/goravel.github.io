@@ -1,16 +1,15 @@
-# Service Providers
+# مزودي الخدمات
 
-The most important thing in the kernel boot operation is to load the `ServiceProvider`. All `ServiceProvider` under the
-application are configured in the `providers` array in  `config/app.go`.
+أهم شيء في عملية تشغيل kernel هو تحميل `Serviceمقدمي الخدمات`. يتم تكوين جميع 'ServiceProvider' تحت تطبيق
+في مصفوفة 'providers' في 'config/app.go\`.
 
-First, the kernel will call the `Register` method of all service providers. After all service providers have been
-registered, the kernel will call the `Boot` method of all `ServiceProvider` again.
+أولاً، ستدعو النواة طريقة "التسجيل" لجميع مقدمي الخدمات. بعد تسجيل جميع موفري الخدمات
+، سيدعو kernel طريقة "Boot" لجميع "Serviceprovider" مرة أخرى.
 
-The `ServiceProvider` is the key to the life cycle of Goravel. They enable the framework to contain various components,
-such as routing, database, queue, cache, etc.
+و'مقدم الخدمة\` هو المفتاح لدورة حياة غورافل. وهي تمكن الإطار من أن يحتوي على مكونات مختلفة،
+مثل المسار، قاعدة البيانات، قائمة الإنتظار، التخزين المؤقت، إلخ.
 
-You can also customize your own provider, it can be stored under `app/providers` and registered in the `providers` array
-in `config/app.go`.
+يمكنك أيضًا تخصيص المزود الخاص بك، يمكن تخزينه تحت 'app/providers`وتسجيله في مصفوفة`providers`في`config/app.go\`.
 
-The framework comes with a blank service provider `app/providers/app_service_provider.go` where you can implement simple
-boot logic. In bigger projects, you have the option to create new service providers for more precise control.
+يأتي الإطار مع مزود خدمة فارغ 'app/providers/app_service_provider.go\` حيث يمكنك تنفيذ منطق التمهيد البسيط
+. في المشاريع الكبيرة، لديك خيار إنشاء موفري خدمات جدد للتحكم بشكل أدق.
