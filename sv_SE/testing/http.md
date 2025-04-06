@@ -1,128 +1,128 @@
-# HTTP Tests
+# HTTP-test
 
-When building web applications, you'll often need to test if your HTTP requests work correctly from start to finish.
+När du bygger webbapplikationer måste du ofta testa om dina HTTP-förfrågningar fungerar korrekt från början till slut.
 Goravel's testing tools make this straightforward - you can simulate requests and verify responses without setting up
 complex test environments.
 
-## Make Requests
+## Gör förfrågningar
 
-Testing HTTP endpoints in Goravel uses a simple pattern. Start with the `Http` method from your `TestCase`, which needs
-a `*testing.T` parameter for assertions. This gives you a request object (`framework/contracts/testing.TestRequest`)
-that handles all common HTTP verbs like `Get`, `Post`, and `Put`.
+Testa HTTP-slutpunkter i Goravel använder ett enkelt mönster. Börja med `Http`-metoden från din `TestCase`, som behöver
+en `*testing.T`-parameter för påståenden. Detta ger dig ett förfrågningsobjekt (`framee/contracts/testing.TestRequest`)
+som hanterar alla vanliga HTTP-verb som `Get`, `Post` och `Put`.
 
-Instead of making real HTTP calls, these methods simulate your application's request cycle internally. Each request
-returns a response object (`framework/contracts/testing.TestResponse`) with methods to check the results.
+Istället för att göra riktiga HTTP-samtal, dessa metoder simulera din applikations begäran cykel internt. Varje begäran
+returnerar ett svarsobjekt (`framee/contracts/testing.TestResponse`) med metoder för att kontrollera resultaten.
 
-Here's a basic example:
+Här är ett grundläggande exempel:
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
+func (s *ExempelTestSuite) TestIndex() {
  response, err := s.Http(s.T()).Get("/users/1")
  s.Nil(err)
  response.AssertStatus(200)
 }
 ```
 
-### Customize Request Headers
+### Anpassa förfrågningsrubriker
 
-You can customize request headers using either `WithHeader` for a single header or `WithHeaders` for multiple headers:
+Du kan anpassa förfrågningsrubriker med antingen `WithHeader` för ett enda huvud eller `WithHeaders` för flera rubriker:
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
+func (s *ExempelTestSuite) TestIndex() {
     // Single header
-    response, err := s.Http(s.T()).WithHeader("X-Custom-Header", "Value").Get("/users/1")
+    response, err := s.Http(s.T()). ithHeader("X-Custom-Header", "Värde").Get("/users/1")
     
-    // Multiple headers
-    response, err := s.Http(s.T()).WithHeaders(map[string]string{
+    // Flera headers
+    svar, err := s. ttp(s.T()). ithHeaders(karta[string]string{
         "X-Custom-Header": "Value",
-        "Accept": "application/json",
-    }).Get("/users/1")
+        "Acceptera": "application/json",
+    }). et("/users/1")
 }
 ```
 
 ### Cookies
 
-You may use either `WithCookie` or `WithCookies` method to set cookies value before making a request.
+Du kan använda antingen `WithCookie` eller `WithCookies`-metoden för att ställa in cookie-värde innan du gör en begäran.
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithCookie("name", "krishan").Get("/users/1")
+func (s *ExempelTestSuite) TestIndex() {
+ response, err := s.Http(s.T()).WithCookie("namn", "krishan"). et("/users/1")
 
- // or use WithHeaders for multiple Headers
- response, err := s.Http(s.T()).WithHeader(map[string]string{
-        "name": "krishan",
-        "lang": "en",
-    }).Get("/users/1")
+ // eller använd WithHeaders för flera Headers
+ respons, err := s. ttp(s.T()). ithHeader(karta[string]string{
+        "namn": "krishan",
+        "lang": "sv",
+    }). et("/users/1")
 }
 ```
 
-### WithSession
+### Med Session
 
-You may set the data to the session using the `WithSession` method:
+Du kan ställa in data till sessionen med hjälp av `WithSession`-metoden:
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
+func (s *ExempelTestSuite) TestIndex() {
+ response, err := s.Http(s.T()).WithSession(karta[string]any{"roll": "admin"}).Get("/users/1")
 }
 ```
 
-### Debugging Responses
+### Felsöka svar
 
-After making request you may use `Session`, `Headers`, `Content`, `Cookies` or `Json` method to check data returned from
-the request.
+Efter begäran kan du använda `Session`, `Headers`, `Content`, `Cookies` eller `Json` metod för att kontrollera data som returneras från
+begäran.
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
+func (s *ExempelTestSuite) TestIndex() {
+ response, err := s.Http(s.T()).WithSession(karta[string]any{"roll": "admin"}). et("/users/1")
  
- content, err := response.Content()
+ innehåll, err := response.Content()
  
- cookies := response.Cookies()
+ cookies := response. ookies()
  
  headers := response.Headers()
  
- json, err := response.Json() // response body parsed as json(map[string]any)
+ json, err := respons. son() // responskropp tolkad som json (karta[string]any)
  
- session, err := response.Session() // returns all values stored in the current request session
+ session, err := respons. ession() // returnerar alla värden som lagras i den aktuella sessionen
 }
 ```
 
-## Building Body
+## Bygger kropp
 
-For method like `Post`, `Put`, `Delete` etc. Goravel accepts `io.Reader` as second argument. To simplify building
-payloads, the framework provides utility methods for constructing request bodies.
+För metod som `Post`, `Put`, `Radera` etc. Goravel accepterar `io.Reader` som andra argument. För att förenkla byggandet av
+nyttolaster tillhandahåller ramverket användningsmetoder för att konstruera förfrågningsorgan.
 
 ```go
-import "github.com/goravel/framework/support/http"
+importera "github.com/goravel/frameing/support/http"
 
-func (s *ExampleTestSuite) TestIndex() {
-    builder := http.NewBody().SetField("name", "krishan")
+func (s *ExempelTestSuite) TestIndex() {
+    builder := http.NewBody(). etField("namn", "krishan")
     
-    body, err := builder.Build()
+    kropp, err := byggare. uild()
 
-    response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", body)
+    svar, err := s. ttp(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", body)
 }
 ```
 
-## Testing Json APIs
+## Testar Json API:er
 
-Goravel provides several helpers to test JSON API responses effectively. It attempts to unmarshal the response body into
-a Go `map[string]any`. If unmarshalling fails, the associated assertions will also fail.
+Goravel ger flera hjälpare för att testa JSON API svar effektivt. Det försöker att unmarshal svarskroppen i
+a Go \`map[string]någon. Om undantagstillståndet misslyckas kommer också de tillhörande påståendena att misslyckas.
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
+func (s *ExempelTestSuite) TestIndex() {
     response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", nil)
- s.Nil(err)
+ s. il(err)
  
- response.AssertStatus(201).
-  AssertJson(map[string]any{
-   "created": true,
+ svar.AssertStatus(201).
+  AssertJson (karta[string]any{
+   "skapade": sant,
         })
 }
 ```
 
-To access the unmarshalled JSON directly, use the `Json` method on the `TestResponse`. This lets you inspect individual
-elements of the response body.
+För att komma åt den oslagbara JSON direkt, använd `Json`-metoden på `TestResponse`. Detta låter dig inspektera enskilda
+element av responskroppen.
 
 ```go
 json, err := response.Json()
@@ -131,143 +131,143 @@ s.True(json["created"])
 ```
 
 :::tip
-The `AssertJson` method checks whether the response contains all the specified values, even if the response includes
-additional fields. It doesn't require an exact match unless you use `AssertExactJson`.
+`AssertJson`-metoden kontrollerar om svaret innehåller alla angivna värden, även om svaret innehåller
+ytterligare fält. Det kräver inte en exakt matchning om du inte använder `AssertExactJson`.
 :::
 
-### Asserting Exact JSON Matches
+### Tillsätter exakta JSON-matchningar
 
-If you need to verify that the response matches your expected JSON exactly (with no extra or missing fields), use the
-`AssertExactJson` method.
+Om du behöver verifiera att svaret matchar din förväntade JSON exakt (med inga extra eller saknade fält), använd
+`AssertExactJson` -metoden.
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
+func (s *ExempelTestSuite) TestIndex() {
     response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", nil)
- s.Nil(err)
+ s. il(err)
  
- response.AssertStatus(201).
-  AssertExactJson(map[string]any{
-   "created": true,
+ svar.AssertStatus(201).
+  AssertExactJson (karta[string]any{
+   "skapade": sant,
         })
 }
 ```
 
 ### Fluent JSON Testing
 
-Goravel makes it easy to perform fluent assertions on JSON responses. Using the `AssertFluentJson` method, you can pass
-a closure that provides an instance of `framework/contracts/testing.AssertableJSON`. This instance allows you to check
-specific values or conditions in the JSON response returned by your request.
+Goravel gör det enkelt att göra flytande påståenden om JSON-svar. Med hjälp av `AssertFluentJson`-metoden kan du skicka
+en stängning som ger en instans av `framee/contracts/testing.AssertableJSON`. Denna instans låter dig kontrollera
+specifika värden eller villkor i JSON-svaret som returneras av din begäran.
 
-For example, you can use the `Where` method to assert that a particular value exists in the JSON response, and the
-`Missing` method to ensure that an attribute is not present.
+Till exempel kan du använda `Where`-metoden för att hävda att ett visst värde finns i JSON-svaret, och
+`Missing`-metoden för att säkerställa att ett attribut inte är närvarande.
 
 ```go
 import contractstesting "github.com/goravel/framework/contracts/testing"
 
-func (s *ExampleTestSuite) TestIndex() {
-    response, err := s.Http(s.T()).Get("/users/1")
+func (s *ExempelTestSuite) TestIndex() {
+    response, err := s. ttp(s.T()).Get("/users/1")
  s.Nil(err)
  
  response.AssertStatus(201).
-  AssertFluentJson(func (json contractstesting.AssertableJSON) {
-   json.Where("id", float64(1)).
-    Where("name", "bowen").
-    WhereNot("lang", "en").
-    Missing("password")
+  AssertFluentJson (func (json contractstesting.AssertableJSON) {
+   json.Var("id", float64(1)).
+    Var("namn", "bowen").
+    WhereNot("lang", "sv").
+    saknas("lösenord")
         })
 }
 ```
 
-### Asserting Attribute Presence / Absence
+### Tilldelar attributnärvaro / Frånvaro
 
-If you want to check whether an attribute is present or missing, Goravel makes it simple with the `Has` and `Missing`
-methods.
+Om du vill kontrollera om ett attribut är närvarande eller saknas, gör Goravel det enkelt med `Has` och `Missing`
+metoder.
 
 ```go
 response.AssertStatus(201).
-    AssertFluentJson(func (json contractstesting.AssertableJSON) {
-        json.Has("username").
-            Missing("password")
-    })
+    AssertFluentJson (func (json contractstesting.AssertableJSON) {
+        json.Has("användarnamn").
+            saknas("lösenord")
+})
 ```
 
-You can also assert the presence or absence of multiple attributes at once using `HasAll` and `MissingAll`.
+Du kan också hävda närvaron eller frånvaron av flera attribut samtidigt med `HasAll` och` MissingAll`.
 
 ```go
 response.AssertStatus(201).
     AssertFluentJson(func (json contractstesting.AssertableJSON) {
         json.Has([]string{"username", "email"}).
             MissingAll([]string{"verified", "password"})
-    })
+})
 ```
 
-If you only need to check for the presence of at least one attribute from a list, use the `HasAny` method.
+Om du bara behöver kontrollera förekomsten av minst ett attribut från en lista, använd `HasAny`-metoden.
 
 ```go
 response.AssertStatus(201).
-    AssertFluentJson(func (json contractstesting.AssertableJSON) {
-  json.HasAny([]string{"username", "email"})
-    })
+    AssertFluentJson (func (json contractstesting.AssertableJSON) {
+  json.HasAny([]string{"användarnamn", "e-post"})
+})
 ```
 
-### Scoping JSON Collection Assertions
+### Omfattande JSON-samlingsbidragen
 
-When a response contains a collection of objects under a named key, you can use various methods to assert its structure
-and content.
+När ett svar innehåller en samling objekt under en namngiven nyckel, kan du använda olika metoder för att hävda sin struktur
+och innehåll.
 
 ```go
 type Item struct {
     ID int `json:"id"`
 }
 
-facades.Route().Get("/", func(ctx http.Context) http.Response {
-    items := []Item{
+facades.Route().Get("/", func(ctx http.Context) http. esponse {
+    objekt := []Föremål{
         {ID: 1},
         {ID: 2},
     }
-    return ctx.Response().Json(200, map[string]{
-  "items": items,
+    retur ctx. esponse().Json(200, karta[string]{
+  "objekt": objekt,
     })
 }
 ```
 
-You can use the `Count` method to verify the number of elements in the collection. To assert properties of the first
-element, use the `First` method, which provides an instance of `AssertableJson`. Similarly, the `Each` method allows you
-to iterate over all elements and assert their properties individually. Alternatively, the `HasWithScope` method combines
-the functionality of `First` and `Count`, allowing you to assert both the first element and its contents while providing
-an `AssertableJson` instance for scoped assertions.
+Du kan använda `Count`-metoden för att verifiera antalet element i samlingen. För att hävda egenskaper för det första
+-elementet, använd `First`-metoden, vilket ger en instans av `AssertableJson`. På samma sätt tillåter `Each`-metoden dig
+att iterera över alla element och hävda sina egenskaper individuellt. Alternativt kombinerar `HasWithScope`-metoden
+funktionaliteten i `First` och `Count`, låter dig hävda både det första elementet och dess innehåll samtidigt som du tillhandahåller
+en `AssertableJson`-instans för omfångade påståenden.
 
 ```go
 // Count and First
 response.AssertStatus(200).
-    AssertFluentJson(func(json contractstesting.AssertableJSON) {
-        json.Count("items", 2).
-            First("items", func(json contractstesting.AssertableJSON) {
-                json.Where("id", 1)
+    AssertFluentJson (func(json contractstesting. ssertableJSON) {
+        json.Count("föremål", 2).
+            Första("föremål", funktion(json kontraktstagande). ssertableJSON) {
+                json. här ("id", 1)
             })
     })
 
-// Each
-response.AssertStatus(200).
-    AssertFluentJson(func(json contractstesting.AssertableJSON) {
-        json.Count("items", 2).
-            Each("items", func(json contractstesting.AssertableJSON) {
-                json.Has("id")
+// Varje
+svar. ssertStatus(200).
+    AssertFluentJson (func(json contractstesting.AssertableJSON) {
+        json. belopp("objekt", 2).
+            varje("objekt", funktion(json kontraktsbestämning). ssertableJSON) {
+                json. as("id")
             })
     })
 
 // HasWithScope
-response.AssertStatus(200).
-    AssertFluentJson(func(json contractstesting.AssertableJSON) {
-        json.HasWithScope("items", 2, func(json contractstesting.AssertableJSON) {
-            json.Where("id", 1)
+svar. ssertStatus(200).
+    AssertFluentJson (func(json contractstesting.AssertableJSON) {
+        json.HasWithScope("artiklar", 2, func(json contractstesting. ssertableJSON) {
+            json. här("id", 1)
         })
-    })
+})
 ```
 
-## Available Assertions
+## Tillgängliga Assertions
 
-### Response Assertions
+### Svar Assertions
 
 |                                                   |                                                         |                                                         |
 | ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
@@ -285,9 +285,9 @@ response.AssertStatus(200).
 | [AssertStatus](#assertstatus)                     | [AssertSuccessful](#assertsuccessful)                   | [AssertTemporaryRedirect](#asserttemporaryredirect)     |
 | [AssertTooManyRequests](#asserttoomanyrequests)   | [AssertUnauthorized](#assertunauthorized)               | [AssertUnprocessableEntity](#assertunprocessableentity) |
 
-### AssertAccepted
+### Tillåten accepterad
 
-Asserts that the response has an `202 Accepted` HTTP status code:
+Anser att svaret har en `202 Accepted` HTTP-statuskod:
 
 ```go
 response.AssertAccepted()
@@ -295,15 +295,15 @@ response.AssertAccepted()
 
 ### AssertBadRequest
 
-Asserts that the response has a `400 Bad Request` HTTP status code:
+Anser att svaret har en `400 Bad Request` HTTP-statuskod:
 
 ```go
 response.AssertBadRequest()
 ```
 
-### AssertConflict
+### AssertKonflikt
 
-Asserts that the response has a `409 Conflict` HTTP status code:
+Anser att svaret har en `409 Conflict` HTTP-statuskod:
 
 ```go
 response.AssertConflict()
@@ -311,39 +311,39 @@ response.AssertConflict()
 
 ### AssertCookie
 
-Asserts that the response contains a cookie with the specified name and value:
+Anser att svaret innehåller en cookie med det angivna namnet och värdet:
 
 ```go
-response.AssertCookie("name", "value")
+response.AssertCookie("namn", "värde")
 ```
 
-### AssertCookieExpired
+### AssertCookieUtgången
 
-Asserts that the specified cookie has expired:
+Anser att den angivna cookien har gått ut:
 
 ```go
-response.AssertCookieExpired("name")
+response.AssertCookieUtgången ("namn")
 ```
 
-### AssertCookieMissing
+### AssertCookieSaknas
 
-Asserts that the response does not contain a cookie with the specified name:
+Anser att svaret inte innehåller en cookie med det angivna namnet:
 
 ```go
-response.AssertCookieMissing("name")
+response.AssertCookieMiss("namn")
 ```
 
-### AssertCookieNotExpired
+### AssertCookieNotUtgången
 
-Asserts that the specified cookie has not expired:
+Anser att den angivna cookien inte har löpt ut:
 
 ```go
-response.AssertCookieNotExpired("name")
+response.AssertCookieNotUtgången ("namn")
 ```
 
-### AssertCreated
+### Assertskapad
 
-Asserts that the response has a `201 Created` HTTP status code:
+Anser att svaret har en `201 Created` HTTP-statuskod:
 
 ```go
 response.AssertCreated()
@@ -351,52 +351,52 @@ response.AssertCreated()
 
 ### AssertDontSee
 
-Asserts that the response does not contain the specified values. The second parameter (optional) determines whether to
-escape special characters in the values before checking. If not provided, it defaults to true.
+Anser att svaret inte innehåller de angivna värdena. Den andra parametern (valfritt) avgör om
+ska fly specialtecken i värdena innan du kontrollerar. Om den inte tillhandahålls, är den standard sant.
 
 ```go
-response.AssertDontSee([]string{"<div>"}, false)  // Do not escape special characters
+response.AssertDontSee([]string{"<div>"}, false) // Undvik inte specialtecken
 ```
 
 ### AssertExactJson
 
-Asserts that the response JSON matches exactly the provided `map[string]any`:
+Anser att svaret JSON matchar exakt den angivna `map[string]any`:
 
 ```go
-response.AssertExactJson(map[string]any{"created": true})
+response.AssertExactJson (karta[string]any{"created": true})
 ```
 
 ### AssertFluentJson
 
-Asserts the response JSON using a fluent interface:
+Tilldelar svaret JSON med hjälp av ett flytande gränssnitt:
 
 ```go
 import contractstesting "github.com/goravel/framework/contracts/testing"
 
-response.AssertFluentJson(func(json contractstesting.AssertableJSON) {
+response.AssertFluentJson (func(json contractstesting.AssertableJSON) {
      json.Where("created", true)
 })
 ```
 
-### AssertForbidden
+### Förbjuden
 
-Asserts that the response has a `403 Forbidden` HTTP status code:
+Anser att svaret har en `403 Förbjudna` HTTP-statuskod:
 
 ```go
-response.AssertForbidden()
+response.AssertFörbjuden ()
 ```
 
-### AssertFound
+### Tillåten
 
-Asserts that the response has a `302 Found` HTTP status code:
+Anser att svaret har en `302 Found` HTTP-statuskod:
 
 ```go
 response.AssertFound()
 ```
 
-### AssertGone
+### Borta
 
-Asserts that the response has a `410 Gone` HTTP status code:
+Anser att svaret har en `410 Gone` HTTP-statuskod:
 
 ```go
 response.AssertGone()
@@ -404,7 +404,7 @@ response.AssertGone()
 
 ### AssertHeader
 
-Asserts that the response contains the specified header with the given value:
+Anser att svaret innehåller det angivna huvudet med det angivna värdet:
 
 ```go
 response.AssertHeader("Content-Type", "application/json")
@@ -412,15 +412,15 @@ response.AssertHeader("Content-Type", "application/json")
 
 ### AssertHeaderMissing
 
-Asserts that the response does not contain the specified header:
+Anser att svaret inte innehåller det angivna huvudet:
 
 ```go
-response.AssertHeaderMissing("X-Custom-Header")
+svar.AssertHeaderMissa ("X-Custom-Header")
 ```
 
 ### AssertInternalServerError
 
-Asserts that the response has a `500 Internal Server` Error HTTP status code:
+Anser att svaret har en `500 Internal Server` Error HTTP statuskod:
 
 ```go
 response.AssertInternalServerError()
@@ -428,31 +428,31 @@ response.AssertInternalServerError()
 
 ### AssertJson
 
-Asserts that the response JSON contains the provided fragment:
+Anser att svaret JSON innehåller det medföljande fragmentet:
 
 ```go
-response.AssertJson(map[string]any{"created": true})
+response.AssertJson(karta[string]any{"created": true})
 ```
 
-### AssertJsonMissing
+### AssertJsonSaknas
 
-Asserts that the specified keys or values are missing in the response JSON:
+Anser att de angivna nycklarna eller värdena saknas i svaret JSON:
 
 ```go
-response.AssertJsonMissing(map[string]any{"created": false})
+response.AssertJsonMissing(karta[string]any{"created": false})
 ```
 
-### AssertMethodNotAllowed
+### AssertMethodNotTillåten
 
-Asserts that the response has a `405 Method Not Allowed` HTTP status code:
+Anser att svaret har en `405 Metod ej tillåtet` HTTP-statuskod:
 
 ```go
 response.AssertMethodNotAllowed()
 ```
 
-### AssertMovedPermanently
+### AssertMovedPermanent
 
-Asserts that the response has a `301 Moved Permanently` HTTP status code:
+Anser att svaret har en `301 Moved Permanently` HTTP-statuskod:
 
 ```go
 response.AssertMovedPermanently()
@@ -460,7 +460,7 @@ response.AssertMovedPermanently()
 
 ### AssertNoContent
 
-Asserts that the response has a `204 No Content` HTTP status code:
+Anser att svaret har en `204 No Content` HTTP-statuskod:
 
 ```go
 response.AssertNoContent()
@@ -468,7 +468,7 @@ response.AssertNoContent()
 
 ### AssertNotAcceptable
 
-Asserts that the response has a `406 Not Acceptable` HTTP status code:
+Anser att svaret har en `406 Not Acceptable` HTTP statuskod:
 
 ```go
 response.AssertNotAcceptable()
@@ -476,47 +476,47 @@ response.AssertNotAcceptable()
 
 ### AssertNotFound
 
-Asserts that the response has a `404 Not Found` HTTP status code:
+Anser att svaret har en `404 Not Found` HTTP-statuskod:
 
 ```go
 response.AssertNotFound()
 ```
 
-### AssertNotModified
+### AssertNotModifierad
 
-Asserts that the response has a `304 Not Modified` HTTP status code:
+Anser att svaret har en `304 Inte Ändrad` HTTP-statuskod:
 
 ```go
 response.AssertNotModified()
 ```
 
-### AssertOk
+### Tilldelad
 
-Asserts that the response has a `200 OK` HTTP status code:
+Anser att svaret har en `200 OK` HTTP-statuskod:
 
 ```go
 response.AssertOk()
 ```
 
-### AssertPartialContent
+### AssertPartiellt innehåll
 
-Asserts that the response has a `206 Partial Content` HTTP status code:
+Anser att svaret har en `206 Partiellt Innehåll` HTTP-statuskod:
 
 ```go
 response.AssertPartialContent()
 ```
 
-### AssertPaymentRequired
+### PåbetalningKrävs
 
-Asserts that the response has a `402 Payment Required` HTTP status code:
+Anser att svaret har en `402 Payment Required` HTTP-statuskod:
 
 ```go
 response.AssertPaymentRequired()
 ```
 
-### AssertRequestTimeout
+### TilldelningsförfråganTimeout
 
-Asserts that the response has a `408 Request Timeout` HTTP status code:
+Anser att svaret har en `408 Request Timeout` HTTP-statuskod:
 
 ```go
 response.AssertRequestTimeout()
@@ -524,17 +524,17 @@ response.AssertRequestTimeout()
 
 ### AssertSee
 
-Asserts that the response contains the specified values. The second parameter (optional) determines whether to escape
-special characters in the values before checking. If not provided, it defaults to `true`.
+Anser att svaret innehåller angivna värden. Den andra parametern (valfritt) avgör om man ska komma undan
+specialtecken i värdena innan man kontrollerar. Om den inte tillhandahålls, är det standard för `true`.
 
 ```go
-response.AssertSee([]string{"<div>"}, false)  // Do not escape special characters
+response.AssertSee([]string{"<div>"}, false) // Undvik inte specialtecken
 ```
 
 ### AssertSeeInOrder
 
 Asserts that the response contains the specified values in the given order. The second parameter (optional) determines
-whether to escape special characters in the values before checking. If not provided, it defaults to `true`.
+whether to escape special characters in the values before checking. Om den inte tillhandahålls, är det standard för `true`.
 
 ```go
 response.AssertSeeInOrder([]string{"First", "Second"}, false)  // Do not escape special characters
