@@ -1,24 +1,24 @@
-# Logging
+# Ведение журнала
 
 In order to understand the running status of the application, Goravel provides a powerful log service that can record
 log messages and system errors to a file or other channels through `facades.Log()`.
 
 ## Конфигурация
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+Для настройки различных каналов журнала, пользовательские настройки могут быть сделаны в файле `config/logging.go`.
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` использует `stack` канал для записи журналов по умолчанию, `stack` позволяет перенаправлять журналы на несколько каналов.
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+Конфигурация «print» в драйверах «single» и «daily» может контролировать вывод журнала в консоль.
 
-## Available channel drivers
+## Доступные драйверы каналов
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| Наименование | Описание                    |
+| ------------ | --------------------------- |
+| `stack`      | Разрешить несколько каналов |
+| `single`     | Одиночный лог               |
+| «ежедневно»  | Один файл журнала в день    |
+| `custom`     | Настраиваемый диск          |
 
 ### Вставить контекст
 
@@ -26,7 +26,7 @@ The `print` configuration in `single` and `daily` drivers can control log output
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## Записывать сообщения журнала
 
 ```go
 facades.Log().Debug(message)
@@ -34,8 +34,8 @@ facades.Log().Debugf(message, args)
 facades.Log().Info(message)
 facades.Log().Infof(message, args)
 facades.Log().Warning(message)
-facades.Log().Warningf(message, args)
-facades.Log().Error(message)
+facades.Log().Warning().Warningf(message, args)
+facades. og().Ошибка(сообщение)
 facades.Log().Errorf(message, args)
 facades.Log().Fatal(message)
 facades.Log().Fatalf(message, args)
@@ -43,106 +43,106 @@ facades.Log().Panic(message)
 facades.Log().Panicf(message, args)
 ```
 
-### Write to a specific channel
+### Записать в определенный канал
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+Иногда вы можете захотеть записать сообщения на канал, отличный от канала по умолчанию:
 
 ```go
-facades.Log().Channel("single").Info(message)
+facades.Log().Channel("single").Info(сообщение)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+Если вы хотите записать в несколько каналов одновременно, используйте метод `Stack`:
 
 ```go
 facades.Log().Stack([]string{"single", "slack"}).Info(message)
 ```
 
-## Chain Methods
+## Методы цепи
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+Горавель предоставляет удобные методы цепи, которые позволяют легко вставить в лог более полезную информацию:
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| Метод        | Действие                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------ |
+| Код          | Установите код или слаг, который описывает журнал.                               |
+| Подсказка    | Установить подсказку для ускорения отладки.                                      |
+| В            | Задайте категорию свойств или домен, в котором соответствующая запись в журнале. |
+| Владелец     | Полезно для целей оповещения.                                                    |
+| Запросить    | Обеспечивает http.Request.                                       |
+| Замечание    | Предоставляет http.Response.                                     |
+| Теги         | Добавьте несколько тегов, описывая функцию, возвращающую ошибку.                 |
+| Пользователь | Установить пользователя, связанного с записью журнала.                           |
+| С            | Добавить пары ключевого значения в контекст записи журнала.                      |
+| Отписаться   | Добавить информацию о стеке в запись журнала.                                    |
 
-## Create a custom channel
+## Создать пользовательский канал
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+Если вы хотите определить полностью пользовательский канал, вы можете указать тип драйвера `custom` в конфигурационном файле `config/logging.go`
+.
+Затем включите опцию `via` для реализации структуры `framework\contracts\log\Logger`:
 
 ```go
 // config/logging.go
 "custom": map[string]interface{}{
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### Реализовать драйвер
 
-Implement `framework\contracts\log\Logger` interface.
+Реализовать `framework\contracts\log\Logger` интерфейс.
 
 ```go
 // framework/contracts/log/Logger
 package log
 
 type Logger interface {
-  // Handle pass channel config path here
-  Handle(channel string) (Hook, error)
+  // Путь к конфигурации канала передач здесь
+  Handle pass channel string) (Hook, error)
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). Например:
+файлы могут храниться в папке `app/extensions` (modifiable). Например:
 
 ```go
-package extensions
+расширений пакетов
 
-import (
+импорт (
   "fmt"
 
-  "github.com/goravel/framework/contracts/log"
+  "github. om/goravel/framework/contracts/log"
 )
 
 type Logger struct {
 }
 
-// Handle pass channel config path here
-func (logger *Logger) Handle(channel string) (log.Hook, error) {
+// Обработка пути канала передачи маршрута здесь
+func (logger *Logger) Handle(channel string) (log. ook, error) {
   return &Hook{}, nil
 }
 
-type Hook struct {
+тип Hook struct {
 }
 
 // Levels monitoring level
-func (h *Hook) Levels() []log.Level {
+func (h *Hook) Levels() []log. evel {
   return []log.Level{
-    log.DebugLevel,
+    log. ebugLevel,
     log.InfoLevel,
     log.WarningLevel,
-    log.ErrorLevel,
+    log. rrorLevel,
     log.FatalLevel,
-    log.PanicLevel,
+    log. anicLevel,
   }
 }
 
-// Fire execute logic when trigger
-func (h *Hook) Fire(entry log.Entry) error {
-  fmt.Printf("context=%v level=%v time=%v message=%s", entry.Context(), entry.Level(), entry.Time(), entry.Message())
+// Выполнение логики при срабатывании
+func (h *Hook) Fire(запись журнала. ntry) error {
+  fmt.Printf("context=%v level=%v time=%v message=%s", entry. ontext(), entry.Level(), entry.Time(), entry.Message())
 
   return nil
 }
