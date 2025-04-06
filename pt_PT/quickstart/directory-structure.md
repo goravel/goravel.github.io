@@ -1,71 +1,71 @@
-# Directory Structure
+# Estrutura de diretórios
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+A estrutura do arquivo padrão pode fazer com que você inicie melhor o projeto e você também pode adicionar novas pastas livremente, mas
+não modifique as pastas padrão.
 
-## Root Directory
+## Diretório raiz
 
-### `app` Directory
+### Diretório `app`
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` contém o código principal do programa. Quase toda a lógica do programa estará nesta pasta.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+O diretório `bootstrap` contém o arquivo de inicialização do framework `app.go`.
 
-### `config` Directory
+### Diretório `config`
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+O diretório `config` contém todos os arquivos de configuração da aplicação. É melhor navegar por estes arquivos e
+familiarizar-se com todas as opções disponíveis.
 
-### `database` Directory
+### Diretório `database`
 
-The `database` directory contains database migration files.
+O diretório `database` contém arquivos de migração de banco de dados.
 
-### `public` Directory
+### Diretório `public`
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+O diretório `público` contém alguns recursos estáticos, como imagens, certificados, etc.
 
-### `resources` Directory
+### Diretório `resources`
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+O diretório `resources` contém o seu [views](../basic/views) bem como os arquivos raw, não compilados como
+CSS ou JavaScript.
 
-### `routes` Directory
+### Diretório `routes`
 
-The `routes` directory contains all the route definitions of the application.
+O diretório `routes` contém todas as definições de rota da aplicação.
 
-### `storage` Directory
+### Diretório `storage`
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+O diretório `storage` contém o diretório `logs`, e o diretório `logs` contém os arquivos log do aplicativo.
 
-### `tests` Directory
+### Diretório `tests`
 
-The `tests` directory contains your automated tests.
+O diretório `tests` contém seus testes automatizados.
 
-## `app` Directory
+## Diretório `app`
 
-### `console` Directory
+### Diretório `console`
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+O diretório `console` contém todos os comandos personalizados `Artisan` do aplicativo, e o arquivo de inicialização do console
+`kernel. o`, que pode ser registrado neste arquivo [Agendamento de tarefas](../advanced/schedule)
 
-### `http` Directory
+### Diretório `http`
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+O diretório `http` contém controladores, middleware, etc., e quase todas as solicitações que entram no aplicativo através da Web
+estão processadas aqui.
 
-### `grpc` Directory
+### Diretório `grpc`
 
 The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
 Grpc are processed here.
 
-### `models` Directory
+### Diretório `models`
 
-The `models` directory contains all data models.
+O diretório `models` contém todos os modelos de dados.
 
-### `providers` Directory
+### Diretório `providers`
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
-for events, or performing any other tasks.
+O diretório `provedores` contém todos os [Provedores de Serviço](../foundation/providers) no programa
+. O provedor de serviço guia o aplicativo a responder aos pedidos de entrada por meio de serviços vinculativos, registrando
+para eventos ou executando outras tarefas.
