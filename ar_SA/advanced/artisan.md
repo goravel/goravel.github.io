@@ -1,119 +1,118 @@
-# Artisan Console
+# وحدة تحكم Artisan
 
-فن هو أداة CLI التي تأتي مع غورافيل للتفاعل مع سطر الأوامر. يمكنك الوصول إليه باستخدام
-`facades.Artisan()`. هذه الأداة لديها عدة أوامر مفيدة يمكن أن تساعدك في تطوير تطبيقك.
+Artisan هي أداة CLI التي تأتي مع Goravel للتفاعل مع سطر الأوامر. يمكنك الوصول إليها باستخدام
+`facades.Artisan()`. تحتوي هذه الأداة على العديد من الأوامر المفيدة التي يمكن أن تساعدك في تطوير تطبيقك.
 استخدم الأمر التالي لعرض جميع الأوامر المتاحة.
 
 ```shell
-قم بتشغيل. قائمة الحرفيين
+go run . artisan list
 ```
 
-ولكل أمر أيضا ميزة "مساعدة" تعرض وتشرح الحجج والخيارات المرتبطة بالقيادة. إلى
-راجع شاشة المساعدة، فقط أضف "مساعدة" قبل اسم الأمر.
+يحتوي كل أمر أيضًا على ميزة "مساعدة" تعرض وتشرح الوسائط والخيارات المرتبطة بالأمر. لرؤية
+شاشة المساعدة، ما عليك سوى إضافة "help" قبل اسم الأمر.
 
 ```shell
-قم بتشغيل. المساعدة الحرفية في الترحيل
+go run . artisan help migrate
 ```
 
-عوضا عن تكرار `إذهب للتشغيل'. حرفي ...` أمر ، قد ترغب في إضافة اسم مستعار إلى تكوين قذيفة الخاص بك مع الأمر الطرفي
-أدناه:
+بدلاً من تكرار الأمر `go run . artisan ...`، قد ترغب في إضافة اختصار إلى تكوين shell الخاص بك باستخدام
+الأمر التالي في الطرفية:
 
 ```shell
-صدى -e "\r\nالاسم الحرفي المستعار =\"إذهب إلى تشغيل الحرفيين\"" >>~/.zshrc
+echo -e "\r\nalias artisan=\"go run . artisan\"" >>~/.zshrc
 ```
 
-ثم يمكنك ببساطة تشغيل الأوامر الخاصة بك مثل هذا:
+ثم يمكنك ببساطة تشغيل أوامرك بهذه الطريقة:
 
 ```shell
-مصنع حرفي:controller DemoController
+artisan make:controller DemoController
 ```
 
-يمكنك أيضًا استخدام نص قذيفة "حرفي" مثل هذا:
+يمكنك أيضًا استخدام سكريبت `artisan` بهذه الطريقة:
 
 ```shell
-./حرفي صنع:controller DemoController
+./artisan make:controller DemoController
 ```
 
-### توليد الأوامر
+### إنشاء الأوامر
 
-يمكنك استخدام الأمر 'make:command' لإنشاء أمر جديد في دليل 'app/console/commands'. لا تقلق إذا كان
-هذا الدليل غير موجود في التطبيق الخاص بك، فسيتم إنشاؤه لأول مرة تقوم بتشغيل الأمر \`make:command':
+يمكنك استخدام أمر `make:command` لإنشاء أمر جديد في دليل `app/console/commands`. لا تقلق إذا لم يكن هذا الدليل موجودًا في تطبيقك، سيتم إنشاؤه في المرة الأولى التي تقوم فيها بتشغيل أمر `make:command`:
 
 ```shell
-قم بتشغيل. مارست الحرفية:command SendEmails
-تشغيل. مارست الحرفية:command user/SendEmails
+go run . artisan make:command SendEmails
+go run . artisan make:command user/SendEmails
 ```
 
-### هيكل الأوامر
+### هيكل الأمر
 
-بعد إنشاء الأمر الخاص بك، تعيين قيم مناسبة لخصائص التوقيع والوصف للبناء. سيتم استدعاء طريقة
-'Handle' عند تنفيذ الأمر الخاص بك. تحتاج إلى تطبيق منطقك في هذه الطريقة.
+بعد إنشاء الأمر الخاص بك، قم بتعيين قيم مناسبة لخصائص التوقيع والوصف للهيكل. سيتم استدعاء طريقة
+`Handle` عند تنفيذ الأمر الخاص بك. تحتاج إلى تنفيذ المنطق الخاص بك في هذه الطريقة.
 
 ```go
-أوامر الحزمة
+package commands
 
-استيراد (
+import (
   "github.com/goravel/framework/contracts/console"
-  "github. om/goravel/framework/contracts/console/command"
+  "github.com/goravel/framework/contracts/console/command"
+)
 
-
-نوع SendEmails struct {
-
+type SendEmails struct {
+}
 
 // Signature اسم وتوقيع أمر وحدة التحكم.
-func (المتلقي *SendEmails) Signature() string {
+func (receiver *SendEmails) Signature() string {
   return "send:emails"
 }
 
-// وصف وصف أمر وحدة التحكم.
-func (المتلقي *SendEmails) Description() string {
-  العودة "إرسال رسائل البريد الإلكتروني"
-
-
-// توسيع نطاق أمر وحدة التحكم
-Fc (المتلقي *SendEmails) Extend(). xtend {
-  Recommand.Extend{}
+// Description وصف أمر وحدة التحكم.
+func (receiver *SendEmails) Description() string {
+  return "إرسال رسائل البريد الإلكتروني"
 }
 
-// Handle Execute the consle.
-مربع (متلقي *SendEmails) Handle(ctx console.Context) الخطأ {
+// Extend امتداد أمر وحدة التحكم.
+func (receiver *SendEmails) Extend() command.Extend {
+  return command.Extend{}
+}
+
+// Handle تنفيذ أمر وحدة التحكم.
+func (receiver *SendEmails) Handle(ctx console.Context) error {
   return nil
 }
 ```
 
-## الأمر I/O
+## إدخال/إخراج الأوامر
 
-### Retrieving Input
+### استرجاع المدخلات
 
-عند كتابة أوامر وحدة التحكم ، من المعتاد جمع مدخلات المستخدم من خلال 'حجج` أو 'خيارات`. With Goravel, it's
-extremely easy to retrieve the arguments and options that the user provides.
+عند كتابة أوامر وحدة التحكم، من المعتاد جمع مدخلات المستخدم من خلال `arguments` أو `options`. مع Goravel، من
+السهل للغاية استرجاع الوسيطات والخيارات التي يوفرها المستخدم.
 
-#### حجج
+#### الوسيطات
 
-اتبع الحجج بعد الأمر:
+اتبع الوسيطات بعد الأمر:
 
 ```shell
-تشغيل . حرفي يرسل :emails NAME EMAIL
+go run . artisan send:emails NAME EMAIL
 ```
 
-Get arguments:
+الحصول على الوسيطات:
 
 ```go
-Fc (المتلقى*SendEmails) Handle(ctx console.Context) خطأ {
-  اسم := ctx.Argument(0)
-  البريد الإلكتروني := ctx.Argument(1)
-  كل := ctx.Arguments()
+func (receiver *SendEmails) Handle(ctx console.Context) error {
+  name := ctx.Argument(0)
+  email := ctx.Argument(1)
+  all := ctx.Arguments()
 
-  العودة صفر
+  return nil
 }
 ```
 
-#### خيارات
+#### الخيارات
 
-الخيارات، مثل الحجج، شكل آخر من مدخلات المستخدم. يتم تثبيت الخيارات مسبقاً بواسطة وصلتين (--) عندما يتم توفيرهما
+الخيارات، مثل الوسيطات، هي شكل آخر من أشكال إدخال المستخدم. يتم وضع شرطتين (--) قبل الخيارات عندما يتم توفيرها
 عبر سطر الأوامر.
 
-التعريف：
+التعريف:
 
 ```go
 func (receiver *ListCommand) Extend() command.Extend {
@@ -123,98 +122,98 @@ func (receiver *ListCommand) Extend() command.Extend {
         Name:    "lang",
         Value:   "default",
         Aliases: []string{"l"},
-        Usage:   "language for the greeting",
+        Usage:   "لغة التحية",
       },
     },
   }
 }
 ```
 
-احصل على：
+الحصول:
 
 ```go
-مربع (الاستلام *Listcommand) Handle(ctx console.Context) الخطأ {
+func (receiver *ListCommand) Handle(ctx console.Context) error {
   lang := ctx.Option("lang")
 
-  العودة صفر
+  return nil
 }
 ```
 
-استخدام：
+الاستخدام:
 
 ```shell
-go run . artisan emails --lang Chinese
-go run . artisan emails -l Chinese
+go run . artisan emails --lang Arabic
+go run . artisan emails -l Arabic
 ```
 
-إشعار: عند استخدام الحجج والخيارات، حدد الخيارات قبل الحجج. مثال:
+ملاحظة: عند استخدام كل من الوسيطات والخيارات، قم بتعريف الخيارات قبل الوسيطات. مثال:
 
 ```shell
-// يمين
-قيد التشغيل. يتم تشغيل رسائل البريد الإلكتروني الحرفية --lang=Chinname
-/ / / خطأ
-. يتم تشغيل رسائل البريد الإلكتروني الحرفية --lang=الإسم الصيني
+// صحيح
+go run . artisan emails --lang=Chinese name
+// خطأ
+go run . artisan emails name --lang=Chinese name
 ```
 
-باستثناء `command.StringFlag`، يمكننا أيضا استخدام نوع آخر من `Flag` و `Option*`: `StringSliceFlag`، `BoolFlag`،
-`Float64Flag`، `Float64SliceFlag`، `IntFlag`، `IntSliceFlag`، `Int64Flag`، `Int64Flag`.
+باستثناء `command.StringFlag`، يمكننا أيضًا استخدام أنواع أخرى من `Flag` و `Option*`: `StringSliceFlag`، `BoolFlag`،
+`Float64Flag`، `Float64SliceFlag`، `IntFlag`، `IntSliceFlag`، `Int64Flag`، `Int64SliceFlag`.
 
-### الدعوة إلى الإدخال
+### طلب الإدخال
 
 #### طرح الأسئلة
 
-بالإضافة إلى الحجج والخيارات، يمكنك أيضًا توجيه المستخدم للحصول على مدخلات أثناء تنفيذ الأمر. طريقة
-`Ask` سوف تدفع المستخدم بالسؤال المعين وتعيد إجابتهم:
-
-```go
-مربع (تلقي *SendEmails) Handle(ctx console.Context) خطأ {
-  البريد الإلكتروني، الخطأ := ctx.Ask("ما هو عنوان البريد الإلكتروني الخاص بك؟")
-  
-  Reerr
-}
-```
-
-بالإضافة إلى ذلك، يمكنك تمرير الخيارات إلى طريقة "Ask" كحجة ثانية اختيارية:
-
-```go
-مربع (متلقي *SendEmails) Handle(ctx console.Context) خطأ {
-    name, err := ctx.Ask("ما هو اسمك؟", console. اختيار{
-        الافتراضي: "كريشان"،
-    })
-    
-    Reerr
-
-
-// الخيارات المتاحة
-نوع AskOption struct {
-    // الإفتراضي القيمة الافتراضية للمدخل.
-    السلسلة الإفتراضية
-    // وصف وصف الإدخال.
-    وصف المقطع
-    // سطر عدد الأسطر للمدخل. استخدم لنص سطور متعددة)
-    خطوط int
-    // حدد حد الحرف للمدخل.
-    الحدّ int
-    // متعددة يحدد ما إذا كان الإدخال سطر واحد أو سطر متعدد أسطر
-    سطر متعدد
-    // مكان حامل الإدخال.
-    السلسلة
-    // توجيه رسالة الفور. استخدام لمدخل سطر واحد)
-    سلسلة فورية
-    // التحقق من وظيفة المصادقة على الإدخال.
-    التحقق من صحة الدالة (سلسلة) الخطأ
-}
-```
-
-قد تحتاج في بعض الأحيان إلى إخفاء إدخال المستخدم، مثل عند المطالبة بكلمة مرور. يمكنك استخدام طريقة "سرية" ل
-إخفاء مدخلات المستخدم:
+بالإضافة إلى الوسيطات والخيارات، يمكنك أيضًا مطالبة المستخدم بإدخال بيانات أثناء تنفيذ الأمر. طريقة
+`Ask` ستطلب من المستخدم السؤال المعطى وتعيد استجابتهم:
 
 ```go
 func (receiver *SendEmails) Handle(ctx console.Context) error {
-    password, err := ctx.Secret("What is the password?", console.SecretOption{
+  email, err := ctx.Ask("ما هو عنوان بريدك الإلكتروني؟")
+  
+  return err
+}
+```
+
+بالإضافة إلى ذلك، يمكنك تمرير خيارات إلى طريقة `Ask` كوسيط ثانٍ اختياري:
+
+```go
+func (receiver *SendEmails) Handle(ctx console.Context) error {
+    name, err := ctx.Ask("ما هو اسمك؟", console.AskOption{
+        Default: "Krishan",
+    })
+    
+    return err
+}
+
+// الخيارات المتاحة
+type AskOption struct {
+    // Default القيمة الافتراضية للإدخال.
+    Default string
+    // Description وصف الإدخال.
+    Description string
+    // Lines عدد الأسطر للإدخال (يستخدم للنص متعدد الأسطر).
+    Lines int
+    // Limit حد الأحرف للإدخال.
+    Limit int
+    // Multiple يحدد ما إذا كان الإدخال سطرًا واحدًا أو نصًا متعدد الأسطر.
+    Multiple bool
+    // Placeholder العنصر النائب للإدخال.
+    Placeholder string
+    // Prompt رسالة المطالبة (تستخدم لإدخال سطر واحد).
+    Prompt string
+    // Validate دالة التحقق من صحة الإدخال.
+    Validate func(string) error
+}
+```
+
+في بعض الأحيان قد تحتاج إلى إخفاء إدخال المستخدم، مثل عند طلب كلمة مرور. يمكنك استخدام طريقة `Secret` لإخفاء
+إدخال المستخدم:
+
+```go
+func (receiver *SendEmails) Handle(ctx console.Context) error {
+    password, err := ctx.Secret("ما هي كلمة المرور؟", console.SecretOption{
         Validate: func (s string) error {
             if len(s) < 8 {
-                return errors.New("password length should be at least 8")
+                return errors.New("يجب أن يكون طول كلمة المرور 8 أحرف على الأقل")
             }
             return nil
         },
@@ -223,252 +222,246 @@ func (receiver *SendEmails) Handle(ctx console.Context) error {
     return err
 }
 
-// Available options
+// الخيارات المتاحة
 type SecretOption struct {
-    // Default the default value for the input.
+    // Default القيمة الافتراضية للإدخال.
     Default string
-    // Description the input description.
+    // Description وصف الإدخال.
     Description string
-    // Limit the character limit for the input.
+    // Limit حد الأحرف للإدخال.
     Limit int
-    // Placeholder the input placeholder.
+    // Placeholder العنصر النائب للإدخال.
     Placeholder string
-    // Validate the input validation function.
+    // Validate دالة التحقق من صحة الإدخال.
     Validate func(string) error
 }
 ```
 
 #### تأكيد الإجراءات
 
-إذا كنت بحاجة إلى أن تطلب من المستخدم تأكيد إجراء ما قبل المتابعة، فيمكنك استخدام طريقة "تأكيد". بشكل افتراضي، هذه الطريقة
-سوف ترجع "خطأ" ما لم يختار المستخدم الخيار الإيجابي.
+إذا كنت بحاجة إلى أن تطلب من المستخدم تأكيد إجراء قبل المتابعة، يمكنك استخدام طريقة `Confirm`. بشكل افتراضي، ستعيد هذه الطريقة `false` ما لم يختر المستخدم الخيار الإيجابي.
 
 ```go
-إذا كان الجواب ، _ := ctx.Confirm("هل ترغب في المتابعة؟")؛ !الرد {
+if answer, _ := ctx.Confirm("هل ترغب في المتابعة؟"); !answer {
     // ...
 }
 ```
 
-يمكنك أيضًا تمرير حجة ثانية إلى طريقة "تأكيد" لتخصيص القيمة الافتراضية، وتسمية الأزرار الايجابية و
-السالبة:
+يمكنك أيضًا تمرير وسيط ثانٍ إلى طريقة `Confirm` لتخصيص القيمة الافتراضية، وتسمية الأزرار الإيجابية والسلبية:
 
 ```go
-إذا كان الجواب ، _ := ctx.Confirm("هل ترغب في المتابعة؟"، وحدة التحكم. تثبيت الخيار! الرد {
- Defaul: true,
- Affirirative : "نعم",
- السالب: "لا"،
+if answer, _ := ctx.Confirm("هل ترغب في المتابعة؟", console.ConfirmOption; !answer {
+ Default : true,
+ Affirmative : "نعم",
+ Negative : "لا",
 }) {
-    // . .
+    // ...
 }
 
 // الخيارات المتاحة
-نوع ConfirmOption struct {
-    // الإيجابي تسمية الزر الايجابي.
-    سلسلة إيجابية
-    // الافتراضي القيمة الافتراضية للمدخل.
-    الافتراضي
-    // وصف وصف الإدخال.
-    وصف المقطع
-    / / تسمية سلبية للزر السالب.
-    السلسلة السلبية
+type ConfirmOption struct {
+    // Affirmative تسمية للزر الإيجابي.
+    Affirmative string
+    // Default القيمة الافتراضية للإدخال.
+    Default bool
+    // Description وصف الإدخال.
+    Description string
+    // Negative تسمية للزر السلبي.
+    Negative string
 }
 ```
 
-#### أسئلة مختارة منفردة
+#### أسئلة الاختيار الفردي
 
-إذا كنت بحاجة إلى أن تطلب من المستخدم تحديد خيار من قائمة الخيارات، فيمكنك استخدام طريقة "الاختيار". طريقة "الاختيار"
-سوف تعيد قيمة الخيار المحدد:
+إذا كنت بحاجة إلى سؤال المستخدم لاختيار خيار من قائمة الخيارات، يمكنك استخدام طريقة `Choice`. ستقوم طريقة `Choice` بإرجاع قيمة الخيار المحدد:
 
 ```go
-السؤال := "ما هي لغة البرمجة المفضلة لديك؟"
-خيارات := []console. hoice{
-    {Key: "go", Vvalue: "Go"},
-    {المفتاح: "php", Vvalue: "PHP"},
-    {Key: "python", القيمة: "Python"},
-    {المفتاح: "cpp", القيمة: "C++", محدد: true},
+question := "ما هي لغة البرمجة المفضلة لديك؟"
+options := []console.Choice{
+    {Key: "go", Value: "Go"},
+    {Key: "php", Value: "PHP"},
+    {Key: "python", Value: "Python"},
+    {Key: "cpp", Value: "C++", Selected: true},
 }
-لون الخطأ := ctx. hoice(سؤال، خيارات)
+color, err := ctx.Choice(question, options)
 ```
 
-بالإضافة إلى ذلك، يمكنك تمرير الخيارات إلى طريقة "الاختيار" كحجة ثانية اختيارية:
+بالإضافة إلى ذلك، يمكنك تمرير خيارات إلى طريقة `Choice` كوسيط ثانٍ اختياري:
 
 ```go
-السؤال := "ما هي لغة البرمجة المفضلة لديك؟"
-خيارات := []console. hoice{
-    {Key: "go", Vvalue: "Go"},
-    {المفتاح: "php", Vvalue: "PHP"},
-    {Key: "python", القيمة: "Python"},
-    {المفتاح: "cpp", القيمة: "C++", محدد: true},
+question := "ما هي لغة البرمجة المفضلة لديك؟"
+options := []console.Choice{
+    {Key: "go", Value: "Go"},
+    {Key: "php", Value: "PHP"},
+    {Key: "python", Value: "Python"},
+    {Key: "cpp", Value: "C++", Selected: true},
 }
 
-لون الخطأ := ctx. hoice(سؤال، خيارات، وحدة التحكم. hoiceOption{
-    الافتراضي: "go",
+color, err := ctx.Choice(question, options, console.ChoiceOption{
+    Default: "go",
 })
 
 // الخيارات المتاحة
-نوع ChoiceOption struct {
-    // الافتراضي القيمة الافتراضية للمدخل.
-    السلسلة الافتراضية
-    // وصف وصف الإدخال.
-    وصف السلسلة
-    // المصادقة على وظيفة المصادقة على الإدخال.
-    التحقق من صحة الدالة (السلسلة) خطأ
+type ChoiceOption struct {
+    // Default القيمة الافتراضية للإدخال.
+    Default string
+    // Description وصف الإدخال.
+    Description string
+    // Validate دالة التحقق من صحة الإدخال.
+    Validate func(string) error
 }
 ```
 
-#### أسئلة متعددة مختارة
+#### أسئلة الاختيار المتعدد
 
-إذا كنت بحاجة إلى أن تطلب من المستخدم تحديد خيارات متعددة من قائمة الخيارات، فيمكنك استخدام طريقة 'MultiSelect'. طريقة
-`MultiSelect` سوف تعيد قيم الخيارات المحددة:
+إذا كنت بحاجة إلى أن تطلب من المستخدم تحديد خيارات متعددة من قائمة الخيارات، يمكنك استخدام طريقة `MultiSelect`. ستقوم طريقة `MultiSelect` بإرجاع قيم الخيارات المحددة:
 
 ```go
-السؤال := "ما هي لغات البرمجة المفضلة لديك؟"
-خيارات := []console. hoice{
-    {Key: "go", Vvalue: "Go"},
-    {المفتاح: "php", Vvalue: "PHP"},
-    {Key: "python", القيمة: "Python"},
-    {المفتاح: "cpp", القيمة: "C++", محدد: true},
+question := "ما هي لغات البرمجة المفضلة لديك؟"
+options := []console.Choice{
+    {Key: "go", Value: "Go"},
+    {Key: "php", Value: "PHP"},
+    {Key: "python", Value: "Python"},
+    {Key: "cpp", Value: "C++", Selected: true},
 }
-الألوان, err := ctx. ultiSelect(سؤال، خيارات)
+colors, err := ctx.MultiSelect(question, options)
 ```
 
-بالإضافة إلى ذلك، يمكنك تمرير الخيارات إلى طريقة "MultiSelect" كحجة ثانية اختيارية:
+بالإضافة إلى ذلك، يمكنك تمرير خيارات إلى طريقة `MultiSelect` كوسيط ثانٍ اختياري:
 
 ```go
-السؤال := "ما هي لغات البرمجة المفضلة لديك؟"
-خيارات := []console. hoice{
-    {Key: "go", Vvalue: "Go"},
-    {المفتاح: "php", Vvalue: "PHP"},
-    {Key: "python", القيمة: "Python"},
-    {المفتاح: "cpp", القيمة: "C++", محدد: true},
+question := "ما هي لغات البرمجة المفضلة لديك؟"
+options := []console.Choice{
+    {Key: "go", Value: "Go"},
+    {Key: "php", Value: "PHP"},
+    {Key: "python", Value: "Python"},
+    {Key: "cpp", Value: "C++", Selected: true},
 }
 
-الألوان, err := ctx. ultiSelect(سؤال، خيارات، وحدة التحكم. ultiSelectOption{
-    الافتراضي: []سلسلة{"go", "php"},
+colors, err := ctx.MultiSelect(question, options, console.MultiSelectOption{
+    Default: []string{"go", "php"},
 })
 
 // الخيارات المتاحة
-نوع MultiSelectOption struct {
-    // الافتراضي القيمة الافتراضية للمدخل.
-    الافتراضي []المقطع
-    // وصف وصف المدخلات.
-    الوصف المقطع
-    // يحدد ما إذا كان من الممكن تصفية الخيارات، اكتب `/` لبدء الفلتر.
-    قابلة للتصفية
-    // تحديد عدد الخيارات التي يمكن اختيارها.
-    الحد من الإشارة
-    // التحقق من وظيفة المصادقة على الإدخال.
-    التحقق من وظيفة ([]سلة) خطأ
+type MultiSelectOption struct {
+    // Default القيمة الافتراضية للإدخال.
+    Default []string
+    // Description وصف الإدخال.
+    Description string
+    // Filterable يحدد ما إذا كان يمكن تصفية الخيارات، اكتب `/` لبدء التصفية.
+    Filterable bool
+    // Limit عدد الخيارات التي يمكن تحديدها.
+    Limit int
+    // Validate دالة التحقق من صحة الإدخال.
+    Validate func([]string) error
 }
 ```
 
 ### كتابة المخرجات
 
-قد تحتاج في بعض الأحيان إلى كتابة الإخراج إلى وحدة التحكم. يوفر Goravel عدة طرق لمساعدتك في كتابة المخرجات
-إلى وحدة التحكم. ولكل طريقة من هذه الطرق ناتجها المناسب الملون. على سبيل المثال، "خطأ" سيعرض النص
+في بعض الأحيان قد تحتاج إلى كتابة مخرجات إلى وحدة التحكم. توفر Goravel العديد من الطرق لمساعدتك في كتابة المخرجات
+إلى وحدة التحكم. كل طريقة لديها مخرجات ملونة مناسبة. على سبيل المثال، سيعرض `Error` النص
 باللون الأحمر.
 
 ```go
-تمويل (متلقي *SendEmails) Handle(ctx console.Context) خطأ {
-  ctx. حذف ("هذه رسالة تعليق")
+func (receiver *SendEmails) Handle(ctx console.Context) error {
+  ctx.Comment("هذه رسالة تعليق")
   ctx.Info("هذه رسالة معلومات")
-  ctx. rror("هذه رسالة خطأ")
+  ctx.Error("هذه رسالة خطأ")
   ctx.Line("هذه رسالة سطر")
-  ctx. arning("هذه رسالة تحذير")
-  refl
+  ctx.Warning("هذه رسالة تحذير")
+  return nil
 }
 ```
 
-يمكنك استخدام طريقة "NewLine" لكتابة سطر جديد إلى وحدة التحكم:
+يمكنك استخدام طريقة `NewLine` لكتابة سطر جديد في وحدة التحكم:
 
 ```go
 // كتابة سطر فارغ واحد
 ctx.NewLine()
 
-// كتابة سطر فارغ متعدد
+// كتابة أسطر فارغة متعددة
 ctx.NewLine(2)
 ```
 
-#### شريط التقدم
+#### أشرطة التقدم
 
-للمهام التي تستغرق وقتاً طويلاً، غالباً ما يكون من المفيد تزويد المستخدم ببعض الإشارات إلى مقدار الوقت الذي ستتخذه المهمة
-. يمكنك استخدام طريقة 'سحب التقدم' لعرض شريط التقدم.
+بالنسبة للمهام التي تستغرق وقتًا طويلاً، غالبًا ما يكون من المفيد تزويد المستخدم بمؤشر على المدة التي ستستغرقها المهمة. يمكنك استخدام طريقة `WithProgressBar` لعرض شريط التقدم.
 
 ```go
-البنود := []any{"item1", "item2", "item3"}
-_, err := ctx.WithProgressBar(items, func(البند any) خطأ {
+items := []any{"item1", "item2", "item3"}
+_, err := ctx.WithProgressBar(items, func(item any) error {
     // performTask(item)
-    Renl
+    return nil
 })
 ```
 
-قد تحتاج أحيانا إلى تحديث شريط التقدم يدويا. يمكنك استخدام طريقة "إنشاء تقدم" لتحديث شريط التقدم
-:
+في بعض الأحيان قد تحتاج إلى تحديث شريط التقدم يدويًا. يمكنك استخدام طريقة `CreateProgressBar` لتحديث شريط التقدم:
 
 ```go
-المستخدمون := []سلسلة{"user1", "user2", "user3"}
-شريط := ctx.CreateProgressBar(len(users))
+users := []string{"user1", "user2", "user3"}
+bar := ctx.CreateProgressBar(len(users))
 
-err := bar. tart()
+err := bar.Start()
 
-لـ _، المستخدم := نطاق المستخدمين {
+for _, user := range users {
     // معالجة المستخدم
-    شريط الرقص()
+    bar.Advance()
  
- // نوم لفترة لمحاكاة المعالجة 
-    مرة. النوم (time.Millisecond * 50)
+ // انتظر قليلاً لمحاكاة المعالجة 
+    time.Sleep(time.Millisecond * 50)
 }
 
 err = bar.Finish()
 ```
 
-#### دباعي
+#### المؤشر الدوار
 
-إذا كنت بحاجة إلى عرض دبوس أثناء تشغيل مهمة، فيمكنك استخدام طريقة "سبينر".
+إذا كنت بحاجة إلى عرض مؤشر دوار أثناء تشغيل مهمة، يمكنك استخدام طريقة `Spinner`.
 
 ```go
-err := ctx.Spinner("التحميل...", console. خيار pinnerOption{
-    الإجراء: وظيفة () خطأ {
-        // متى توقف الدوران
-        وقت. النوم (2 * time.Second)
-        refl
+err := ctx.Spinner("جاري التحميل...", console.SpinnerOption{
+    Action: func() error {
+        // متى يتوقف المؤشر الدوار
+        time.Sleep(2 * time.Second)
+        return nil
     },
 })
 ```
 
 ## الفئة
 
-يمكنك تعيين مجموعة من الأوامر إلى نفس الفئة، تكون مناسبة في `تشغيل'. قائمة حرفية`:
+يمكنك تعيين مجموعة من الأوامر لنفس الفئة، وهو أمر مناسب في `go run . artisan list`:
 
 ```go
-// توسيع نطاق أمر وحدة التحكم ممتد.
-func (المتلقي *ConsoleMakecommand) Extend() command.Exend {
-  Recommand.Extend{
-    categorory: "make",
+// توسيع امتداد أمر وحدة التحكم.
+func (receiver *ConsoleMakeCommand) Extend() command.Extend {
+  return command.Extend{
+    Category: "make",
   }
 }
 ```
 
-## أوامر التسجيل
+## تسجيل الأوامر
 
-يجب تسجيل جميع أوامر وحدة التحكم الخاصة بك ضمن دالة "الأوامر" في "app\console\kernel.go\`.
+يجب تسجيل جميع أوامر وحدة التحكم الخاصة بك ضمن دالة `Commands` في `app\console\kernel.go`.
 
 ```go
-مالك أوامر (kernel Kernel) الأوامر() []console.Command {
-  العودة []console.command{
+func (kernel Kernel) Commands() []console.Command {
+  return []console.Command{
     &commands.SendEmails{},
   }
 }
 ```
 
-## تنفيذ أوامر البرمجة
+## تنفيذ الأوامر برمجياً
 
-في بعض الأحيان قد ترغب في تنفيذ أمر حرفي خارج CLI، يمكنك استخدام طريقة "الاتصال" على
-'واجهات الأمور. rtisan()\` لتشغيل هذا.
+في بعض الأحيان قد ترغب في تنفيذ أمر Artisan خارج واجهة سطر الأوامر، يمكنك استخدام طريقة `Call` في
+`facades.Artisan()` للقيام بذلك.
 
 ```go
 facades.Route().Get("/", func(c *gin.Context) {
-  facades.Artisan().Call("رسائل البريد الإلكتروني")
-  facades.Artisan().Call("رسائل البريد الإلكتروني - لانغ الاسم الصيني") // / مع الحجج والخيارات
+  facades.Artisan().Call("emails")
+  facades.Artisan().Call("emails --lang Chinese name") // مع وسيطات وخيارات
 })
 ```
