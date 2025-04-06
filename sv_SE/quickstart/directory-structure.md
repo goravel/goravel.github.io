@@ -1,71 +1,71 @@
-# Directory Structure
+# Katalogens struktur
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+Standard filstruktur kan göra dig bättre starta projekt avancemang, och du kan också lägga till nya mappar fritt, men
+ändrar inte standardmapparna.
 
-## Root Directory
+## Root-katalog
 
-### `app` Directory
+### `app` katalog
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` innehåller kärnkoden för programmet. Nästan all logik i programmet kommer att vara i denna mapp.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+Katalogen `bootstrap` innehåller ramverkets startfil `app.go`.
 
-### `config` Directory
+### `config` katalog
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+Katalogen `config` innehåller alla konfigurationsfiler i programmet. Det är bäst att bläddra igenom dessa filer och
+bekanta dig med alla tillgängliga alternativ.
 
-### `database` Directory
+### `databas` katalog
 
-The `database` directory contains database migration files.
+Katalogen `database` innehåller databasmigreringsfiler.
 
-### `public` Directory
+### `public` katalog
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+`public`-katalogen innehåller några statiska resurser, såsom bilder, certifikat etc.
 
-### `resources` Directory
+### `resources` katalog
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+`resources`-katalogen innehåller din [views](../basic/views) samt dina råa, okompilerade tillgångar som
+CSS eller JavaScript.
 
-### `routes` Directory
+### `routes` Katalog
 
-The `routes` directory contains all the route definitions of the application.
+Katalogen `routes` innehåller alla ruttdefinitioner av programmet.
 
-### `storage` Directory
+### `lagring`-katalog
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+`storage`-katalogen innehåller `logs`-katalogen, och `logs`-katalogen innehåller applikationens loggfiler.
 
-### `tests` Directory
+### `tests` Katalog
 
-The `tests` directory contains your automated tests.
+`tests`-katalogen innehåller dina automatiska tester.
 
-## `app` Directory
+## `app` katalog
 
-### `console` Directory
+### `konsol` Katalog
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+`console`-katalogen innehåller alla anpassade `Artisan`-kommandon i applikationen och uppstartsfilen
+`kernel. o`, som kan registreras i den här filen [Schemaläggning](../advanced/schedule)
 
-### `http` Directory
+### `http` katalog
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+Katalogen `http` innehåller styrenheter, mellanprogram, etc., och nästan alla förfrågningar som går in i programmet via
+Web behandlas här.
 
-### `grpc` Directory
+### `grpc` Katalog
 
-The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Grpc are processed here.
+Katalogen `grpc` innehåller styrenheter, mellanprogram, etc., och nästan alla förfrågningar som går in i programmet via
+Grpc behandlas här.
 
-### `models` Directory
+### `models` Katalog
 
-The `models` directory contains all data models.
+`models`-katalogen innehåller alla datamodeller.
 
-### `providers` Directory
+### `providers` Katalog
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
-for events, or performing any other tasks.
+`providers`-katalogen innehåller alla [tjänsteleverantörer](../foundation/providers) i
+-programmet. Tjänsteleverantören vägleder programmet att svara på inkommande förfrågningar genom bindande tjänster, registrera
+för händelser, eller utföra andra uppgifter.
