@@ -1,136 +1,136 @@
-# Package Development
+# تطوير الحزمة
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
+الحزم هي الطريقة الرئيسية لإضافة وظيفة إلى غورافل. These packages may contain routes, controllers, and
 configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
 Goravel-specific packages.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+هنا مثال لبناء حزمة طرف ثالث
+: [goravel/example-package](https://github.com/goravel/example-package)
 
-## Creating A Package
+## إنشاء حزمة
 
-You can use easily create a package template using the Artisan command:
-
-```shell
-go run . artisan make:package sms
-```
-
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+يمكنك بسهولة إنشاء قالب حزمة باستخدام أمر Artisan:
 
 ```shell
-go run . artisan make:package --root=pkg sms
+إذهب للتشغيل. صنع حرفي:package sms
 ```
 
-## Service Providers
+يتم حفظ الملفات التي تم إنشاؤها بشكل افتراضي في مجلد "الحزم" الجذر ، يمكنك استخدام خيار `--Root` لتخصيص:
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+```shell
+إذهب للتشغيل. صنع:package --root=pkg sms
+```
 
-## Usage
+## مزودي الخدمات
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+[مزودي الخدمات](../foundation/providers) يعملون كجسر بين الحزمة و Goravel.
+وهي تقع عادة في جذر الطرد كملف 'service_provider.go'. وظيفتهم الرئيسية هي ربط العناصر
+في حاوية خدمة Goravel، وتوجيه Goravel في تحميل موارد الحزمة.
 
-## Resources
+## الاستخدام
+
+سجل 'ServiceProvider' في الحزمة إلى 'config/app.go::providers'، ثم قم بتصدير 'facades' إلى التطبيق.
+وللاطلاع على الخطوات التفصيلية، يرجى الرجوع إلى [goravel/example-package](https://github.com/goravel/example-package).
+
+## الموارد
 
 ### الإعدادات
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
-allow users of your package to easily override your default configuration options. To allow your configuration files to
-be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
-package name, and the second parameter is the mapping between the current package file path and the project path:
+عادةً ، ستحتاج إلى نشر ملف تكوين الحزمة الخاص بك إلى دليل 'config\` الخاص بالتطبيق. This will
+allow users of your package to easily override your default configuration options. للسماح لملفات الإعدادات الخاصة بك إلى
+أن تنشر، اتصل بطريقة 'Publishes' من طريقة 'Boot' لمزود الخدمة الخاص بك، المعلمة الأولى هي اسم الحزمة
+والمعلمة الثانية هي التعيين بين مسار ملف الحزمة الحالي ومسار المشروع:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+الفونك (المستلم *Serviceproviders ) Boot(app Foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
     "config/sms.go": app.ConfigPath("sms.go"),
   })
 }
 ```
 
-### Routes
+### المسارات
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+إذا كان هناك [routes](../basic/routing) في الحزمة الخاصة بك، يمكنك استخدام `app.MakeRoute()` لحل
+`facades.Route()`، ثم إضافة المسارات إلى المشروع:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
- route := app.MakeRoute()
+مربع (المستلم *Serviceمقدمي الخدمة) Boot(appation.Application) {
+ المسار := app.MakeRoute()
  route.Get("sms", ***)
 }
 ```
 
-### Migrations
+### الهجرات
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+إذا كان هناك [migrations](../orm/migrations) في الحزمة الخاصة بك، يمكنك نشرها بطريقة 'Publishes':
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+الفونك (المستلم *Serviceproviders ) Boot(app Foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
+    "الهجرات": app.DatabasePath("migations"),
   })
 }
 ```
 
-## Commands
+## الأوامر
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+يمكنك تسجيل الأمر 'حرفي' بطريقة 'الأوامر' ، يمكنك تشغيل الأوامر
+باستخدام [Artisan CLI](../advanced/artisanبعد تسجيلها.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
- app.Commands([]console.Command{
-  commands.NewSmsCommand(),
+مربع (المستلم *Serviceprovider) Boot(app Foundation.Application) {
+ app.commands([]console.command{
+  commands.NewSmscommand(),
  })
 }
 ```
 
-## Public Assets
+## الأصول العامة
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+قد يكون للحزمة الخاصة بك أصول مثل جافا سكريبت و CSS و الصور. لنشر هذه الأصول إلى دليل 'public\`
+الخاص بالتطبيق، استخدم طريقة 'Publishes' الخاصة بمقدم الخدمات:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+الفونك (المستلم *Serviceproviders ) Boot(app Foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
     "public": app.PublicPath("vendor"),
   })
 }
 ```
 
-## Publishing File Groups
+## نشر مجموعات الملفات
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+إذا كنت ترغب في نشر مجموعات محددة من أصول الحزمة والموارد بشكل منفصل، يمكنك استخدام العلامات عند الاتصال بطريقة
+'Publishes' من موفر خدمة الحزمة. هذا يسمح لك بإعطاء المستخدمين خيار نشر بعض الملفات
+، مثل ملفات الإعدادات ، دون الحاجة إلى نشر جميع أصول الحزمة. التوضيح، يمكنك تحديد مجموعتين
+نشر مجموعات لحزمة 'sms' ('sms-config' و 'sms-migrations') باستخدام العلامات في طريقة 'Boot' من مزود خدمة الحزمة
+.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+الفونك (المستلم *ServiceProvider) Boot(app Foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
-  }, "sms-migrations")
+    "migations": تطبيق. atabasePath("الهجرات")،
+  }, "sms-Migations")
 }
 ```
 
-## Publish Resources
+## نشر الموارد
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+في المشروع، يمكنك نشر الموارد المسجلة في حزمة باستخدام الأمر الفني 'vendor:publish' Artisan:
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+ابدأ التشغيل. بائع حرفي:published --package={You package name}
 ```
 
-The command can use the following options:
+يمكن أن يستخدم الأمر الخيارات التالية:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| اسم الخيار | Alias | اجراء                                                                                                                                                                                                                                        |
+| ---------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --حزمة     | -س    | اسم الحزمة، يمكن أن يكون حزمة بعيدة: `github.com/goravel/example-package`، ويمكن أيضا أن يكون حزمة محلية: `. الحزم/مثال-حزمة`، لاحظ أنه عند استخدام اسم الحزمة المحلية، يجب أن يبدأ مع `./`. |
+| --وسم      | -t    | مجموعة المصدر                                                                                                                                                                                                                                |
+| --القوة    | -f    | الكتابة فوق أي ملفات موجودة                                                                                                                                                                                                                  |
+| --موجود    | -س    | نشر واستبدال الملفات التي تم نشرها بالفعل                                                                                                                                                                                                    |
