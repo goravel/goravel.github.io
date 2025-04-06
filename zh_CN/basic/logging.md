@@ -1,32 +1,32 @@
-# Logging
+# 日志记录
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+为了了解应用程序的运行状态， Goravel提供了强大的日志服务，可以通过 \`facades 将
+日志消息和系统错误记录到文件或其他频道中。 注
 
 ## 配置
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+要配置各种日志通道，可以在 `config/logging.go` 中进行自定义配置。
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` 默认使用 `stack`频道记录日志，`stack`允许日志转发到多个频道。
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+`sinle` 和 `daily` 中的`打印` 配置可以控制日志输出到控制台。
 
-## Available channel drivers
+## 可用的频道驱动程序
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| 名称       | 描述       |
+| -------- | -------- |
+| `堆栈`     | 允许多个频道   |
+| `单声道`    | 单一日志文件   |
+| `日间`     | 每天一个日志文件 |
+| `custom` | 自定义驱动器   |
 
 ### 注入内容
 
 ```go
-facades.Log().WithContext(ctx)
+facades.log().Withext(ctx)
 ```
 
-## Write log messages
+## 写日志消息
 
 ```go
 facades.Log().Debug(message)
@@ -43,58 +43,58 @@ facades.Log().Panic(message)
 facades.Log().Panicf(message, args)
 ```
 
-### Write to a specific channel
+### 写入特定频道
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
-
-```go
-facades.Log().Channel("single").Info(message)
-```
-
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+有时，您可能想要将消息记录到应用程序的默认频道以外的其他频道：
 
 ```go
-facades.Log().Stack([]string{"single", "slack"}).Info(message)
+facades.Log().Channel("单声道").Info(消息)
 ```
 
-## Chain Methods
-
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+如果你想同时写入多个频道，你可以使用 `Stack` 方法：
 
 ```go
-facades.Log().User("John").Debug(message)
+facades.Log().Stack([]string{"single", "slack"}).Info(消息)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+## 链式方法
 
-## Create a custom channel
+Goravel提供了方便的链路方法，从而很容易将更有用的信息输入日志：
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+```go
+facades.Log().User("John").Debug(消息)
+```
+
+| 方法  | 行 动                               |
+| --- | --------------------------------- |
+| 代码  | 设置描述日志的代码或slug。                   |
+| 提示  | 设置快速调试提示。                         |
+| 在   | 设置日志条目相关的特征类别或域。                  |
+| 所有者 | 用于警报。                             |
+| 请求  | 提供 http.Request。  |
+| 答复  | 提供 http.Response。 |
+| 标签  | 添加多个标签，描述功能返回了一个错误。               |
+| 用户  | 设置与日志条目关联的用户。                     |
+| 与   | 将键值对添加到日志条目的上下文中。                 |
+| 走路  | 添加堆栈信息到日志条目。                      |
+
+## 创建一个自定义频道
+
+如果你想要定义一个完全自定义的通道，你可以在 "config/logging.go"
+配置文件中指定一个自定义的驱动程序类型。
+然后包含一个 `via` 选项来实现 `framework\log\Logger` 结构：
 
 ```go
 // config/logging.go
-"custom": map[string]interface{}{
+"custom": map[string]interface{}
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### 实现驱动
 
-Implement `framework\contracts\log\Logger` interface.
+实现 `framework\contracts\log\Logger` 接口。
 
 ```go
 // framework/contracts/log/Logger
@@ -106,7 +106,7 @@ type Logger interface {
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). 示例：
+文件可以保存在`app/extensions`文件夹中(可修改)。 示例：
 
 ```go
 package extensions
