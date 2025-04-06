@@ -1,54 +1,54 @@
-# Authentication
+# Authenticatie
 
-Authentication is an indispensable feature in Web Applications, the `facades.Auth()` module of Goravel provides support
-for JWT.
+Authenticatie is een onmisbare functie in webtoepassingen, de `facades.Auth()` module van Goravel biedt ondersteuning
+voor JWT.
 
 ## Configuratie
 
-You can configure `defaults` guard and multiple `guards` in the `config/auth.go` file to switch different user
-identities in the application.
+U kunt de `defaults` guard en meerdere `guards` in het `config/auth.go` bestand configureren om te wisselen tussen verschillende gebruiker
+identiteiten in de toepassing.
 
-You can configure the parameters of JWT in the `config/jwt.go` file, such as `secret`, `ttl`, `refresh_ttl`.
+U kunt de parameters van JWT configureren in het `config/jwt.go` bestand, zoals `secret`, `ttl`, `refresh_ttl`.
 
-### Configure TTL for different Guards
+### Configureer TTL voor verschillende Guards
 
-You can set TTL for each Guard separately in the `config/auth.go` file, if not set, the `jwt.ttl` configuration is used
-by default.
+Je kunt TTL voor elke Guard afzonderlijk instellen in het `config/auth.go` bestand, als de `jwt.ttl` configuratie niet is ingesteld, wordt standaard
+gebruikt.
 
 ```go
 // config/auth.go
 "guards": map[string]any{
   "user": map[string]any{
     "driver": "jwt",
-++  "ttl": 60,
+++ "ttl": 60,
   },
 },
 ```
 
-## Generate JWT Token
+## Genereer JWT Token
 
 ```shell
-go run . artisan jwt:secret
+uitvoeren . artisan jwt:secret
 ```
 
-## Generate Token Using User
+## Genereer Token met behulp van gebruiker
 
 You can generate a token by Model, there is no extra configuration if the model uses `orm.Model`, otherwise, you need to
 configure Tag on the model primary key field, for example:
 
 ```go
-type User struct {
+type gebruiker bouwt {
   ID uint `gorm:"primaryKey"`
   Name string
 }
 
-var user models.User
+var user models. ser
 user.ID = 1
 
 token, err := facades.Auth(ctx).Login(&user)
 ```
 
-## Generate Token Using ID
+## Genereer Token met behulp van ID
 
 ```go
 token, err := facades.Auth(ctx).LoginUsingID(1)
@@ -60,51 +60,51 @@ token, err := facades.Auth(ctx).LoginUsingID(1)
 payload, err := facades.Auth(ctx).Parse(token)
 ```
 
-Through `payload` you can get:
+Via `payload` kan je het volgende krijgen:
 
-1. `Guard`: Current Guard;
-2. `Key`: User flag;
-3. `ExpireAt`: Expire time;
-4. `IssuedAt`: Issued time;
+1. `Bewaker`: Huidige Bewaking;
+2. `Key`: Gebruiker vlag;
+3. `Verlopen tijd`: Verlopen tijd;
+4. `UitgegingAt`: Uitgegeven tijd;
 
-> If `err` isn't nil other than `ErrorTokenExpired`, the payload should be nil.
+> Als `err` niet anders is dan `ErrorTokenExpired`, moet de payload leeg zijn.
 
-You can judge whether the Token is expired by err:
+U kunt beoordelen of de Token verlopen is voor de err:
 
 ```go
-"errors"
+"fouten"
 "github.com/goravel/framework/auth"
 
 errors.Is(err, auth.ErrorTokenExpired)
 ```
 
-> The token can be parsed normally with or without the Bearer prefix.
+> De token kan normaal worden geparseerd met of zonder de Voorvoegsel van de Beer.
 
-## Get User
+## Gebruiker ophalen
 
-You need to generate a Token by `Parse` before getting a user, the process can be handled in HTTP middleware.
+U moet een Token door `Parse` genereren voordat u een gebruiker krijgt, het proces kan worden behandeld in HTTP middleware.
 
 ```go
 var user models.User
-err := facades.Auth(ctx).User(&user) // Must point
+err := facades.Auth(ctx).User(&user) // Moet punt
 id, err := facades.Auth(ctx).ID()
 ```
 
-## Refresh Token
+## Token vernieuwen
 
-You need to generate a Token by `Parse` before refreshing the user.
+U moet een Token door `Parse` genereren voordat u de gebruiker vernieuwt.
 
 ```go
 token, err := facades.Auth(ctx).Refresh()
 ```
 
-## Logout
+## Afmelden
 
 ```go
 err := facades.Auth(ctx).Logout()
 ```
 
-## Multiple Guards
+## Meerdere wachters
 
 ```go
 token, err := facades.Auth(ctx).Guard("admin").LoginUsingID(1)
@@ -112,4 +112,4 @@ err := facades.Auth(ctx).Guard("admin").Parse(token)
 token, err := facades.Auth(ctx).Guard("admin").User(&user)
 ```
 
-> When the default guard is not used, the `Guard` method must be called before calling the above methods.
+> Wanneer de standaard wachter niet wordt gebruikt, moet de `Guard` methode worden aangeroepen voordat de bovenstaande methoden worden aangeroepen.
