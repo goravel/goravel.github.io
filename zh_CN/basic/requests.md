@@ -1,11 +1,11 @@
-# HTTP Requests
+# HTTP 请求
 
-The `contracts/http/Request` method of Goravel can interact with the current HTTP request processed by the application,
-and get the input and files submitted together.
+Goravel 的 `contracts/http/Request` 方法可以与应用程序当前处理的 HTTP 请求进行交互，
+并获取一起提交的输入和文件。
 
-## Interacting With The Request
+## 与请求交互
 
-The `http.Context` instance is automatically injected into the controller:
+`http.Context` 实例会自动注入到控制器中：
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -15,61 +15,60 @@ facades.Route().Get("/", func(ctx http.Context) {
 })
 ```
 
-### Retrieving The Request Path
+### 获取请求路径
 
 ```go
 path := ctx.Request().Path() // /users
 ```
 
-### Retrieving The Request URL
+### 获取请求 URL
 
 ```go
 url := ctx.Request().Url() // /users?name=Goravel
 ```
 
-### Retrieving The Request HOST
+### 获取请求主机
 
 ```go
 url := ctx.Request().Host()
 ```
 
-### Retrieving The Full Request URL
+### 获取完整的请求 URL
 
 ```go
 url := ctx.Request().FullUrl() // http://**/users?name=Goravel
 ```
 
-### Retrieving The Request Method
+### 获取请求方法
 
 ```go
 method := ctx.Request().Method()
 ```
 
-### Request Headers
+### 请求头
 
 ```go
 header := ctx.Request().Header("X-Header-Name", "default")
 headers := ctx.Request().Headers()
 ```
 
-### Request IP Address
+### 请求 IP 地址
 
 ```go
 ip := ctx.Request().Ip()
 ```
 
-## Input
+## 输入
 
-### Retrieving All Input Data
+### 获取所有输入数据
 
-You may retrieve all of the incoming request's input data as `map[string]any` using the `All` method, which is a
-collection of `json`, `form` and `query`(priority from front to back).
+你可以使用 `All` 方法将所有传入请求的输入数据作为 `map[string]any` 获取，这是一个包含 `json`、`form` 和 `query`（优先级从前到后）的集合。
 
 ```go
 data := ctx.Request().All()
 ```
 
-### Retrieving a Route Value
+### 获取路由值
 
 ```go
 // /users/{id}
@@ -78,7 +77,7 @@ id := ctx.Request().RouteInt("id")
 id := ctx.Request().RouteInt64("id")
 ```
 
-### Retrieving Input From The Query String
+### 从查询字符串中获取输入
 
 ```go
 // /users?name=goravel
@@ -99,12 +98,12 @@ names := ctx.Request().QueryMap("names")
 queries := ctx.Request().Queries()
 ```
 
-> Note: Only one-dimensional Json data can be obtained, otherwise it will return empty.
+> 注意：只能获取一维 Json 数据，否则将返回空。
 
-### Retrieving An Input Value
+### 获取输入值
 
-Access all of the user input without worrying about which HTTP verb was used for the request. Retrieve order: `json`,
-`form`.
+访问所有用户输入，而不用担心请求使用的是哪种 HTTP 动词。 获取顺序：`json`、
+`form`。
 
 ```go
 name := ctx.Request().Input("name")
@@ -116,7 +115,7 @@ name := ctx.Request().InputArray("name")
 name := ctx.Request().InputMap("name")
 ```
 
-### Bind Json/Form
+### 绑定 Json/Form
 
 ```go
 type User struct {
@@ -132,9 +131,9 @@ var user map[string]any
 err := ctx.Request().Bind(&user)
 ```
 
-### Bind Query
+### 绑定查询参数
 
-Only support bind Query to struct:
+仅支持将查询参数绑定到结构体：
 
 ```go
 type Test struct {
@@ -146,69 +145,67 @@ err := ctx.Request().BindQuery(&test)
 
 ## Cookie
 
-### Retrieving a Cookie Value
+### 获取 Cookie 值
 
-Goravel provides a simple way to work with `cookie`. Use the `Cookie` method on the `Request` instance to retrieve a
-`cookie` value, will return an empty string if the `cookie` is not present. You can also define a default value in the
-second argument.
+Goravel 提供了一种简单的方法来处理 `cookie`。 使用 `Request` 实例上的 `Cookie` 方法来检索 `cookie` 值，如果 `cookie` 不存在则返回空字符串。 你也可以在第二个参数中定义一个默认值。
 
 ```go
 value := ctx.Request().Cookie("name")
 value := ctx.Request().Cookie("name", "default") 
 ```
 
-## File
+## 文件
 
-### Retrieving File
+### 检索文件
 
 ```go
 file, err := ctx.Request().File("file")
 ```
 
-### Save File
+### 保存文件
 
 ```go
 file, err := ctx.Request().File("file")
 file.Store("./public")
 ```
 
-### Get Origin Request
+### 获取原始请求
 
 ```go
 request := ctx.Request().Origin()
 ```
 
-### Attach Data
+### 附加数据
 
 ```go
 ctx.WithValue("user", "Goravel")
 ```
 
-### Get Data
+### 获取数据
 
 ```go
 user := ctx.Value("user")
 ```
 
-### Get Context
+### 获取上下文
 
 ```go
 ctx := ctx.Context()
 ```
 
-## Custom Recovery
+## 自定义恢复
 
-You can set a custom `recovery` by calling the `Recover` method in the `app/providers/route_service_provider.go` file.
+你可以通过在 `app/providers/route_service_provider.go` 文件中调用 `Recover` 方法来设置自定义的 `recovery`。
 
 ```go
 // app/providers/route_service_provider.go
 func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
-  // Add HTTP middleware
+  // 添加HTTP中间件
   facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...)
   facades.Route().Recover(func(ctx http.Context, err error) {
     ctx.Request().Abort()
-    // or
-    // ctx.Response().String(500, "Internal Server Error").Abort()
+    // 或者
+    // ctx.Response().String(500, "内部服务器错误").Abort()
   })
   ...
 }
