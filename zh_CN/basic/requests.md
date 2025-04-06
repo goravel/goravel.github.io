@@ -159,46 +159,46 @@ value := ctx.Request().Cookie("name", "default")
 
 ## File
 
-### Retrieving File
+### 正在获取文件
 
 ```go
 file, err := ctx.Request().File("file")
 ```
 
-### Save File
+### 保存文件
 
 ```go
 file, err := ctx.Request().File("file")
 file.Store("./public")
 ```
 
-### Get Origin Request
+### 获取来源请求
 
 ```go
-request := ctx.Request().Origin()
+请求 := ctx.Request().原始()
 ```
 
-### Attach Data
+### 附加数据
 
 ```go
-ctx.WithValue("user", "Goravel")
+ctx.WiValue("user", "Goravel")
 ```
 
-### Get Data
+### 获取数据
 
 ```go
-user := ctx.Value("user")
+用户 := ctx.Value("用户")
 ```
 
-### Get Context
+### 获取上下文信息
 
 ```go
 ctx := ctx.Context()
 ```
 
-## Custom Recovery
+## 自定义恢复
 
-You can set a custom `recovery` by calling the `Recover` method in the `app/providers/route_service_provider.go` file.
+您可以在 `app/providers/Rute_service_provider.go` 文件中调用 `Recovery` 方法来设置一个自定义的`recovery` 方法。
 
 ```go
 // app/providers/route_service_provider.go
