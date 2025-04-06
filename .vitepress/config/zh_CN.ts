@@ -6,39 +6,39 @@ export const config = defineConfig({
     nav: nav(),
     sidebar: [{
       text: "快速开始",
-      base: "/cn/quickstart/",
+      base: "/zh_CN/quickstart/",
       items: sidebarQuickstart()
     }, {
       text: "升级",
-      base: '/upgrade/',
+      base: "/zh_CN/upgrade/",
       items: sidebarUpgrade()
     }, {
-      text: "Foundation",
-      base: '/foundation/',
+      text: "基础",
+      base: "/zh_CN/foundation/",
       items: sidebarFoundation()
     }, {
-      text: "Basic",
-      base: '/basic/',
+      text: "基本",
+      base: "/zh_CN/basic/",
       items: sidebarBasic()
     }, {
-      text: "Advanced",
-      base: '/advanced/',
+      text: "高级",
+      base: "/zh_CN/advanced/",
       items: sidebarAdvanced()
     }, {
-      text: "Security",
-      base: '/security/',
+      text: "安全",
+      base: "/zh_CN/security/",
       items: sidebarSecurity()
     }, {
       text: "ORM",
-      base: '/orm/',
+      base: "/zh_CN/orm/",
       items: sidebarOrm()
     }, {
-      text: "Testing",
-      base: '/testing/',
+      text: "测试",
+      base: "/zh_CN/testing/",
       items: sidebarTesting()
     }, {
-      text: "Other",
-      base: '/other/',
+      text: "其他",
+      base: "/zh_CN/other/",
       items: sidebarOther()
     }],
     editLink: {
@@ -54,28 +54,28 @@ export const config = defineConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [{
     text: "快速开始",
-    link: '/quickstart/installation',
-    activeMatch: '/quickstart/'
+    link: "/zh_CN/quickstart/installation",
+    activeMatch: "/zh_CN/quickstart/"
   }, {
     text: "升级",
-    link: '/upgrade/v1.15',
-    activeMatch: '/upgrade/'
+    link: "/zh_CN/upgrade/v1.15",
+    activeMatch: "/zh_CN/upgrade/"
   }, {
-    text: 'Basic',
-    link: '/basic/routing',
-    activeMatch: '/basic/'
+    text: "基本",
+    link: "/zh_CN/basic/routing",
+    activeMatch: "/zh_CN/basic/"
   }, {
-    text: 'Advanced',
-    link: '/advanced/artisan',
-    activeMatch: '/advanced/'
+    text: "高级",
+    link: "/zh_CN/advanced/artisan",
+    activeMatch: "/zh_CN/advanced/"
   }, {
     text: 'ORM',
-    link: '/orm/quickstart',
-    activeMatch: '/orm/'
+    link: "/zh_CN/orm/quickstart",
+    activeMatch: "/zh_CN/orm/"
   }, {
-    text: 'Other',
-    link: '/other/contributing',
-    activeMatch: '/other/'
+    text: "其他",
+    link: "/zh_CN/other/contributing",
+    activeMatch: "/zh_CN/other/"
   }];
 }
 function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
