@@ -275,71 +275,71 @@ the `HashName` and `Extension` methods to get a name and an extension for the gi
 ```go
 file, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+name := file.HashName() // Генерировать уникальное, случайное имя...
+расширение, err := file.Extension() // Определение расширения файла, основанного на MIME-типе файла...
 ```
 
-## Deleting Files
+## Удаление файлов
 
-The `Delete` method accepts a single filename or an array of files to delete:
+Метод `Delete` принимает имя одного файла или массив файлов для удаления:
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+При необходимости вы можете указать диск, из которого должен быть удален файл:
 
 ```go
 err := facades.Storage().Disk("s3").Delete("file.jpg")
 ```
 
-## Directories
+## Каталоги
 
-### Get All Files Within A Directory
+### Получить все файлы внутри папки
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
-
-```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
-```
-
-### Get All Directories Within A Directory
-
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+Метод `Files` возвращает кусочек всех файлов в заданном каталоге. Если вы хотите получить список всех
+файлов в данной директории, включая все поддиректории, вы можете использовать метод `AllFiles`:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+файлов, err := facades.Storage().Disk("s3").Файлы("каталог")
+файлов, err := facades.Storage().Disk("s3").AllFiles("каталог")
 ```
 
-### Create A Directory
+### Получить все каталоги внутри A Directory
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+Метод `Directories` возвращает маску всех каталогов в заданном каталоге. Кроме того, вы можете использовать метод
+`AllDirectories` для получения списка всех каталогов в данной папке и всех ее подкаталогах:
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+каталоги, err := facades.Storage().Disk("s3").Директория("каталог")
+каталогов, err := facades.Storage().Disk("s3").AllDirectories("каталог")
 ```
 
-### Delete A Directory
+### Создать каталог
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+Метод `MakeDirectory` создаст указанный каталог, включая все необходимые подкаталоги:
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+err := facades.Storage().MakeDirectory(каталог)
 ```
 
-## Custom Filesystems
+### Удалить каталог
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+Наконец, метод `DeleteDirectory` может быть использован для удаления каталога и всех его файлов:
+
+```go
+err := facades.Storage().DeleteDirectory(каталог)
+```
+
+## Пользовательские файловые системы
+
+Вы можете установить драйвер `custom` в файле `config/filesystems.go`.
 
 ```go
 "custom": map[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
@@ -349,30 +349,30 @@ configuration item.
 ```go
 type Driver interface {
   AllDirectories(path string) ([]string, error)
-  AllFiles(path string) ([]string, error)
-  Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
+  AllFiles(path string) ([]string, ошибка)
+  Копировать (oldFile, newFile string) ошибка
+  Удалить(файл ... tring) ошибка
+  DeleteDirectory(directory string)
   Directories(path string) ([]string, error)
-  Exists(file string) bool
-  Files(path string) ([]string, error)
+  Exists(file string) бул
+  Файл (path string) ([]string, ошибка)
   Get(file string) (string, error)
   GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
-  MimeType(file string) (string, error)
-  Missing(file string) bool
-  Move(oldFile, newFile string) error
-  Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
-  Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
+  LastModified(file string) (time. ime, error)
+  MakeDirectory(строка каталога) ошибки
+  MimeType(строка файла) (строка, строка, ошибка)
+  Отсутствующая (строка файла) бул
+  Move(oldFile, newFile string) ошибка
+  Path(file string) строка
+  Put(file, file, ошибка содержимого)
+  PutFile(строка пути, файл источника) (строка, ошибка)
+  PutFileAs(строка пути), файл источника, имя строки) (строка, ошибка)
+  Размер(строка файла) (int64, ошибка)
+  Временная строка(строка файла, время времени. ime) (строка, ошибка)
   WithContext(ctx context.Context) Driver
   Url(file string) string
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> Примечание: поскольку конфигурация не была загружена при регистрации пользовательских драйверов, пожалуйста, используйте
+> `facades. onfig().Env`, чтобы получить конфигурацию в пользовательском драйвере.
