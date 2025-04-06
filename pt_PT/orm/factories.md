@@ -1,11 +1,11 @@
-# Factories
+# Fábricas
 
-When testing your application or seeding your database, it might be necessary to insert a few records into your database
-beforehand. Instead of manually inputting values for each column, Goravel allows you to define a set of default
-attributes for each of your models by creating model factories.
+Ao testar seu aplicativo ou semeando seu banco de dados, pode ser necessário inserir alguns registros no seu banco de dados
+previamente. Em vez de inserir manualmente valores para cada coluna, Goravel permite que você defina um conjunto de atributos
+padrão para cada um dos seus modelos criando fábricas de modelos.
 
-To see an example of how to write a factory, you can check out the `user_factory.go` file located in your application's
-`database/factories` directory.
+Para ver um exemplo de como escrever uma fábrica, você pode conferir o arquivo `user_factory.go` localizado no diretório
+da sua aplicação `database/factories`.
 
 ```go
 package factories
@@ -21,103 +21,103 @@ func (f *UserFactory) Definition() map[string]any {
 }
 ```
 
-As you can see, in their most basic form, factories are structs that have a `Definition` method. The method returns the
-default set of attribute values that should be used when creating a model with the factory. To generate a range of
-random data, you can rely on [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
+Como você pode ver, em sua forma mais básica, as fábricas são construções que têm um método `Definição`. O método retorna o conjunto padrão
+de valores de atributo que devem ser usados ao criar um modelo com a fábrica. Para gerar um intervalo de
+dados aleatórios, você pode depender de [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
 
-## Generating Factories
+## Gerando Fábricas
 
-To create a factory, run the `make:factory` Artisan command:
+Para criar uma fábrica, execute o comando `make:factory` do Artisan:
 
 ```
-go run . artisan make:factory PostFactory
+vá rodar . artesãos fez:fábrica PostFábrica
 ```
 
-The new factory `struct` will be placed in your `database/factories` directory.
+O novo diretório `struct` de fábrica será colocado no seu diretório `database/factories`.
 
-### Model & Factory Discovery Conventions
+### Convenções de Model & Fábrica de Descobertas
 
-After defining a factory, you can use the `Factory()` method in the model to bind the factory to the model:
+Depois de definir uma fábrica, você pode usar o método `Factory()` no modelo para vincular a fábrica ao modelo:
 
 ```go
 package models
 
 import (
   "github.com/goravel/framework/contracts/database/factory"
-  "github.com/goravel/framework/database/orm"
+  "github. om/goravel/framework/database/orm"
 
   "goravel/database/factories"
-)
+) O tipo
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+User struct {
+  orm. odel
+  Texto
+  Texto do Avatar
+  orm. oftDeleta
 }
 
-func (u *User) Factory() factory.Factory {
-  return &factories.UserFactory{}
+função(u *Usuário) Factory() fatory.Factory {
+  retornou &factories.UserFactory{}
 }
 ```
 
-## Creating Models Using Factories
+## Criando Modelos Usando Fábricas
 
-### Instantiating Models
+### Instanciando Modelos
 
-We can use the `Make` method to create models without persisting them in the database:
+Nós podemos usar o método `Make` para criar modelos sem persistir no banco de dados:
 
 ```go
-var user models.User
+var models.User
 err := facades.Orm().Factory().Make(&user)
 ```
 
-You may create a collection of many models using the `Count` method:
+Você pode criar uma coleção de muitos modelos usando o método `Count`:
 
 ```go
-var users []models.User
+var usuários []models.User
 err := facades.Orm().Factory().Count(2).Make(&users)
 ```
 
-If you would like to override some of the default values of your models, you may pass `map[string]any` to the `Make`
-method. Only the specified attributes will be replaced while the rest of the attributes remain set to their default
-values as specified by the factory:
+Se você gostaria de substituir alguns dos valores padrão de seus modelos, você pode passar `map[string]any` para o método `Make`
+. Apenas os atributos especificados serão substituídos enquanto o resto dos atributos permanecem definidos para seus valores
+padrão conforme especificado pela fábrica:
 
 ```go
-var user models.User
+var modeles de usuário.Usuário
 err := facades.Orm().Factory().Make(&user, map[string]any{
     "Avatar": "avatar",
 })
 ```
 
-### Persisting Models
+### Modelos persistentes
 
-The `Create` method creates and saves model instances to the database using Orm's `Save` method.
+O método `Create` cria e salva instâncias model no banco de dados usando o método `Save` do Orm.
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Create(&user)
+var modeles de usuário.Usuário
+err := facades.Orm().Factory().Criar(&user)
 
-var users []models.User
+var usuários []models.User
 err := facades.Orm().Factory().Count(2).Create(&users)
 ```
 
-You may override the factory's default model attributes by passing `map[string]any` of the attributes to the `Create`
-method:
+Você pode sobrescrever os atributos de modelo padrão da fábrica passando `map[string]qualquer` dos atributos para o método `Create`
+:
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Create(&user, map[string]any{
+var models.User
+err := facades.Orm().Factory().Criar(&user, map[string]any{
     "Avatar": "avatar",
 })
 ```
 
-### Ignore Model Event
+### Ignorar Evento Modelo
 
-There may be [model event](../orm/quickstart#events) defined on the model, you can ignore those events with the
-`CreateQuietly` method:
+Pode haver [evento modelo](../orm/quickstart#events) definido no modelo, você pode ignorar os eventos com o método
+`CreateQuietly`:
 
 ```go
-var user models.User
+var modeles de usuário.Usuário
 err := facades.Orm().Factory().CreateQuietly(&user)
 ```
