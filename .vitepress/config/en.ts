@@ -91,7 +91,7 @@ function nav(): DefaultTheme.NavItem[] {
         },
         {
             text: 'ORM',
-            link: '/orm/quickstart',
+            link: '/orm/getting-started',
             activeMatch: '/orm/'
         },
         {
@@ -283,8 +283,8 @@ function sidebarSecurity(): DefaultTheme.SidebarItem[] {
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
     return [
         {
-            text: 'Quickstart',
-            link: 'quickstart'
+            text: 'Getting Started',
+            link: 'getting-started'
         },
         {
             text: 'Relationships',
@@ -308,8 +308,8 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
     return [
         {
-            text: 'Quickstart',
-            link: 'quickstart'
+            text: 'Getting Started',
+            link: 'getting-started'
         },
         {
             text: 'HTTP Tests',

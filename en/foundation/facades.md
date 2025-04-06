@@ -47,12 +47,12 @@ func (database *ServiceProvider) Boot() {
 | Hash        | [Hashing](../security/hashing)               |
 | Log         | [Log](../basic/logging)                      |
 | Mail        | [Mail](../advanced/mail)                     |
-| Orm         | [ORM](../orm/quickstart)                     |
+| Orm         | [ORM](../orm/getting-started)                     |
 | Queue       | [Queue](../advanced/queues)                  |
 | RateLimiter | [RateLimiter](../basic/routing)              |
 | Route       | [Route](../basic/routing)                    |
 | Seeder      | [Seeder](../orm/seeding)                     |
 | Schedule    | [Schedule](../advanced/schedule)             |
 | Storage     | [Storage](../advanced/schedule)              |
-| Testing     | [Testing](../testing/quickstart)             |
+| Testing     | [Testing](../testing/getting-started)             |
 | Validation  | [Validation](../advanced/schedule)           |

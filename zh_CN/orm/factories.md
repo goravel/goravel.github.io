@@ -106,7 +106,7 @@ err := facades.Orm().Factory().Create(&user, map[string]any{
 
 ### 忽略模型事件
 
-模型上可能定义了[模型事件](../orm/quickstart#events)，你可以使用`CreateQuietly`方法忽略这些事件：
+模型上可能定义了[模型事件](../orm/getting-started#events)，你可以使用`CreateQuietly`方法忽略这些事件：
 
 ```go
 var user models.User

@@ -121,8 +121,8 @@ in the upcoming release.
 ## Local Environment
 
 | Software                                            | Action                             |
-| --------------------------------------------------- | ---------------------------------- |
-| Golang v1.20                                        | The minimum version                |
+|-----------------------------------------------------| ---------------------------------- |
+| Golang v1.22                                        | The minimum version                |
 | [vektra/mockery](https://github.com/vektra/mockery) | Provider mock files for unit tests |
 
 ## Goravel Repository

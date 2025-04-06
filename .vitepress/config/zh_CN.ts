@@ -70,7 +70,7 @@ function nav(): DefaultTheme.NavItem[] {
     activeMatch: "/zh_CN/advanced/"
   }, {
     text: 'ORM',
-    link: "/zh_CN/orm/quickstart",
+    link: "/zh_CN/orm/getting-started",
     activeMatch: "/zh_CN/orm/"
   }, {
     text: "其他",
@@ -209,8 +209,8 @@ function sidebarSecurity(): DefaultTheme.SidebarItem[] {
 }
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
-    text: "快速入门",
-    link: 'quickstart'
+    text: '开始使用',
+    link: 'getting-started'
   }, {
     text: "关系",
     link: 'relationships'
@@ -227,8 +227,8 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
-    text: "快速入门",
-    link: 'quickstart'
+    text: '开始使用',
+    link: 'getting-started'
   }, {
     text: "HTTP 测试",
     link: 'http'

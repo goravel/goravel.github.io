@@ -16,8 +16,8 @@ To configure databases, navigate to `config/database.go`. This is where you can 
 choose a `default` connection. The configuration in this file relies on the project's environment variables and
 showcases various database configurations that Goravel supports.
 
-### DSN
-
+### DSN[
+]()
 You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
 
 ```go
@@ -69,8 +69,8 @@ database prefix, character set, and other options specified in the main mysql ar
 You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
 can greatly improve concurrency performance:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
+| Key                    | Action                    |
+| ---------------------- | ------------------------- |
 | pool.max_idle_conns    | Max idle connections      |
 | pool.max_open_conns    | Max open connections      |
 | pool.conn_max_idletime | Connections max idle time |
@@ -218,13 +218,13 @@ func (r *User) Connection() string {
 
 ## facades.Orm() available functions
 
-| Name        | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
+| Name        | Action                                                                  |
+| ----------- | ----------------------------------------------------------------------- |
+| Connection  | [Specify Database Connection](#specify-database-connection)             |
 | DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| Query       | [Get Database Instance](#get-database-instance)                         |
+| Transaction | [Transaction](#transaction)                                             |
+| WithContext | [Inject Context](#inject-context)                                       |
 
 ## facades.Orm().Query() available functions
 
@@ -683,7 +683,7 @@ facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[stri
 
 > When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
 > use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
+`Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
 > time.
 
 #### Update or create

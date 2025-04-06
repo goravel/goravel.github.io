@@ -70,7 +70,7 @@ function nav(): DefaultTheme.NavItem[] {
     activeMatch: '/advanced/'
   }, {
     text: 'ORM',
-    link: '/orm/quickstart',
+    link: '/orm/getting-started',
     activeMatch: '/orm/'
   }, {
     text: 'Other',
