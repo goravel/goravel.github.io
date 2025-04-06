@@ -1,19 +1,19 @@
-# Facades
+# Фасады
 
 `facades` provide a "static" interface for the core functionality of the application and provide a more flexible, more
 elegant, and easy-to-test syntax.
 
-All `facades` of Goravel are defined under `github.com/goravel/framework/facades`. We can easily use `facades`:
+Все фасады Горавеля определены в разделе `github.com/goravel/framework/facades`. Мы можем легко использовать `facades`:
 
 ```go
-import "github.com/goravel/framework/facades"
+импортировать "github.com/goravel/framework/facades"
 
 facades.Route().Run(facades.Config().GetString("app.host"))
 ```
 
-## How Facades Work
+## Как работают фасады
 
-`facades` are generally instantiated in the `Register` or `Boot` stage of each module `ServerProvider`.
+`facades` обычно копируется на этапе `Register` или `Boot` каждого модуля `ServerProvider`.
 
 ```go
 func (config *ServiceProvider) Register() {
@@ -22,7 +22,7 @@ func (config *ServiceProvider) Register() {
 }
 ```
 
-If the `facades` use other `facades`, then instantiate them in the `Boot` phase of the `ServerProvider`:
+Если `facades` используйте другой `facades`, затем создайте экземпляр в фазе `Boot` `ServerProvider`:
 
 ```go
 func (database *ServiceProvider) Boot() {
@@ -31,28 +31,28 @@ func (database *ServiceProvider) Boot() {
 }
 ```
 
-## Facade Class Reference
+## Артикул класса фасада
 
-| Facade      | Document                                     |
-| ----------- | -------------------------------------------- |
-| App         | [Container](../foundation/container)         |
-| Artisan     | [Command Console](../advanced/artisan)       |
-| Auth        | [Authentication](../security/authentication) |
-| Кэш         | [Cache](../advanced/cache)                   |
-| Config      | [Configuration](../quickstart/configuration) |
-| Crypt       | [Encryption](../security/encryption)         |
-| Event       | [Event](../advanced/events)                  |
-| Gate        | [Authorization](../security/authorization)   |
-| Grpc        | [Grpc](../basic/grpc)                        |
-| Hash        | [Hashing](../security/hashing)               |
-| Log         | [Log](../basic/logging)                      |
-| Mail        | [Mail](../advanced/mail)                     |
-| Orm         | [ORM](../orm/quickstart)                     |
-| Queue       | [Queue](../advanced/queues)                  |
-| RateLimiter | [RateLimiter](../basic/routing)              |
-| Route       | [Route](../basic/routing)                    |
-| Seeder      | [Seeder](../orm/seeding)                     |
-| Schedule    | [Schedule](../advanced/schedule)             |
-| Storage     | [Storage](../advanced/schedule)              |
-| Testing     | [Testing](../testing/quickstart)             |
-| Validation  | [Validation](../advanced/schedule)           |
+| Фасад                 | Документ                                     |
+| --------------------- | -------------------------------------------- |
+| Приложение            | [Container](../foundation/container)         |
+| Artisan               | [консоль команд](../advanced/artisan)        |
+| Авто                  | [Authentication](../security/authentication) |
+| Кэш                   | [Cache](../advanced/cache)                   |
+| Настройка             | [Configuration](../quickstart/configuration) |
+| Склеп                 | [Encryption](../security/encryption)         |
+| Событие               | [Event](../advanced/events)                  |
+| Ворота                | [Authorization](../security/authorization)   |
+| Грпк                  | [Grpc](../basic/grpc)                        |
+| Хэш                   | [Hashing](../security/hashing)               |
+| Журнал                | [Log](../basic/logging)                      |
+| Почта                 | [Mail](../advanced/mail)                     |
+| Орм                   | [ORM](../orm/quickstart)                     |
+| Очередь               | [Queue](../advanced/queues)                  |
+| Ограничитель Рейтинга | [RateLimiter](../basic/routing)              |
+| Маршрут               | [Route](../basic/routing)                    |
+| Сидер                 | [Seeder](../orm/seeding)                     |
+| График                | [Schedule](../advanced/schedule)             |
+| Хранилище             | [Storage](../advanced/schedule)              |
+| Тестирование          | [Testing](../testing/quickstart)             |
+| Проверка              | [Validation](../advanced/schedule)           |
