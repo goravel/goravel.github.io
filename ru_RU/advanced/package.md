@@ -1,42 +1,42 @@
-# Package Development
+# Разработка пакета
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
+Пакеты являются основным способом добавления функций в Goravel. Эти пакеты могут содержать маршруты, контроллеры и
+конфигурации, специально разработанные для улучшения приложения Goravel. This guide focuses on developing
 Goravel-specific packages.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+Вот пример сборки пакета
+третьей стороны: [goravel/example-package](https://github.com/goravel/example-package)
 
-## Creating A Package
+## Создание пакета
 
-You can use easily create a package template using the Artisan command:
-
-```shell
-go run . artisan make:package sms
-```
-
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+Вы можете легко использовать для создания шаблона пакета, используя команду Artisan:
 
 ```shell
-go run . artisan make:package --root=pkg sms
+запускать . artisan make:package sms
 ```
 
-## Service Providers
+Созданные файлы сохраняются по умолчанию в корневой папке `packages`, вы можете использовать параметр `--root` для настройки:
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
+```shell
+запустить . artisan make:package --root=pkg смс
+```
+
+## Поставщики услуг
+
+[Поставщики услуг](../foundation/providers) выступают в качестве моста между вашим пакетом и Goravel.
+Обычно они расположены в корне пакета как файл `service_provider.go`. Their main function is to bind
 items into Goravel's service container and guide Goravel in loading package resources.
 
-## Usage
+## Использование
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+Зарегистрируйте `ServiceProvider` в пакете в `config/app.go::providers`, затем экспортируйте `facades` в приложение.
+Подробные шаги смотрите в [goravel/example-package](https://github.com/goravel/example-package).
 
-## Resources
+## Ресурсы
 
 ### Конфигурация
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
+Обычно вам нужно будет опубликовать конфигурационный файл вашего пакета в директорию `config` приложения. This will
 allow users of your package to easily override your default configuration options. To allow your configuration files to
 be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
 package name, and the second parameter is the mapping between the current package file path and the project path:
@@ -49,10 +49,10 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-### Routes
+### Маршруты
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+Если в вашем пакете есть [routes](../basic/routing), вы можете использовать `app.MakeRoute()`, чтобы разрешить
+`facades.Route()`, а затем добавить маршруты к проекту:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -61,9 +61,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-### Migrations
+### Миграции
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+Если в вашем пакете есть [migrations](../orm/migrations), вы можете опубликовать их методом `Publishes`:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -73,10 +73,10 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Commands
+## Команды
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+Вы можете зарегистрировать команду `Artisan` методом `Commands`, вы можете запустить команды
+используя [Artisan CLI](../advanced/artisan) после их регистрации.
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -86,10 +86,10 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Public Assets
+## Публичные активы
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+Ваш пакет может иметь такие активы, как JavaScript, CSS и изображения. Чтобы опубликовать эти активы в директорию `public`
+приложения, используйте метод `Publishes` поставщика услуг:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -99,38 +99,38 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Publishing File Groups
+## Публикация групп файлов
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+Если вы хотите опубликовать конкретные группы пакетов и ресурсов отдельно, можно использовать теги при вызове метода
+`Publishes` из поставщика услуг пакета. Это позволяет пользователям публиковать определённые
+файлы, такие как конфигурационные файлы, без публикации всех активов пакета. Для иллюстрации, вы можете определить две
+опубликовать группы для пакета `sms` (`sms-config` и `sms-migrations`), используя тэги в методе `Boot` поставщика услуг пакета
+.
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
-  }, "sms-migrations")
+    "migrations": app. atabasePath("миграции"),
+  }, "sms-миграции")
 }
 ```
 
-## Publish Resources
+## Опубликовать ресурсы
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+В проекте Вы можете опубликовать зарегистрированные ресурсы в пакете, используя команду `vendor:publish` Artisan:
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+выполнить . artisan vendor:publish --package={You package name}
 ```
 
-The command can use the following options:
+Команда может использовать следующие параметры:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| Название опции | Alias | Действие                                                                                                                                                                                                                                                                                         |
+| -------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| --пакет        | -п    | Имя пакета может быть удаленным пакетом: `github.com/goravel/example-package`, а также может быть локальным пакетом: `. packages/example-package`, обратите внимание, что при использовании имени локального пакета он должен начинаться с `./`. |
+| --тег          | -т    | Группа ресурсов                                                                                                                                                                                                                                                                                  |
+| --сила         | -f    | Перезаписать существующие файлы                                                                                                                                                                                                                                                                  |
+| --существующий | -е    | Опубликовать и перезаписать только те файлы, которые уже были опубликованы                                                                                                                                                                                                                       |
