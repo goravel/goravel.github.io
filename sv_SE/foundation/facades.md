@@ -1,19 +1,19 @@
-# Facades
+# Fasader
 
-`facades` provide a "static" interface for the core functionality of the application and provide a more flexible, more
-elegant, and easy-to-test syntax.
+`facades` ger ett "statiskt" gränssnitt för kärnfunktionaliteten i programmet och ger en mer flexibel, mer
+elegant och lätt att testa syntax.
 
-All `facades` of Goravel are defined under `github.com/goravel/framework/facades`. We can easily use `facades`:
+Alla `facades` i Goravel definieras under `github.com/goravel/frameing/facades`. Vi kan enkelt använda `fasader`:
 
 ```go
-import "github.com/goravel/framework/facades"
+import "github.com/goravel/frameing/facades"
 
 facades.Route().Run(facades.Config().GetString("app.host"))
 ```
 
-## How Facades Work
+## Hur fasader fungerar
 
-`facades` are generally instantiated in the `Register` or `Boot` stage of each module `ServerProvider`.
+`facades` är i allmänhet instantiserade i `Register` eller `Boot` -stadiet i varje modul `ServerProvider`.
 
 ```go
 func (config *ServiceProvider) Register() {
@@ -22,37 +22,37 @@ func (config *ServiceProvider) Register() {
 }
 ```
 
-If the `facades` use other `facades`, then instantiate them in the `Boot` phase of the `ServerProvider`:
+Om `facades` använder andra `facades`, så instantisera dem i `Boot`-fasen av `ServerProvider`:
 
 ```go
-func (database *ServiceProvider) Boot() {
+func (databas *Serviceleverantör) Boot() {
   app := Application{}
-  facades.DB = app.Init()
+  fasades.DB = app.Init()
 }
 ```
 
-## Facade Class Reference
+## Fasad klass referens
 
-| Facade      | Document                                     |
-| ----------- | -------------------------------------------- |
-| App         | [Container](../foundation/container)         |
-| Artisan     | [Command Console](../advanced/artisan)       |
-| Auth        | [Authentication](../security/authentication) |
-| Cache       | [Cache](../advanced/cache)                   |
-| Config      | [Configuration](../quickstart/configuration) |
-| Crypt       | [Encryption](../security/encryption)         |
-| Event       | [Event](../advanced/events)                  |
-| Gate        | [Authorization](../security/authorization)   |
-| Grpc        | [Grpc](../basic/grpc)                        |
-| Hash        | [Hashing](../security/hashing)               |
-| Log         | [Log](../basic/logging)                      |
-| Mail        | [Mail](../advanced/mail)                     |
-| Orm         | [ORM](../orm/quickstart)                     |
-| Queue       | [Queue](../advanced/queues)                  |
-| RateLimiter | [RateLimiter](../basic/routing)              |
-| Route       | [Route](../basic/routing)                    |
-| Seeder      | [Seeder](../orm/seeding)                     |
-| Schedule    | [Schedule](../advanced/schedule)             |
-| Storage     | [Storage](../advanced/schedule)              |
-| Testing     | [Testing](../testing/quickstart)             |
-| Validation  | [Validation](../advanced/schedule)           |
+| Fasad         | Dokument                                     |
+| ------------- | -------------------------------------------- |
+| App           | [Container](../foundation/container)         |
+| Artisan       | [Kommandotolken](../advanced/artisan)        |
+| Auth          | [Authentication](../security/authentication) |
+| Cache         | [Cache](../advanced/cache)                   |
+| Konfiguration | [Configuration](../quickstart/configuration) |
+| Krypta        | [Encryption](../security/encryption)         |
+| Händelse      | [Event](../advanced/events)                  |
+| Grind         | [Authorization](../security/authorization)   |
+| Grpc          | [Grpc](../basic/grpc)                        |
+| Hash          | [Hashing](../security/hashing)               |
+| Logg          | [Log](../basic/logging)                      |
+| E-post        | [Mail](../advanced/mail)                     |
+| Orm           | [ORM](../orm/quickstart)                     |
+| Kö            | [Queue](../advanced/queues)                  |
+| HateLimiter   | [RateLimiter](../basic/routing)              |
+| Rutt          | [Route](../basic/routing)                    |
+| Seeder        | [Seeder](../orm/seeding)                     |
+| Schema        | [Schedule](../advanced/schedule)             |
+| Lagring       | [Storage](../advanced/schedule)              |
+| Testar        | [Testing](../testing/quickstart)             |
+| Validering    | [Validation](../advanced/schedule)           |
