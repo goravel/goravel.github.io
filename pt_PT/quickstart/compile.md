@@ -1,92 +1,92 @@
-# Compile
+# Compilar
 
-## Compile command
+## Compilar comando
 
-The Goravel project can be compiled with the following command:
+O projeto Goravel pode ser compilado com o seguinte comando:
 
 ```
-// Select the system to compile
+// Selecione o sistema para compilar
 go run . artisan build
 
-// Specify the system to compile
+// Especifique o sistema para compilar
 go run . artisan build --os=linux
 go run . artisan build -o=linux
 
-// Static compilation
-go run . artisan build --static
+// Compilação estática
+go run . build --static
 go run . artisan build -s
 
-// Specify the output file name
-go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+// Especifique o nome do arquivo de saída
+go run . build --name=goravel
+vai executar . artisan build -n=goravel
 ```
 
-## Manual compilation
+## Compilação manual
 
-### Regular compilation
+### Compilação regular
 
 ```shell
-go build .
+ir construir.
 ```
 
-#### Deploy Server
+#### Servidor de implantação
 
-The Following files and folders need to be uploaded to the server during deployment:
+Os seguintes arquivos e pastas precisam ser enviados para o servidor durante a implantação:
 
 ```
-./main // Compile the resulting binary file
+./main // Compilar o arquivo binário resultante
 .env
 ./database
 ./public
 ./storage
-./resources
+./recursos
 ```
 
-### Static compilation
+### Compilação estática
 
 The package by regular compilation also needs to rely on the support of the deployment environment, the statically
 compiled files can be freely put to run on the specified platform without environment configuration.
 
 ```shell
-go build --ldflags "-extldflags -static" -o main .
+vá construir --ldflags "-extldflags -static" -o principal.
 ```
 
-### Cross compile
+### Compilação cruzada
 
 Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
 situation.
 
 ```shell
-// Compile Linux environment
+// Compilar o ambiente Linux
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
-// Compile Windows environment
+// Compilar ambiente Windows
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
 // Compile Mac environment
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
 ```
 
-## Docker
+## Atracador
 
 Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
 be `0.0.0.0` at this time.
 
 ```shell
-docker build .
+build do docker.
 ```
 
-### Docker Compose
+### Composição do Docker
 
-You can also quickly start the service with the following command:
+Você também pode iniciar o serviço rapidamente com o seguinte comando:
 
 ```shell
-docker-compose build
-docker-compose up
+docker-compõe a build
+docker-compose
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Nota: Se você precisa de acesso externo, você precisa alterar o APP_HOST para 0.0.0
 
-## Reduce package size
+## Reduzir tamanho do pacote
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Comentar o `ServiceProvider` não utilizado em `config/app.go::providers` reduzirá efetivamente o volume da embalagem.
