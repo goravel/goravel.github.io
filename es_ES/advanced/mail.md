@@ -1,12 +1,12 @@
-# Mail
+# Correo
 
-Goravel can use `facades.Mail()` to easily send mail locally.
+Goravel puede usar `facades.Mail()` para enviar correo localmente fácilmente.
 
 ## Configuración
 
-Before sending an email, you need to configure the `config/mail.go` configuration file.
+Antes de enviar un correo electrónico, necesita configurar el archivo de configuración `config/mail.go`.
 
-## Send Mail
+## Enviar Correo
 
 ```go
 import "github.com/goravel/framework/mail"
@@ -16,11 +16,11 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
   Attach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
-  Subject("Subject").
+  A("
   Send()
 ```
 
-## Send Mail By Queue
+## Enviar correo por cola
 
 ```go
 import "github.com/goravel/framework/mail"
@@ -29,12 +29,12 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
   Attach([]string{"file.png"}).
-  Content(mail.Html("<h1>Hello Goravel</h1>")).
-  Subject("Subject").
+  Content(mail.Html("<h1>Hola Goravel</h1>")).
+  A("
   Queue()
 ```
 
-You can also customize the queue:
+También puedes personalizar la cola:
 
 ```go
 import "github.com/goravel/framework/mail"
@@ -48,38 +48,38 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Queue(mail.Queue().Connection("redis").Queue("mail"))
 ```
 
-## Setting Sender
+## Configurar remitente
 
-Framework uses `MAIL_FROM_ ADDRESS` and `MAIL_FROM_ NAME` in the `config/mail.go` configuration file as global senders.
-You can also customize the sender, but you need to note that the mail address needs to be consistent with the configured
+Framework utiliza `MAIL_FROM_ ADDRESS` y `MAIL_FROM_ NAME` en el archivo de configuración `config/mail.go` como remitentes globales.
+También puede personalizar el remitente, pero necesita tener en cuenta que la dirección de correo debe ser consistente con la
 STMP:
 
 ```go
 import "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
-  From(mail.Address(testFromAddress, testFromName)).
+  De(mail.Address(testFromAddress, testFromName)).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
   Attach([]string{"file.png"}).
-  Content(mail.Html("<h1>Hello Goravel</h1>")).
-  Subject("Subject").
-  Queue(mail.Queue().Connection("redis").Queue("mail"))
+  Content(mail.Html("<h1>Hola Goravel</h1>")).
+  Tema("Tema").
+  Cola (mail.Queue().Connection("redis").Queue("correo"))
 ```
 
-## Using Mailable
+## Usando Mailable
 
-The parameters of the email can be set in a `Mailable` struct. These structs are stored in the `app/mails` directory.
-You can quickly create a `Mailable` using the `make:mail` Artisan command:
+Los parámetros del correo electrónico se pueden establecer en una estructura `Mailable`. Estas estructuras se almacenan en el directorio `app/mails`.
+Puedes crear rápidamente un 'Mailable' usando el comando 'make:mail' Artisan:
 
 ```bash
-go run . artisan make:mail OrderShipped
+go run . artisan make:mail Pedido Enviado
 ```
 
-The generated `OrderShipped` struct is as follows:
+La estructura generada `OrderShipped` es la siguiente:
 
 ```go
-import "github.com/goravel/framework/contracts/mail"
+importar "github. om/goravel/framework/contracts/mail"
 
 type OrderShipped struct {
 }
@@ -89,32 +89,32 @@ func NewOrderShipped() *OrderShipped {
 }
 
 func (m *OrderShipped) Attachments() []string {
- return []string{"../logo.png"}
+ return []string{". /logo.png"}
 }
 
 func (m *OrderShipped) Content() *mail.Content {
- return &mail.Content{Html: "<h1>Hello Goravel</h1>"}
+ return &mail. ontent{Html: "<h1>Hola Goravel</h1>"}
 }
 
-func (m *OrderShipped) Envelope() *mail.Envelope {
+func (m *OrderShipped) Envelope() *mail. nvelope {
  return &mail.Envelope{
-  Bcc:     []string{"bcc@goravel.dev"},
-  Cc:      []string{"cc@goravel.dev"},
-  From:    mail.From{Address: "from@goravel.dev", Name: "from"},
-  Subject: "Goravel",
-  To:      []string{"to@goravel.dev"},
+  Bcc: []string{"bcc@goravel.dev"},
+  Cc: []string{"cc@goravel. ev"},
+  De: correo.From{Dirección: "from@goravel. ev", Nombre: "desde"},
+  Asunto: "Goravel",
+  A: []string{"to@goravel. ev"},
  }
 }
 
 func (m *OrderShipped) Queue() *mail.Queue {
-  return &mail.Queue{
-    Connection: "redis",
-    Queue:      "mail",
+  return &mail. ue{
+    Conexión: "redis",
+    Colas: "correo",
   }
 }
 ```
 
-Then you can use the `Mailalbe` in the `Send` and `Queue` methods:
+Luego puedes usar el `Mailalbe` en los métodos `Send` y `Queue`:
 
 ```go
 err := facades.Mail().Send(mails.NewOrderShipped())
