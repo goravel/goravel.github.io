@@ -1,10 +1,10 @@
 # Grpc
 
-Grpc module can be operated by `facades.Grpc()`.
+Grpc module kan worden beheerd door `facades.Grpc()`.
 
-## Controllers
+## Regelsystemen
 
-Controllers can be defined in the `/app/grpc/controllers` directory.
+Controllers kunnen worden gedefinieerd in de `/app/grpc/controllers` map.
 
 ```go
 // app/grpc/controllers
@@ -14,27 +14,27 @@ import (
   "context"
   "net/http"
 
-  "github.com/goravel/grpc/protos"
+  "github. om/goravel/grpc/protos"
 )
 
-type UserController struct {
+type UserController {
 }
 
 func NewUserController() *UserController {
   return &UserController{}
 }
 
-func (r *UserController) Show(ctx context.Context, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
+func (r *UserController) Show(ctx context. ontext, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
   return &protos.UserResponse{
     Code: http.StatusOK,
   }, nil
 }
 ```
 
-## Define routing
+## Definieer routering
 
-All routing files can be defined in the `/routes` directory, such as `/routes/grpc.go`. Then bind routes in the
-`app/providers/grpc_service_provider.go` file.
+Alle routing bestanden kunnen worden gedefinieerd in de `/routes` map, zoals `/routes/grpc.go`. Koppel dan routes in de
+`app/providers/grpc_service_provider.go` bestand.
 
 ```go
 // routes/grpc.go
@@ -52,19 +52,19 @@ func Grpc() {
 }
 ```
 
-### Register routing
+### Registreer routering
 
-Register routing in the `app/providers/grpc_service_provider.go` file after routing was defined.
+Registreer routing in het `app/providers/grpc_service_provider.go` bestand nadat routing is gedefinieerd.
 
 ```go
-// app/providers/grpc_service_provider.go
+// app/providers/grpc_service_provider. o
 package providers
 
 import (
   "goravel/routes"
 )
 
-type GrpcServiceProvider struct {
+type GrpcServiceProvider bouwt {
 }
 
 func (router *GrpcServiceProvider) Register() {
@@ -72,16 +72,16 @@ func (router *GrpcServiceProvider) Register() {
 }
 
 func (router *GrpcServiceProvider) Boot() {
-  routes.Grpc()
+  routes. rpc()
 }
 ```
 
-## Start Grpc Server
+## Start Grpc server
 
-Start Grpc in the `main.go` file.
+Start Grpc in het `main.go` bestand.
 
 ```go
-go func() {
+ga func() {
   if err := facades.Grpc().Run(facades.Config().GetString("grpc.host")); err != nil {
     facades.Log().Errorf("Grpc run error: %v", err)
   }
@@ -90,11 +90,11 @@ go func() {
 
 ## Interceptor
 
-The interceptor can be defined in the `app/grpc/inteceptors` folder, and then registered to `app/grpc/kernel.go`.
+De interceptor kan worden gedefinieerd in de `app/grpc/inteceptors` map, en vervolgens geregistreerd worden in `app/grpc/kernel.go`.
 
 **Server Interceptor**
 
-You can set the server interceptors in the `app/grpc/kernel.go:UnaryServerInterceptors` method. For example:
+Je kunt de server interceptors instellen in de `app/grpc/kernel.go:UnaryServerInterceptors` methode. Bijvoorbeeld:
 
 ```go
 // app/grpc/kernel.go
@@ -113,8 +113,8 @@ func (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
 
 **Client Interceptor**
 
-You can set the client interceptor in the `app/grpc/kernel.go:UnaryClientInterceptorGroups` method, the method can group
-interceptors. For example, `interceptors.Client` is included under the `trace` group.
+Je kunt de client interceptor instellen met de `app/grpc/kernel.go:UnaryClientInterceptorGroups` methode, de methode kan
+interceptors groeperen. Bijvoorbeeld 'interceptors.Client' is opgenomen in de 'traceer' groep.
 
 ```go
 // app/grpc/kernel.go
@@ -124,17 +124,17 @@ import (
   "google.golang.org/grpc"
 )
 
-func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClientInterceptor {
-  return map[string][]grpc.UnaryClientInterceptor{
-    "trace": {
+func (kernel *Kernel) UnaryClientInterceptorGroups() kaart[string][]grpc. naryClientInterceptor {
+  geeft kaart[string][]grpc.UnaryClientInterceptor{
+    "traceer": {
       interceptors.Client,
     },
   }
 }
 ```
 
-the `trace` group can be applied to the configuration item `grpc.clients.interceptors`, in this way, the Client will be
-applied to all interceptors under the group. For example:
+de `traceer` groep kan worden toegepast op het configuratie item `grpc.clients. nterceptors`, op deze manier, zal de client
+worden toegepast op alle interceptors onder de groep. Bijvoorbeeld:
 
 ```go
 package config
@@ -145,19 +145,19 @@ import (
 
 func init() {
   config := facades.Config
-  config.Add("grpc", map[string]interface{}{
+  config. dd("grpc", kaart[string]interface{}{
     // Grpc Configuration
     //
-    // Configure your server host
-    "host": config.Env("GRPC_HOST", ""),
+    // Configureer je server host
+    "host": config. nv("GRPC_HOST", ""),
 
-    // Configure your client host and interceptors.
-    // Interceptors can be the group name of UnaryClientInterceptorGroups in app/grpc/kernel.go.
+    // Configureer uw clienthost en onderscheppers.
+    // Interceptors kan de groepsnaam van UnaryClientInterceptorGroups zijn in app/grpc/kernel.go.
     "clients": map[string]any{
       "user": map[string]any{
-        "host":         config.Env("GRPC_USER_HOST", ""),
-        "port":         config.Env("GRPC_USER_PORT", ""),
-        "interceptors": []string{"trace"},
+        "host": config. nv("GRPC_USER_HOST", ""),
+        "port": config. nv("GRPC_USER_PORT", ""),
+        "interceptors": []string{"traceer"},
       },
     },
   })
