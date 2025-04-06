@@ -1,6 +1,7 @@
 # 入门
 
-Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行交互。 目前，它官方支持以下四种数据库：
+Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行交互。 目前，它官方支持以下四种数据库： Currently, it provides official
+support for the following four databases:
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
@@ -11,7 +12,8 @@ Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行�
 
 # 配置
 
-要配置数据库，请导航到 `config/database.go`。 在这里，您可以自定义所有数据库连接并选择一个 `default` 连接。 此文件中的配置依赖于项目的环境变量，并展示了Goravel支持的各种数据库配置。
+To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
+choose a `default` connection. 要配置数据库，请导航到 `config/database.go`。 在这里，您可以自定义所有数据库连接并选择一个 `default` 连接。 此文件中的配置依赖于项目的环境变量，并展示了Goravel支持的各种数据库配置。
 
 ### DSN
 
@@ -27,7 +29,7 @@ Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行�
 
 ### 读写连接
 
-有时你可能希望对`SELECT`语句使用一个数据库连接，而对`INSERT`、`UPDATE`和`DELETE`语句使用另一个连接。 Goravel使这变得轻而易举。
+有时你可能希望对`SELECT`语句使用一个数据库连接，而对`INSERT`、`UPDATE`和`DELETE`语句使用另一个连接。 Goravel使这变得轻而易举。 Goravel makes this a breeze.
 
 让我们看一个例子来了解如何配置读/写连接：
 
@@ -55,7 +57,10 @@ import "github.com/goravel/framework/contracts/database"
 }
 ```
 
-我们已经使用两个新的键更新了配置数组 - `read` 和 `write`。 `read` 连接将使用 `192.168.1.1` 作为主机，而 `write` 连接将使用 `192.168.1.2`。 两个连接将共享相同的数据库前缀、字符集和在主 mysql 数组中指定的其他选项。 如果在 `host` 配置数组中有多个值，系统将为每个请求随机选择一个数据库主机。
+We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
+`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
+database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
+`host` configuration array, a database host will be selected randomly for each request.
 
 ### 连接池
 
@@ -69,9 +74,9 @@ import "github.com/goravel/framework/contracts/database"
 | pool.conn_max_idletime | 连接最大空闲时间 |
 | pool.conn_max_lifetime | 连接最大生存时间 |
 
-### 模式
+### Schema
 
-Postgres 和 SQL Server 支持配置 Schema。 Postgres 可以直接在配置文件中设置 Schema，而 SQL Server 需要通过模型中的 `TableName` 方法指定 Schema。
+Postgres and SQL Server support configuring Schema. Postgres 和 SQL Server 支持配置 Schema。 Postgres 可以直接在配置文件中设置 Schema，而 SQL Server 需要通过模型中的 `TableName` 方法指定 Schema。
 
 #### Postgres
 
@@ -110,7 +115,9 @@ go run . artisan db:table users
 
 ## 模型定义
 
-要创建自定义模型，请参考框架中包含的模型文件 `app/models/user.go`。 `app/models/user.go` 中的 `struct` 包含两个嵌入式框架：`orm.Model` 和 `orm.SoftDeletes`。 这些框架分别定义了 `id`、`created_at`、`updated_at` 和 `deleted_at` 属性。 通过 `orm.SoftDeletes`，您可以为模型启用软删除功能。
+To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. 要创建自定义模型，请参考框架中包含的模型文件 `app/models/user.go`。 `app/models/user.go` 中的 `struct` 包含两个嵌入式框架：`orm.Model` 和 `orm.SoftDeletes`。 这些框架分别定义了 `id`、`created_at`、`updated_at` 和 `deleted_at` 属性。 通过 `orm.SoftDeletes`，您可以为模型启用软删除功能。 These frameworks define
+`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
+deletion for the model.
 
 ### 模型约定
 
@@ -182,7 +189,9 @@ func (r *User) TableName() string {
 
 ### 数据库连接
 
-默认情况下，所有模型都使用为应用程序配置的默认数据库连接。 如果你希望在与特定模型交互时指定一个不同的连接，你需要在模型上定义一个 `Connection` 方法。
+默认情况下，所有模型都使用为应用程序配置的默认数据库连接。 如果你希望在与特定模型交互时指定一个不同的连接，你需要在模型上定义一个 `Connection` 方法。 If you wish to specify a
+distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
+model.
 
 ```go
 package models
@@ -221,7 +230,7 @@ func (r *User) Connection() string {
 | Commit          | [提交事务](#transaction)                                 |
 | Count           | [计数](#count)                                         |
 | Create          | [创建](#create)                                        |
-| Create          | [游标](#cursor)                                        |
+| Cursor          | [游标](#cursor)                                        |
 | Delete          | [删除](#delete)                                        |
 | Distinct        | [过滤重复](#filter-repetition)                           |
 | Driver          | [获取驱动程序](#get-driver)                                |
@@ -287,7 +296,8 @@ facades.Orm().WithContext(ctx)
 
 ### 指定数据库连接
 
-如果在 `config/database.go` 中定义了多个数据库连接，你可以通过 `facades.Orm()` 的 `Connection` 函数来使用它们。 传递给 `Connection` 的连接名应该是 `config/database.go` 中配置的连接之一：
+如果在 `config/database.go` 中定义了多个数据库连接，你可以通过 `facades.Orm()` 的 `Connection` 函数来使用它们。 传递给 `Connection` 的连接名应该是 `config/database.go` 中配置的连接之一： The connection name passed to `Connection` should be one of the connections configured in
+`config/database.go`:
 
 ```go
 facades.Orm().Connection("mysql")
@@ -330,7 +340,7 @@ facades.Orm().Connection("mysql").Query()
 facades.Orm().WithContext(ctx).Query()
 ```
 
-### 查询
+### Select
 
 #### 查询单行
 
@@ -340,7 +350,7 @@ facades.Orm().Query().First(&user)
 // SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
 ```
 
-有时您可能希望在未找到结果时执行其他操作。 `FirstOr` 方法将返回单个模型实例，如果未找到结果，则执行给定的闭包。 您可以在闭包中设置模型的值：
+Sometimes you may wish to perform some other action if no results are found. 有时您可能希望在未找到结果时执行其他操作。 `FirstOr` 方法将返回单个模型实例，如果未找到结果，则执行给定的闭包。 您可以在闭包中设置模型的值： You can set values to model in closure:
 
 ```go
 facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
@@ -389,9 +399,10 @@ facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
 
 #### 检索或创建模型
 
-`FirstOrCreate`方法使用指定的列/值对搜索数据库记录。 如果在数据库中找不到该模型，它会通过合并第一个参数和可选的第二个参数的属性创建一个新记录。
+The `FirstOrCreate` method searches for a database record using the specified column/value pairs. `FirstOrCreate`方法使用指定的列/值对搜索数据库记录。 如果在数据库中找不到该模型，它会通过合并第一个参数和可选的第二个参数的属性创建一个新记录。
 
-同样，`FirstOrNew`方法也尝试根据给定的属性在数据库中定位记录。 但是，如果没有找到，则返回模型的新实例。 请注意，这个新模型尚未保存到数据库中，您需要手动调用 `Save` 方法来执行保存操作。
+Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
+if it is not found, a new instance of the model is returned. 同样，`FirstOrNew`方法也尝试根据给定的属性在数据库中定位记录。 但是，如果没有找到，则返回模型的新实例。 请注意，这个新模型尚未保存到数据库中，您需要手动调用 `Save` 方法来执行保存操作。
 
 ```go
 var user models.User
@@ -413,7 +424,8 @@ facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "to
 
 #### 未找到错误
 
-当请求的项目未找到时，`First` 方法不会生成错误。 要生成错误，请使用 `FirstOrFail` 方法：
+当请求的项目未找到时，`First` 方法不会生成错误。 要生成错误，请使用 `FirstOrFail` 方法： To generate an error, use the
+`FirstOrFail` method:
 
 ```go
 var user models.User
@@ -421,7 +433,7 @@ err := facades.Orm().Query().FirstOrFail(&user)
 // err == orm.ErrRecordNotFound
 ```
 
-### 位置
+### Where
 
 ```go
 facades.Orm().Query().Where("name", "tom")
@@ -439,7 +451,7 @@ facades.Orm().Query().OrWhereNull("name")
 facades.Orm().Query().OrWhereIn("name", []any{"a"})
 ```
 
-### 限制
+### Limit
 
 ```go
 var users []models.User
@@ -447,7 +459,7 @@ facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
 ```
 
-### 偏移
+### Offset
 
 ```go
 var users []models.User
@@ -455,7 +467,7 @@ facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### 排序
+### Order
 
 ```go
 var users []models.User
@@ -475,7 +487,7 @@ facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### 分页
+### Paginate
 
 ```go
 var users []models.User
@@ -532,7 +544,7 @@ facades.Orm().Query().ToRawSql().Get(models.User{})
 以下方法可以在 `ToSql` 和 `ToRawSql` 之后调用：`Count`、`Create`、`Delete`、`Find`、`First`、`Get`、`Pluck`、
 `Save`、`Sum`、`Update`。
 
-### 计数
+### Count
 
 ```go
 var count int64
@@ -565,7 +577,7 @@ facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Gr
 // SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
 ```
 
-### 连接
+### Join
 
 ```go
 type Result struct {
@@ -578,7 +590,7 @@ facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").J
 // SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
 ```
 
-### 创建
+### Create
 
 ```go
 user := models.User{Name: "tom", Age: 18}
@@ -617,7 +629,8 @@ err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
 
 ### 游标
 
-当迭代处理数万条 Eloquent 模型记录时，可以显著减少应用程序的内存消耗。 注意，`Cursor` 方法可以与 `With` 同时使用，请在 `for` 逻辑中使用[延迟预加载](./relationships#lazy-eager-loading)来加载关联关系。
+当迭代处理数万条 Eloquent 模型记录时，可以显著减少应用程序的内存消耗。 注意，`Cursor` 方法可以与 `With` 同时使用，请在 `for` 逻辑中使用[延迟预加载](./relationships#lazy-eager-loading)来加载关联关系。 Note, the `Cursor` method can be used with `With` at the same time, please
+use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
@@ -658,7 +671,8 @@ facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[stri
 // UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
 ```
 
-> 使用 `struct` 更新时，Orm 只会更新非零字段。 你可能想使用 `map` 来更新属性或使用 `Select` 来指定要更新的字段。 注意，`struct` 只能是 `Model`，如果你想使用非 `Model` 进行更新，你需要使用 `.Table("users")`，但是此时 `updated_at` 字段无法自动更新。
+> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
+> use `Select` to specify fields to update. 使用 `struct` 更新时，Orm 只会更新非零字段。 你可能想使用 `map` 来更新属性或使用 `Select` 来指定要更新的字段。 注意，`struct` 只能是 `Model`，如果你想使用非 `Model` 进行更新，你需要使用 `.Table("users")`，但是此时 `updated_at` 字段无法自动更新。
 
 #### 更新或创建
 
@@ -671,7 +685,7 @@ facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.Us
 // UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### 删除
+### Delete
 
 通过模型删除，该方法返回受语句影响的行数：
 
@@ -730,7 +744,8 @@ facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&mod
 facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
 ```
 
-如果在没有任何条件的情况下执行批量删除，ORM 不会执行该操作并返回错误。 因此，你必须添加一些条件，或使用原生 SQL。
+如果在没有任何条件的情况下执行批量删除，ORM 不会执行该操作并返回错误。 因此，你必须添加一些条件，或使用原生 SQL。 So you have to add some
+conditions, or use native SQL.
 
 ### 查询软删除数据
 
@@ -779,14 +794,14 @@ res, err := facades.Orm().Query().Exec("DROP TABLE users")
 num := res.RowsAffected
 ```
 
-### 存在性检查
+### Exists
 
 ```go
 var exists bool
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
 ```
 
-### 恢复
+### Restore
 
 ```go
 facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
@@ -794,7 +809,7 @@ facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
 // UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
 ```
 
-### 事务
+### Transaction
 
 你可以通过 `Transaction` 函数执行事务。
 
@@ -827,7 +842,7 @@ if err := tx.Create(&user); err != nil {
 }
 ```
 
-### 作用域
+### Scopes
 
 允许你指定常用的查询，可以在调用方法时引用。
 
@@ -861,21 +876,21 @@ facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
 
 查询构建器还包括一些函数，帮助你在执行 `select` 语句时实现 "悲观锁定"。
 
-要使用 "共享锁" 执行语句，你可以调用 `SharedLock` 方法。 共享锁防止所选择的行在你的事务提交之前被修改：
+To execute a statement with a "shared lock", you may call the `SharedLock` method. 要使用 "共享锁" 执行语句，你可以调用 `SharedLock` 方法。 共享锁防止所选择的行在你的事务提交之前被修改：
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
 ```
 
-或者，你可以使用 `LockForUpdate` 方法。 "用于更新" 锁防止所选择的记录在被修改或通过另一个共享锁被选择：
+Alternatively, you may use the `LockForUpdate` method. 或者，你可以使用 `LockForUpdate` 方法。 "用于更新" 锁防止所选择的记录在被修改或通过另一个共享锁被选择：
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
 ```
 
-### 总和
+### Sum
 
 ```go
 var sum int
@@ -889,9 +904,15 @@ fmt.Println(sum)
 
 Orm 模型分派几个事件，允许你在模型生命周期的以下时刻插入： `Retrieved`, `Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`, `Restored`, `Restoring`。
 
-当从数据库中检索到现有模型时，将触发 `Retrieved` 事件。 当新的模型第一次被保存时，`Creating` 和 `Created` 事件将会被触发。 当现有模型被修改并且调用 `Save` 方法时，将触发 `Updating` / `Updated` 事件。 当模型被创建或更新时，无论模型的属性是否被更改，`Saving` / `Saved` 事件将会被触发。 以 `-ing` 结尾的事件名称在对模型的任何更改被持久化之前被分派，而以 `-ed` 结尾的事件在更改被持久化之后被分派。
+The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
+the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
+an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
+is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
+dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
+changes to the model are persisted.
 
-要开始监听模型事件，在你的模型上定义一个 `DispatchesEvents` 方法。 此属性将模型生命周期的各个点映射到你自己的事件类。
+要开始监听模型事件，在你的模型上定义一个 `DispatchesEvents` 方法。 此属性将模型生命周期的各个点映射到你自己的事件类。 This property maps various points
+of the model's lifecycle to your own event classes.
 
 ```go
 import (
@@ -949,20 +970,24 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> 注意：只注册你需要的事件。 在通过 Orm 进行批量操作时，不会触发模型事件。
+> Note: Just register the events you need. 注意：只注册你需要的事件。 在通过 Orm 进行批量操作时，不会触发模型事件。
 
 ### 观察者
 
 #### 定义观察者
 
-如果你正在监听某个模型上的多个事件，你可以使用观察者将所有的监听器组合到一个类中。 观察者类的方法名称反映了你希望监听的 Eloquent 事件。 这些方法中的每一个都将所影响的模型作为唯一的参数。 `make:observer` Artisan 命令是创建新观察者类最简单的方法：
+If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
+class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
+receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
+new observer class:
 
 ```shell
 go run . artisan make:observer UserObserver
 go run . artisan make:observer user/UserObserver
 ```
 
-此命令将在你的 `app/observers` 目录中放置新的观察者。 如果该目录不存在，Artisan 将为你创建它。 你的新观察者看起来像以下内容：
+此命令将在你的 `app/observers` 目录中放置新的观察者。 如果该目录不存在，Artisan 将为你创建它。 你的新观察者看起来像以下内容： If this directory does not exist, Artisan
+will create it for you. Your fresh observer will look like the following:
 
 ```go
 package observers
@@ -994,7 +1019,7 @@ func (u *UserObserver) ForceDeleted(event orm.Event) error {
 
 模板观察者仅包含一些事件，你可以根据需要添加其他事件。
 
-要注册一个观察者，你需要在你希望观察的模型上调用 `Observe` 方法。 你可以在应用程序的 `app/providers/event_service_provider.go::Boot` 服务提供者的 `Boot` 方法中注册观察者：
+To register an observer, you need to call the `Observe` method on the model you wish to observe. 要注册一个观察者，你需要在你希望观察的模型上调用 `Observe` 方法。 你可以在应用程序的 `app/providers/event_service_provider.go::Boot` 服务提供者的 `Boot` 方法中注册观察者：
 
 ```go
 package providers
@@ -1034,13 +1059,14 @@ func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener 
 | GetAttribute | 获取修改后的值，如果未修改，则获取原始值，如果没有原始值，则返回 nil     |
 | GetOriginal  | 获取原始值，如果没有原始值，则返回 nil                    |
 | IsDirty      | 确定字段是否被修改                                |
-| IsClean      | 已更改的相反                                   |
+| IsClean      | IsDirty reverse                          |
 | Query        | 获取一个新的查询，可以与事务一起使用                       |
 | SetAttribute | 为字段设置新值                                  |
 
 ### 静音事件
 
-你可能偶尔需要暂时 "静音" 一个模型触发的所有事件。 你可以使用 `WithoutEvents` 方法来实现：
+你可能偶尔需要暂时 "静音" 一个模型触发的所有事件。 你可以使用 `WithoutEvents` 方法来实现： You may achieve this using the
+`WithoutEvents` method:
 
 ```go
 var user models.User
@@ -1049,7 +1075,8 @@ facades.Orm().Query().WithoutEvents().Find(&user, 1)
 
 #### 在不触发事件的情况下保存单个模型
 
-有时你可能希望在不触发任何事件的情况下 "保存" 给定的模型。 你可以通过 `SaveQuietly` 方法来实现：
+有时你可能希望在不触发任何事件的情况下 "保存" 给定的模型。 你可以通过 `SaveQuietly` 方法来实现： You may accomplish this with the
+`SaveQuietly` method:
 
 ```go
 var user models.User
