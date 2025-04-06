@@ -460,7 +460,7 @@ Below is a list of all available validation rules and their function:
 | `ip`                   | Check value is IP(v4 or v6) string                                                                                                                                               |
 | `ipv4`                 | Check value is IPv4 string                                                                                                                                                                          |
 | `ipv6`                 | Check value is IPv6 string                                                                                                                                                                          |
-| `regex`                | Check if the value can pass the regular verification                                                                                                                                                |
+| `regex`                | Check if the value can pass the regex verification                                                                                                                                                  |
 
 ### Points For Using Rules
 
