@@ -1,22 +1,22 @@
-# Controllers
+# Контроллеры
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+Вместо определения логики обработки запросов в виде закрытия в отдельном маршруте, контроллер может быть использован
+для интеграции. Контроллеры хранятся в папке `app/http/controllers`.
 
-## Define Controllers
+## Определить контроллеры
 
-The following is an example of a basic controller:
+Ниже приведен пример базового контроллера:
 
 ```go
-package controllers
+пакетные контроллеры
 
-import (
+импорт (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
 type UserController struct {
-  // Dependent services
+  // Зависимые службы
 }
 
 func NewUserController() *UserController {
@@ -25,17 +25,17 @@ func NewUserController() *UserController {
   }
 }
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+func (r *UserController) Show(ctx http. ontext) http.Response {
   return ctx.Response().Success().Json(http.Json{
     "Hello": "Goravel",
   })
 }
 ```
 
-The route define:
+Определить маршрут:
 
 ```go
-package routes
+маршруты пакетов
 
 import (
   "github.com/goravel/framework/facades"
@@ -44,33 +44,33 @@ import (
 )
 
 func Api() {
-  userController := controllers.NewUserController()
+  userController := controllers. ewUserController()
   facades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### Создать контроллер
 
 ```shell
 go run . artisan make:controller UserController
 go run . artisan make:controller user/UserController
 ```
 
-## Resource Controllers
+## Контроллеры ресурсов
 
 If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
 actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+`Movie` model. Вероятно, пользователи могут создавать, читать, обновлять или удалять эти ресурсы.
 
 Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+routes to a controller with a single line of code. Чтобы начать, мы можем использовать опцию `make:controller` Artisan команды
+`--resource`, чтобы быстро создать контроллер для выполнения этих действий:
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+Перейти . artisan make:controller --resource PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
+Эта команда создаст контроллер по адресу `app/http/controllers/photo_controller.go`. The controller will contain a
 method for each of the available resource operations. Next, you may register a resource route that points to the
 controller:
 
@@ -78,10 +78,10 @@ controller:
 facades.Route().Resource("photos", controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| Глагол   | URI               | Действие   |
+| -------- | ----------------- | ---------- |
+| ПОЛУЧИТЬ | `/photos`         | Индекс     |
+| ПОСТ     | `/photos`         | Магазин    |
+| ПОЛУЧИТЬ | `/photos/{photo}` | Показать   |
+| Пут/ПАТЧ | `/photos/{photo}` | Обновить   |
+| УДАЛИТЬ  | `/photos/{photo}` | Уничтожить |
