@@ -1,37 +1,37 @@
-# Privacy Policy
+# 隐私政策
 
-## Collection of Information
+## 收集资料
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+当您访问 goravel.dev时，我们收集有关您的某些信息。 这种资料可包括：
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- 关于您访问我们网站的页面的信息
+- 您自愿提供的任何其他信息
 
-## Use of Information
+## 信息的使用
 
-We may use the collected information for various purposes, including:
+我们可以将收集到的资料用于各种目的，其中包括：
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- 在我们的网站上个性化您的体验
+- 改进我们的网站和服务
+- 联系您有关您的询问或请求
 
-## Data Security
+## 数据安全
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
-your information from unauthorized access, disclosure, alteration, or destruction.
+我们认真对待你的数据的安全性。 我们采取适当的技术和组织措施，保护您的
+信息不受未经授权的访问、披露、更改或破坏。
 
-## Third-Party Disclosure
+## 第三方披露
 
 We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+you. 这些第三方根据合同有义务对你的资料保密和保密。
 
-## Cookies
+## Cookie
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+我们的网站可以使用 cookie 来增强您的浏览体验。 Cookie 是存储在您设备上的小文件，
+启用了某些功能和功能。 您可以选择在您的浏览器设置中禁用 cookie，但请注意
+我们网站的某些部分可能无法正常工作。
 
-## Changes to this Policy
+## 更改此策略
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+我们可以不时更新此隐私政策。 任何更改都将张贴在本页上，修订后的策略
+将在发布后立即生效。
