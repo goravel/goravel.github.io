@@ -1,26 +1,26 @@
-# Views
+# المشاهدات
 
-Of course, it's not practical to return entire HTML document strings directly from your routes and controllers.
-Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller /
-application logic from your presentation logic and are stored in the `resources/views` directory.
+بالطبع، ليس من العملي إرجاع سلاسل مستندات HTML بأكملها مباشرة من مسارك وأجهزة التحكم الخاصة بك.
+لحسن الحظ، توفر المشاهدات طريقة مناسبة لوضع كل HTML لدينا في ملفات منفصلة. مشاهدة وحدة التحكم الخاصة بك /
+منطق التطبيق عن منطق العرض التقديمي الخاص بك ويتم تخزينها في دليل 'resources/views'.
 
-## Creating & Rendering Views
+## إنشاء وتقديم وجهات النظر
 
-When using the Goravel default template `html/template`, you can create views by adding a file with the `.tmpl`
-extension in the application `resources/views` directory.
+عند استخدام قالب Goravel الافتراضي `html/template`، يمكنك إنشاء مشاهدات بإضافة ملف مع امتداد `.tmpl`
+في دليل التطبيق \`resources/views'.
 
 ```
-// resources/views/welcome.tmpl
+//resources/views/welcome.tmpl
 {{ define "welcome.tmpl" }}
 <html>
   <body>
-  <h1>Hello, {{ .name }}</h1>
+  <h1>مرحبا، {{ .name }}</h1>
   </body>
 </html>
 {{ end }}
 ```
 
-After creating the view, you can use the `View` method to return the view from a route or controller in the application:
+بعد إنشاء طريقة العرض، يمكنك استخدام طريقة "عرض" لإعادة العرض من مسار أو وحدة تحكم في التطبيق:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -30,27 +30,27 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Nested View Directories
+### أدلة العرض المتداخلة
 
-Views may also be nested within subdirectories of the `resources/views` directory. For example, if your view is stored
-at `resources/views/admin/profile.tmpl`, you can return it from one of your application's routes or controllers, note
-that the view needs to be defined as `define "admin/profile.tmpl"` as shown below:
+قد تكون الآراء متداخلة أيضا داخل الدلائل الفرعية لدليل 'resources/views'. على سبيل المثال، إذا تم تخزين نظرك
+في `resources/views/admin/profile. mpl'، يمكنك إرجاعها من أحد مسارات التطبيق الخاص بك أو التحكم فيه، الملاحظة
+أن العرض يحتاج إلى تعريفه على أنه 'تعريف 'admin/profil'. اضاف"` كما هو مبين أدناه:
 
 ```go
 // resources/views/admin/profile.tmpl
-{{ define "admin/profile.tmpl" }}
-<h1>Welcome to the Admin Panel</h1>
+{{ تعريف "admin/profile.tmpl" }}
+<h1>مرحبا بكم في فريق المدير</h1>
 {{ end }}
 
-ctx.Response().View().Make("admin/profile.tmpl", map[string]any{
+ctx. esponse().View().Make("admin/profile.tmpl", map[string]any{
   "name": "Goravel",
 })
 ```
 
-### Creating The First Available View
+### إنشاء أول عرض متاح
 
-Using the `First` method, you can use the first view that exists in a given array of views. This may be useful if your
-application or package allows views to be customized or overwritten:
+باستخدام طريقة "أولاً"، يمكنك استخدام طريقة العرض الأولى الموجودة في مجموعة معينة من وجهات النظر. قد يكون هذا مفيدًا إذا كان التطبيق
+الخاص بك أو الحزمة يسمح بالمشاهدات لتخصيصها أو الكتابة فوقها:
 
 ```go
 ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[string]any{
@@ -58,21 +58,21 @@ ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[str
 })
 ```
 
-### Determining If A View Exists
+### تحديد إذا كان العرض موجود
 
-If you need to determine if a view exists, you can use the `facades.View()` method:
+إذا كنت بحاجة إلى تحديد ما إذا كانت طريقة العرض موجودة، يمكنك استخدام طريقة 'facades.View()\`:
 
 ```go
-if facades.View().Exist("welcome.tmpl") {
+إذا واجهت.View().Exist("welcome.tmpl") {
   // ...
 }
 ```
 
-## Passing Data To Views
+## نقل البيانات إلى المشاهدات
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view.
-Please note, the format of the passed data needs to change according to the template driver used, in the following
-example, using the default `html/template` driver:
+وكما رأيتم في الأمثلة السابقة، يمكنك نقل مجموعة من البيانات إلى المشاهدات لجعل تلك البيانات متاحة للعرض.
+يرجى ملاحظة أن تنسيق البيانات التي تم تمريرها يحتاج إلى تغيير وفقا لمشغل القالب المستخدم، في المثال التالي
+باستخدام مشغل `html/template` الافتراضي:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -82,28 +82,28 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Sharing Data With All Views
+### مشاركة البيانات مع جميع المشاهدات
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the
-`Share` method in `facades.View()`. Typically, you should place calls to the `Share` method within a service provider's
-`Boot` method. You are free to add them to the `app/providers/app_service_provider.go` class or generate a separate
-service provider to house them:
+قد تحتاج أحياناً إلى مشاركة البيانات مع جميع المشاهدات التي يقدمها تطبيقك. يمكنك القيام بذلك باستخدام طريقة
+`Share` في `facades.View()`. عادةً ، يجب عليك إجراء مكالمات إلى طريقة "المشاركة" ضمن طريقة مزود الخدمة
+A\`Boot'. أنت حر في إضافتهم إلى فئة "app/providers/app_service_provider.go" أو إنشاء موفر خدمات
+منفصل لإيوائهم:
 
 ```go
-package providers
+موفري الحزمة
 
-import (
+استيراد (
  "github.com/goravel/framework/contracts/foundation"
-    "github.com/goravel/framework/facades"
-)
+    "github. om/goravel/framework/facades"
 
-type AppServiceProvider struct {
+
+نوع AppServiceProserder struct {
+
+
+func (المتلقي *AppServiceProvider) Register(مؤسسة التطبيق. التكرار) {
 }
 
-func (receiver *AppServiceProvider) Register(app foundation.Application) {
-}
-
-func (receiver *AppServiceProvider) Boot(app foundation.Application) {
+func (المتلقي *AppServiceproviders er) Boot(app Foundation.Application) {
     facades.View().Share("key", "value")
 }
 ```
