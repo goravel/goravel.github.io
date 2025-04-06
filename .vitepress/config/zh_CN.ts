@@ -209,7 +209,7 @@ function sidebarSecurity(): DefaultTheme.SidebarItem[] {
 }
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
-    text: '开始使用',
+    text: "开始使用",
     link: 'getting-started'
   }, {
     text: "关系",
@@ -227,7 +227,7 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
-    text: '开始使用',
+    text: "开始使用",
     link: 'getting-started'
   }, {
     text: "HTTP 测试",
