@@ -1,40 +1,40 @@
-# Compile
+# Compilare
 
-## Compile command
+## Compilare comandă
 
-The Goravel project can be compiled with the following command:
+Proiectul Goravel poate fi compilat cu următoarea comandă:
 
 ```
-// Select the system to compile
-go run . artisan build
+// Selectează sistemul pentru a compila
+mergi să rulezi . artizan build
 
-// Specify the system to compile
-go run . artisan build --os=linux
-go run . artisan build -o=linux
+// Specifică sistemul pentru a compila
+mergi să rulezi . ruleaza . artizan build -os=linux
+ruleaza . artizan build -o=linux
 
-// Static compilation
-go run . artisan build --static
-go run . artisan build -s
+// Compilarea statică
+ruleaza . build artizan --static
+mergi să rulezi . artizan build -s
 
-// Specify the output file name
-go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+// Specifică numele fișierului de ieșire
+rulează . construcție artizană --name=goravel
+rulați . artizan build n=goravel
 ```
 
-## Manual compilation
+## Compilare manuală
 
-### Regular compilation
+### Compilare regulată
 
 ```shell
-go build .
+mergi să construiești .
 ```
 
-#### Deploy Server
+#### Lansează Server
 
-The Following files and folders need to be uploaded to the server during deployment:
+Următoarele fișiere și dosare trebuie să fie încărcate pe server în timpul desfășurării:
 
 ```
-./main // Compile the resulting binary file
+./main // Compilează fișierul binar rezultat
 .env
 ./database
 ./public
@@ -42,32 +42,32 @@ The Following files and folders need to be uploaded to the server during deploym
 ./resources
 ```
 
-### Static compilation
+### Compilare statică
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Pachetul de măsuri elaborate periodic trebuie, de asemenea, să se bazeze pe sprijinul acordat mediului de desfășurare; fișierele compilate static
+pot fi puse liber pentru a rula pe platforma specificată fără configurare de mediu.
 
 ```shell
-go build --ldflags "-extldflags -static" -o main .
+mergeţi să construiţi --ldflags "-extldflags -static" la main .
 ```
 
-### Cross compile
+### Compilare încrucişată
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+Compilația este diferențiată pe platformă, trebuie să selectați o metodă de compilare corespunzătoare în funcție de situația de implementare
+.
 
 ```shell
-// Compile Linux environment
+// Compilează mediul Linux
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
-// Compile Windows environment
+// Compilează Windows
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
-// Compile Mac environment
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
+// Compilează mediul Mac
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 mergi să construiești .
 ```
 
-## Docker
+## Doctor
 
 Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
 be `0.0.0.0` at this time.
@@ -76,17 +76,17 @@ be `0.0.0.0` at this time.
 docker build .
 ```
 
-### Docker Compose
+### Compunere Docker
 
-You can also quickly start the service with the following command:
+De asemenea, poți porni rapid serviciul cu următoarea comandă:
 
 ```shell
-docker-compose build
-docker-compose up
+compunere docker-compose
+docker-compose
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Notă: Dacă aveți nevoie de acces extern, trebuie să schimbați APP_HOST la 0.0.0.0
 
-## Reduce package size
+## Reduce dimensiunea pachetului
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Comentând `ServiceProvider` neutilizat în `config/app.go::providers` va reduce efectiv volumul de ambalare.
