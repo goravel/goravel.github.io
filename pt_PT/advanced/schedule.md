@@ -1,46 +1,46 @@
-# Task Scheduling
+# Agendamento de tarefas
 
-In the past, you might need to create a cron configuration entry for each task that needed scheduling on your server.
-However, this approach can quickly become a pain as your task schedule is not in source control, and you have to SSH
-into your server to view or add/edit cron entries.
+No passado, você pode precisar criar uma entrada na configuração cron para cada tarefa que precisava agendar no seu servidor.
+No entanto, esta abordagem pode tornar-se rapidamente uma dor, uma vez que a sua agenda de tarefas não está no controlo fonte. e você tem que fazer SSH
+no seu servidor para ver ou editar entradas do CRON .
 
-Goravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. With the scheduler, you
-can easily and clearly define your command schedule within your Goravel application. Using the scheduler, you only need
-to create a single cron entry on your server.
+O agendador de comandos de Goravel oferece uma nova abordagem para gerenciar tarefas agendadas no seu servidor. Com o agendador, você
+pode definir com facilidade e clareza sua agenda de comando dentro do aplicativo do Goravel. Usando o agendador, você só precisa de
+para criar uma única entrada cron no seu servidor.
 
-## Defining Schedules
+## Definindo calendários
 
-To schedule tasks for your application, you can define them in the `Schedule` method in `app\console\kernel.go`. Let's
-consider an example to understand this better. In this case, we want to schedule a closure that will run every day at
-midnight. Inside this closure, we will execute a database query to clear a table:
+Para agendar tarefas para sua aplicação, você pode defini-las no método `Agenda` em `app\console\kernel.go`. Vamos
+considerar um exemplo para entender melhor. Neste caso, queremos agendar um encerramento que será executado todos os dias à
+meia-noite. Dentro deste fechamento, executaremos uma consulta ao banco de dados para limpar uma tabela:
 
 ```go
-package console
+console
 
 import (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/models"
 )
 
-type Kernel struct {
+tipo Kernel struct {
 }
 
-func (kernel Kernel) Schedule() []schedule.Event {
+func (kernel Kernel) Agenda() []schedule. vent {
   return []schedule.Event{
     facades.Schedule().Call(func() {
-      facades.Orm().Query().Where("1 = 1").Delete(&models.User{})
+      facades. rm().Query().Where("1 = 1").Deletar(&models.User{})
     }).Daily(),
   }
 }
 ```
 
-### Scheduling Artisan Commands
+### Agendando comandos artísticos
 
-In addition to scheduling closures, you can also schedule [Artisan commands](./artisan). For example, you may
-use the `Command` method to schedule an Artisan command using either the command's name or class.
+Além de agendar encerramentos, você também pode agendar [comandos do artista](./artisan). Por exemplo, você pode
+usar o método `Command` para agendar um comando Artisan usando o nome ou a classe do comando.
 
 ```go
 package console
@@ -61,127 +61,127 @@ func (kernel *Kernel) Schedule() []schedule.Event {
 }
 ```
 
-### Logging Level
+### Nível de Registro
 
-When `app.debug` is `true`, the console will print all logs. Otherwise, only `error` level logs will be printed.
+Quando o `app.debug` é `true`, o console irá imprimir todos os logs. Caso contrário, apenas logs de nível `erro` serão impressos.
 
-### Schedule Frequency Options
+### Opções de Frequência Agendada
 
-We've already seen a few examples of how you may configure a task to run at specified intervals. However, there are many
+Já vimos alguns exemplos de como você pode configurar uma tarefa para ser executada em intervalos específicos. However, there are many
 more task schedule frequencies avaibable to assign to tasks:
 
-| 方法                       | 描述                                                  |
-| ------------------------ | --------------------------------------------------- |
-| `.Cron("* * * * *")`     | Run the task on a custom cron schedule              |
-| `.EveryMinute()`         | Run the task every minute                           |
-| `.EveryTwoMinutes()`     | Run the task every two minutes                      |
-| `.EveryThreeMinutes()`   | Run the task every three minutes                    |
-| `.EveryFourMinutes()`    | Run the task every four minutes                     |
-| `.EveryFiveMinutes()`    | Run the task every five minutes                     |
-| `.EveryTenMinutes()`     | Run the task every ten minutes                      |
-| `.EveryFifteenMinutes()` | Run the task every fifteen minutes                  |
-| `.EveryThirtyMinutes()`  | Run the task every thirty minutes                   |
-| `.Hourly()`              | Run the task every hour                             |
-| `.HourlyAt(17)`          | Run the task every hour at 17 minutes past the hour |
-| `.EveryTwoHours()`       | Run the task every two hours                        |
-| `.EveryThreeHours()`     | Run the task every three hours                      |
-| `.EveryFourHours()`      | Run the task every four hours                       |
-| `.EverySixHours()`       | Run the task every six hours                        |
-| `.Daily()`               | Run the task every day at midnight                  |
-| `.DailyAt("13:00")`      | Run the task every day at 13:00     |
+| 方法                        | 描述                                                       |
+| ------------------------- | -------------------------------------------------------- |
+| `.Cron("* * * * *")`      | Executar a tarefa em um cronograma do cron personalizado |
+| `.EveryMinute()`          | Executar a tarefa a cada minuto                          |
+| `.EveryTwoMinutes()`      | Executar a tarefa a cada dois minutos                    |
+| `.EveryThreeMinutes()`    | Executar a tarefa a cada três minutos                    |
+| `.EveryFourMinutes()`     | Execute a tarefa a cada quatro minutos                   |
+| `.EveryFiveMinutes()`     | Execute a tarefa a cada cinco minutos                    |
+| `.EveryTenMinutes()`      | Executar a tarefa a cada dez minutos                     |
+| `.EveryQuinteenMinutes()` | Execute a tarefa a cada quinze minutos                   |
+| `.EveryThirtyMinutes()`   | Execute a tarefa a cada trinta minutos                   |
+| `.Hourly()`               | Executar a tarefa a cada hora                            |
+| `.HourlyAt(17)`           | Execute a tarefa a cada hora em 17 minutos após a hora   |
+| `.EveryTwoHours()`        | Executar a tarefa a cada duas horas                      |
+| `.EveryThreeHours()`      | Executar a tarefa a cada três horas                      |
+| `.EveryFourHours()`       | Execute a tarefa a cada quatro horas                     |
+| `.EverySixHours()`        | Executar a tarefa a cada seis horas                      |
+| `.Daily()`                | Execute a tarefa todos os dias à meia-noite              |
+| `.DailyAt("13:00")`       | Executar a tarefa todos os dias às 13h00                 |
 
-### Preventing Task Overlaps
+### Impedir sobreposições de tarefas
 
-By default, scheduled tasks will continue to run even if a previous instance is still running. To prevent this, use the
-following methods:
+Por padrão, as tarefas agendadas continuarão a ser executadas mesmo se uma instância anterior ainda estiver em execução. Para evitar isso, use os
+seguintes métodos:
 
-| 方法                       | 描述                     |
-| ------------------------ | ---------------------- |
-| `.SkipIfStillRunning()`  | Skip if still running  |
-| `.DelayIfStillRunning()` | Delay if still running |
+| 方法                       | 描述                                   |
+| ------------------------ | ------------------------------------ |
+| `.SkipIfStillRunning()`  | Ignorar se ainda estiver em execução |
+| `.DelayIfStillRunning()` | Atraso se ainda estiver em execução  |
 
 ```go
-facades.Schedule().Command("send:emails name").EveryMinute().SkipIfStillRunning()
-facades.Schedule().Command("send:emails name").EveryMinute().DelayIfStillRunning()
+facades.Agenda().Command("send:emails name").EveryMinute().SkipIfStillRunning()
+facades.Agenda().Command("send:emails nome").EveryMinute().DelayIfStillRunning()
 ```
 
-### Running Tasks On One Server
+### Executando Tarefas em Um Servidor
 
-> To utilize this feature, your application must be using the memcached, dynamodb, or redis cache driver as the default
-> cache driver. In addition, all servers must be communicating with the same central cache server.
+> Para usar este recurso, seu aplicativo deve estar usando o memcached, dynamodb ou o driver de cache redis como o padrão
+> driver de cache. Além disso, todos os servidores devem comunicar com o mesmo servidor de cache central.
 
 If your application's scheduler runs on multiple servers, you can ensure that a scheduled job is executed on only one of
-them. For example, let's say you have a scheduled task that generates a new report every Friday night. If the task
-scheduler runs on three worker servers, the scheduled task will run on all three servers and create the report three
-times. This is not ideal!
+them. Por exemplo, digamos que você tem uma tarefa agendada que gera um novo relatório todas as sextas à noite. Se a tarefa
+agendador roda em três servidores funcionários, a tarefa agendada será executada nos três servidores e criará o relatório três
+vezes. Isto não é ideal!
 
-To prevent this, use the `OnOneServer` method when defining the scheduled task, which will make sure that the task runs
-on only one server. The first server to receive the task will secure an atomic lock on the job, preventing other servers
-from executing the same task at the same time:
+Para evitar isso, use o método `OnOneServer` ao definir a tarefa agendada, que garantirá que a tarefa rode
+em apenas um servidor. O primeiro servidor a receber a tarefa irá garantir uma trava atômica no trabalho. impedindo outros servidores
+de executar a mesma tarefa ao mesmo tempo:
 
 ```go
-facades.Schedule().Command("report:generate").Daily().OnOneServer()
+facades.Agenda().Command("relatório").Diário().OnOneServer()
 ```
 
-Scheduled closures must be assigned a name if they are intended to be run on one server:
+Agendar encerramentos devem ser atribuídos um nome se eles forem destinados a serem executados em um servidor:
 
 ```go
-facades.Schedule().Call(func() {
+facades.Agenda().Call(func() {
   fmt.Println("goravel")
 }).Daily().OnOneServer().Name("goravel")
 ```
 
-## Running The Scheduler
+## Executando o Agendador
 
-Now that we have learned how to define scheduled tasks, let's discuss how to actually run them on our server.
+Agora que aprendemos a definir tarefas agendadas, vamos discutir como executá-las de fato em nosso servidor.
 
-Add `go facades.Schedule().Run()` to the root `main.go` file.
+Adicione `go facades.Schedule().Run()` ao arquivo raiz `main.go`.
 
 ```go
-package main
+pacote
 
-import (
-  "github.com/goravel/framework/facades"
+import main (
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Isso inicializa o framework e o deixa pronto para uso.
   bootstrap.Boot()
 
-  // Start schedule by facades.Schedule
+  // Comece a agendar por facades.Schedule
   go facades.Schedule().Run()
 
-  select {}
+  selecione {}
 }
 ```
 
-## Stopping The Scheduler
+## Parando o Agendador
 
-You can call the `Shutdown` method to gracefully shut down the scheduler. This method will wait for all tasks to
-complete before shutting down.
+Você pode chamar o método `Desligar` para encerrar graciosamente o agendamento. Este método esperará que todas as tarefas
+sejam concluídas antes de encerrar.
 
 ```go
 // main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
-quit := make(chan os.Signal)
-signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+// Cria um canal para ouvir sinais
+sair := make(chan os.Signal)
+sinal. otify(sair, syscall.SIGINT, syscall.SIGTERM)
 
-// Start schedule by facades.Schedule
-go facades.Schedule().Run()
+// Iniciar agendamento por facades.Schedule
+go facades.Agenda(). un()
 
-// Listen for the OS signal
+// Ouça o sinal do SO
 go func() {
-  <-quit
-  if err := facades.Schedule().Shutdown(); err != nil {
-    facades.Log().Errorf("Schedule Shutdown error: %v", err)
+  <-sair
+  se err := facades. chedule().Shutdown(); err != nil {
+    facades. og().Errorf("Agendar erro de encerramento: %v", err)
   }
 
   os.Exit(0)
 }()
 
-select {}
+selecione {}
 ```
