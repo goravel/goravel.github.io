@@ -1,11 +1,11 @@
-# HTTP Requests
+# HTTP-Anfragen
 
-The `contracts/http/Request` method of Goravel can interact with the current HTTP request processed by the application,
-and get the input and files submitted together.
+Die Methode `Contrats/http/Request` von Goravel kann mit der aktuellen HTTP-Anfrage interagieren, die von der Anwendung
+bearbeitet wird, und die Eingaben und Dateien zusammen abrufen.
 
-## Interacting With The Request
+## Interagieren mit der Anfrage
 
-The `http.Context` instance is automatically injected into the controller:
+Die `http.Context` Instanz wird automatisch in den Controller injiziert:
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -15,44 +15,44 @@ facades.Route().Get("/", func(ctx http.Context) {
 })
 ```
 
-### Retrieving The Request Path
+### Den Anfragepfad abrufen
 
 ```go
 path := ctx.Request().Path() // /users
 ```
 
-### Retrieving The Request URL
+### Abrufen der Anfrage-URL
 
 ```go
 url := ctx.Request().Url() // /users?name=Goravel
 ```
 
-### Retrieving The Request HOST
+### Empfange die Anfrage HOST
 
 ```go
 url := ctx.Request().Host()
 ```
 
-### Retrieving The Full Request URL
+### Abrufen der vollständigen Anfrage-URL
 
 ```go
 url := ctx.Request().FullUrl() // http://**/users?name=Goravel
 ```
 
-### Retrieving The Request Method
+### Abrufen der Anfragemethode
 
 ```go
-method := ctx.Request().Method()
+Methode := ctx.Request().Method()
 ```
 
-### Request Headers
+### Anfrage-Header
 
 ```go
-header := ctx.Request().Header("X-Header-Name", "default")
-headers := ctx.Request().Headers()
+header := ctx.Request().Header("X-Header-Name", "Standard")
+Header := ctx.Request().Headers()
 ```
 
-### Request IP Address
+### IP-Adresse anfordern
 
 ```go
 ip := ctx.Request().Ip()
@@ -60,16 +60,16 @@ ip := ctx.Request().Ip()
 
 ## Input
 
-### Retrieving All Input Data
+### Alle Eingabedaten abrufen
 
-You may retrieve all of the incoming request's input data as `map[string]any` using the `All` method, which is a
-collection of `json`, `form` and `query`(priority from front to back).
+Du kannst alle Eingangsdaten der eingehenden Anfrage als `Map[string]any` mit der `All` Methode abrufen, das ist eine
+Sammlung von `json`, `form` und `query`(Priorität von vorne nach zurück).
 
 ```go
-data := ctx.Request().All()
+Daten := ctx.Request().All()
 ```
 
-### Retrieving a Route Value
+### Rufe einen Routenwert ab
 
 ```go
 // /users/{id}
@@ -78,7 +78,7 @@ id := ctx.Request().RouteInt("id")
 id := ctx.Request().RouteInt64("id")
 ```
 
-### Retrieving Input From The Query String
+### Abrufen der Eingabe aus dem Abfrage-String
 
 ```go
 // /users?name=goravel
@@ -86,9 +86,9 @@ name := ctx.Request().Query("name")
 name := ctx.Request().Query("name", "default")
 
 // /users?id=1
-name := ctx.Request().QueryInt("id")
+name := ctx. equest().QueryInt("id")
 name := ctx.Request().QueryInt64("id")
-name := ctx.Request().QueryBool("id")
+name := ctx.Request(). ueryBool("id")
 
 // /users?names=goravel1&names=goravel2
 names := ctx.Request().QueryArray("names")
@@ -96,119 +96,119 @@ names := ctx.Request().QueryArray("names")
 // /users?names[a]=goravel1&names[b]=goravel2
 names := ctx.Request().QueryMap("names")
 
-queries := ctx.Request().Queries()
+Queries := ctx.Request().Queries()
 ```
 
-> Note: Only one-dimensional Json data can be obtained, otherwise it will return empty.
+> Hinweis: Es können nur eindimensionale Json-Daten abgerufen werden, andernfalls wird sie leer zurückgeben.
 
-### Retrieving An Input Value
+### Abrufen eines Eingangswertes
 
-Access all of the user input without worrying about which HTTP verb was used for the request. Retrieve order: `json`,
+Zugriff auf alle Benutzereingaben, ohne sich Gedanken darüber zu machen, welches HTTP-Verb für die Anfrage verwendet wurde. Bestellung abrufen: `json`,
 `form`.
 
 ```go
 name := ctx.Request().Input("name")
 name := ctx.Request().Input("name", "goravel")
 name := ctx.Request().InputInt("name")
-name := ctx.Request().InputInt64("name")
+name := ctx.Request(). nputInt64("name")
 name := ctx.Request().InputBool("name")
 name := ctx.Request().InputArray("name")
 name := ctx.Request().InputMap("name")
 ```
 
-### Bind Json/Form
+### Json/Form binden
 
 ```go
 type User struct {
   Name string `form:"code" json:"code"`
-}
+} }
 
 var user User
 err := ctx.Request().Bind(&user)
 ```
 
 ```go
-var user map[string]any
+var user map[string]irgendein
 err := ctx.Request().Bind(&user)
 ```
 
-### Bind Query
+### Bindeabfrage
 
-Only support bind Query to struct:
+Unterstützt nur Bind Abfrage an struct:
 
 ```go
 type Test struct {
   ID string `form:"id"`
-}
-var test Test
+} }
+var test
 err := ctx.Request().BindQuery(&test)
 ```
 
 ## Cookie
 
-### Retrieving a Cookie Value
+### Einen Cookie-Wert abrufen
 
-Goravel provides a simple way to work with `cookie`. Use the `Cookie` method on the `Request` instance to retrieve a
-`cookie` value, will return an empty string if the `cookie` is not present. You can also define a default value in the
-second argument.
+Goravel bietet eine einfache Möglichkeit, mit dem "Cookie" zu arbeiten. Benutze die `Cookie` Methode in der `Request` Instanz um einen
+`cookie` Wert zu erhalten, wird eine leere Zeichenkette zurückgeben, wenn der `cookie` nicht vorhanden ist. Sie können auch einen Standardwert im
+zweiten Argument festlegen.
 
 ```go
 value := ctx.Request().Cookie("name")
-value := ctx.Request().Cookie("name", "default") 
+Wert := ctx.Request().Cookie("name", "default") 
 ```
 
-## File
+## Datei
 
-### Retrieving File
+### Datei wird abgerufen
 
 ```go
-file, err := ctx.Request().File("file")
+datei, err := ctx.Request().File("file")
 ```
 
-### Save File
+### Datei speichern
 
 ```go
-file, err := ctx.Request().File("file")
+datei, err := ctx.Request().File("file")
 file.Store("./public")
 ```
 
-### Get Origin Request
+### Ursprungsanfrage abrufen
 
 ```go
 request := ctx.Request().Origin()
 ```
 
-### Attach Data
+### Daten anhängen
 
 ```go
-ctx.WithValue("user", "Goravel")
+ctx.WithValue("Benutzer", "Goravel")
 ```
 
-### Get Data
+### Daten abrufen
 
 ```go
-user := ctx.Value("user")
+benutzer := ctx.Value("Benutzer")
 ```
 
-### Get Context
+### Kontext abrufen
 
 ```go
 ctx := ctx.Context()
 ```
 
-## Custom Recovery
+## Eigene Wiederherstellung
 
-You can set a custom `recovery` by calling the `Recover` method in the `app/providers/route_service_provider.go` file.
+Du kannst eine benutzerdefinierte `recovery` setzen, indem du die `Recover` Methode in der `app/providers/route_service_provider.go` Datei aufrufst.
 
 ```go
 // app/providers/route_service_provider.go
-func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
-  // Add HTTP middleware
-  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...)
+func (Empfänger *RouteServiceProvider) Boot(app foundation.Application) {
+  // HTTP middleware
+  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...
   facades.Route().Recover(func(ctx http.Context, err error) {
-    ctx.Request().Abort()
-    // or
-    // ctx.Response().String(500, "Internal Server Error").Abort()
+    ctx.Request(). bort()
+    // oder
+    // ctx.Response(). tring(500, "Interner Server-Fehler").Abort()
   })
   ...
 }
