@@ -1,824 +1,823 @@
-# Strings
+# المقاطع
 
-Goravel provides a fluent string manipulation library that allows you to easily manipulate strings. Fluent Strings
-allows you to combine multiple string operations through method chaining, where most of the methods returns an instance
-of `support/str.String`, letting you chain additional methods. To get the final string value after applying the chained
-operations, you can call the `String` method, which returns the underlying `string` value.
+يوفر Goravel مكتبة للتلاعب بالسلاسل بطلاقة تمكنك من التلاعب بالسلاسل بسهولة. تتيح لك السلاسل المتدفقة
+الجمع بين عمليات سلاسل متعددة من خلال سلسلة الطريقة، حيث ترجع معظم الطرق مثيل
+من \`الدعم/السلسلة. تعاقب ، يسمح لك بتسلسل طرق إضافية. للحصول على قيمة السلسلة النهائية بعد تطبيق العمليات المتسلسلة
+، يمكنك استدعاء طريقة "String" ، التي ترجع قيمة "السلسلة" الأساسية.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").Trim().Lower().UpperFirst().String() // "Goravel"
+str.Of(" Goravel ").Trim().Lower().UpperFirst().String() // "Goravel"
 ```
 
-## Available Methods
+## الطرق المتاحة
 
 ### `Of`
 
-The `Of` method creates a new fluent string instance from a given string.
+وتنشئ طريقة "Of" مثالاً جديداً لسلسلة طلاء من سلسلة معينة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel")
 ```
 
-### `After`
+### `بعد`
 
-The `After` method returns the portion of a string that appears after a specified value. If the value is an empty string
-or does not exist within the original string, the full string is returned.
+وتعيد الطريقة 'التالية\` الجزء من سلسلة تظهر بعد قيمة محددة. إذا كانت القيمة سلسلة فارغة
+أو غير موجودة داخل السلسلة الأصلية، يتم إرجاع السلسلة الكاملة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World!").After("Hello").String() // " World!"
+str.Of("مرحبا بالعالم!").After("مرحبا") .String() // " العالم!"
 ```
 
-### `AfterLast`
+### `ما بعد النهاء`
 
-The `AfterLast` method returns the portion of a string that appears after the last occurrence of a specified value. If
-the value is an empty string or does not exist within the original string, the full string is returned.
+وتعيد طريقة 'ما بعد النهاء\` الجزء من السلسلة الذي يظهر بعد آخر حدث بقيمة محددة. إذا كان
+القيمة سلسلة فارغة أو غير موجودة داخل السلسلة الأصلية، يتم إرجاع السلسلة الكاملة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("docs.goravel.dev").AfterLast(".").String() // "dev"
+str.Of("docs.goravel.dev").AfterLast(".").String() /"dev"
 ```
 
-### `Append`
+### `تذييل`
 
-The `Append` method appends the specified value to the end of the string.
+وتضيف طريقة "الملحق" القيمة المحددة إلى نهاية السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Bowen").Append(" Han").String() // "Bowen Han"
 ```
 
-### `Basename`
+### \`Basename'
 
-The `Basename` method returns the trailing name component of a path, optionally removing a specified suffix from the
-base name.
+طريقة 'Basename' ترجع عنصر اسم المسار إلى مسار ما، وإلغاء لاحقة محددة من اسم القاعدة
+اختياريا.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("framework/support/str").Basename().String() // "str"
+str.Of("framework/support/str").Basename().String() /"str"
 
 str.Of("framework/support/str.go").Basename(".go").String() // "str"
 ```
 
-### `Before`
+### `سابقا`
 
-The `Before` method returns the portion of a string that appears before a specified value. If the value is an empty
-string or does not exist within the original string, the full string is returned.
+الطريقة "السابقة" تعيد الجزء من سلسلة تظهر قبل قيمة محددة. إذا كانت القيمة فارغة
+سلسلة أو غير موجودة داخل السلسلة الأصلية، يتم إرجاع السلسلة الكاملة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World!").Before("World").String() // "Hello "
+str.Of("مرحبا بالعالم!").Before("World").String() // "مرحبا"
 ```
 
-### `BeforeLast`
+### `سابقا`
 
-The `BeforeLast` method returns the portion of a string that appears before the last occurrence of a specified value. If
-the value is an empty string or does not exist within the original string, the full string is returned.
+وتعيد طريقة 'Beforelast\` الجزء من السلسلة الذي يظهر قبل آخر حدث بقيمة محددة. إذا كان
+القيمة سلسلة فارغة أو غير موجودة داخل السلسلة الأصلية، يتم إرجاع السلسلة الكاملة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("docs.goravel.dev").BeforeLast(".").String() // "docs.goravel"
+str.Of("docs.goravel.dev").BeforeLast(".").String() /"docs.goravel"
 ```
 
 ### `Between`
 
-The `Between` method returns the portion of a string between two given values.
+وتعيد طريقة "بيتويين" الجزء من سلسلة بين قيمتين معينتين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("[Hello] World!").Between("[", "]").String() // "Hello"
+str.Of("[Hello] World!").Between("[", "]").String() /"مرحبا"
 ```
 
 ### `BetweenFirst`
 
-The `BetweenFirst` method returns the portion of a string between the first occurrence of two given values.
+وتعيد طريقة "BetweenFirst" الجزء من سلسلة ما بين أول حدث لقيمتين معينتين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("[Hello] [World]!").BetweenFirst("[", "]").String() // "Hello"
+str.Of("[Hello] [World]!").BetweenFirst("[", "]").String() // "مرحبا"
 ```
 
-### `Camel`
+### `كاميل`
 
-The `Camel` method converts the string to `camelCase`.
+طريقة "Camel" تحول السلسلة إلى `camelCase`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("hello_world").Camel().String() // "helloWorld"
 ```
 
 ### `CharAt`
 
-The `CharAt` method returns the character at the given index. If the index is out of bounds, an empty string will be
-returned.
+طريقة "CharAt" تعيد الشخصية إلى فهرس معين. إذا كان الفهرس خارج الحدود ، فسيتم إرجاع سلسلة فارغة من نوع
+.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").CharAt(1) // "o"
 ```
 
 ### `ChopEnd`
 
-The `ChopEnd` method removes the given value(s) from the end of the string.
+طريقة "ChopEnd" تزيل القيمة المعينة من نهاية السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("https://goravel.com").ChopEnd(".dev", ".com").String() // https://goravel
+str.Of("https://goravel.com").ChopEnd(".dev", ".com").String() //https://goravel
 ```
 
 ### `ChopStart`
 
-The `ChopStart` method removes the given value(s) from the start of the string.
+طريقة "ChopStart" تزيل القيمة المعينة من بداية السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("https://goravel.dev").ChopStart("http://", "https://").String() // goravel.dev
+str.Of("https://goravel.dev").ChopStart("http://", "https://").String() //goravel.dev
 ```
 
-### `Contains`
+### \`المحتويات
 
-The `Contains` method determines if the given string contains the given value. The method is case-sensitive. If multiple
-values are provided, it will return `true` if the string contains any of the values.
+وتحدد طريقة "المحتويات" ما إذا كانت السلسلة المعينة تحتوي على القيمة المعينة. الطريقة حساسة لحالة الأحرف. إذا تم توفير قيم
+متعددة، فإنه سوف يعيد 'true' إذا كانت السلسلة تحتوي على أي من القيم.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Contains("Gor") // true
 
-str.Of("Hello World").Contains("Gor", "Hello") // true
+str.Of("مرحبًا بالعالم").Contains("Gor", "Hello") // true
 ```
 
 ### `ContainsAll`
 
-The `ContainsAll` method determines if the given string contains all of the given values. The method is case-sensitive.
+وتحدد طريقة "ContainsAll" ما إذا كانت السلسلة المعينة تحتوي على جميع القيم المحددة. الطريقة حساسة لحالة الأحرف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ContainsAll("Hello", "World") // true
+str.Of("مرحباً بالعالم").ContainsAll("مرحباً"، "العالم") //true
 
-str.Of("Hello World").ContainsAll("Hello", "Gor") // false
+str.Of("مرحباً بالعالم").ContainsAll("مرحباً") // false
 ```
 
-### `Dirname`
+### `الإسم`
 
-The `Dirname` method returns the parent portion of a path.
+طريقة "التسمية" تعيد الجزء الأصلي من المسار.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("framework/support/str").Dirname().String() // "framework/support"
+str.Of("framework/support/str").Dirname().String() /"framework/support"
 ```
 
-Optionally, you may provide the directory level to trim from the path.
+اختيارياً، يمكنك توفير مستوى الدليل للتقليم من المسار.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("framework/support/str").Dirname(2).String() // "framework"
+str.Of("framework/support/str").Dirname(2).String() /"framework"
 ```
 
 ### `EndsWith`
 
-The `EndsWith` method determines if the given string ends with the given value. The method is case-sensitive.
+وتحدد طريقة "Endswith" ما إذا كانت السلسلة المعينة تنتهي بالقيمة المحددة. الطريقة حساسة لحالة الأحرف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").EndsWith("vel") // true
 ```
 
-You may pass multiple values to the method to determine if the string ends with any of the values.
+يمكنك تمرير قيم متعددة إلى الطريقة لتحديد ما إذا كانت السلسلة تنتهي بأي من القيم.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").EndsWith("vel", "lie") // true
 ```
 
-### `Exactly`
+### 'بالضبط\`
 
-The `Exactly` method determines if the given string is exactly equal to the given value. The method is case-sensitive.
+وتحدد طريقة "بالضبط" ما إذا كانت السلسلة المعينة مساوية تماما للقيمة المعينة. الطريقة حساسة لحالة الأحرف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Exactly("Goravel") // true
 ```
 
-### `Except`
+### `باستثناء `
 
-The `Except` method extracts an excerpt from the string that matches the first occurrence of the given value.
+وتستخرج الطريقة "باستثناء " مقتطفات من السلسلة التي تتطابق مع أول حدث للقيمة المعينة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").
+str.Of("هذا صباحاً جميلاً").
  Excerpt("beautiful", str.ExcerptOption{
         Radius: 5,
-    }).String() // "...is a beautiful morn...
+    }).String() /"...is صبيحة جميلة...
 ```
 
-Additionally, you may use `Omission` option to change the string that is used to indicate the excerpt.
+بالإضافة إلى ذلك، يمكنك استخدام خيار "Omission" لتغيير السلسلة المستخدمة للإشارة إلى المقتطف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").
+str.Of("هذا صباح جميل").
     Excerpt("beautiful", str.ExcerptOption{
         Radius: 5,
         Omission: "(...)"
-    }).String() // "(...)is a beautiful morn(...)"
+    }).String() // "(...) هو صباح جميل (...)"
 ```
 
-### `Explode`
+### `انفجار`
 
-The `Explode` method splits the string into an array of strings using the given delimiter.
+وتقسم طريقة "التفجير" السلسلة إلى مجموعة من السلاسل باستخدام المحدد المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Explode(" ") // []string{"Hello", "World"}
+str.Of("مرحبا بالعالم").Explode(") // []string{"مرحباً"، "World"}
 ```
 
-### `Finish`
+### `إنهاء`
 
-The `Finish` method ensures that the given string ends with the given value. If the string already ends with the value,
-it will not be added again.
+وتكفل طريقة "الإنهاء" أن تنتهي السلسلة المعينة بالقيمة المحددة. إذا كانت السلسلة تنتهي بالفعل مع القيمة،
+لن تتم إضافتها مرة أخرى.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("framework").Finish("/").String() // "framework/"
+str.Of("framework").Finish("/").String() /"framework/"
 
-str.Of("framework/").Finish("/").String() // "framework/"
+str.Of("framework/").Finish("/").String() /"framework/"
 ```
 
-### `Headline`
+### `العنوان`
 
-The `Headline` method converts the string to a headline.
+وتحول طريقة "العنوان" السلسلة إلى عنوان رئيسي.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("bowen_han").Headline().String() // "Bowen Han"
+str.Of("bowen_han").headline().String() // "Bowen Han"
 
-str.Of("HelloWorld").Headline().String() // "Hello World"
+str.Of("HelloWorld").headline().String() // "مرحبا بالعالم"
 ```
 
 ### `Is`
 
-The `Is` method determines if the given string matches the given pattern. The method is case-sensitive.
+وتحدد طريقة 'Is\` ما إذا كانت السلسلة المعينة مطابقة للنمط المعين. الطريقة حساسة لحالة الأحرف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("foo123").Is("bar*", "baz*", "foo*") // true
+str.Of("foo123").Is("Bar*", "baz*", "foo*") // true
 ```
 
 ### `IsEmpty`
 
-The `IsEmpty` method determines if the given string is empty.
+وتحدد طريقة 'IsEmpty' ما إذا كانت السلسلة المعينة فارغة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("").IsEmpty() // true
 ```
 
 ### `IsNotEmpty`
 
-The `IsNotEmpty` method determines if the given string is not empty.
+وتحدد طريقة 'IsNotEmpty' ما إذا كانت السلسلة المعينة غير فارغة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").IsNotEmpty() // true
 ```
 
 ### `IsAscii`
 
-The `IsAscii` method determines if the given string contains only ASCII characters.
+وتحدد طريقة 'IsAscii' ما إذا كانت السلسلة المعينة تحتوي فقط على أحرف ASCII.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").IsAscii() // true
 
-str.Of("你好").IsAscii() // false
+str.Of("<unk> <unk> ").IsAscii() // false
 ```
 
 ### `IsSlice`
 
-The `IsSlice` method determines if the given string is a slice.
+وتحدد طريقة 'IsSlice\` ما إذا كانت السلسلة المعينة شريحة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of(`[{"name": "John"}, {"name": "Alice"}]`).IsSlice() // true
+str.Of(`[{"name": "John"}, {"name": "Alice"}]`).IsSlice() /true
 
 str.Of(`{"name": "John"}`).IsSlice() // false
 ```
 
 ### `IsMap`
 
-The `IsMap` method determines if the given string is a map.
+وتحدد طريقة 'IsMap\` ما إذا كانت السلسلة المعينة خريطة أم لا.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of(`{"name": "John"}`).IsMap() // true
+str.Of(`{"name": "John"}`).IsMap() /true
 
 str.Of(`[{"name": "John"}, {"name": "Alice"}]`).IsMap() // false
 ```
 
 ### `IsUlid`
 
-The `IsUlid` method determines if the given string is a ULID.
+وتحدد طريقة 'IsUlid\` ما إذا كانت السلسلة المعينة هي سلسلة ULID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("01E5Z6Z1Z6Z1Z6Z1Z6Z1Z6Z1Z6").IsUlid() // true
+str.Of("01E5Z6Z1Z6Z1Z6Z1Z6Z1Z6Z6Z6Z1Z1Z1Z6Z1Z6Z1Z6Z6Z6Z6Z6Z6Z1Z6Z6Z6Z6Z6Z6Z1Z6Z6Z6Z6Z1Z6Z6Z6Z6Z1Z6").IsUlid() // false
 
-str.Of("krishan").IsUlid() // false
+str.Of("krishan").IsUlid()
 ```
 
 ### `IsUuid`
 
-The `IsUuid` method determines if the given string is a UUID.
+وتحدد طريقة 'IsUuid\` ما إذا كانت السلسلة المعينة عبارة عن جهاز UUUID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("550e8400-e29b-41d4-a716-446655440000").IsUuid() // true
+str.Of("550e8400-e29b-41d4-a716-4466554400").IsUuid() /true
 
 str.Of("krishan").IsUuid() // false
 ```
 
 ### `Kebab`
 
-The `Kebab` method converts the string to `kebab-case`.
+ويحول أسلوب "كيباب" السلسلة إلى `كيباب-case`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("GoravelFramework").Kebab().String() // "goravel-framework"
 ```
 
 ### `LcFirst`
 
-The `LcFirst` method converts the first character of the string to lowercase.
+وتحول طريقة "LcFirst" الحرف الأول للسلسلة إلى الحروف الدنيا.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel Framework").LcFirst().String() // "goravel Framework"
+str.Of("Goravel Framework").LcFirst().String() /"goravel Framework"
 ```
 
-### `Length`
+### `الطول`
 
-The `Length` method returns the length of the string.
+طريقة "الطول" تعيد طول السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Length() // 7
 ```
 
-### `Limit`
+### `تحديد`
 
-The `Limit` method truncates the string to the given length.
+وتقتصر طريقة "التقييد" السلسلة إلى الطول المحدد.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").Limit(7).String() // "This is..."
+str.Of("هذا صباح جميل").Limit(7).String() // "هذا هو..."
 ```
 
-Optionally, you may provide the second argument to change the string that is used to indicate the truncation.
+اختيارياً، يمكنك تقديم الحجة الثانية لتغيير السلسلة المستخدمة للإشارة إلى التخلص.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").Limit(7, " (****)").String() // "This is (****)"
+str.Of("هذا صباح جميل").Limit(7, " (**)".String() / "هذا (**)"
 ```
 
-### `Lower`
+### `أسفل`
 
-The `Lower` method converts the string to lowercase.
+ويحول الأسلوب 'الأدنى\` السلسلة إلى الأصغر حجما.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("GORAVEL").Lower().String() // "goravel"
+str.Of("GORAVEL").Llow ().String() // "goravel"
 ```
 
 ### `LTrim`
 
-The `LTrim` method trims the left side of the string.
+فطريقة "Ltrim" تقطع الجانب الأيسر من السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").LTrim().String() // "Goravel  "
+str.Of(" Goravel ").LTrim().String() // "Goravel"
 
 str.Of("/framework/").LTrim("/").String() // "framework/"
 ```
 
-### `Mask`
+### `أقنع`
 
-The `Mask` method masks the string with the given mask character.
+طريقة 'Mask' تخفي السلسلة بحرف قناع معين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("krishan@email.com").Mask("*", 3).String() // "kri**************"
+str.Of("krishan@email.com").Mask("*", 3).String() /"kri**********************"**"
 ```
 
-If needed, you may provide negative number to mask method which instruct the method to begin masking from the end of the
-string.
+عند الحاجة، يمكنك تقديم رقم سلبي لطريقة قناع التي توعز للطريقة للبدء في الإقناع من نهاية السلسلة
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("krishan@email.com").Mask("*", -13, 3).String() // "kris***@email.com"
+str.Of("krishan@email.com").Mask("*", -13, 3).String() /"kris***@email.com"
 
-str.Of("krishan@email.com").Mask("*", -13).String() // "kris**************"
+str.Of("krishan@email.com").Mask("*", -13).String() /"kris**************"
 ```
 
-### `Match`
+### `تطابق`
 
-The `Match` method determines if the given string matches the given regular expression.
+طريقة "المطابقة" تحدد ما إذا كانت السلسلة المعينة تطابق التعبير العادي المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("This is a (test) string").Match(`\([^)]+\)`).String() // (test)
+str.Of("هذه سلسلة (اختبار)").Match(`\([^)]+\)`.String() /(اختبار)
 ```
 
 ### `MatchAll`
 
-The `MatchAll` method determines if the given string matches all of the given regular expressions.
+طريقة "MatchAll" تحدد ما إذا كانت السلسلة المعينة تطابق جميع التعبيرات العادية المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("abc123def456def").MatchAll(`\d+`) // []string{"123", "456"}
 ```
 
 ### `IsMatch`
 
-The `IsMatch` method determines if the given string matches (any of) the given regular expression.
+وتحدد طريقة "IsMatch" ما إذا كانت السلسلة المعينة تطابق (أي من) التعبير العادي المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello, Goravel!").IsMatch(`(?i)goravel`, `goravel!(.*)`) // true
+str.Of("مرحباً، Goravel!").IsMatch(`(?i)goravel`، `goravel!(.*)`) // true
 ```
 
 ### `NewLine`
 
-The `NewLine` method appends a newline character to the string.
+طريقة "NewLine" تضيف حرف خط جديد إلى السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").NewLine(2).Append("Framework").String() // "Goravel\n\nFramework"
 ```
 
 ### `PadBoth`
 
-The `PadBoth` method pads both sides of the string.
+طريقة "PadBoth" تبدد كلا جانبي السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello").PadBoth(10, "_").String() // "__Hello___"
+str.Of("Hello").PadBoth(10, "_").String() /"__Hello___"
 ```
 
 ### `PadLeft`
 
-The `PadLeft` method pads the left side of the string.
+طريقة "PadLeft" تبدد الجانب الأيسر من السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Hello").PadLeft(10, "_").String() // "_____Hello"
 ```
 
 ### `PadRight`
 
-The `PadRight` method pads the right side of the string.
+طريقة "PadRight" تبدد الجانب الأيمن من السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Hello").PadRight(10, "_").String() // "Hello_____"
 ```
 
-### `Pipe`
+### `بيبي`
 
-The `Pipe` method allows you to transform the string using a given closure.
+طريقة "Pipe" تسمح لك بتحويل السلسلة باستخدام إغلاق معين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").Pipe(func(s string) string {
+str.Of("Goravel").Pipe(function(s string) string {
     return s + " Framework"
 }).String() // "Goravel Framework"
 ```
 
-### `Prepend`
+### `مسبقا`
 
-The `Prepend` method prepends the given value to the string.
+الطريقة 'Prepend\` تنفق القيمة المعطاة على السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Framework").Prepend("Goravel ").String() // "Goravel Framework"
 ```
 
-### `Remove`
+### `حذف`
 
-The `Remove` method removes the given value(s) from the string.
+طريقة 'إزالة' تزيل القيمة المعينة (القيم) من السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Remove("World").String() // "Hello "
+str.Of("مرحبا بالعالم").Remove("World").String() // "مرحبا"
 
-str.Of("Hello World").Remove("World", "Hello").String() // " "
+str.Of("مرحبا بالعالم").Remove("World", "Hello").String() // "
 ```
 
-### `Repeat`
+### `كرر`
 
-The `Repeat` method repeats the string a given number of times.
+طريقة "التكرار" تكرر المقطع عددا معينا من المرات.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("a").Repeat(2).String() // "aa"
 ```
 
-### `Replace`
+### `استبدال`
 
-The `Replace` method replaces the given value in the string.
+طريقة "الاستبدال" تحل محل القيمة المعطاة في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Replace("World", "Krishan").String() // "Hello Krishan"
+str.Of("مرحبا بالعالم").Replace("World", "Krishan").String() / "مرحبا كريشان"
 ```
 
-By default, the `Replace` method is case-sensitive. If you would like the method to be case-insensitive, you may pass
+بشكل افتراضي، طريقة "الاستبدال" حساسة لحالة الأحرف. If you would like the method to be case-insensitive, you may pass
 `false` as the third argument.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Replace("world", "Krishan", false).String() // "Hello Krishan"
+str.Of("مرحبا بالعالم").Replace("العالم", "Krishan", false).String() // "مرحبا كريشان"
 ```
 
-### `ReplaceEnd`
+### `استبدال`
 
-The `ReplaceEnd` method replaces the last occurrence of the given value in the string only if it is at the end of the
-string.
+طريقة "الاستبدال" لا تحل محل آخر حدث للقيمة المعطاة في السلسلة إلا إذا كانت في نهاية سلسلة
+.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ReplaceEnd("World", "Goravel").String() // "Hello Goravel"
+str.Of("مرحبا بالعالم").ReplaceEnd("World", "Goravel").String() // "مرحبا Goravel"
 
-str.Of("Hello World").ReplaceEnd("Hello", "Goravel").String() // "Hello World"
+str.Of("مرحبا بالعالم").ReplaceEnd("مرحباً", "Goravel").String() // "مرحبا بالعالم"
 ```
 
-### `ReplaceFirst`
+### `استبدال أولاً`
 
-The `ReplaceFirst` method replaces the first occurrence of the given value in the string.
+وتحل طريقة "الاستبدال أولا" محل أول حدث للقيمة المعطاة في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ReplaceFirst("World", "Goravel").String() // "Hello Goravel"
+str.Of("مرحبا بالعالم").ReplaceFirst("World", "Goravel").String() // "مرحبا جورافيل"
 ```
 
-### `ReplaceLast`
+### `استبدال`
 
-The `ReplaceLast` method replaces the last occurrence of the given value in the string.
+أما طريقة "الاستبدال" فتحل محل آخر حدث للقيمة المعطاة في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ReplaceLast("World", "Goravel").String() // "Hello Goravel"
+str.Of("مرحبا بالعالم").Replacelast("World", "Goravel").String() // "مرحبا جورافيل"
 ```
 
-### `ReplaceMatches`
+### `الاستبدال`
 
-The `ReplaceMatches` method replaces the given regular expression matches in the string.
+طريقة "ReplaceMatches" تحل محل تطابق التعبير العادي المعطى في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello, Goravel!").ReplaceMatches(`goravel!(.*)`, "Krishan") // "Hello, Krishan!"
+str.Of("مرحباً، Goravel!").ReplaceMatches(`goravel!(.*)`، "Krishan") // "Hello، Krishan!"
 ```
 
-### `ReplaceStart`
+### `استبدال البداية`
 
-The `ReplaceStart` method replaces the first occurrence of the given value in the string only if it is at the start of
-the string.
+طريقة "استبدال Start" لا تحل محل أول حدث للقيمة المعطاة في السلسلة إلا إذا كانت في بداية المقطع
+.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ReplaceStart("Hello", "Goravel").String() // "Goravel World"
+str.Of("مرحبا بالعالم").ReplaceStart("مرحباً", "Goravel").String() // "Goravel World"
 
-str.Of("Hello World").ReplaceStart("World", "Goravel").String() // "Hello World"
+str.Of("مرحبا بالعالم").ReplaceStart("World", "Goravel").String() // "مرحبا بالعالم"
 ```
 
 ### `RTrim`
 
-The `RTrim` method trims the right side of the string.
+إن طريقة "RTrim" تقطع الجانب الأيمن من السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").RTrim().String() // "  Goravel"
+str.Of(" Goravel ").RTrim().String() // " Goravel"
 
 str.Of("/framework/").RTrim("/").String() // "/framework"
 ```
 
-### `Snake`
+### `ثعبة`
 
-The `Snake` method converts the string to `snake_case`.
+طريقة 'Snake' تحول السلسلة إلى 'snake_case\`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("GoravelFramework").Snake().String() // "goravel_framework"
 ```
 
-### `Split`
+### `انقسام`
 
-The `Split` method splits the string into an array of strings using the given delimiter.
+وتقسم طريقة "التجزئة" السلسلة إلى مجموعة من السلاسل باستخدام المحدد المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Split(" ") // []string{"Hello", "World"}
+str.Of("مرحبا بالعالم").Split(") // []string{"مرحباً"، "World"}
 ```
 
 ### `Squish`
 
-The `Squish` method replaces consecutive whitespace characters with a single space.
+يستبدل أسلوب "ساحة" أحرف المساحة البيضاء المتتالية بمسافة واحدة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello    World").Squish().String() // "Hello World"
+str.Of("مرحبا بالعالم").Squish().String() // "مرحبا بالعالم"
 ```
 
-### `Start`
+### `بدء`
 
-The `Start` method adds a single instance of the given value to the beginning of the string if it does not already start
-with the value.
+طريقة "البدء" تضيف مثيل واحد من القيمة المعطاة إلى بداية السلسلة إذا لم تبدأ بالفعل
+مع القيمة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("framework").Start("/").String() // "/framework"
+str.Of("framework").Start("/").String() /"/framework"
 
-str.Of("/framework").Start("/").String() // "/framework"
+str.Of("/framework").Start("/").String() /"/framework"
 ```
 
-### `StartsWith`
+### `Startshou`
 
-The `StartsWith` method determines if the given string starts with (any) given value(s). The method is case-sensitive.
+طريقة "StartsWith" تحدد ما إذا كانت السلسلة المعينة تبدأ بقيمة (أي) معطاة. الطريقة حساسة لحالة الأحرف.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").StartsWith("Gor") // true
 
-str.Of("Hello World").StartsWith("Gor", "Hello") // true
+str.Of("مرحباً بالعالم").StartsWith("Gor", "مرحبا") // true
 ```
 
-### `String`
+### `سلسلة`
 
-The `String` method returns the string.
+طريقة "السلسلة" ترجع السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").String() // "Goravel"
 ```
 
-### `Studly`
+### `دراسية`
 
-The `Studly` method converts the string to `StudlyCase`.
+الطريقة "الدراسية" تحول السلسلة إلى 'StudlyCase\`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("goravel_framework").Studly().String() // "GoravelFramework"
 ```
 
 ### `Substr`
 
-The `Substr` method returns the portion of the string starting at the given index and continuing for the given length.
+وتعيد طريقة "Substr" الجزء من السلسلة الذي يبدأ في الفهرس المحدد ويستمر في الطول المحدد.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Substr(1, 3) // "ora"
 ```
 
-### `Swap`
+### `مبادلة`
 
-The `Swap` method swaps multiple values in the string.
+وتستبدل طريقة "المبادلة" القيم المتعددة في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Golang is awesome").Swap(map[string]string{
-  "Golang":  "Go",
-  "awesome": "excellent",
- }).String() // "Go is excellent"
+str.Of("جولانغ رائع").Swap(map[string]string{
+  "Golang": "Go",
+  "رائع": "ممتاز",
+ }).String() // "اذهب ممتاز"
 ```
 
-### `Tap`
+### `علامة`
 
-The `Tap` method passes the string to the given closure and returns the string.
+وتنقل طريقة "تابو" السلسلة إلى الإغلاق المعين وتعيد السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").Tap(func(s string) {
+str.Of("Goravel").Tap(function(s string) {
     fmt.Println(s)
 }).String() // "Goravel"
 ```
 
-### `Test`
+### `اختبار`
 
-The `Test` method determines if the given string matches the given regular expression.
+طريقة "الاختبار" تحدد ما إذا كانت السلسلة المعينة تطابق التعبير العادي المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello, Goravel!").Test(`goravel!(.*)`) // true
+str.Of("مرحباً، Goravel!").Test(`goravel!(.*)`) // true
 ```
 
 ### `Title`
 
-The `Title` method converts the string to `Title Case`.
+ويحول أسلوب "العنوان" السلسلة إلى `قضية العنوان`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").Title().String() // "Goravel Framework"
 ```
 
-### `Trim`
+### \`تريم'
 
-The `Trim` method trims the string.
+إن طريقة "تريم" تقطع السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").Trim().String() // "Goravel"
+str.Of(" Goravel ").Trim().String() // "Goravel"
 
-str.Of("/framework/").Trim("/").String() // "framework"
+str.Of("/framework/").Trim("/").String() // "Frame"
 ```
 
 ### `UcFirst`
 
-The `UcFirst` method converts the first character of the string to uppercase.
+وتحول طريقة "UcFirst" الحرف الأول للسلسلة إلى الحرف الكبير.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").UcFirst().String() // "Goravel framework"
 ```
 
 ### `UcSplit`
 
-The `UcSplit` method splits the string into an array of strings using uppercase characters.
+طريقة 'UcSplit' تقسم السلسلة إلى مجموعة من السلاسل باستخدام أحرف كبيرة.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -826,240 +825,240 @@ import "github.com/goravel/framework/support/str"
 str.Of("GoravelFramework").UcSplit() // []string{"Goravel", "Framework"}
 ```
 
-### `Unless`
+### `ملم`
 
-The `Unless` method passes the string to the given closure and returns the string if the given condition is `false`.
+والطريقة "ما لم" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كان الشرط المعين "زائفاً".
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").Unless(func(s *String) bool {
+str.Of("Goravel").Unless(function(s *String) bool {
         return false
-    }, func(s *String) *String {
-        return Of("Fallback Applied")
+    }، دالة (s *String) *String {
+        Ref("Fallback")
     }).String() // "Fallback Applied"
 ```
 
-### `Upper`
+### `أعلى`
 
-The `Upper` method converts the string to uppercase.
+الطريقة "العليا" تحول السلسلة إلى الحرف الكبير.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("goravel").Upper().String() // "GORAVEL"
 ```
 
-### `When`
+### `متى`
 
-The `When` method passes the string to the given closure and returns the string if the given condition is `true`.
-
-```go
-import "github.com/goravel/framework/support/str"
-
-str.Of("Bowen").When(true, func(s *str.String) *str.String {
-    return s.Append(" Han")
-}).String() // "Bowen Han"
-```
-
-If necessary, you may provide the third argument to the `When` method which is a closure that will be executed when the
-condition is `false`.
-
-### `WhenContains`
-
-The `WhenContains` method passes the string to the given closure and returns the string if the given string contains the
-given value.
+والطريقة "عندم" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كان الشرط المعين "صحيحاً".
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello Bowen").WhenContains("Hello", func(s *str.String) *str.String {
+str.Of("Bowen").When(true, func(s *str.String {
     return s.Append(" Han")
-}).String() // "Hello Bowen Han"
+}).String() / "Bowen Han"
 ```
 
-If necessary, you may provide the third argument to the `WhenContains` method which is a closure that will be executed
-when the string does not contain the given value.
+عند اللزوم يمكنك تقديم الحجة الثالثة إلى طريقة "عندم" التي هي إغلاق سيتم تنفيذه عندما يكون شرط
+'خطأ\`.
+
+### `WhenConinins`
+
+طريقة "WhenContains" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كان السلسلة المعطاة تحتوي على القيمة
+المعطاة.
+
+```go
+استيراد "github.com/goravel/framework/support/str"
+
+str.Of("مرحباً بوين").WhenContains("مرحباً"، وظيفة (s *str.String {
+    العودة s.Append(" Han")
+}).String() // "مرحباً بك Bowen Han"
+```
+
+عند اللزوم قد تقدم الحجة الثالثة إلى طريقة "WhenContains" التي هي إغلاق سيتم تنفيذه
+عندما لا يحتوي السلسلة على القيمة المحددة.
 
 ### `WhenContainsAll`
 
-The `WhenContainsAll` method passes the string to the given closure and returns the string if the given string contains
-all of the given values.
+طريقة "WhenContainsAll" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كان السلسلة المعطاة تحتوي على
+جميع القيم المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello Bowen").WhenContainsAll([]string{"Hello", "Bowen"}, func(s *str.String) *str.String {
+str.Of("مرحبا بالبيون").WhenContainsAll([]string{"Hello", "Bowen"}, func(s *str.String {
     return s.Append(" Han")
 }).String() // "Hello Bowen Han"
 ```
 
-If necessary, you may provide the third argument to the `WhenContainsAll` method which is a closure that will be
-executed when the string does not contain all the given values.
+عند اللزوم يمكنك تقديم الحجة الثالثة إلى طريقة "WhenContainsAll" التي هي إغلاق سيكون
+يتم تنفيذها عندما لا تحتوي السلسلة على جميع القيم المحددة.
 
-### `WhenEmpty`
+### `متى إفراغ`
 
-The `WhenEmpty` method passes the string to the given closure and returns the string if the given string is empty.
+طريقة "متى كانت فارغة" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعينة فارغة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("").WhenEmpty(func(s *str.String) *str.String {
+str.Of("").WhenEmpty(function(s *str.String {
     return s.Append("Goravel")
-}).String() // "Goravel"
+}).String() / "Goravel"
 ```
 
 ### `WhenIsAscii`
 
-The `WhenIsAscii` method passes the string to the given closure and returns the string if the given string contains only
-ASCII characters.
+طريقة 'WhenIsAscii' تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعطاة تحتوي فقط على أحرف
+ASCII.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").WhenIsAscii(func(s *str.String) *str.String {
+str.Of("Goravel").WhenIsAscii(function(s *str.String {
     return s.Append(" Framework")
-}).String() // "Goravel Framework"
+}). tring() // "Goravel Framework"
 
-str.Of("你好").WhenIsAscii(func(s *str.String) *str.String {
-    return s.Append(" Framework")
-}).String() // "你好"
+str.Of("<unk> <unk> ").WhenIsAscii(function(s *str.String {
+    Res.Append(" Framework")
+}.String() /"<unk> <unk> "
 ```
 
-### `WhenNotEmpty`
+### `whenNotEmpty`
 
-The `WhenNotEmpty` method passes the string to the given closure and returns the string if the given string is not
-empty.
+طريقة 'WhenNotEmpty' تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا لم تكن السلسلة المعينة
+فارغة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").WhenNotEmpty(func(s *str.String) *str.String {
+str.Of("Goravel").WhenNotEmpty(function(s *str.String {
     return s.Append(" Framework")
-}).String() // "Goravel Framework"
+}).String() / "Goravel Framework"
 ```
 
-### `WhenStartsWith`
+### `WhenStartswith`
 
-The `WhenStartsWith` method passes the string to the given closure and returns the string if the given string starts
-with the given value.
+طريقة 'WhenStartsWith' تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا بدأ السلسلة المعطاة
+بالقيمة المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("hello world").WhenStartsWith("hello", func(s *str.String) *str.String {
+str.Of("مرحبا بالعالم").WhenStartsWith("hello", func(s *str.String {
     return s.Title()
-}).String() // "Hello World"
+}).String() / "مرحبا بالعالم"
 ```
 
-### `WhenEndsWith`
+### `WhenEndsw`
 
-The `WhenEndsWith` method passes the string to the given closure and returns the string if the given string ends with
-the given value.
+طريقة 'WhendsWith' تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا انتهت السلسلة المعينة بـ
+القيمة المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("hello world").WhenEndsWith("world", func(s *str.String) *str.String {
+str.Of("hello world").WhenEndsWith("العالم"، وظيفة (s *str.String) *str.String {
     return s.Title()
-}).String() // "Hello World"
+}).String() / "مرحبا بالعالم"
 ```
 
-### `WhenExactly`
+### \`متى بالضبط'
 
-The `WhenExactly` method passes the string to the given closure and returns the string if the given string is exactly
-equal to the given value.
+طريقة "متى بدقة" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعينة مساوية بالضبط
+للقيمة المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Goravel").WhenExactly("Goravel", func(s *str.String) *str.String {
+str.Of("Goravel").WhenExactly("Goravel", func(s *str.String {
     return s.Append(" Framework")
 }).String() // "Goravel Framework"
 ```
 
-### `WhenNotExactly`
+### `whenNotfintly`
 
-The `WhenNotExactly` method passes the string to the given closure and returns the string if the given string is not
-exactly equal to the given value.
+طريقة 'WhenNotExactly' تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا لم يكن السلسلة المعطاة
+مساويا تماما للقيمة المعطاة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").WhenNotExactly("Goravel", func(s *str.String) *str.String {
     return s.Append(" Framework")
 }).String() // "Goravel"
 ```
 
-### `WhenIs`
+### `متى`
 
-The `WhenIs` method passes the string to the given closure and returns the string if the given string matches the given
-pattern.
+طريقة "WhenIs" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعينة تطابق النمط
+المعين.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("foo/bar").WhenIs("foo/*", func(s *str.String) *str.String {
+str.Of("foo/bar").WhenIs("foo/*", func(s *str.String {
     return s.Append("/baz")
 }).String() // "foo/bar/baz"
 ```
 
 ### `WhenIsUlid`
 
-The `WhenIsUlid` method passes the string to the given closure and returns the string if the given string is a ULID.
+وتنقل طريقة "WhenIsUlid" السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعينة هي سلسلة ULID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("01E5Z6Z1Z6Z1Z6Z1Z6Z1Z6Z1Z6").WhenIsUlid(func(s *str.String) *str.String {
-    return s.Substr(0, 10)
-}).String() // "01E5Z6Z1Z6"
+str.Of("01E5Z6Z1Z1Z6Z1Z6Z1Z6Z6Z6Z1Z1Z6Z1Z6Z6").WhenIsUlid(function(s *str.String) *str.String {
+    Res.Substr(0, 10)
+}).String() // "01E5Z6Z1Z6Z6"
 ```
 
 ### `WhenIsUuid`
 
-The `WhenIsUuid` method passes the string to the given closure and returns the string if the given string is a UUID.
+وتنقل طريقة 'WhenIsUuid\` السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعطاة عبارة عن جهاز UUID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("550e8400-e29b-41d4-a716-446655440000").WhenIsUuid(func(s *str.String) *str.String {
+str.Of("550e8400-e29b-41d4-a716-4466554400").WhenIsUuid(func(s *str.String {
     return s.Substr(0, 8)
 }).String() // "550e8400"
 ```
 
-### `WhenTest`
+### `وقت الاختبار`
 
-The `WhenTest` method passes the string to the given closure and returns the string if the given string matches the
-given regular expression.
+طريقة "الإختبار" تنقل السلسلة إلى الإغلاق المعين وتعيد السلسلة إذا كانت السلسلة المعطاة تطابق
+مع التعبير العادي.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").WhenTest(`goravel(.*)`, func(s *str.String) *str.String {
-    return s.Append(" is awesome")
-}).String() // "goravel framework is awesome"
+    return s.Append(" رائع")
+}).String() // "goravel framework رائع"
 ```
 
 ### `WordCount`
 
-The `WordCount` method returns the number of words in the string.
+طريقة "WordCount" تعيد عدد الكلمات في السلسلة.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello, World!").WordCount() // 2
+str.Of("مرحبا، العالم!").WordCount() // 2
 ```
 
-### `Words`
+### `كلمات`
 
-The `Words` method limits the number of words in the string. If necessary, you may provide the second argument to change
+وتحد طريقة "الكلمات" من عدد الكلمات في السلسلة. If necessary, you may provide the second argument to change
 the string that is used to indicate the truncation.
 
 ```go
-import "github.com/goravel/framework/support/str"
+استيراد "github.com/goravel/framework/support/str"
 
-str.Of("Hello, World!").Words(1) // "Hello..."
+str.Of("مرحبا، العالم!").Words(1) // "Hello..."
 
-str.Of("Hello, World!").Words(1, " (****)") // "Hello (****)"
+str.Of("مرحبا، العالم!").Words(1، " (**)// "مرحبا (**)"
 ```
