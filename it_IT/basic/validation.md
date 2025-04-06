@@ -1,17 +1,17 @@
-# Validation
+# Convalida
 
-Goravel provides several different approaches to validate your application's incoming data. It is most common to use the
-`Validate` method available on all incoming HTTP requests. Goravel includes a wide variety of convenient validation
-rules.
+Goravel fornisce diversi approcci per convalidare i dati in entrata della tua applicazione. È più comune usare il metodo `Validate`
+disponibile su tutte le richieste HTTP in arrivo. Goravel include una vasta gamma di convenienti regole di convalida
+.
 
-## Validation Quickstart
+## Avvio Rapido Di Convalida
 
-Let's take a closer look at a complete example of how to validate a form and return error messages to the user. This
-overview will provide you with a general understanding of how to validate incoming request data using Goravel.
+Diamo un'occhiata più da vicino a un esempio completo di come convalidare un modulo e restituire messaggi di errore all'utente. Questa panoramica
+ti fornirà una comprensione generale di come convalidare i dati di richiesta in arrivo utilizzando Goravel.
 
-### Defining The Routes
+### Definire Le Itinerari
 
-First, let's assume we have the following routes defined in our `routes/web.go` file:
+In primo luogo, supponiamo che abbiamo i seguenti percorsi definiti nel nostro file `routes/web.go`:
 
 ```go
 import "goravel/app/http/controllers"
@@ -21,18 +21,18 @@ facades.Route().Get("/post/create", postController.Create)
 facades.Route().Post("/post", postController.Store)
 ```
 
-The `GET` route displays a form for creating a new blog post. The `POST` route stores the new post in the database.
+Il percorso `GET` mostra un modulo per creare un nuovo post sul blog. Il percorso `POST` memorizza il nuovo post nel database.
 
-### Creating The Controller
+### Creazione Del Controllore
 
-Next, let's take a look at a simple controller that handles incoming requests to these routes. We'll leave the `Store`
-method empty for now:
+Successivamente, diamo un'occhiata a un semplice controllore che gestisce le richieste in arrivo per questi percorsi. Lasceremo il metodo `Store`
+vuoto per ora:
 
 ```go
 package controllers
 
 import (
-  "github.com/goravel/framework/contracts/http"
+  "github. om/goravel/framework/contracts/http"
 )
 
 type PostController struct {
@@ -45,7 +45,7 @@ func NewPostController() *PostController {
   }
 }
 
-func (r *PostController) Create(ctx http.Context) {
+func (r *PostController) Create(ctx http. ontext) {
 
 }
 
@@ -54,37 +54,37 @@ func (r *PostController) Store(ctx http.Context) {
 }
 ```
 
-### Writing The Validation Logic
+### Scrittura La Logica Di Convalida
 
-Now we are ready to fill in our `Store` method with the logic to validate the new blog post.
+Ora siamo pronti a riempire il nostro metodo `Store` con la logica di convalidare il nuovo post del blog.
 
 ```go
 func (r *PostController) Store(ctx http.Context) {
-  validator, err := ctx.Request().Validate(map[string]string{
-    "title": "required|max_len:255",
+  validator, err := ctx.Request(). alidate(map[string]string{
+    "title": "required<unk> max_len:255",
     "body": "required",
-    "code": "required|regex:^\d{4,6}$",
+    "codice": "required<unk> regex:^\d{4,6}$",
   })
 }
 ```
 
-### Nested Attributes
+### Attributi Nestati
 
-If the incoming HTTP request contains "nested" field data, you may specify these fields in your validation rules using
-the "dot" syntax:
+Se la richiesta HTTP in arrivo contiene dati di campo "annidati", è possibile specificare questi campi nelle regole di convalida utilizzando
+la sintassi "dot":
 
 ```go
 validator, err := ctx.Request().Validate(map[string]string{
-  "title": "required|max_len:255",
+  "title": "required<unk> max_len:255",
   "author.name": "required",
   "author.description": "required",
 })
 ```
 
-### Slice Validation
+### Convalida A Fette
 
-If the incoming HTTP request contains "array" field data, you may specify these fields in your validation rules using
-the `*` syntax:
+Se la richiesta HTTP in arrivo contiene dati di campo "array", è possibile specificare questi campi nelle regole di convalida utilizzando
+la sintassi `*`:
 
 ```go
 validator, err := ctx.Request().Validate(map[string]string{
@@ -92,75 +92,75 @@ validator, err := ctx.Request().Validate(map[string]string{
 })
 ```
 
-## Form Request Validation
+## Convalida Richiesta Modulo
 
-### Creating Form Requests
+### Creazione Richieste Di Modulo
 
-For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes
-that encapsulate their own validation and authorization logic. To create a form request class, you may use the
-`make:request` Artisan CLI command:
+Per scenari di convalida più complessi, potresti voler creare una "richiesta di modulo". Le richieste di modulo sono classi di richiesta personalizzate
+che incapsulano la propria logica di convalida e autorizzazione. Per creare una classe di richiesta di moduli, puoi usare il comando CLI Artisan
+`make:request`:
 
 ```go
 go run . artisan make:request StorePostRequest
 go run . artisan make:request user/StorePostRequest
 ```
 
-The generated form request class will be placed in the `app/http/requests` directory. If this directory does not exist,
-it will be created when you run the `make:request` command. Each form request generated by Goravel has six methods:
-`Authorize`, `Rules`. In addition, you can customize the `Filters`, `Messages`, `Attributes` and `PrepareForValidation`
-methods for further operations.
+La classe generata di richiesta del modulo verrà inserita nella directory `app/http/requests`. Se questa directory non esiste,
+verrà creata quando esegui il comando `make:request`. Ogni richiesta di modulo generata da Goravel ha sei metodi:
+`Authorize`, `Rules`. Inoltre, puoi personalizzare i metodi `Filtri`, `Messaggi`, `Attributes` e `PrepareForValidation`
+per ulteriori operazioni.
 
-The `Authorize` method is responsible for determining if the currently authenticated user can perform the action
-represented by the request, while the `Rules` method returns the validation rules that should apply to the request's
-data:
+Il metodo `Authorize` è responsabile per determinare se l'utente attualmente autenticato può eseguire l'azione
+rappresentata dalla richiesta, mentre il metodo `Rules` restituisce le regole di convalida che dovrebbero applicarsi ai dati
+della richiesta:
 
 ```go
 package requests
 
 import (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/contracts/validation"
+  "github. om/goravel/framework/contracts/validation"
 )
 
 type StorePostRequest struct {
   Name string `form:"name" json:"name"`
 }
 
-func (r *StorePostRequest) Authorize(ctx http.Context) error {
+func (r *StorePostRequest) Authorize(ctx http. ontext) errore {
   return nil
 }
 
-func (r *StorePostRequest) Rules(ctx http.Context) map[string]string {
+func (r *StorePostRequest) Rules(ctx http. ontext) map[string]string {
   return map[string]string{
-    // The keys are consistent with the incoming keys.
-    "name": "required|max_len:255",
+    // Le chiavi sono coerenti con le chiavi in arrivo.
+    "name": "required<unk> max_len:255",
   }
 }
 
-func (r *StorePostRequest) Filters(ctx http.Context) map[string]string {
+func (r *StorePostRequest) Filtri(ctx http. ontext) map[string]string {
   return map[string]string{
     "name": "trim",
   }
 }
 
-func (r *StorePostRequest) Messages(ctx http.Context) map[string]string {
+func (r *StorePostRequest) Messaggi(ctx http. ontext) map[string]string {
   return map[string]string{}
 }
 
-func (r *StorePostRequest) Attributes(ctx http.Context) map[string]string {
+func (r *StorePostRequest) Attributes(ctx http. ontext) map[string]string {
   return map[string]string{}
 }
 
-func (r *StorePostRequest) PrepareForValidation(ctx http.Context, data validation.Data) error {
+func (r *StorePostRequest) PrepareForValidation(ctx http. ontext, data validation.Data) errore {
   return nil
 }
 ```
 
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The
-incoming form request is validated before the controller method is called, meaning you do not need to clutter your
-controller with any validation logic:
+Quindi, come vengono valutate le regole di convalida? Tutto quello che devi fare è suggerire la richiesta sul tuo metodo di controller. La richiesta di modulo
+viene convalidata prima di chiamare il metodo del controller, significa che non hai bisogno di ingombrare il tuo controller
+con alcuna logica di convalida:
 
-Then you can use the `ValidateRequest` method to validate the request in the controller:
+Quindi puoi usare il metodo `ValidateRequest` per convalidare la richiesta nel controller:
 
 ```go
 func (r *PostController) Store(ctx http.Context) {
@@ -169,41 +169,41 @@ func (r *PostController) Store(ctx http.Context) {
 }
 ```
 
-Check more rules in the [Available Validation Rules](#available-validation-rules) section.
+Controlla più regole nella sezione [Regole di convalida disponibili](#available-validation-rules).
 
-> Note that since `form` passed values ​​are of `string` type by default, all fields in request should also be of
-> `string` type, otherwise please use `JSON` to pass values.
+> Nota che poiché `form` i valori passati <unk> <unk> sono di tipo `string` per impostazione predefinita, tutti i campi nella richiesta dovrebbero essere di tipo
+> `string`, altrimenti usa `JSON` per superare i valori.
 
-### Authorizing Form Requests
+### Richiesta Modulo Autorizzazione
 
-The form request class also contains an `Authorize` method. Within this method, you may determine if the authenticated
-user actually has the authority to update a given resource. For example, you may determine if a user actually owns a
-blog comment they are attempting to update. Most likely, you will interact with
-your [authorization gates and policies](../security/authorization) within this method:
+La classe di richiesta del modulo contiene anche un metodo `Authorize`. All'interno di questo metodo, è possibile determinare se l'utente autenticato
+ha effettivamente l'autorità di aggiornare una determinata risorsa. Ad esempio, è possibile determinare se un utente possiede effettivamente un commento del blog
+che stanno tentando di aggiornare. Molto probabilmente, interagirai con
+i tuoi [cancelli di autorizzazione e politiche](../security/authorization) all'interno di questo metodo:
 
 ```go
 func (r *StorePostRequest) Authorize(ctx http.Context) error {
-  var comment models.Comment
+  var comment models. omment
   facades.Orm().Query().First(&comment)
   if comment.ID == 0 {
-    return errors.New("no comment is found")
+    return errors. ew("nessun commento trovato")
   }
 
-  if !facades.Gate().Allows("update", map[string]any{
-    "comment": comment,
+  se !facades.Gate(). llows("update", map[string]any{
+    "comment": commento,
   }) {
-    return errors.New("can't update comment")
+    return errors. ew("can't update comment")
   }
 
   return nil
 }
 ```
 
-`error` will be passed to the return value of `ctx.Request().ValidateRequest`.
+`error` verrà passato al valore di ritorno di `ctx.Request().ValidateRequest`.
 
-### Filter Input Data
+### Filtro Dati Di Ingresso
 
-You can format the input data by improving the `Filters` method of the form request. This method should return an map of
+È possibile formattare i dati di input migliorando il metodo `Filtri` della richiesta del modulo. Questo metodo dovrebbe restituire una mappa di
 `attribute/filter`:
 
 ```go
@@ -214,25 +214,25 @@ func (r *StorePostRequest) Filters(ctx http.Context) map[string]string {
 }
 ```
 
-### Customizing The Error Messages
+### Personalizzazione Dei Messaggi Di Errore
 
-You may customize the error messages used by the form request by overriding the `Messages` method. This method should
-return an array of attribute / rule pairs and their corresponding error messages:
+Puoi personalizzare i messaggi di errore usati dalla richiesta del modulo sovrascrivendo il metodo `Messages`. Questo metodo dovrebbe
+restituire un array di coppie di attributi / regole e i loro messaggi di errore corrispondenti:
 
 ```go
 func (r *StorePostRequest) Messages() map[string]string {
   return map[string]string{
-    "title.required": "A title is required",
-    "body.required": "A message is required",
+    "title. equired": "È richiesto un titolo",
+    "body.required": "È richiesto un messaggio",
   }
 }
 ```
 
-### Customizing The Validation Attributes
+### Personalizzare Gli Attributi Di Convalida
 
-Many of Goravel's built-in validation rule error messages contain an `:attribute` placeholder. If you would like the
-`:attribute` placeholder of your validation message to be replaced with a custom attribute name, you may specify the
-custom names by overriding the `Attributes` method. This method should return an array of attribute / name pairs:
+Molti messaggi di errore di regola di convalida incorporati di Goravel contengono un segnaposto `:attribute`. Se vuoi che il segnaposto
+`:attribute` del tuo messaggio di convalida sia sostituito con un nome di attributo personalizzato, puoi specificare i nomi personalizzati
+sovrascrivendo il metodo `Attributes`. Questo metodo dovrebbe restituire un array di coppie attributo / nome:
 
 ```go
 func (r *StorePostRequest) Attributes() map[string]string {
@@ -242,54 +242,54 @@ func (r *StorePostRequest) Attributes() map[string]string {
 }
 ```
 
-### Preparing Input For Validation
+### Preparazione Input Per La Convalida
 
-If you need to prepare or sanitize any data from the request before you apply your validation rules, you may use the
-`PrepareForValidation` method:
+Se hai bisogno di preparare o sanificare eventuali dati dalla richiesta prima di applicare le tue regole di convalida, puoi usare il metodo
+`PrepareForValidation`:
 
 ```go
 func (r *StorePostRequest) PrepareForValidation(ctx http.Context, data validation.Data) error {
-  if name, exist := data.Get("name"); exist {
+  if name, exist := data. et("name"); exist {
     return data.Set("name", name.(string)+"1")
   }
   return nil
 }
 ```
 
-## Manually Creating Validators
+## Creazione Manualmente Dei Validatori
 
 If you do not want to use the `Validate` method on the request, you may create a validator instance manually using the
-`facades.Validator`. The `Make` method of the facade generates a new validator instance:
+`facades.Validator`. Il metodo `Make` della facciata genera una nuova istanza di validatore:
 
 ```go
 func (r *PostController) Store(ctx http.Context) http.Response {
-  validator, _ := facades.Validation().Make(
+  validator, _ := facades.Validation(). ake(
     map[string]any{
       "name": "Goravel",
     },
     map[string]string{
-      "title": "required|max_len:255",
-      "body":  "required",
+      "title": "required<unk> max_len:255",
+      "body": "required",
     })
 
-  if validator.Fails() {
+  se validatore. ails() {
     // Return fail
   }
 
-  var user models.User
+  var user models. ser
   err := validator.Bind(&user)
   ...
 }
 ```
 
-The first argument passed to the `Make` method is the data under validation which can be `map[string]any` or `struct`.
-The second argument is an array of validation rules to be applied to the data.
+Il primo argomento passato al metodo `Make` sono i dati sotto convalida che possono essere `map[string]any` o `struct`.
+Il secondo argomento è una serie di regole di convalida da applicare ai dati.
 
-### Customizing The Error Messages
+### Personalizzazione Dei Messaggi Di Errore
 
-If needed, you may provide custom error messages that a validator instance should use instead of the default error
-messages provided by Goravel. You may pass the custom messages as the third argument to the `Make` method (also
-applicable to `ctx.Request().Validate()`):
+Se necessario, è possibile fornire messaggi di errore personalizzati che un'istanza di validatore dovrebbe utilizzare invece dei messaggi di errore
+predefiniti forniti da Goravel. Puoi passare i messaggi personalizzati come terzo argomento al metodo `Make` (anche
+applicabile a `ctx.Request().Validate()`):
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
@@ -297,23 +297,23 @@ validator, err := facades.Validation().Make(input, rules, validation.Messages(ma
 }))
 ```
 
-### Specifying A Custom Message For A Given Attribute
+### Specificare Un Messaggio Personalizzato Per Un Attributo Dato
 
-Sometimes you may wish to specify a custom error message only for a specific attribute. You may do so using "dot"
-notation. Specify the attribute's name first, followed by the rule (also applicable to `ctx.Request().Validate()`):
+A volte è possibile specificare un messaggio di errore personalizzato solo per un attributo specifico. Puoi farlo usando la notazione "dot"
+. Specifica prima il nome dell'attributo, seguito dalla regola (applicabile anche a `ctx.Request().Validate()`):
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
-  "email.required": "We need to know your email address!",
+  "email.required": "Abbiamo bisogno di conoscere il tuo indirizzo email!",
 }))
 ```
 
-### Specifying Custom Attribute Values
+### Specificare I Valori Attributi Personalizzati
 
-Many of Goravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the
-field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you
-may pass an array of custom attributes as the third argument to the `Make` method (also applicable to
-`ctx.Request().Validate()`):
+Molti dei messaggi di errore incorporati da Goravel includono un segnaposto `:attribute` che viene sostituito con il nome del campo
+o attributo sotto convalida. Per personalizzare i valori usati per sostituire questi segnaposto per campi specifici, tu
+puoi passare un array di attributi personalizzati come terzo argomento al metodo `Make` (anche applicabile a
+`ctx. equest().Validate()`):
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Attributes(map[string]string{
@@ -321,10 +321,10 @@ validator, err := facades.Validation().Make(input, rules, validation.Attributes(
 }))
 ```
 
-### Format Data Before Validation
+### Formato Dati Prima Della Convalida
 
-You can format the data before validating the data for more flexible data validation, and you can pass the method of
-formatting the data as the third parameter to the `Make` method (also applicable to `ctx.Request().Validate()`):
+È possibile formattare i dati prima di convalidare i dati per una più flessibile convalida dei dati, e puoi passare il metodo di formattazione
+dei dati come terzo parametro al metodo `Make` (applicabile anche a `ctx. equest().Validate()`):
 
 ```go
 import (
@@ -332,38 +332,38 @@ import (
   "github.com/goravel/framework/validation"
 )
 
-func (r *PostController) Store(ctx http.Context) http.Response {
+func (r *PostController) Store(ctx http. ontext) http.Response {
   validator, err := facades.Validation().Make(input, rules,
-    validation.PrepareForValidation(func(ctx http.Context, data validationcontract.Data) error {
-      if name, exist := data.Get("name"); exist {
-        return data.Set("name", name)
+    validation. repareForValidation(func(ctx http.Context, data validationcontract.Data) error {
+      if name, exist := data. et("name"); exist {
+        return data. et("nome", nome)
       }
 
       return nil
     }))
 
-  ...
+  . .
 }
 ```
 
-## Working With Validated Input
+## Lavorare Con Input Validato
 
-After validating incoming request data using form requests or manually created validator instances, you still want to
-bind the request data to a `struct`, there are two ways to do this:
+Dopo aver convalidato i dati di richiesta in arrivo utilizzando richieste di modulo o istanze di validazione create manualmente, vuoi ancora associare
+i dati della richiesta a un `struct`, ci sono due modi per fare questo:
 
-1. Use the `Bind` method, this will bind all incoming data, including unvalidated data:
+1. Usa il metodo `Bind`, questo collegherà tutti i dati in ingresso, inclusi i dati non convalidati:
 
 ```go
 validator, err := ctx.Request().Validate(rules)
 var user models.User
-err := validator.Bind(&user)
+err := validator. ind(&user)
 
 validator, err := facades.Validation().Make(input, rules)
 var user models.User
 err := validator.Bind(&user)
 ```
 
-2. The incoming data is automatically bound to the form when you use request for validation:
+2. I dati in entrata sono automaticamente vincolati al modulo quando si utilizza la richiesta di convalida:
 
 ```go
 var storePost requests.StorePostRequest
@@ -371,9 +371,9 @@ errors, err := ctx.Request().ValidateRequest(&storePost)
 fmt.Println(storePost.Name)
 ```
 
-## Working With Error Messages
+## Lavorare Con I Messaggi Di Errore
 
-### Retrieving one Error Message For A Field (Random)
+### Recupero di un messaggio di errore per un campo (Random)
 
 ```go
 validator, err := ctx.Request().Validate(rules)
@@ -382,19 +382,19 @@ validator, err := facades.Validation().Make(input, rules)
 message := validator.Errors().One("email")
 ```
 
-### Retrieving All Error Messages For A Field
+### Recupero Tutti I Messaggi Di Errore Per Un Campo
 
 ```go
-messages := validator.Errors().Get("email")
+messaggi := validator.Errors().Get("email")
 ```
 
-### Retrieving All Error Messages For All Fields
+### Recupero Tutti I Messaggi Di Errore Per Tutti I Campi
 
 ```go
-messages := validator.Errors().All()
+messaggi := validator.Errors().All()
 ```
 
-### Determining If Error Messages Exist For A Field
+### Determinare Se I Messaggi Di Errore Esiste Per Un Campo
 
 ```go
 if validator.Errors().Has("email") {
@@ -402,138 +402,138 @@ if validator.Errors().Has("email") {
 }
 ```
 
-## Available Validation Rules
+## Regole Di Convalida Disponibili
 
-Below is a list of all available validation rules and their function:
+Di seguito è riportato un elenco di tutte le regole di convalida disponibili e la loro funzione:
 
-| Name                   | Description                                                                                                                                                                                         |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `required`             | Check value is required and cannot be zero value. For example, field type is `bool`, the passing value is `false`, it can not pass the validation.                  |
-| `required_if`          | `required_if:anotherfield,value,...` The field under validation must be present and not empty if the anotherField field is equal to any value.                                      |
-| `required_unless`      | `required_unless:anotherfield,value,...` The field under validation must be present and not empty unless the anotherField field is equal to any value.                              |
-| `required_with`        | `required_with:foo,bar,...` The field under validation must be present and not empty only if any of the other specified fields are present.                                         |
-| `required_with_all`    | `required_with_all:foo,bar,...` The field under validation must be present and not empty only if all of the other specified fields are present.                                     |
-| `required_without`     | `required_without:foo,bar,...` The field under validation must be present and not empty only when any of the other specified fields are not present.                                |
-| `required_without_all` | `required_without_all:foo,bar,...` The field under validation must be present and not empty only when all of the other specified fields are not present.                            |
-| `int`                  | Check value is `intX` `uintX` type, and support size checking. eg: `int` `int:2` `int:2,12`. Notice: [Points for using rules](#int) |
-| `uint`                 | Check value is `uint(uintX)` type, `value >= 0`                                                                                                                                                     |
-| `bool`                 | Check value is bool string(`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false").                                |
-| `string`               | Check value is string type, and support size checking. eg:`string` `string:2` `string:2,12`                                                                         |
-| `float`                | Check value is `float(floatX)` type                                                                                                                                                                 |
-| `slice`                | Check value is slice type(`[]intX` `[]uintX` `[]byte` `[]string`)                                                                                                                |
-| `in`                   | `in:foo,bar,…` Check if the value is in the given enumeration                                                                                                                                       |
-| `not_in`               | `not_in:foo,bar,…` Check if the value is not in the given enumeration                                                                                                                               |
-| `starts_with`          | `starts_with:foo` Check if the input string value is starts with the given sub-string                                                                                                               |
-| `ends_with`            | `ends_with:foo` Check if the input string value is ends with the given sub-string                                                                                                                   |
-| `between`              | `between:min,max` Check that the value is a number and is within the given range                                                                                                                    |
-| `max`                  | `max:value` Check value is less than or equal to the given value(`intX` `uintX` `floatX`)                                                                                        |
-| `min`                  | `min:value` Check value is greater than or equal to the given value(`intX` `uintX` `floatX`)                                                                                     |
-| `eq`                   | `eq:value` Check that the input value is equal to the given value                                                                                                                                   |
-| `ne`                   | `ne:value` Check that the input value is not equal to the given value                                                                                                                               |
-| `lt`                   | `lt:value` Check value is less than the given value(`intX` `uintX` `floatX`)                                                                                                     |
-| `gt`                   | `gt:value` Check value is greater than the given value(`intX` `uintX` `floatX`)                                                                                                  |
-| `len`                  | `len:value` Check value length is equals to the given size(`string` `array` `slice` `map`)                                                                                       |
-| `min_len`              | `min_len:value` Check the minimum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `max_len`              | `max_len:value` Check the maximum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `email`                | Check value is email address string                                                                                                                                                                 |
-| `array`                | Check value is array, slice type                                                                                                                                                                    |
-| `map`                  | Check value is a MAP type                                                                                                                                                                           |
-| `eq_field`             | `eq_field:field` Check that the field value is equals to the value of another field                                                                                                                 |
-| `ne_field`             | `ne_field:field` Check that the field value is not equals to the value of another field                                                                                                             |
-| `gt_field`             | `gt_field:field` Check that the field value is greater than the value of another field                                                                                                              |
-| `gte_field`            | `gte_field:field` Check that the field value is greater than or equal to the value of another field                                                                                                 |
-| `lt_field`             | `lt_field:field` Check that the field value is less than the value of another field                                                                                                                 |
-| `lte_field`            | `lte_field:field` Check if the field value is less than or equal to the value of another field                                                                                                      |
-| `file`                 | Verify if it is an uploaded file                                                                                                                                                                    |
-| `image`                | Check if it is an uploaded image file and support suffix check                                                                                                                                      |
-| `date`                 | Check the field value is date string                                                                                                                                                                |
-| `gt_date`              | `gt_date:value` Check that the input value is greater than the given date string                                                                                                                    |
-| `lt_date`              | `lt_date:value` Check that the input value is less than the given date string                                                                                                                       |
-| `gte_date`             | `gte_date:value` Check that the input value is greater than or equal to the given date string                                                                                                       |
-| `lte_date`             | `lte_date:value` Check that the input value is less than or equal to the given date string                                                                                                          |
-| `alpha`                | Verify that the value contains only alphabetic characters                                                                                                                                           |
-| `alpha_num`            | Check that only letters, numbers are included                                                                                                                                                       |
-| `alpha_dash`           | Check to include only letters, numbers, dashes ( - ), and underscores ( _ )                                                              |
-| `json`                 | Check value is JSON string                                                                                                                                                                          |
-| `number`               | Check value is number string `>= 0`                                                                                                                                                                 |
-| `full_url`             | Check value is full URL string(must start with http,https)                                                                                                                       |
-| `ip`                   | Check value is IP(v4 or v6) string                                                                                                                                               |
-| `ipv4`                 | Check value is IPv4 string                                                                                                                                                                          |
-| `ipv6`                 | Check value is IPv6 string                                                                                                                                                                          |
-| `regex`                | Check if the value can pass the regular verification                                                                                                                                                |
+| Nome                   | Descrizione                                                                                                                                                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `required`             | Il valore di controllo è richiesto e non può essere pari a zero. Per esempio, il tipo di campo è `bool`, il valore che passa è `false`, non può passare la convalida.                                |
+| `required_if`          | `required_if:anotherfield,value,...` Il campo sotto convalida deve essere presente e non vuoto se l'anotherField è uguale a qualsiasi valore.                                                                        |
+| `required_unless`      | `required_unless:anotherfield,value,...` Il campo sotto convalida deve essere presente e non vuoto a meno che l'anotherField non sia uguale a qualsiasi valore.                                                      |
+| `required_with`        | `required_with:foo,bar,...` Il campo sotto convalida deve essere presente e non vuoto solo se sono presenti altri campi specificati.                                                                                 |
+| `required_with_all`    | `required_with_all:foo,bar,...` Il campo sotto convalida deve essere presente e non vuoto solo se sono presenti tutti gli altri campi specificati.                                                                   |
+| `required_without`     | `required_without:foo,bar,...` Il campo sotto convalida deve essere presente e non vuoto solo quando uno degli altri campi specificati non sono presenti.                                                            |
+| `required_without_all` | `required_without_all:foo,bar,...` Il campo sotto convalida deve essere presente e non vuoto solo quando tutti gli altri campi specificati non sono presenti.                                                        |
+| `int`                  | Il valore di verifica è il tipo `intX` `uintX` e il controllo della dimensione del supporto. eg: `int` `int:2` `int:2,12`. Avviso: [Punti per usare le regole](#int) |
+| `uint`                 | Il valore di verifica è `uint(uintX)` tipo, `value >= 0`                                                                                                                                                                             |
+| `bool`                 | Il valore di verifica è stringhe bool (`true`: "1", "on", "sì", "true", `false`: "0", "off", "no", "false").                                                      |
+| `string`               | Il valore di controllo è il tipo di stringa e il controllo della dimensione del supporto. eg:`string` `string:2` `string:2,12`                                                                       |
+| `float`                | Il valore di controllo è il tipo `float(floatX)`                                                                                                                                                                                     |
+| `slice`                | Il valore di verifica è il tipo di slice (`[]intX` `[]uintX` `[]byte` `[]string`)                                                                                                                                 |
+| `in`                   | `in:foo,bar,…` Verifica se il valore è nell'enumerazione data                                                                                                                                                                        |
+| `not_in`               | `not_in:foo,bar,…` Verifica se il valore non è nell'enumerazione data                                                                                                                                                                |
+| `starts_with`          | `starts_with:foo` Verifica se il valore della stringa in ingresso è iniziato con la sotto-stringa data                                                                                                                               |
+| `ends_with`            | `ends_with:foo` Verifica se il valore della stringa in ingresso termina con la sotto-stringa data                                                                                                                                    |
+| `tra`                  | `tra: min,max` Verificare che il valore sia un numero e rientri nell'intervallo indicato                                                                                                                                             |
+| `max`                  | `max:value` Verifica che il valore sia inferiore o uguale al valore dato (`intX` `uintX` `floatX`)                                                                                                                |
+| `min`                  | `min:value` Verifica che il valore sia maggiore o uguale al valore dato (`intX` `uintX` `floatX`)                                                                                                                 |
+| `eq`                   | `eq:value` Verifica che il valore in ingresso sia uguale al valore dato                                                                                                                                                              |
+| `ne`                   | `ne:value` Verifica che il valore in ingresso non sia uguale al valore dato                                                                                                                                                          |
+| `lt`                   | `lt:value` Il valore di verifica è inferiore al valore dato (`intX` `uintX` `floatX`)                                                                                                                             |
+| `gt`                   | `gt:value` Il valore di verifica è maggiore del valore dato (`intX` `uintX` `floatX`)                                                                                                                             |
+| `len`                  | `len:value` La lunghezza del valore di controllo è uguale alla dimensione data (`string` `array` `slice` `map`)                                                                                                   |
+| `min_len`              | `min_len:value` Controlla la lunghezza minima del valore è la dimensione data (`string` `array` `slice` `map`)                                                                                                    |
+| `max_len`              | `max_len:value` Controlla la lunghezza massima del valore è la dimensione data (`string` `array` `slice` `map`)                                                                                                   |
+| `email`                | Il valore di verifica è la stringa di indirizzo email                                                                                                                                                                                |
+| `array`                | Il valore di controllo è array, tipo di fetta                                                                                                                                                                                        |
+| `map`                  | Il valore di controllo è un tipo MAP                                                                                                                                                                                                 |
+| `eq_field`             | `eq_field:field` Verifica che il valore del campo sia uguale al valore di un altro campo                                                                                                                                             |
+| `ne_field`             | `ne_field:field` Verifica che il valore del campo non sia uguale al valore di un altro campo                                                                                                                                         |
+| `gt_field`             | `gt_field:field` Verifica che il valore del campo sia maggiore del valore di un altro campo                                                                                                                                          |
+| `gte_field`            | `gte_field:field` Verifica che il valore del campo sia maggiore o uguale al valore di un altro campo                                                                                                                                 |
+| `lt_field`             | `lt_field:field` Verifica che il valore del campo sia inferiore al valore di un altro campo                                                                                                                                          |
+| `lte_field`            | `lte_field:field` Verifica se il valore del campo è inferiore o uguale al valore di un altro campo                                                                                                                                   |
+| `file`                 | Verifica se è un file caricato                                                                                                                                                                                                       |
+| `image`                | Verifica se è un file di immagine caricato e supporta il controllo suffisso                                                                                                                                                          |
+| `date`                 | Controlla il valore del campo è la stringa di data                                                                                                                                                                                   |
+| `gt_date`              | `gt_date:value` Verifica che il valore in ingresso sia maggiore della stringa data specificata                                                                                                                                       |
+| `lt_date`              | `lt_date:value` Verifica che il valore in ingresso sia inferiore alla stringa data specificata                                                                                                                                       |
+| `gte_date`             | `gte_date:value` Verifica che il valore di input sia maggiore o uguale alla stringa data specificata                                                                                                                                 |
+| `lte_date`             | `lte_date:value` Verifica che il valore in ingresso sia inferiore o uguale alla stringa data specificata                                                                                                                             |
+| `alpha`                | Verifica che il valore contenga solo caratteri alfabetici                                                                                                                                                                            |
+| `alpha_num`            | Controlla che siano inclusi solo lettere, numeri                                                                                                                                                                                     |
+| `alpha_dash`           | Spunta la casella per includere solo lettere, numeri, trattini ( - ), e trattini bassi ( _ )                                                                              |
+| `json`                 | Il valore di controllo è la stringa JSON                                                                                                                                                                                             |
+| `number`               | Il valore di controllo è la stringa numero `>= 0`                                                                                                                                                                                    |
+| `full_url`             | Il valore di controllo è la stringa di URL completa (deve iniziare con http,https)                                                                                                                                |
+| `ip`                   | Il valore di controllo è la stringa IP(v4 o v6)                                                                                                                                                                   |
+| `ipv4`                 | Il valore di controllo è la stringa IPv4                                                                                                                                                                                             |
+| `ipv6`                 | Il valore di controllo è la stringa IPv6                                                                                                                                                                                             |
+| `regex`                | Verifica se il valore può superare la verifica regolare                                                                                                                                                                              |
 
-### Points For Using Rules
+### Punti Per L'Uso Delle Regole
 
 #### int
 
-When using `ctx.Request().Validate(rules)` for validation, the incoming `int` type data will be parsed by
-`json.Unmarshal` into `float64` type, which will cause the int rule validation to fail.
+Quando si utilizza `ctx.Request().Validate(rules)` per la convalida, i dati di tipo `int` in arrivo verranno analizzati da
+`json. nmarshal` nel tipo `float64`, che causerà il fallimento della convalida della regola int.
 
-**Solutions**
+**Soluzioni**
 
-Option 1: Add [`validation.PrepareForValidation`](#format-data-before-validation), format the data before validating the
-data;
+Opzione 1: aggiungere [`validation.PrepareForValidation`](#format-data-before-validation), formattare i dati prima di convalidare i dati
+;
 
-Option 2: Use `facades.Validation().Make()` for rule validation;
+Opzione 2: Usa `facades.Validation().Make()` per la convalida delle regole;
 
-## Custom Validation Rules
+## Regole Di Convalida Personalizzate
 
-Goravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of
-registering custom validation rules is using rule objects. To generate a new rule object, you can simply use the
-`make:rule` Artisan command.
+Goravel fornisce una varietà di utili regole di convalida; tuttavia, si può desiderare di specificare alcune delle proprie. Un metodo di
+che registra le regole di convalida personalizzate è quello di utilizzare gli oggetti delle regole. Per generare un nuovo oggetto di regola, puoi semplicemente usare il comando Artigiano
+`make:rule`.
 
-For instance, if you want to verify that a string is uppercase, you can create a rule with this command. Goravel will
-then save this new rule in the `app/rules` directory. If this directory does not exist, Goravel will create it when you
-run the Artisan command to create your rule.
+Per esempio, se si desidera verificare che una stringa sia in maiuscolo, è possibile creare una regola con questo comando. Goravel salverà
+questa nuova regola nella directory `app/rules`. Se questa directory non esiste, Goravel la creerà quando
+esegui il comando Artigiano per creare la tua regola.
 
 ```go
 go run . artisan make:rule Uppercase
 go run . artisan make:rule user/Uppercase
 ```
 
-After creating the rule, we need to define its behavior. A rule object has two methods: `Passes` and `Message`. The
-Passes method receives all data, including the data to be validated and the validation parameters. It should return
-`true` or `false` depending on whether the attribute value is valid. The `Message` method should return the error
-message for validation that should be used when the validation fails.
+Dopo aver creato la regola, dobbiamo definirne il comportamento. Un oggetto regola ha due metodi: `Passes` e `Message`. Il metodo
+Passes riceve tutti i dati, compresi i dati da convalidare e i parametri di convalida. Dovrebbe restituire
+`true` o `false` a seconda che il valore dell'attributo sia valido. Il metodo `Message` dovrebbe restituire il messaggio di errore
+per la convalida che dovrebbe essere utilizzato quando la convalida fallisce.
 
 ```go
-package rules
+pacchetto regole
 
 import (
   "strings"
 
-  "github.com/goravel/framework/contracts/validation"
+  "github. om/goravel/framework/contracts/validation"
 )
 
 type Uppercase struct {
 }
 
-// Signature The name of the rule.
+// Firma Il nome della regola.
 func (receiver *Uppercase) Signature() string {
   return "uppercase"
 }
 
-// Passes Determine if the validation rule passes.
+// Passes Determina se la regola di convalida passa.
 func (receiver *Uppercase) Passes(data validation.Data, val any, options ...any) bool {
-  return strings.ToUpper(val.(string)) == val.(string)
+  return strings.ToUpper(val.(string)) == val. stringa)
 }
 
-// Message Get the validation error message.
+// Messaggio Ricevi il messaggio di errore di convalida.
 func (receiver *Uppercase) Message() string {
   return "The :attribute must be uppercase."
 }
 
 ```
 
-Then you need to register the rule to the `rules` method in the `app/providers/validation_service_provider.go` file, and
-the rule can be used like other rules:
+Quindi devi registrare la regola nel metodo `rules` nel file `app/providers/validation_service_provider.go` e
+la regola può essere usata come altre regole:
 
 ```go
-package providers
+package provider
 
 import (
   "github.com/goravel/framework/contracts/validation"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/rules"
 )
@@ -546,51 +546,51 @@ func (receiver *ValidationServiceProvider) Register() {
 }
 
 func (receiver *ValidationServiceProvider) Boot() {
-  if err := facades.Validation().AddRules(receiver.rules()); err != nil {
-    facades.Log().Errorf("add rules error: %+v", err)
+  if err := facades. alidation().AddRules(receiver.rules()); err != nil {
+    facades.Log(). rrorf("aggiungi regole errore: %+v", err)
   }
 }
 
-func (receiver *ValidationServiceProvider) rules() []validation.Rule {
+func (receiver *ValidationServiceProvider) rules() []validation. ule {
   return []validation.Rule{
     &rules.Uppercase{},
   }
 }
 ```
 
-## Available Validation Filters
+## Filtri Di Convalida Disponibili
 
-| Name                           | Description                                                                                                                                                             |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `int/toInt`                    | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `uint/toUint`                  | Convert value(string/intX/floatX) to `uint` type `v.FilterRule("id", "uint")`                                                                        |
-| `int64/toInt64`                | Convert value(string/intX/floatX) to `int64` type `v.FilterRule("id", "int64")`                                                                      |
-| `float/toFloat`                | Convert value(string/intX/floatX) to `float` type                                                                                                    |
-| `bool/toBool`                  | Convert string value to bool. (`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false") |
-| `trim/trimSpace`               | Clean up whitespace characters on both sides of the string                                                                                                              |
-| `ltrim/trimLeft`               | Clean up whitespace characters on left sides of the string                                                                                                              |
-| `rtrim/trimRight`              | Clean up whitespace characters on right sides of the string                                                                                                             |
-| `int/integer`                  | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `lower/lowercase`              | Convert string to lowercase                                                                                                                                             |
-| `upper/uppercase`              | Convert string to uppercase                                                                                                                                             |
-| `lcFirst/lowerFirst`           | Convert the first character of a string to lowercase                                                                                                                    |
-| `ucFirst/upperFirst`           | Convert the first character of a string to uppercase                                                                                                                    |
-| `ucWord/upperWord`             | Convert the first character of each word to uppercase                                                                                                                   |
-| `camel/camelCase`              | Convert string to camel naming style                                                                                                                                    |
-| `snake/snakeCase`              | Convert string to snake naming style                                                                                                                                    |
-| `escapeJs/escapeJS`            | Escape JS string.                                                                                                                                       |
-| `escapeHtml/escapeHTML`        | Escape HTML string.                                                                                                                                     |
-| `str2ints/strToInts`           | Convert string to int slice `[]int`                                                                                                                                     |
-| `str2time/strToTime`           | Convert date string to `time.Time`.                                                                                                                     |
-| `str2arr/str2array/strToArray` | Convert string to string slice `[]string`                                                                                                                               |
+| Nome                           | Descrizione                                                                                                                                                                        |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `int/toInt`                    | Converti value(string/intX/floatX) in `int` type `v.FilterRule("id", "int")`                                                                                    |
+| `uint/toUint`                  | Converti value(string/intX/floatX) in `uint` type `v.FilterRule("id", "uint")`                                                                                  |
+| `int64/toInt64`                | Converti value(string/intX/floatX) in `int64` tipo `v.FilterRule("id", "int64")`                                                                                |
+| `float/toFloat`                | Converti valore (string/intX/floatX) in tipo `float`                                                                                                            |
+| `bool/toBool`                  | Converte il valore della stringa in bool. (`true`: "1", "on", "sì", "true", `false`: "0", "off", "no", "falso") |
+| `trim/trimSpace`               | Pulisci i caratteri dello spazio bianco su entrambi i lati della stringa                                                                                                           |
+| `ltrim/trimLeft`               | Pulisci i caratteri dello spazio bianco sui lati sinistro della stringa                                                                                                            |
+| `rtrim/trimRight`              | Pulisci i caratteri dello spazio bianco sul lato destro della stringa                                                                                                              |
+| `int/integer`                  | Converti value(string/intX/floatX) in `int` type `v.FilterRule("id", "int")`                                                                                    |
+| `lower/lowercase`              | Converti stringa in minuscolo                                                                                                                                                      |
+| `upper/uppercase`              | Converti la stringa in maiuscolo                                                                                                                                                   |
+| `lcFirst/lowerFirst`           | Converte il primo carattere di una stringa in minuscolo                                                                                                                            |
+| `ucFirst/upperFirst`           | Converte il primo carattere di una stringa in maiuscolo                                                                                                                            |
+| `ucWord/upperWord`             | Converte il primo carattere di ogni parola in maiuscolo                                                                                                                            |
+| `camel/camelCase`              | Converti stringa in stile nome cammello                                                                                                                                            |
+| `snake/snakeCase`              | Converti la stringa in stile nome serpente                                                                                                                                         |
+| `escapeJs/escapeJS`            | Fuga la stringa JS.                                                                                                                                                |
+| `escapeHtml/escapeHTML`        | Esci dalla stringa HTML.                                                                                                                                           |
+| `str2ints/strToInts`           | Converti stringa in int slice `[]int`                                                                                                                                              |
+| `str2time/strToTime`           | Converti la stringa della data in `time.Time`.                                                                                                                     |
+| `str2arr/str2array/strToArray` | Converti stringa in stringa `[]string`                                                                                                                                             |
 
-## Custom filter
+## Filtro personalizzato
 
-Goravel provides a variety of helpful filters, however, you may wish to specify some of your own. To generate a new rule
-object, you can simply use the `make:filter` Artisan command. Let's use this command to generate a rule that converts a
-string to an integer. This rule is already built into the framework, we just create it as an example. Goravel will save
-this new filter in the `app/filters` directory. If this directory does not exist, Goravel will create it when you run
-the Artisan command to create the rule:
+Goravel fornisce una varietà di filtri utili, tuttavia, si può desiderare di specificare alcuni dei vostri propri. Per generare un nuovo oggetto
+, puoi semplicemente usare il comando `make:filter` Artigiano. Usiamo questo comando per generare una regola che converte una stringa
+in un numero intero. Questa regola è già stata inserita nel quadro, basta crearla a titolo di esempio. Goravel salverà
+questo nuovo filtro nella directory `app/filters`. Se questa directory non esiste, Goravel la creerà quando esegui
+il comando Artigiano per creare la regola:
 
 ```go
 go run . artisan make:filter ToInt
@@ -598,8 +598,8 @@ go run . artisan make:filter ToInt
 go run . artisan make:filter user/ToInt
 ```
 
-One filter contains two methods: `Signature` and `Handle`. The `Signature` method sets the name of the filter. The
-`Handle` method performs the specific filtering logic:
+Un filtro contiene due metodi: `Signature` e `Handle`. Il metodo `Signature` imposta il nome del filtro. Il metodo `Handle`
+esegue la logica di filtraggio specifica:
 
 ```go
 package filters
@@ -608,34 +608,34 @@ import (
   "strings"
 
   "github.com/spf13/cast"
-  "github.com/goravel/framework/contracts/validation"
+  "github. om/goravel/framework/contracts/validation"
 )
 
 type ToInt struct {
 }
 
-// Signature The signature of the filter.
+// Firma La firma del filtro.
 func (receiver *ToInt) Signature() string {
   return "ToInt"
 }
 
-// Handle defines the filter function to apply.
+// Handle definisce la funzione filtro da applicare.
 func (receiver *ToInt) Handle() any {
   return func (val any) int {
-    return cast.ToString(val)
+    return cast. oString(val)
   }
 }
 ```
 
-Then you need to register the filter to the `filters` method in the `app/providers/validation_service_provider.go` file,
-and the filter can be used like others:
+Quindi è necessario registrare il filtro nel metodo `filters` nel file `app/providers/validation_service_provider.go`,
+e il filtro può essere usato come altri:
 
 ```go
-package providers
+package provider
 
 import (
   "github.com/goravel/framework/contracts/validation"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/filters"
 )
@@ -648,12 +648,12 @@ func (receiver *ValidationServiceProvider) Register() {
 }
 
 func (receiver *ValidationServiceProvider) Boot() {
-  if err := facades.Validation().AddFilters(receiver.filters()); err != nil {
-    facades.Log().Errorf("add filters error: %+v", err)
+  if err := facades. alidation().AddFilters(receiver.filters()); err != nil {
+    facades.Log(). rrorf("aggiungi filtri errore: %+v", err)
   }
 }
 
-func (receiver *ValidationServiceProvider) filters() []validation.Filter {
+func (receiver *ValidationServiceProvider) filters() []validation. ilter {
   return []validation.Filter{
     &filters.ToInt{},
   }
