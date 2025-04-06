@@ -1,13 +1,13 @@
-# HTTP Response
+# استجابة HTTP
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+يمكنك استخدام 'ctx.Response()' لاستجابة HTTP في المراقب المالي.
 
-## String
+## سلسلة
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+استيراد "github.com/goravel/framework/contracts/http"
 
-ctx.Response().String(http.StatusOK, "Hello Goravel")
+ctx.Response().String(http.StatusOK, "مرحبا غورافل")
 ```
 
 ## JSON
@@ -30,78 +30,78 @@ ctx.Response().Json(http.StatusOK, struct {
 })
 ```
 
-## Custom Return
+## إرجاع مخصص
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## ملف الاستجابة
 
 ```go
-import "net/http"
+استيراد "net/http"
 
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## تحميل الملف
 
 ```go
-import "net/http"
+استيراد "net/http"
 
 ctx.Response().Download("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## إرفاق رأس
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+استيراد "github.com/goravel/framework/contracts/http"
 
-ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel")
+ctx.Response().Header("محتوى"، "Goravel").String(http.StatusOK، "مرحبا غورافل")
 ```
 
-## Cookie
+## كوكي
 
-### Set Cookie
+### تعيين ملف تعريف الارتباط
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
-instance, which allows you to set various cookie options.
+استخدم طريقة "كوكي" في مثيل "الرد" لتعيين "كوكي". طريقة 'cookie' تقبل نموذج 'http.Cookie'
+الذي يسمح لك بتعيين خيارات ملفات تعريف الارتباط المختلفة.
 
 ```go
-import (
+استيراد (
   "time"
   "github.com/goravel/framework/contracts/http"
-)
 
-ctx.Response().Cookie(http.Cookie{
-  Name: "name",
-  Value: "Goravel",
-  Path: "/",
-  Domain: "goravel.dev",
-  Expires: time.Now().Add(24 * time.Hour),
+
+ctx.Response().Cookie()-p. ookie{
+  الاسم: "الاسم"،
+  القيمة: "Goravel"،
+  المسار: "/"،
+  النطاق: "goravel. ev",
+  تنتهي صلاحيته: time.Now().Add.(24 * time.Hour),
   Secure: true,
   HttpOnly: true,
 })
 ```
 
-### Expire Cookie
+### ملفات تعريف الارتباط منتهية الصلاحية
 
-Use the `WithoutCookie` method to remove a cookie.
+استخدم طريقة 'WithoutCookie' لإزالة ملفات تعريف الارتباط.
 
 ```go
-ctx.Response().WithoutCookie("name")
+ctx.Response().WithoutCookie("الاسم")
 ```
 
-## Return Success
+## نجاح الإرجاع
 
 ```go
-ctx.Response().Success().String("Hello Goravel")
+ctx.Response().Success().String("مرحبًا بمرحباً")
 ctx.Response().Success().Json(http.Json{
-  "Hello": "Goravel",
+  "مرحباً": "Goravel",
 })
 ```
 
-## Custom Code
+## رمز مخصص
 
 ```go
 ctx.Response().Status(http.StatusOK).Json(http.Json{
@@ -109,53 +109,53 @@ ctx.Response().Status(http.StatusOK).Json(http.Json{
 })
 ```
 
-## Return Stream
+## تدفق الإرجاع
 
 ```go
-ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
-  data := []string{"a", "b", "c"}
-  for _, item := range data {
-    if _, err := w.Write([]byte(item + "\n")); err != nil {
+ctx.Response().Stream(http.StatusCreated, function(w { p. خطأ treamWwriter) {
+  البيانات:= []سلسلة{"a", "b", "c"}
+  لـ _، البند := نطاق البيانات {
+    إذا _، الخطأ := w. rite([]byte((البند + "\n")); err != صفر {
       return err
     }
 
-    if err := w.Flush(); err != nil {
+    if err := w. لوش(); err != صفر {
       return err
     }
 
-    time.Sleep(1 * time.Second)
-  }
+    time.Sleep(1 * وقت. ثانية)
 
-  return nil
+
+  refl
 })
 ```
 
-## Redirect
+## إعادة توجيه
 
 ```go
-ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
+ctx.Response().Redirect(http.StatusMovedPermanly، "https://goravel.dev")
 ```
 
-## No Content
+## لا يوجد محتوى
 
 ```go
 ctx.Response().NoContent()
 ctx.Response().NoContent(http.StatusOk)
 ```
 
-## Get Response
+## الحصول على رد
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+يمكنك الحصول على جميع المعلومات من `ctx.Response()`، التي يشيع استخدامها في وسط HTTP:
 
 ```go
-origin := ctx.Response().Origin()
+الأصل := ctx.Response().الأصل ()
 ```
 
-`origin` contains some methods as shown below：
+'الأصلي' يحتوي على بعض الطرق كما هو مبين أدناه：
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| الطريقة | اجراء                       |
+| ------- | --------------------------- |
+| الجسم   | الحصول على بيانات الاستجابة |
+| رأس     | احصل على رأس الاستجابة      |
+| الحجم   | الحصول على حجم الاستجابة    |
+| الحالة  | الحصول على حالة الاستجابة   |
