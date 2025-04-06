@@ -1,65 +1,65 @@
 # Configuratie
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Alle configuratiebestanden van het Goravel framework worden opgeslagen in de `config` map. U kunt specifieke
+instructies bekijken en flexibel configureren aan de hand van projectbehoeften.
 
-## Environment Configuration
+## Omgeving configuratie
 
-Running applications in different environments usually requires different configurations. For example, you may want to
+Lopende toepassingen in verschillende omgevingen vereisen meestal verschillende configuraties. For example, you may want to
 turn on the Debug mode locally but don't need it in the production environment.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Daarom geeft het framework het `.env.example` bestand in de hoofdmap. U moet dit bestand kopiëren, de naam
+wijzigen naar `.env` voordat u de ontwikkeling start, en wijzig de configuratie items in de `. nv` bestand volgens de behoeften van jouw project
+.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Merk op dat de `. nv` bestand mag niet worden toegevoegd aan versiemanagement, want wanneer meerdere mensen samenwerken, verschillende
+ontwikkelaars kunnen verschillende configuraties gebruiken en verschillende implementatieomgevingen zijn verschillend.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+Bovendien, als een indringer toegang krijgt tot uw codesrepository, bestaat er een risico op het onthullen van gevoelige
+configuratie. Als u een nieuw configuratie-item wilt toevoegen, kunt u het toevoegen aan het `.env.example` bestand om de
+configuratie van alle ontwikkelaars te synchroniseren.
 
-## Retrieve Environment Configuration
+## Omgevingsconfiguratie ophalen
 
-Use the following method to obtain the configuration items in the `.env` file:
+Gebruik de volgende methode om de configuratie-items in het `.env` bestand te verkrijgen:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// De eerste parameter is de configuratiesleutel, en de tweede parameter is de standaard waarde
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## Toegang configuratie waarden
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+U kunt gemakkelijk overal in de applicatie de algemene 'facades.Config()' functie gebruiken om de configuratie waarden
+in de `config` map te openen. De toegang tot de configuratie waarde kan de "." syntaxis gebruiken. U kunt ook een standaard
+waarde opgeven als de configuratie niet bestaat, de standaard waarde wordt geretourneerd:
 
 ```go
-// Get the configuration through assertion
+// Verkrijg de configuratie via assertion
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// Haal de configuratie van het string type
+facades.Config().GetString("app. ame", "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// Haal de configuratie van het int type
+facades.Config().GetInt("app. nt", 1)
 
-// Get the configuration of the bool type
+// Verkrijg de configuratie van het bool type
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## Configuratie instellen
 
 ```go
-facades.Config().Add("path", "value1")
+facades.Config().Add("pad", "value1")
 facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Projectinformatie ophalen
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Je kunt het `artisan about` commando gebruiken om de framework versie, configuratie etc. te bekijken.
 
 ```bash
-go run . artisan about
+run . ambachtsman over
 ```
