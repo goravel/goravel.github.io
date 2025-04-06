@@ -1,24 +1,24 @@
-# Logging
+# Registrazione
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+Al fine di capire lo stato di esecuzione dell'applicazione, Goravel fornisce un potente servizio di log che può registrare i messaggi di log
+e gli errori di sistema su un file o altri canali attraverso `facciate. og()`.
 
 ## Configurazione
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+Per configurare vari canali di log, le configurazioni personalizzate possono essere fatte in `config/logging.go`.
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` utilizza il canale `stack` per registrare i log di default, `stack` consente di inoltrare i log a più canali.
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+La configurazione `print` nei driver `single` e `daily y` può controllare l'output del log nella console.
 
-## Available channel drivers
+## Driver di canale disponibili
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| Nome     | Descrizione              |
+| -------- | ------------------------ |
+| `stack`  | Consenti canali multipli |
+| `single` | File di log singolo      |
+| `dayy`   | Un file di log al giorno |
+| `custom` | Unità personalizzata     |
 
 ### Inietta Contesto
 
@@ -26,7 +26,7 @@ The `print` configuration in `single` and `daily` drivers can control log output
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## Scrivi messaggi di registro
 
 ```go
 facades.Log().Debug(message)
@@ -35,66 +35,66 @@ facades.Log().Info(message)
 facades.Log().Infof(message, args)
 facades.Log().Warning(message)
 facades.Log().Warningf(message, args)
-facades.Log().Error(message)
-facades.Log().Errorf(message, args)
+facades. og().Error(message)
+facades.Log().Errorf(messaggio, args)
 facades.Log().Fatal(message)
-facades.Log().Fatalf(message, args)
+facades.Log().Fatalf(messaggio, args)
 facades.Log().Panic(message)
-facades.Log().Panicf(message, args)
+facades.Log().Panicf(messaggio, args)
 ```
 
-### Write to a specific channel
+### Scrivi su un canale specifico
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+A volte, potresti voler registrare i messaggi su un canale diverso dal canale predefinito dell'applicazione:
 
 ```go
-facades.Log().Channel("single").Info(message)
+facades.Log().Channel("single").Info(messaggio)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+Se vuoi scrivere su più canali allo stesso tempo, puoi usare il metodo `Stack`:
 
 ```go
 facades.Log().Stack([]string{"single", "slack"}).Info(message)
 ```
 
-## Chain Methods
+## Metodi Catena
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+Goravel fornisce comodi metodi a catena, che rendono facile inserire informazioni più utili nel registro:
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| Metodo       | Azione                                                                                                    |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| Codice       | Imposta un codice o uno slug che descrive il registro.                                    |
+| Suggerimento | Imposta un suggerimento per un debug più veloce.                                          |
+| In           | Imposta la categoria di funzionalità o il dominio in cui è rilevante la voce di registro. |
+| Proprietario | Utile per scopi di allerta.                                                               |
+| Richiesta    | Fornisce un http.Request.                                                 |
+| Risposta     | Fornisce un http.Response.                                                |
+| Etichette    | Aggiungi più tag, descrivendo la funzione che restituisce un errore.                      |
+| Utente       | Imposta l'utente associato alla voce di registro.                                         |
+| Con          | Aggiungi coppie chiave-valore al contesto della voce di registro.                         |
+| WithTrace    | Aggiungi informazioni sullo stack alla voce di registro.                                  |
 
-## Create a custom channel
+## Crea un canale personalizzato
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+Se vuoi definire un canale completamente personalizzato, puoi specificare il tipo di driver `custom` nel file di configurazione `config/logging.go`
+.
+Quindi include un'opzione `via` per implementare una struttura `framework\contracts\log\Logger`:
 
 ```go
 // config/logging.go
 "custom": map[string]interface{}{
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### Implementa Il Driver
 
-Implement `framework\contracts\log\Logger` interface.
+Implementa l'interfaccia `framework\contracts\log\Logger`.
 
 ```go
 // framework/contracts/log/Logger
@@ -106,7 +106,7 @@ type Logger interface {
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). Esempio:
+i file possono essere memorizzati nella cartella `app/extensions` (modificabile). Esempio:
 
 ```go
 package extensions
@@ -114,35 +114,35 @@ package extensions
 import (
   "fmt"
 
-  "github.com/goravel/framework/contracts/log"
+  "github. om/goravel/framework/contracts/log"
 )
 
 type Logger struct {
 }
 
-// Handle pass channel config path here
-func (logger *Logger) Handle(channel string) (log.Hook, error) {
+// Handle pass channel config path qui
+func (logger *Logger) Handle(channel string) (log. ook, error) {
   return &Hook{}, nil
 }
 
 type Hook struct {
 }
 
-// Levels monitoring level
-func (h *Hook) Levels() []log.Level {
+// Livelli livello di monitoraggio
+func (h *Hook) Levels() []log. evel {
   return []log.Level{
-    log.DebugLevel,
+    log. ebugLevel,
     log.InfoLevel,
     log.WarningLevel,
-    log.ErrorLevel,
+    log. rrorLevel,
     log.FatalLevel,
-    log.PanicLevel,
+    log. anicLevel,
   }
 }
 
 // Fire execute logic when trigger
-func (h *Hook) Fire(entry log.Entry) error {
-  fmt.Printf("context=%v level=%v time=%v message=%s", entry.Context(), entry.Level(), entry.Time(), entry.Message())
+func (h *Hook) Fire(entry log. ntry) error {
+  fmt.Printf("context=%v level=%v time=%v message=%s", entry. ontext(), entry.Level(), entry.Time(), entry.Message())
 
   return nil
 }
