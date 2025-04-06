@@ -1,8 +1,8 @@
-# HTTP Response
+# HTTP 响应
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+你可以在控制器中使用 `ctx.Response()` 进行 HTTP 响应。
 
-## String
+## 字符串
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -30,13 +30,13 @@ ctx.Response().Json(http.StatusOK, struct {
 })
 ```
 
-## Custom Return
+## 自定义返回
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## 响应文件
 
 ```go
 import "net/http"
@@ -44,7 +44,7 @@ import "net/http"
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## 下载文件
 
 ```go
 import "net/http"
@@ -52,7 +52,7 @@ import "net/http"
 ctx.Response().Download("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## 附加头部
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -62,10 +62,9 @@ ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel
 
 ## Cookie
 
-### Set Cookie
+### 设置 Cookie
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
-instance, which allows you to set various cookie options.
+使用 `response` 实例上的 `Cookie` 方法来设置 `cookie`。 `Cookie` 方法接受一个 `http.Cookie` 实例，它允许你设置各种 cookie 选项。
 
 ```go
 import (
@@ -84,15 +83,15 @@ ctx.Response().Cookie(http.Cookie{
 })
 ```
 
-### Expire Cookie
+### 过期 Cookie
 
-Use the `WithoutCookie` method to remove a cookie.
+使用 `WithoutCookie` 方法移除一个 cookie。
 
 ```go
 ctx.Response().WithoutCookie("name")
 ```
 
-## Return Success
+## 返回成功
 
 ```go
 ctx.Response().Success().String("Hello Goravel")
@@ -101,7 +100,7 @@ ctx.Response().Success().Json(http.Json{
 })
 ```
 
-## Custom Code
+## 自定义状态码
 
 ```go
 ctx.Response().Status(http.StatusOK).Json(http.Json{
@@ -109,7 +108,7 @@ ctx.Response().Status(http.StatusOK).Json(http.Json{
 })
 ```
 
-## Return Stream
+## 返回流
 
 ```go
 ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
@@ -130,32 +129,32 @@ ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
 })
 ```
 
-## Redirect
+## 重定向
 
 ```go
 ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
 ```
 
-## No Content
+## 无内容
 
 ```go
 ctx.Response().NoContent()
 ctx.Response().NoContent(http.StatusOk)
 ```
 
-## Get Response
+## 获取响应
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+您可以从 `ctx.Response()` 获取所有信息，这在 HTTP 中间件中常用：
 
 ```go
 origin := ctx.Response().Origin()
 ```
 
-`origin` contains some methods as shown below：
+`origin` 包含一些方法，如下所示：
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| 方法 | 操作     |
+| -- | ------ |
+| 正文 | 获取响应数据 |
+| 头部 | 获取响应头  |
+| 大小 | 获取响应大小 |
+| 状态 | 获取响应状态 |
