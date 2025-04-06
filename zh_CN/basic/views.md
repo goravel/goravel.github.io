@@ -1,13 +1,13 @@
-# Views
+# 视图
 
-Of course, it's not practical to return entire HTML document strings directly from your routes and controllers.
-Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller /
-application logic from your presentation logic and are stored in the `resources/views` directory.
+当然，直接从您的路由器和控制器返回整个HTML文档字符串是不切实际的。
+所幸的是，视图为将我们所有的 HTML 放置在单独文件中提供了方便的方法。 查看您的控制器/
+应用程序逻辑和演示逻辑，然后存储在 `resources/views` 目录中。
 
-## Creating & Rendering Views
+## 创建和渲染视图
 
-When using the Goravel default template `html/template`, you can create views by adding a file with the `.tmpl`
-extension in the application `resources/views` directory.
+当使用Goravel默认模板`html/template`时，您可以通过在应用程序`resources/views`目录中添加一个 `.tmpl`
+扩展文件来创建视图。
 
 ```
 // resources/views/welcome.tmpl
@@ -20,7 +20,7 @@ extension in the application `resources/views` directory.
 {{ end }}
 ```
 
-After creating the view, you can use the `View` method to return the view from a route or controller in the application:
+在创建视图后，您可以使用 `View` 方法在应用程序中从路由或控制器返回视图：
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -30,9 +30,9 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Nested View Directories
+### 嵌套视图目录
 
-Views may also be nested within subdirectories of the `resources/views` directory. For example, if your view is stored
+视图也可以嵌套于“resources/views”目录的子目录内。 For example, if your view is stored
 at `resources/views/admin/profile.tmpl`, you can return it from one of your application's routes or controllers, note
 that the view needs to be defined as `define "admin/profile.tmpl"` as shown below:
 
@@ -47,10 +47,10 @@ ctx.Response().View().Make("admin/profile.tmpl", map[string]any{
 })
 ```
 
-### Creating The First Available View
+### 创建第一个可用视图
 
-Using the `First` method, you can use the first view that exists in a given array of views. This may be useful if your
-application or package allows views to be customized or overwritten:
+使用 `First` 方法，您可以使用在给定的视图数组中存在的第一个视图。 如果您的
+应用程序或包允许自定义或覆盖视图，这可能是有用的：
 
 ```go
 ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[string]any{
@@ -58,9 +58,9 @@ ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[str
 })
 ```
 
-### Determining If A View Exists
+### 确定视图是否存在
 
-If you need to determine if a view exists, you can use the `facades.View()` method:
+如果您需要确定是否存在视图，您可以使用 `facades.View()` 方法：
 
 ```go
 if facades.View().Exist("welcome.tmpl") {
@@ -68,11 +68,11 @@ if facades.View().Exist("welcome.tmpl") {
 }
 ```
 
-## Passing Data To Views
+## 将数据传递到视图
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view.
-Please note, the format of the passed data needs to change according to the template driver used, in the following
-example, using the default `html/template` driver:
+正如你在前面的示例中所看到的那样，你可能会传递一系列数据到视图中以便将该数据提供给视图。
+请注意，传递数据的格式需要根据使用的模板驱动程序更改。 在下面的
+示例中，使用默认的 `html/template` 驱动器：
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -82,28 +82,28 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Sharing Data With All Views
+### 与所有视图共享数据
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the
-`Share` method in `facades.View()`. Typically, you should place calls to the `Share` method within a service provider's
-`Boot` method. You are free to add them to the `app/providers/app_service_provider.go` class or generate a separate
-service provider to house them:
+有时，您可能需要与您的应用程序呈现的所有视图共享数据。 您可以使用 `facades.View()` 中的
+`Share` 方法这样做。 通常情况下，您应该在服务提供商的
+`Boot` 方法中调用`Share` 方法。 您可以自由地将它们添加到`app/providers/app_service_provider.go`类，或者生成一个单独的
+服务提供商来容纳它们：
 
 ```go
-package providers
+软件包提供商
 
-import (
+导入 (
  "github.com/goravel/framework/contracts/foundation"
-    "github.com/goravel/framework/facades"
+    "github. om/goravel/framework/facades"
 )
 
-type AppServiceProvider struct {
+类型 AppServiceProvider struct own
 }
 
-func (receiver *AppServiceProvider) Register(app foundation.Application) {
+func (receer *AppServiceProvider) Register(应用程序基础)。 Pplication) Power
 }
 
-func (receiver *AppServiceProvider) Boot(app foundation.Application) {
+func (receiver *AppServiceProvider) Boot(app foundation.Application) Paper
     facades.View().Share("key", "value")
 }
 ```
