@@ -1,43 +1,43 @@
-# Factories
+# المصانع
 
-When testing your application or seeding your database, it might be necessary to insert a few records into your database
-beforehand. Instead of manually inputting values for each column, Goravel allows you to define a set of default
-attributes for each of your models by creating model factories.
+عند اختبار التطبيق الخاص بك أو تشغيل قاعدة البيانات الخاصة بك، قد يكون من الضروري إدراج بعض السجلات في قاعدة البيانات الخاصة بك
+مسبقا. بدلا من إدخال قيم يدويا لكل عمود، يسمح لك Goravel بتحديد مجموعة من السمات الافتراضية
+لكل من النماذج الخاصة بك عن طريق إنشاء مصانع نموذجية.
 
 To see an example of how to write a factory, you can check out the `user_factory.go` file located in your application's
 `database/factories` directory.
 
 ```go
-package factories
+مصانع الحزمة
 
-type UserFactory struct {
+نوع بنية مصنع المستخدم {
+
+
+/ / تعريف تعريف الحالة الافتراضية للنموذج.
+ترميز (f *مصنع المستخدم) تعريف() خريطة[string]أي {
+  خريطة العودة[string]أي,
+    "الاسم": "Goravel",
+
 }
-
-// Definition Define the model's default state.
-func (f *UserFactory) Definition() map[string]any {
-  return map[string]any{
-    "Name": "Goravel",
-  }
-}
 ```
 
-As you can see, in their most basic form, factories are structs that have a `Definition` method. The method returns the
-default set of attribute values that should be used when creating a model with the factory. To generate a range of
-random data, you can rely on [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
+وكما ترون فإن المصانع في أبسط أشكالها هي مصانع ذات أسلوب "التعريف". ترجع هذه الطريقة المجموعة الإفتراضية
+من قيم السمة التي يجب استخدامها عند إنشاء نموذج مع المصنع. لإنشاء مجموعة من البيانات
+عشوائية، يمكنك الاعتماد على [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
 
-## Generating Factories
+## توليد المصانع
 
-To create a factory, run the `make:factory` Artisan command:
+لإنشاء مصنع، قم بتشغيل الأمر الفني \`make:factory':
 
 ```
-go run . artisan make:factory PostFactory
+تشغيل . مصنع حرفي: مصنع بريد المصنع
 ```
 
-The new factory `struct` will be placed in your `database/factories` directory.
+سيتم وضع "هيكل" المصنع الجديد في دليل "قاعدة البيانات/المصانع" الخاص بك.
 
-### Model & Factory Discovery Conventions
+### نماذج واتفاقيات اكتشاف المصانع
 
-After defining a factory, you can use the `Factory()` method in the model to bind the factory to the model:
+بعد تحديد المصنع، يمكنك استخدام طريقة "المصنع()" في النموذج لربط المصنع بالنموذج:
 
 ```go
 package models
@@ -61,63 +61,63 @@ func (u *User) Factory() factory.Factory {
 }
 ```
 
-## Creating Models Using Factories
+## إنشاء نماذج باستخدام المصانع
 
-### Instantiating Models
+### نماذج مبسطة
 
-We can use the `Make` method to create models without persisting them in the database:
+يمكننا استخدام طريقة "Make" لإنشاء نماذج دون استمرارها في قاعدة البيانات:
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Make(&user)
+تطبيق نماذج المستخدم.المستخدم
+خطأ:= facades.Orm().Factory().Make(&user)
 ```
 
-You may create a collection of many models using the `Count` method:
+يمكنك إنشاء مجموعة من العديد من النماذج باستخدام طريقة "العداد":
 
 ```go
-var users []models.User
+المستخدمين []models.user
 err := facades.Orm().Factory().Count(2).Make(&users)
 ```
 
-If you would like to override some of the default values of your models, you may pass `map[string]any` to the `Make`
-method. Only the specified attributes will be replaced while the rest of the attributes remain set to their default
-values as specified by the factory:
+إذا كنت ترغب في تجاوز بعض القيم الافتراضية للنماذج الخاصة بك، فيمكنك تمرير 'map[string]any' إلى طريقة 'Make'
+. سيتم استبدال السمات المحددة فقط بينما تبقى بقية السمات محددة إلى القيم
+الافتراضية الخاصة بها كما يحددها المصنع:
 
 ```go
-var user models.User
+vuser models.user
 err := facades.Orm().Factory().Make(&user, map[string]any{
     "Avatar": "avatar",
 })
 ```
 
-### Persisting Models
+### النماذج المستمرة
 
-The `Create` method creates and saves model instances to the database using Orm's `Save` method.
+طريقة "إنشاء" تخلق وتحفظ نماذج نموذجية لقاعدة البيانات باستخدام طريقة "حفظ".
 
 ```go
-var user models.User
+vuser models.user
 err := facades.Orm().Factory().Create(&user)
 
-var users []models.User
+var users []models.user
 err := facades.Orm().Factory().Count(2).Create(&users)
 ```
 
-You may override the factory's default model attributes by passing `map[string]any` of the attributes to the `Create`
-method:
+يمكنك تجاوز سمات نموذج المصنع الافتراضية عن طريق تمرير 'خريطة[string]أي` من السمات إلى طريقة 'إنشاء`
+:
 
 ```go
-var user models.User
+vuser models.user
 err := facades.Orm().Factory().Create(&user, map[string]any{
     "Avatar": "avatar",
 })
 ```
 
-### Ignore Model Event
+### تجاهل نموذج الحدث
 
-There may be [model event](../orm/quickstart#events) defined on the model, you can ignore those events with the
-`CreateQuietly` method:
+قد يكون هناك [حدث نموذجي](../orm/quickstart#events) معرف في النموذج، يمكنك تجاهل تلك الأحداث باستخدام طريقة
+'إنشاء' :
 
 ```go
-var user models.User
-err := facades.Orm().Factory().CreateQuietly(&user)
+نماذج المستخدم.المستخدم
+خطأ:= facades.Orm().Factory().CreateQuietly(&user)
 ```
