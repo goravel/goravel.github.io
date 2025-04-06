@@ -1,4 +1,4 @@
-# Getting Started
+# Kom igång
 
 The testing function of Goravel relies on Golang's official test component, extending unit testing to support
 integration testing and improve application robustness.
@@ -86,7 +86,7 @@ func (s *ExampleTestSuite) TestIndex() {
 
 Goravel model factories and Seeders can easily create test database records for the application's model.
 
-### Factories
+### Fabriker
 
 If you're conducting tests, it might be necessary to add some records to your database before running the test. You
 don't have to manually input the values of each column for the test data creation. With Goravel, you can set default
@@ -97,7 +97,7 @@ var user models.User
 err := facades.Orm().Factory().Create(&user)
 ```
 
-### Running Seeders
+### Löpande frön
 
 If you would like to use [database seeders](../orm/seeding) to populate your database during a feature test, you may
 invoke the `Seed` method. By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of
@@ -200,7 +200,7 @@ obtain the configuration information of the database through the `Config` method
 config := database.Config()
 ```
 
-#### Running Seeders
+#### Löpande frön
 
 If you wish to use [seeder](../orm/seeding) to populate the database during testing, you can call the `Seed` method.
 By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of your other seeders.
