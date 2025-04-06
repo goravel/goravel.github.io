@@ -1,92 +1,92 @@
-# Getting Started
+# Noțiuni de bază
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+Goravel facilitează interacțiunea dezvoltatorilor cu bazele de date folosind `facades.Orm()`. În prezent, oferă suport oficial
+pentru următoarele patru baze de date:
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
-- SQL Server 2017+
+- Server SQL 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+Înainte de a începe, configurați baza de date în `.env` și confirmați configurația `implicită` în `config/database.go`.
 
 # Configurare
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+Pentru a configura bazele de date, navigați la `config/database.go`. Aici puteți personaliza toate conexiunile bazei de date și
+alegeți o conexiune `implicit`. Configurația din acest fișier se bazează pe variabilele de mediu ale proiectului și
+afișează diverse configurații ale bazei de date pe care Goravel le sprijină.
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+Puteți, de asemenea, să folosiți DSN pentru a vă conecta direct la baza de date, doar configurați câmpul `dsn` în fișierul de configurare:
 
 ```go
-"postgres": map[string]any{
-  "driver":   "postgres",
-++  "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
+"postgres": harta[string]any{
+  "driver": "postgres",
+++ "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=dezactivare",
   ...
 }
 ```
 
-### Read & Write Connections
+### Citește și Scrie Conexiuni
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+Uneori este posibil să doriţi să folosiţi o conexiune la baza de date pentru declaraţiile `SELECT`, iar alta pentru declaraţiile `INSERT`, `UPDATE`, şi
+`DELETE`. Goravel o face o brizură.
 
-To see how read/write connections should be configured, let's look at this example:
+Pentru a vedea cum ar trebui configurate conexiunile de citire/scriere, să ne uităm la acest exemplu:
 
 ```go
 import "github.com/goravel/framework/contracts/database"
 
-// config/database.go
+// config/database. o
 "connections": map[string]any{
-  "mysql": map[string]any{
+  "mysql": harta[string]orice {
     "driver": "mysql",
-    "read": []database.Config{
-      {Host: "192.168.1.1", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "citit": []bază de date. onfig{
+      {Gazdă: "192.168.1. ", Port: 3306, Baza de date: "forge", nume de utilizator: "root", parola: "123123"},
     },
-    "write": []database.Config{
-      {Host: "192.168.1.2", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "write": []bază de date. onfig{
+      {Gazdă: "192.168.1. ", Port: 3306, Baza de date: "forge", nume de utilizator: "rădăcină", parolă: "123123"},
     },
-    "host": config.Env("DB_HOST", "127.0.0.1"),
-    "port":     config.Env("DB_PORT", 3306),
-    "database": config.Env("DB_DATABASE", "forge"),
-    "username": config.Env("DB_USERNAME", ""),
-    "password": config.Env("DB_PASSWORD", ""),
-    "charset":  "utf8mb4",
-    "loc":      "Local",
+    "gazdă": config. nv("DB_HOST", "127.0.0.1"),
+    "port": config.Env("DB_PORT", 3306),
+    "bază de date": config. nv("DB_DATABASE", "forge"),
+    "nume de utilizator": config.Env("DB_USERNAME", ""),
+    "parolă": config. nv("DB_PASSWORD", ""),
+    "charset": "utf8mb4",
+    "loc": "Local",
   },
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+Am actualizat setarea de configurare cu două chei noi - `citește` și `write`. Conexiunea `citire` va folosi
+`192.168.1.1` ca gazdă, în timp ce conexiunea `write` va folosi `192.168.1.2`. Ambele conexiuni vor partaja același prefix
+pentru baza de date, setul de caractere și alte opțiuni specificate în arraia principală mysql. În cazul valorilor multiple din arraia de configurare
+, o gazdă de baze de date va fi selectată aleatoriu pentru fiecare solicitare.
 
-### Connection Pool
+### Rezervă de conexiuni
 
-You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
-can greatly improve concurrency performance:
+Puteți configura un pool de conexiune în fișierul de configurare, configurarea rezonabilă a parametrilor pool de conexiune
+poate îmbunătăți foarte mult performanța conmonedei:
 
-| Key                                                                              | Acțiune                   |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| Cheie                                                                            | Acțiune                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------- |
+| pool.max_idle_connect  | Maxim conexiuni inactive                     |
+| pool.max_open_connect  | Maxim de conexiuni deschise                  |
+| pool.conn_max_idletime | Timpul maxim de inactivitate al conexiunilor |
+| pool.conn_max_lifetime | Conexiuni pe durata maximă de viață          |
 
 ### Schema
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres și suport Sqlserver pentru configurarea schemei. Postgres poate seta direct Schema în fișierul de configurare, în timp ce
+Sqlserver trebuie să specifice Schema prin metoda `TableName` în model.
 
 #### Postgres
 
 ```go
-"connections": map[string]any{
-  "postgres": map[string]any{
-    "driver":   "postgres",
+"connections": harta[string]any{
+  "postgres": harta[string]any{
+    "driver": "postgres",
     ...
     "schema": "goravel",
   },
@@ -96,201 +96,201 @@ Sqlserver needs to specify the Schema through the `TableName` method in the mode
 #### Sqlserver
 
 ```go
-func (r *User) TableName() string {
+șirul func (r *User) TableName() {
   return "goravel.users"
 }
 ```
 
-### Get Database Information
+### Obține Informații Bază de Date
 
-You can use the `db:show` command to view all tables in the database.
-
-```bash
-go run . artisan db:show
-```
-
-You can also use the `db:table` command to view the structure of a specific table.
+Puteți folosi comanda `db:show` pentru a vizualiza toate tabelele din baza de date.
 
 ```bash
-go run . artisan db:table
-go run . artisan db:table users
+mergi să rulezi . artizan db:show
 ```
 
-## Model Definition
+Puteți folosi, de asemenea, comanda `db:table` pentru a vedea structura unui anumit tabel.
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+```bash
+mergi să rulezi . artizan db:table
+mergi . artizan db:table users
+```
 
-### Model Convention
+## Definiție model
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+Pentru a crea un model personalizat, consultaţi fişierul model `app/models/user.go` care este inclus în cadru. `struct`
+în `app/models/user.go` conține două cadre încorporate: `orm.Model` și `orm.SoftDeletes`. Aceste cadre definesc proprietățile
+`id`, `created_at`, `updated_at`, și, respectiv, `deleted_at`. Cu `orm.SoftDeletes`, puteți activa ștergerea soft
+pentru model.
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+### Modelul de convenţie
 
-### Create Model
+1. Modelul este numit cu o cocoaşa mare;
+2. Utilizați forma plurală a modelului "nume de șarpe" ca nume de tabel;
 
-Use the `make:model` command to create a model:
+De exemplu, numele modelului este `UserOrder`, iar numele tabelului este `user_orders`.
+
+### Creează model
+
+Folosește comanda `make:model` pentru a crea un model:
 
 ```shell
-go run . artisan make:model User
-go run . artisan make:model user/User
+mergi să rulezi . artizan:model Utilizator
+mergi să rulezi . artizan make:model utilizator/utilizator
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+Fișierul model creat este localizat în fișierul `app/models/user.go`, conținutul este următorul:
 
 ```go
-package models
+modelele de pachet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+  orm. odel
+  Șir de nume
+  Șir de avatar
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+Dacă doriți să setați câmpul model la `any`, trebuie să adăugați o etichetă suplimentară: `gorm:"type:text"`:
 
 ```go
 type User struct {
   orm.Model
-  Name   string
-  Avatar string
-  Detail any `gorm:"type:text"`
+  Numele de șir
+  Avatar șir
+  Detaliu orice `gorm:"type:text"`
   orm.SoftDeletes
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+Mai multe detalii de utilizare tag-uri pot fi găsite la: <https://gorm.io/docs/models.html>.
 
-### Specify Table Name
+### Specificați numele tabelei
 
 ```go
-package models
+modelele de pachet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+  orm. odel
+  Șir de nume
+  Șir de avatar
+  orm. Șirul oftDeletes
 }
 
-func (r *User) TableName() string {
+func (r *User) TableName() {
   return "goravel_user"
 }
 ```
 
-### Database Connections
+### Conexiuni Baza de date
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
-distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
-model.
+În mod implicit, toate modelele utilizează conexiunea implicită a bazei de date configurată pentru aplicația ta. Dacă doriți să specificați o conexiune
+distinctă care să fie folosită atunci când interacționați cu un anumit model, trebuie să definiți o metodă `Connection` pe modelul
+.
 
 ```go
-package models
+modelele de pachet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+  orm. odel
+  Șir de nume
+  Șir de avatar
+  orm. Șirul de conexiuni oftDeletes
 }
 
-func (r *User) Connection() string {
+func (r *User) () {
   return "postgres"
 }
 ```
 
-## facades.Orm() available functions
+## fațades.Orm() funcții disponibile
 
-| Nume        | Acțiune                                                                                 |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| Nume       | Acțiune                                                                                 |
+| ---------- | --------------------------------------------------------------------------------------- |
+| Conexiune  | [Specificați conexiunea bazei de date](#specify-database-connection)                    |
+| PO         | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
+| Interogare | [Obține Instanța bazei de date](#get-database-instance)                                 |
+| Tranzacție | [Transaction](#transaction)                                                             |
+| Retragere  | [Injectare Context](#inject-context)                                                    |
 
-## facades.Orm().Query() available functions
+## fațades.Orm().Query() funcții disponibile
 
-| Functions       | Acțiune                                                                       |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Ștergere        | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| Șofer           | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Ia              | [Query multiple lines](#query-multiple-lines)                                 |
-| Grup            | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Actualizare     | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| Funcții                   | Acțiune                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------- |
+| Începe                    | [Începe tranzacția](#transaction)                                                   |
+| Comite                    | [Tranzacție comitet](#transaction)                                                  |
+| Număr                     | [Count](#count)                                                                     |
+| Crează                    | [Create](#create)                                                                   |
+| Cursor                    | [Cursor](#cursor)                                                                   |
+| Ștergere                  | [Delete](#delete)                                                                   |
+| Distinct                  | [Repetiție Filtru](#filter-repetition)                                              |
+| Șofer                     | [Get Driver](#get-driver)                                                           |
+| Exec                      | [Execută native update SQL](#execute-native-update-sql)                             |
+| Exista                    | [Exists](#exists)                                                                   |
+| Găsește                   | [Interogare una sau mai multe linii prin ID](#query-one-or-multiple-lines-by-id)    |
+| Găsire Eșuată             | [Eroare de returnare negăsită](#not-found-return-error)                             |
+| Primul                    | [Interogare o linie](#query-one-line)                                               |
+| Primul                    | [Query or return data through callback](#query-one-line)                            |
+| Prima Oră                 | [Preluarea sau crearea modelelor](#retrieving-or-creating-models)                   |
+| FirstOrNew                | [Preluarea sau noi modele](#retrieving-or-creating-models)                          |
+| FirstOrFail               | [Eroare negăsită](#not-found-error)                                                 |
+| ForțareȘtergeți           | [Ștergere forțată](#delete)                                                         |
+| Ia                        | [Interogare linii multiple](#query-multiple-lines)                                  |
+| Grup                      | [Group](#group-by--having)                                                          |
+| Apariţia                  | [Having](#group-by-having)                                                          |
+| Alătură-te                | [Join](#join)                                                                       |
+| Limită                    | [Limit](#limit)                                                                     |
+| LockForUpdate             | [Localizare pesimistă](#pessimistic-locking)                                        |
+| Model                     | [Specificați un model](#specify-table-query)                                        |
+| Decalaj                   | [Offset](#offset)                                                                   |
+| Comanda                   | [Order](#order)                                                                     |
+| Comandă                   | [Order](#order)                                                                     |
+| OrderByDesc               | [Order](#order)                                                                     |
+| InandomOrdine             | [Order](#order)                                                                     |
+| Oracunde                  | [OrWhere](#where)                                                                   |
+| Oriunde Notin             | [OrWhereNotIn](#where)                                                              |
+| OrWhereNull               | [OrWhereNull](#where)                                                               |
+| Oriunde                   | [OrWhereIn](#where)                                                                 |
+| Paginat                   | [Paginate](#paginate)                                                               |
+| Mânucă                    | [Interogare coloană unică](#query-single-column)                                    |
+| Crud                      | [Execută nativ SQL](#execute-native-sql)                                            |
+| Restaurează               | [Restore](#restore)                                                                 |
+| Rollback                  | [Tranzacție Rollback](#transaction)                                                 |
+| Salvează                  | [Actualizează un model existent](#update-a-existing-model)                          |
+| SaveQuietly               | [Salvarea unui singur model fără evenimente](#saving-a-single-model-without-events) |
+| Scanare                   | [Scanare reușită](#execute-native-sql)                                              |
+| Domeniu                   | [Scopes](#scopes)                                                                   |
+| Selectare                 | [Specificați câmpuri](#specify-fields)                                              |
+| SharedLock                | [Localizare pesimistă](#pessimistic-locking)                                        |
+| Sum                       | [Sum](#sum)                                                                         |
+| Tabel                     | [Specificați un tabel](#specify-table-query)                                        |
+| ToSql                     | [Get SQL](#get-sql)                                                                 |
+| ToRawSql                  | [Get SQL](#get-sql)                                                                 |
+| Actualizare               | [Actualizează o singură coloană](#update-a-single-column)                           |
+| ActualizareOrCreare       | [Actualizare sau creare](#update-or-create)                                         |
+| Unde                      | [Where](#where)                                                                     |
+| Intre                     | [WhereBetween](#where)                                                              |
+| Întrucât: | [WhereNotBetween](#where)                                                           |
+| Unde                      | [WhereNotIn](#where)                                                                |
+| Unde                      | [WhereNull](#where)                                                                 |
+| Oriunde                   | [WhereIn](#where)                                                                   |
+| Repetări                  | [Mutare evenimente](#muting-events)                                                 |
+| Retras                    | [Query soft delete data](#query-soft-delete-data)                                   |
 
-## Query Builder
+## Constructor de interogări
 
 ### Injectare context
 
@@ -298,19 +298,19 @@ func (r *User) Connection() string {
 facades.Orm().WithContext(ctx)
 ```
 
-### Specify Database Connection
+### Specificați conexiunea bazei de date
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
+Dacă mai multe conexiuni la baza de date sunt definite în `config/database.go`, le puteți folosi prin funcția `Connection`
+din `facades.Orm()`. Numele conexiunii transmise către `Connection` ar trebui să fie una dintre conexiunile configurate în
 `config/database.go`:
 
 ```go
 facades.Orm().Connection("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### Baza de date generică de interfață sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+Interfață generică a bazei de date sql.DB, apoi folosește funcționalitatea furnizată:
 
 ```go
 db, err := facades.Orm().DB()
@@ -319,25 +319,25 @@ db, err := facades.Orm().Connection("mysql").DB()
 // Ping
 db.Ping()
 
-// Close
-db.Close()
+// Închide
+db. lose()
 
-// Returns database statistics
+// Statisticile bazei de date Returns
 db.Stats()
 
-// SetMaxIdleConns sets the maximum number of connections in the idle connection pool
-db.SetMaxIdleConns(10)
+// SetMaxIdleConns stabilește numărul maxim de conexiuni în grupul de conexiuni inactive
+db. etMaxIdleConns(10)
 
-// SetMaxOpenConns sets the maximum number of open connections to the database
-db.SetMaxOpenConns(100)
+// SetMaxOpenConns stabilește numărul maxim de conexiuni deschise la baza de date
+db. etMaxOpenConns(100)
 
-// SetConnMaxLifetime sets the maximum amount of time a connection may be reused
-db.SetConnMaxLifetime(time.Hour)
+// SetConnMaxLifetime stabilește perioada maximă de timp în care o conexiune poate fi reutilizată
+db.SetConnMaxLifetime(oră.ore)
 ```
 
-### Get Database Instance
+### Obține instanța bazei de date
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+Înainte de fiecare operațiune a bazei de date, este necesar să se obțină o instanță a bazei de date.
 
 ```go
 facades.Orm().Query()
@@ -345,18 +345,18 @@ facades.Orm().Connection("mysql").Query()
 facades.Orm().WithContext(ctx).Query()
 ```
 
-### Select
+### Selectare
 
-#### Query one line
+#### Interogare o linie
 
 ```go
 var user models.User
 facades.Orm().Query().First(&user)
-// SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
+// SELECT * DE la `users` ORDER de `users`.`id` LIMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+Uneori este posibil să doriți să efectuați o altă acțiune dacă nu sunt găsite rezultate. Metoda `FirstOr` va returna o singură instanță
+sau, dacă nu sunt găsite rezultate, va executa închiderea dată. Puteți seta valorile de modelat în închidere:
 
 ```go
 facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
@@ -366,83 +366,83 @@ facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
 })
 ```
 
-#### Query one or multiple lines by ID
+#### Interogare una sau mai multe linii prin ID
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
-// SELECT * FROM `users` WHERE `users`.`id` = 1;
+// SELECT * from `users`.`id` = 1;
 
-var users []models.User
-facades.Orm().Query().Find(&users, []int{1,2,3})
-// SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
+var utilizatori []modele. ser
+faades.Orm().Query().Find(&useri, []int{1,2,3})
+// SELECT * DE la `utilizatori` prin `utilizatori`.`id` IN (1,2,3);
 ```
 
-#### Not found return error
+#### Eroare de returnare negăsit
 
 ```go
-var user models.User
+var modele de utilizator.Utilizator
 err := facades.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### Când cheia primară a tabelului de utilizator este de tip `șir`, trebuie să specificați cheia primară atunci când apelați
 
-`Find` method
+Metoda `Find`
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, "uuid=?" ,"a")
-// SELECT * FROM `users` WHERE `users`.`uuid` = "a";
+// SELECT * from `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### Interogare linii multiple
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
-// SELECT * FROM `users` WHERE id in (1,2,3);
+facades.Orm().Query().Where("id în ?", []int{1,2,3}).Get(&users)
+// SELECT * from `users` WHERE id in (1,2,3);
 ```
 
-#### Retrieving Or Creating Models
+#### Preluarea sau crearea modelelor
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
-found in the database, it creates a new record with the attributes from merging the first argument with the optional
-second argument.
+Metoda de căutare `FirstOrCreate` pentru o înregistrare a bazei de date folosind perechile de coloane specificate/valori. Dacă modelul nu poate fi
+găsit în baza de date, crează o nouă înregistrare cu atributele de la fuzionarea primului argument cu al doilea argument opțional
+.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
-if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
-saved to the database yet and you need to manually call the `Save` method to do so.
+Similar, metoda `FirstOrNew` încearcă, de asemenea, să localizeze o înregistrare în baza de date pe baza atributelor date. Cu toate acestea,
+dacă nu este găsit, o nouă instanță a modelului este returnată. Este important să rețineți că acest nou model nu a fost încă salvat
+în baza de date și trebuie să apelați manual la metoda `Save` pentru a face acest lucru.
 
 ```go
 var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+facades.Orm().Query().Where("gen", 1).FirstOrCreate(&user, models.User{Nume: "tom"})
+// SELECT * from `users` WHERE `gender` = 1 AND `users`. nume" = 'tom' ORDER de `utilizatori`.`id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32. 56','2023-09-18 12:51:32.556','tom');
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
+faades.Orm().Query().Where("gen", 1).FirstOrCreate(&user, models.User{Nume: "tom"}, modele. ser{Avatar: "avatar"})
+// SELECT * DIN `utilizatori` unde `gen` = 1 AND `users`.`name` = 'tom' ORDER by `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:52:59.913','2023-09-18 12:52:52:59.913','tom','avatar');
 
-var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+var modele de utilizatori. ser
+facades.Orm().Query().Where("gen", 1).FirstOrNew(&user, models.User{Nume: "tom"})
+// SELECT * from `users` WHERE `gen` = 1 AND `users`. nume" = 'tom' ORDER de `users`.`id` LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Nume: "tom"}, modele. ser{Avatar: "avatar"})
+// SELECT * DIN `utilizatori` unde `gen` = 1 AND `users`.`name` = 'tom' ORDER by `users`.`id` LIMIT 1;
 ```
 
-#### Not Found Error
+#### Eroare negăsită
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
-`FirstOrFail` method:
+Când elementul solicitat nu este găsit, metoda `First` nu generează o eroare. Pentru a genera o eroare, folosiți metoda
+`FirstOrFail`:
 
 ```go
-var user models.User
+var modele de utilizator.Utilizator
 err := facades.Orm().Query().FirstOrFail(&user)
-// err == orm.ErrRecordNotFound
+// err == orm.ErrordNotFound
 ```
 
-### Where
+### Unde
 
 ```go
 facades.Orm().Query().Where("name", "tom")
@@ -460,195 +460,195 @@ facades.Orm().Query().OrWhereNull("name")
 facades.Orm().Query().OrWhereIn("name", []any{"a"})
 ```
 
-### Limit
+### Limită
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
+// SELECT * from `users` when name = 'tom' LIMIT 3;
 ```
 
-### Offset
+### Decalaj
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
+// SELECT * from `users` where name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### Comanda
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
+facades.Orm().Query().Unde ("name = ?", "tom").Order("sort asc").Order("id desc"). et(&users)
+// SELECT * DIN `users` unde numele = 'tom' ORDER pe fiecare asc,id desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
+fațade. rm().Query().Unde ("nume = ?", "tom").OrderBy("sort").Get(&users)
+// SELECT * DIN 'users' WHERE = 'tom' ORDER per asc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+faades.Orm().Query().Unde (nume = ?", "tom"). rderBy("sort", "desc").Get(&users)
+// SELECT * de la `users` al cărui nume = 'tom' ORDER de fiecare dată;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().Unde ("name = ?", "tom").OrderByDesc("sort"). et(&users)
+// SELECT * DE la `users` unde numele = 'tom' ORDER by click pe jos;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
+faades.Orm().Query(). aici ("nume = ?", "tom").InRandomOrder().Get(&users)
+// SELECT * DIN `users` unde numele = 'tom' ORDUPĂ RAND();
 ```
 
-### Paginate
+### Paginat
 
 ```go
 var users []models.User
 var total int64
-facades.Orm().Query().Paginate(1, 10, &users, &total)
-// SELECT count(*) FROM `users`;
-// SELECT * FROM `users` LIMIT 10;
+facades.Orm().Query(). aginat(1, 10, &utilizatori, &total)
+// SELECT numărul(*) de la `utilizatorii";
+// SELECT * de la "utilizatori" LIMIT 10;
 ```
 
-### Query Single Column
+### Interogare singură coloană
 
 ```go
 var ages []int64
 facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
-// SELECT `age` FROM `users`;
+// SELECT `age` from `users';
 ```
 
-### Specify Table Query
+### Specificați interogarea tabelelor
 
-If you want to query some aggregate data, you need to specify a specific table.
+Dacă doriți să interogați unele date agregate, trebuie să specificați un anumit tabel.
 
-Specify a model
+Specificați un model
 
 ```go
-var count int64
+număr var int64
 facades.Orm().Query().Model(&models.User{}).Count(&count)
-// SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
+// SELECT număr(*) de la `utilizatori` WHERE șterse_at IS NULL;
 ```
 
-Specify a table
+Specificați un tabel
 
 ```go
-var count int
-facades.Orm().Query().Table("users").Count(&count)
-// SELECT count(*) FROM `users`; // get all records, whether deleted or not
+număr var int
+facades.Orm().Query().Table("utilizatori").Count(&count)
+// SELECT număr(*) de la `utilizatori"; // obțineți toate înregistrările, fie că sunt șterse sau nu
 ```
 
 ### Get SQL
 
-Get SQL with placeholder:
+Obține SQL cu substituent:
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
+// SELECT * DE la "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
 ```
 
-Get SQL with value:
+Obține SQL cu valoarea:
 
 ```go
 facades.Orm().Query().ToRawSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
+// SELECT * DE "utilizatori" WHERE "id" = 1 AND "users"."deleted_at" is NULL
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
+Metodele pot fi apelate după `ToSql` şi `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
 `Save`, `Sum`, `Update`.
 
-### Count
+### Număr
 
 ```go
-var count int64
-facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
-// SELECT count(*) FROM `users` WHERE name = 'tom';
+număr var int64
+facades.Orm().Query().Table("users").Unde ("name = ?", "tom").Count(&număra)
+/ SELECT număr(*) de la `users` unde numele = 'tom';
 ```
 
-### Specify Fields
+### Specifică Câmpurile
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+`Select` îți permite să specifici ce câmpuri să extragă din baza de date, în mod implicit ORM preia toate câmpurile.
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
-// SELECT `name`,`age` FROM `users`;
+// SELECT `name`,`age` de la `users`;
 
 facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
-// SELECT `name`,`age` FROM `users`;
+// SELECT `name`,`age` de la `utilizatori";
 ```
 
-### Group By & Having
+### Grupează după și după
 
 ```go
 type Result struct {
-  Name  string
-  Total int
+  Nume şir
+  Total
 }
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
-// SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
+var rezultat rezultat
+facades.Orm().Query().Model(&models.User{}). elect("name, sum(age) ca total").Group("nume").Having("name = ?", "tom").Get(&result)
+// Nume SELECT, sum(age) ca total de la `utilizatori` GROUP by `name` AVÂND nume = "tom";
 ```
 
-### Join
+### Alătură-te
 
 ```go
 type Result struct {
-  Name  string
+  Name string
   Email string
 }
 
 var result Result
-facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
-// SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
+facades.Orm().Query().Model(&models.User{}).Select("users. ame, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
+// SELECT users.name, emails.email from `users` LEFT JOIN emails.user_id = users.id;
 ```
 
-### Create
+### Crează
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
-// INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
+user := models.User{Nume: "tom", Vârsta: 18}
+err := facades.Orm().Query(). reate(&user)
+// INSERT utilizatori INTO (nume, vârstă, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00", "2022-09-27 22:00");
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// Nu declanșează evenimentele din model
+err := fațade. rm().Query().Table("users").Create(map[string]any{
   "name": "Goravel",
 })
 
-// Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
+// Modelul de evenimente
+err := facades. rm().Query().Model(&models.User{}).Create(map[string]any{
   "name": "Goravel",
 })
 ```
 
-### Multiple create
+### Creare multiplă
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+utilizatori := []models.User{{Name: "tom", Age: 18}, {Nume: "tim", Vârstă: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("users"). reate(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm(). uery().Model(&models.User{}).Create(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> `created_at` şi `updated_at` vor fi completate automat.
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
+Poate fi folosit pentru a reduce semnificativ consumul de memorie al aplicației atunci când se repetă prin zeci de mii de
+Eloquent model de înregistrări. Note, the `Cursor` method can be used with `With` at the same time, please
 use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
-if err != nil {
+dacă ero!= nil {
   return err
 }
-for row := range cursor {
-  var user models.User
+pentru rândul := range cursor {
+  var user models. ser
   if err := row.Scan(&user); err != nil {
     return err
   }
@@ -656,9 +656,9 @@ for row := range cursor {
 }
 ```
 
-### Save Model
+### Salvare model
 
-#### Update an existing model
+#### Actualizează un model existent
 
 ```go
 var user models.User
@@ -666,115 +666,115 @@ facades.Orm().Query().First(&user)
 
 user.Name = "tom"
 user.Age = 100
-facades.Orm().Query().Save(&user)
-// UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
+facades.Orm().Query(). ave(&user)
+// UPDATE `utilizatorii" SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
 ```
 
-#### Update columns
+#### Actualizare coloane
 
 ```go
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
-// UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
+// UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `tom';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
-// UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
+facades.Orm().Query().Model(&models.User{}).Wherename, "tom.Update(modele. ser{Nume: "hello", Vârstă: 18})
+fațades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(harta[string]oricea{"nume": "hello", "age": 18})
+// UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`,`,`age`=18 WHERE '';
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
-> time.
+> La actualizarea cu `struct`, Orm va actualiza doar câmpurile non-zero. Poate doriţi să utilizaţi `map` pentru a actualiza atributele sau
+> utilizaţi `Select` pentru a specifica câmpurile care trebuie actualizate. Țineți cont că `struct` poate fi `Model`, dacă doriți să actualizați cu `Model` non
+> , trebuie să folosiți `. able("utilizatori")", totuşi, câmpul `updated_at\` nu poate fi actualizat automat la acest ora
+> .
 
-#### Update or create
+#### Actualizează sau crează
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+Interogare de `name`, dacă nu există, creați de `name`, `avatar`, dacă există, actualizați `avatar` bazat pe `name`:
 
 ```go
-facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
-// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
+fațades.Orm().Query().UpdateOrCreate(&user, models.User{Nume: "name"}, models.User{Avatar: "avatar"})
+// SELECT * DE la `utilizatori`.`name` = 'name' AND `users`.`.`deleted_at` este NULL ORDER de `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08. 69',NULL,'nume','avatar');
+// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` NULL AND `id` = 1;
 ```
 
 ### Ștergere
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+Ștergeți după model numărul de rânduri afectat de declarație se returnează prin metodă:
 
 ```go
-var user models.User
+var modele de utilizator.Utilizator
 facades.Orm().Query().Find(&user, 1)
 res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
+res, err := facades.Orm().Query().Model(&models.User{}). aici("id", 1).Delete()
 res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
-// DELETE FROM `users` WHERE `users`.`id` = 1;
+// DELETE DIN `users`.`id` = 1;
 
-num := res.RowsAffected
+num := res.RowsAfected
 ```
 
-Multiple delete
+Ștergere multiplă
 
 ```go
-facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
-// DELETE FROM `users` WHERE name = 'tom';
+facades.Orm().Query().Unde ("nume = ?", "tom").Delete(&models.User{})
+// DELETE DIN `users` WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+Doriți să forțați ștergerea unor date de ștergere soft.
 
 ```go
 facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
-facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
+facades.Orm().Query().Model(&models.User{}).Where("nume", "tom").ForceDelete()
+faades.Orm().Query().Table("users").Where("name", ").ForceDelete()
 ```
 
-You can delete records with model associations via `Select`:
+Puteţi şterge înregistrările cu modele de asocieri prin `Select`:
 
 ```go
-// Delete Account of user when deleting user
+// Ștergeți Contul utilizatorului când ștergeți utilizatorul
 facades.Orm().Query().Select("Account").Delete(&user)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// Ștergeți Comenzile și Cardurile de credit ale utilizatorului atunci când ștergeți utilizatorul
+facades.Orm().Query().Select("Comenzi", "CreditCards"). elete(user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// Ștergeți toate asocierile copil de utilizator la ștergerea utilizatorului
+faades.Orm().Query().Select(orm.Associations). elete(&user)
 
-// Delete all Account of users when deleting users
+// Șterge tot contul utilizatorilor la ștergerea utilizatorilor
 facades.Orm().Query().Select("Account").Delete(&users)
 ```
 
-Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
-keys as conditions to delete associated records:
+Notă: Asocierile vor fi șterse numai în cazul în care cheia primară a înregistrării nu este goală, și Orm folosește aceste chei primare
+ca condiții pentru a șterge înregistrările asociate:
 
 ```go
-// Delete user that name='goravel', but don't delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{})
+// Șterge utilizatorul care nume='goravel', dar nu șterge contul utilizatorului
+facades.Orm().Query().Select("Account").Unde ("nume = ?", "goravel"). elete(&models.User{})
 
-// Delete user that name='goravel' and id = 1, and delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
+// Șterge utilizatorul care nume='goravel' și id = 1 și șterge fațadele utilizatorului
+. rm().Query().Select("Account").Unde ("name = ?", "goravel").Delete(&models.User{ID: 1})
 
-// Delete user that id = 1 and delete account of that user
+// Șterge utilizatorul care a înregistrat = 1 și șterge contul acelui utilizator
 facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
-conditions, or use native SQL.
+Dacă se execută ștergerea seriei fără nicio condiție, ORM nu face asta și returnează o eroare. Așa că trebuie să adaugi niște condiții
+sau să folosești nativ SQL.
 
-### Query Soft Delete Data
+### Şterge datele din interogare
 
 ```go
 var user models.User
 facades.Orm().Query().WithTrashed().First(&user)
 ```
 
-### Filter Repetition
+### Repetiţie filtru
 
 ```go
 var users []models.User
 facades.Orm().Query().Distinct("name").Find(&users)
 ```
 
-### Get Driver
+### Obține șofer
 
 ```go
 driver := facades.Orm().Query().Driver()
@@ -783,48 +783,48 @@ driver := facades.Orm().Query().Driver()
 if driver == orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### Execută Native SQL
 
 ```go
 type Result struct {
-  ID   int
-  Name string
-  Age  int
+  ID
+  Numele
+
 }
 
-var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+var rezultat rezultat
+fațade. rm().Query().Raw("ID-ul SELECT, numele, vârsta de la utilizatori unde numele = ?", "tom").Scan(&rezultat)
 ```
 
-### Execute Native Update SQL
+### Execută Native Update SQL
 
-The number of rows affected by the statement is returned by the method:
+Numărul de rânduri afectat de declarație se returnează prin metodă:
 
 ```go
 res, err := facades.Orm().Query().Exec("DROP TABLE users")
 // DROP TABLE `users`;
 
-num := res.RowsAffected
+num := res.RowsAfected
 ```
 
-### Exists
+### Exista
 
 ```go
-var exists bool
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
+var există bool
+facades.Orm().Query().Model(&models.User{}).Unde ("name", "tom").Exists(&există)
 ```
 
-### Restore
+### Restaurează
 
 ```go
 facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
-facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
-// UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
+faades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
+// UPDATE `users` SET `ștered_at`=NULL WHERE `id` = 1;
 ```
 
-### Transaction
+### Tranzacție
 
-You can execute a transaction by `Transaction` function.
+Puteţi executa o tranzacţie cu funcţia `Transaction`.
 
 ```go
 import (
@@ -834,7 +834,7 @@ import (
   "goravel/app/models"
 )
 
-...
+. .
 
 return facades.Orm().Transaction(func(tx orm.Query) error {
   var user models.User
@@ -843,73 +843,73 @@ return facades.Orm().Transaction(func(tx orm.Query) error {
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+De asemenea, poți controla manual fluxul tranzacției chiar tu:
 
 ```go
 tx, err := facades.Orm().Query().Begin()
-user := models.User{Name: "Goravel"}
-if err := tx.Create(&user); err != nil {
+user := models.User{Nume: "Goravel"}
+if err := tx. reate(&user); err != nil {
   err := tx.Rollback()
 } else {
   err := tx.Commit()
 }
 ```
 
-### Scopes
+### Domeniu
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+Vă permite să specificați interogările utilizate în mod curent care pot fi menționate atunci când este apelată metoda.
 
 ```go
-func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
+func Paginator(șir pagină, limită șir) funcție (methods orm.Query) orm. uery {
   return func(query orm.Query) orm.Query {
-    page, _ := strconv.Atoi(page)
-    limit, _ := strconv.Atoi(limit)
-    offset := (page - 1) * limit
+    page, _ := strconv. toi(pagina) Limita
+    , _ := strconv. toi(limit)
+    offset := (pagina - 1) * limita
 
-    return query.Offset(offset).Limit(limit)
+    interogare returnare. ffset(offset).Limit(limit)
   }
 }
 
-// scopes.Paginator is a custom function: func(ormcontract.Query) ormcontract.Query
-facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
+// scopes.Paginatorul este o funcție personalizată: funcție (ormcontract.Query) ormcontract.Interogarea
+facades.Orm().Query().Scopes(scopes.Paginator(pagină, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### Expresii crude
 
-You can use the `db.Raw` method to update fields:
+Puteţi utiliza metoda `db.Raw` pentru a actualiza câmpurile:
 
 ```go
 import "github.com/goravel/framework/database/db"
 
 facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
-// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
+// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:0399' WHERE `users`.`deleted_at` este NULL AND `id` = 1;
 ```
 
-### Pessimistic Locking
+### Blocare essimistă
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+Constructorul de interogări include, de asemenea, câteva funcții pentru a vă ajuta să obțineți "blocare pesimistă" atunci când executați `selectează`
+declarații.
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+Pentru a executa o declarație cu o "blocare partajată", puteți apela metoda `SharedLock`. O blocare partajată împiedică modificarea rândurilor
+selectate până când tranzacția este angajată:
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
+facades.Orm().Query().Where("voturi", ">", 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
-modified or from being selected with another shared lock:
+Alternativ, puteţi utiliza metoda `LockForUpdate`. O blocare "pentru actualizare" împiedică înregistrările selectate să fie modificate
+sau să fie selectate cu o altă blocare partajată:
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
+facades.Orm().Query().Where("voturi", ">", 100).LockForUpdate().Get(&users)
 ```
 
 ### Sum
 
 ```go
-var sum int
+var sum
 if err := facades.Orm().Query().Model(models.User{}).Sum("id", &sum); err != nil {
   return err
 }
@@ -918,19 +918,19 @@ fmt.Println(sum)
 
 ## Evenimente
 
-Orm models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `Retrieved`,
+Modelele de Orm expediază mai multe evenimente, permițându-vă să vă conectați la următoarele momente din ciclul de viață al unui model: `Recrieved`,
 `Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
 `Restored`, `Restoring`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
-is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
-dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
-changes to the model are persisted.
+Evenimentul `recuperat` se va expedia atunci când un model existent este preluat din baza de date. Când un nou model este salvat pentru
+prima dată, evenimentele `Creează` şi `Creat` vor expedia. Evenimentele `Updating` / `Updated` se vor expedia când
+un model existent este modificat şi metoda `Save` este apelată. Evenimentele `Saving` / `Saved` se vor expedia atunci când modelul
+este creat sau actualizat - chiar dacă atributele modelului nu au fost schimbate. Numele evenimentelor care se termină cu `-ing` sunt
+expediate înainte de a persista orice modificare a modelului, în timp ce evenimentele care se termină cu `-ed` sunt expediate după ce modificările
+la model sunt persistate.
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
-of the model's lifecycle to your own event classes.
+Pentru a începe să ascultați evenimentele modelului, definiți o metodă `DispatchesEvents` pe modelul dumneavoastră. Această proprietate cartografiază diferite puncte
+din ciclul de viață al modelului la clasele tale de evenimente.
 
 ```go
 import (
@@ -939,76 +939,76 @@ import (
 )
 
 type User struct {
- orm.Model
- Name    string
+ orm. odel
+ Nume șir
 }
 
-func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.Event) error {
+func (u *User) DispatchesEvents() harta[contractsorm.EventType]funcție. Event) eroare {
  return map[contractsorm.EventType]func(contractsorm.Event) error{
-  contractsorm.EventCreating: func(event contractsorm.Event) error {
+  contractsorm. ventCreare: funcție (eveniment contractsorm.Eveniment) eroare {
    return nil
   },
-  contractsorm.EventCreated: func(event contractsorm.Event) error {
+  contractsorm.EventCreat: funcție (eveniment contractsorm.Eveniment) eroare {
    return nil
   },
-  contractsorm.EventSaving: func(event contractsorm.Event) error {
+  contractsorm.EventSaving: funcție (contract de eveniment. vent) eroare {
    return nil
   },
-  contractsorm.EventSaved: func(event contractsorm.Event) error {
+  contractsorm.EventSaved: func(event contractsorm.Event) eroare {
    return nil
   },
-  contractsorm.EventUpdating: func(event contractsorm.Event) error {
+  contractsorm.EventUpdating: funcție (eveniment contractant). vent) eroare {
    return nil
   },
-  contractsorm.EventUpdated: func(event contractsorm.Event) error {
+  contractsorm.EventUpdated: func(event contractsorm.Event) eroare {
    return nil
   },
-  contractsorm.EventDeleting: func(event contractsorm.Event) error {
+  contractant. ventȘtergere: funcție (eveniment contractsorm.Eveniment) eroare {
    return nil
   },
-  contractsorm.EventDeleted: func(event contractsorm.Event) error {
+  contractant. ventDeleted: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventForceDeleting: func(event contractsorm.Event) error {
+  contractsorm.EventForceDeleting: function (event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventForceDeleted: func(event contractsorm.Event) error {
+  contractsorm. ventForceDeleted: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventRetrieved: func(event contractsorm.Event) error {
+  contractsorm.EventRetrieved: function (event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventRestored: func(event contractsorm.Event) error {
+  contractsorm. EventRestaurat: funcție (event contractsorm.Event) eroare {
    return nil
   },
-  contractsorm.EventRestoring: func(event contractsorm.Event) error {
+  contractsorm.EventRestoring: function (event contractsorm.Event) error {
    return nil
   },
  }
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> Notă: Doar înregistrați evenimentele de care aveți nevoie. Evenimentele de model nu sunt expediate atunci când operații în grup prin Orm.
 
-### Observers
+### Observatori
 
-#### Defining Observers
+#### Definirea observatorilor
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
-new observer class:
+Dacă ascultați multe evenimente pe un model dat, puteţi utiliza observatori pentru a grupa toţi ascultătorii într-o singură clasă
+Clasele de observatori au nume de metode care reflectă evenimentele omogene pe care doriți să le ascultați. Fiecare dintre aceste metode
+primește modelul afectat ca fiind singurul lor argument. Comanda Artizană `make:observer` este cel mai ușor mod de a crea o nouă clasă de observatori
+:
 
 ```shell
-go run . artisan make:observer UserObserver
-go run . artisan make:observer user/UserObserver
+rulare . artizan:observer UserObserver
+rulați . artizan make:observer user/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+Această comandă va plasa noul observator în folderul `app/observatori`. Dacă acest director nu există, Artisan
+o va crea pentru dvs. Noul dvs. observator va arăta în felul următor:
 
 ```go
-package observers
+observatori
 
 import (
  "fmt"
@@ -1018,87 +1018,87 @@ import (
 
 type UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+func (u *UserObserver) Creat (eveniment orm. vent) eroare {
  return nil
 }
 
-func (u *UserObserver) Updated(event orm.Event) error {
+func (u *UserObserver) Actualizat (event orm.Event) eroare {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) Ștergere (eveniment orm. vent) eroare {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+func (u *UserObserver) eroarea ForceDeleted(event orm.Event) {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+Observatorul de șablon conține doar câteva evenimente, puteți adăuga alte evenimente în funcție de nevoile dvs.
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
-observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
+Pentru a înregistra un observator, trebuie să apelați metoda `Observe` pe modelul pe care doriți să îl observați. Puteți înregistra observatori
+în metoda `Boot` a aplicației dvs. `app/providers/event_service_provider.go::Boot`:
 
 ```go
-package providers
+furnizorii de pachete
 
-import (
- "github.com/goravel/framework/facades"
+de import (
+ "github. om/goravel/framework/facades"
 
  "goravel/app/models"
- "goravel/app/observers"
+ "goravel/app/observver"
 )
 
 type EventServiceProvider struct {
 }
 
-func (receiver *EventServiceProvider) Register(app foundation.Application) {
- facades.Event().Register(receiver.listen())
+func (receptor *EventServiceProvider) Register(fundația aplicației. pplication) {
+ facades.Event().Register(destinatar. isten())
 }
 
-func (receiver *EventServiceProvider) Boot(app foundation.Application) {
- facades.Orm().Observe(models.User{}, &observers.UserObserver{})
+func (receptor *EventServiceProvider) Boot(app foundation.Application) {
+ facades.Orm().Observe(models.User{}, &observers. serObserver{})
 }
 
-func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener {
+func (receptor *EventServiceProvider) asculten() map[event.Event][]event.Listener {
  return map[event.Event][]event.Listener{}
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> Notă: Dacă setați `DispatchesEvents` și `Observer` în același timp, numai `DispatchesEvents` vor fi aplicate.
 
-#### Parameter in Observer
+#### Parametru în observator
 
-The `event` parameter will be passed to all observers:
+Parametrul `eveniment` va fi transmis tuturor observatorilor:
 
-| Metodă       | Acțiune                                                                                                    |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| Metodă         | Acțiune                                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Context        | Obține contextul care a trecut de `facades.Orm().WithContext()`                                                                           |
+| Obține atribut | Obțineți valoarea modificată, dacă nu modificați, obțineți valoarea originală, dacă nu există nicio valoare originală, returnați valoarea |
+| GetOriginal    | Obține valoarea originală, dacă nu există o valoare originală, returnează nil                                                             |
+| Isdirty        | Determină dacă câmpul este modificat                                                                                                      |
+| IsClean        | IsDirty invers                                                                                                                            |
+| Interogare     | Obțineți o interogare nouă, care poate fi utilizată cu tranzacția                                                                         |
+| SetAttribute   | Setați o nouă valoare pentru un câmp                                                                                                      |
 
-### Muting Events
+### Mut Evenimente
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+Ocazional, este posibil să fie nevoie să dezactivați temporar toate evenimentele declanșate de un model. Puteţi obţine acest lucru folosind metoda
+`WithoutEvents`:
 
 ```go
-var user models.User
+var user models.Utilizator
 facades.Orm().Query().WithoutEvents().Find(&user, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### Se salvează un singur model fără evenimente
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
-`SaveQuietly` method:
+Uneori poate doriți să "salvați" un anumit model fără a expedia evenimente. Puteţi realiza acest lucru cu metoda
+`SaveQuietly`:
 
 ```go
-var user models.User
+var modele de utilizator. Utilizator
 err := facades.Orm().Query().FindOrFail(&user, 1)
 user.Name = "Goravel"
 err := facades.Orm().Query().SaveQuietly(&user)
