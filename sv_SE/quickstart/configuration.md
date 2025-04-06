@@ -1,54 +1,54 @@
 # Konfiguration
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Alla konfigurationsfiler i Goravels ramverk lagras i `config`-katalogen. Du kan se specifika
+instruktioner och konfigurera dem flexibelt enligt projektets behov.
 
-## Environment Configuration
+## Konfiguration av miljö
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+Löpande applikationer i olika miljöer kräver vanligtvis olika konfigurationer. Till exempel kanske du vill
+aktivera felsökningsläget lokalt men behöver det inte i produktionsmiljön.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Därför ger ramverket `.env.exempel`-filen i rotkatalogen. Du måste kopiera denna fil, byta namn på den
+till `.env` innan du startar utvecklingen och ändra konfigurationsobjekten i \`. nv' fil enligt ditt projekt
+behov.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Notera att `. nv`-filen bör inte läggas till versionskontroll, eftersom när flera personer samarbetar, olika
+utvecklare kan använda olika konfigurationer, och olika konfigurationer för driftsättning är olika.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+Dessutom, om en inkräktare får tillgång till ditt kodförråd, kommer det att finnas en risk för att exponera känslig
+-konfiguration. Om du vill lägga till ett nytt konfigurationsobjekt kan du lägga till den i filen '.env.example' för att synkronisera
+konfigurationen för alla utvecklare.
 
-## Retrieve Environment Configuration
+## Hämta miljökonfiguration
 
-Use the following method to obtain the configuration items in the `.env` file:
-
-```go
-// The first parameter is the configuration key, and the second parameter is the default value
-facades.Config().Env("APP_NAME", "goravel")
-```
-
-## Access Configuration Values
-
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+Använd följande metod för att få konfigurationsobjekten i filen `.env`:
 
 ```go
-// Get the configuration through assertion
-facades.Config().Get("app.name", "goravel")
-
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
-
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
-
-// Get the configuration of the bool type
-facades.Config().GetBool("app.debug", true)
+// Den första parametern är konfigurationsnyckeln, och den andra parametern är standardvärdet
+fasader.Config().Env("APP_NAME", "goravel")
 ```
 
-## Set Configuration
+## Åtkomst till konfigurationsvärden
+
+Du kan enkelt använda den globala `facades.Config()` -funktionen var som helst i programmet för att komma åt konfigurationsvärdena
+i `config`-katalogen. Åtkomst till konfigurationsvärdet kan använda "." syntax. Du kan också ange ett standard
+-värde, om konfigurationsalternativet inte finns, är standardvärdet returnerat:
+
+```go
+// Hämta konfigurationen genom påståendet
+fasades.Config().Get("app.name", "goravel")
+
+// Hämta konfigurationen av strängtypen
+fasader.Config().GetString("app. ame", "goravel")
+
+// Hämta konfigurationen av int typ
+fasader.Konfig().GetInt("app. nt", 1)
+
+// Hämta konfigurationen av Bolltypen
+fasader.Konfig().GetBool("app.debug", true)
+```
+
+## Ställ in konfiguration
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,10 +56,10 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Hämta projektinformation
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Du kan använda kommandot `artisan about` för att visa ramverksversionen, konfigurationen etc.
 
 ```bash
-go run . artisan about
+gå springa. hantverkare om
 ```
