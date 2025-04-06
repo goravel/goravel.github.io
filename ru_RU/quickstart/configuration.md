@@ -1,54 +1,54 @@
 # Конфигурация
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
+Все конфигурационные файлы Goravel Framework хранятся в папке `config`. You can view specific
 instructions and configure them flexibly according to project needs.
 
-## Environment Configuration
+## Настройка окружения
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+Запуск приложений в разных средах обычно требует различных конфигураций. Например, вам может понадобиться
+включить режим отладки локально, но не нужен в производственной среде.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Таким образом, фреймворк предоставляет файл `.env.example` в корневом каталоге. Вам нужно скопировать этот файл, переименуйте его
+в `.env` перед началом разработки и модифицируйте элементы конфигурации в \`. nv-файл в соответствии с потребностями вашего проекта
+.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Обратите внимание, что `. nv` файл не должен быть добавлен в управление версиями, потому что когда несколько людей сотрудничают, Различные
+разработчики могут использовать различные конфигурации, а различные конфигурации среды установки различаются.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
+Кроме того, если злоумышленник получит доступ к вашему хранилищу кода, существует риск выпадения чувствительных
+конфигураций. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
 configuration of all developers.
 
-## Retrieve Environment Configuration
+## Получить конфигурацию окружения
 
-Use the following method to obtain the configuration items in the `.env` file:
+Используйте следующий метод для получения конфигурационных элементов в файле `.env`:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// Первый параметр — это ключ конфигурации, второй параметр — значение по умолчанию
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## Значения конфигурации доступа
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+Вы можете легко использовать глобальную функцию `facades.Config()` в любом месте приложения для доступа к параметрам конфигурации
+в папке `config`. Доступ к значению конфигурации может использовать синтаксис ".". Вы также можете указать значение
+по умолчанию, если параметр конфигурации не существует, значение по умолчанию возвращается:
 
 ```go
-// Get the configuration through assertion
+// Получить конфигурацию через утверждение
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// Получение конфигурации строкового типа
+facades.Config().GetString("app. ame", "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// Получение конфигурации int типа
+facades.Config().GetInt("app. nt", 1)
 
-// Get the configuration of the bool type
+// Получить конфигурацию булочного типа
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## Установка конфигурации
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,10 +56,10 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Получить информацию о проекте
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Вы можете использовать команду `artisan about` для просмотра версии фреймворка, конфигурации и т.д.
 
 ```bash
-go run . artisan about
+идите бежать . кустарник о
 ```
