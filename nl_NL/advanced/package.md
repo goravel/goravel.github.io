@@ -1,49 +1,49 @@
-# Package Development
+# Pakket ontwikkeling
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
-Goravel-specific packages.
+Pakketten zijn de primaire manier om functionaliteit toe te voegen aan Goravel. Deze pakketten kunnen routes, controllers en
+configuraties bevatten die specifiek ontworpen zijn om een Goravel applicatie te verbeteren. Deze handleiding richt zich op het ontwikkelen van
+Goravel-specifieke pakketten.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+Hier is een voorbeeld voor het bouwen van een derde partij
+pakket: [goravel/example-package](https://github.com/goravel/example-package)
 
-## Creating A Package
+## Een pakket maken
 
-You can use easily create a package template using the Artisan command:
-
-```shell
-go run . artisan make:package sms
-```
-
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+Je kunt eenvoudig een package template maken met behulp van de Artisan opdracht:
 
 ```shell
-go run . artisan make:package --root=pkg sms
+uitvoeren . artisan make:package sms
 ```
 
-## Service Providers
+De aangemaakte bestanden worden standaard opgeslagen in de root `packages` map, je kan `--root` optie gebruiken om het aan te passen:
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+```shell
+uitvoeren . artisan make:package --root=pkg sms
+```
 
-## Usage
+## Service providers
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+[Service providers](../foundation/providers) fungeert als de brug tussen uw pakket en Goravel.
+Ze bevinden zich meestal in de hoofdmap van het pakket als een `service_provider.go` bestand. Hun belangrijkste functie is het koppelen van
+items aan Goravel's service container en Goravel bij het laden van pakketbronnen.
 
-## Resources
+## Gebruik
+
+Registreer de `ServiceProvider` in het pakket naar `config/app.go:providers`, exporteer dan `facades` naar de applicatie.
+Voor gedetailleerde stappen, ga naar [goravel/example-package](https://github.com/goravel/example-package).
+
+## Hulpmiddelen
 
 ### Configuratie
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
-allow users of your package to easily override your default configuration options. To allow your configuration files to
-be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
-package name, and the second parameter is the mapping between the current package file path and the project path:
+Meestal moet je het configuratiebestand van je pakket publiceren naar de `config` map van de applicatie. Dit zal
+toestaan dat gebruikers van uw pakket eenvoudig uw standaard configuratieopties overschrijven. Om configuratiebestanden
+te laten worden gepubliceerd, roep je de 'Publicatie' methode op van de 'Boot' methode van je serviceprovider, de eerste parameter is de naam van het pakket
+en de tweede parameter is de mapping tussen het huidige bestandspad van het pakket en het projectpad:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", kaart[string]string{
     "config/sms.go": app.ConfigPath("sms.go"),
   })
 }
@@ -51,86 +51,86 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 
 ### Routes
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+Als er [routes](../basic/routing) in je pakket zitten, kun je `app.MakeRoute()` gebruiken om
+`facades.Route()` op te lossen en de routes naar het project toevoegen:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
  route := app.MakeRoute()
  route.Get("sms", ***)
 }
 ```
 
-### Migrations
+### Migraties
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+Als er [migrations](../orm/migrations) in je pakket zit, kun je ze publiceren via de `Publicaties` methode:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", kaart[string]string{
     "migrations": app.DatabasePath("migrations"),
   })
 }
 ```
 
-## Commands
+## Opdrachten
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+Je kunt het `Artisan` commando registreren door de `Commands` methode, je kunt de commando's
+uitvoeren met [Artisan CLI](../advanced/artisan) nadat je ze hebt geregistreerd.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
  app.Commands([]console.Command{
   commands.NewSmsCommand(),
  })
 }
 ```
 
-## Public Assets
+## Openbare activa
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+Je pakket kan assets hebben zoals JavaScript, CSS en afbeeldingen. Om deze assets te publiceren naar de `publiek`
+directory, gebruik de service provider `Publishes` methode:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", kaart[string]string{
     "public": app.PublicPath("vendor"),
   })
 }
 ```
 
-## Publishing File Groups
+## Publiceren van bestandsgroepen
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+Als u specifieke groepen van pakketproducten en bronnen apart wilt publiceren, je kan tags gebruiken om de
+'Publishes' methode aan te roepen van de service provider van het pakket. Dit stelt je in staat gebruikers de optie te geven om bepaalde
+bestanden, zoals configuratiebestanden, te publiceren, zonder alle activa van het pakket te hoeven publiceren. Om te illustreren, je kan twee
+publiceren groepen voor het `sms-config` pakket (`sms-config` en `sms-migrations`) met behulp van tags in de `Boot` methode van het
+pakket provider.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (ontvanger *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
+    "migrations": app. atabasePath("migraties"),
   }, "sms-migrations")
 }
 ```
 
-## Publish Resources
+## Publiceer bronnen
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+In het project kun je bronnen publiceren die geregistreerd zijn in een pakket met behulp van `vendor:publish` Artisan commando:
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+ga uitvoeren. artisan vendor:publiceren --package={You package name}
 ```
 
-The command can use the following options:
+Het commando kan de volgende opties gebruiken:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| Optie naam  | Alias | actie                                                                                                                                                                                                                                                                                             |
+| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --pakket    | -p    | De pakketnaam kan een remote pakket zijn: `github.com/goravel/example-package`, en kan ook een lokaal pakket zijn: `. packages/example-package`, houd er rekening mee dat wanneer je een lokale pakketnaam gebruikt, deze moet beginnen met `./`. |
+| --label     | -t    | Resource groep                                                                                                                                                                                                                                                                                    |
+| --team      | -f    | Overschrijf bestaande bestanden                                                                                                                                                                                                                                                                   |
+| --bestaande | -e    | Publiceer en overschrijf alleen de bestanden die al gepubliceerd zijn                                                                                                                                                                                                                             |
