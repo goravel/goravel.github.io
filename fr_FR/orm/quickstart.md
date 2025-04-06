@@ -1,92 +1,92 @@
-# Getting Started
+# Commencer
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+Goravel facilite l'interaction avec les bases de données en utilisant `facades.Orm()`. Actuellement, il fournit le support officiel
+pour les quatre bases de données suivantes :
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
-- SQL Server 2017+
+- Serveur SQL 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+Avant de commencer, configurez la base de données dans `.env` et confirmez la configuration `default` dans `config/database.go`.
 
 # Configuration
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+Pour configurer les bases de données, accédez à `config/database.go`. C'est là que vous pouvez personnaliser toutes les connexions à la base de données et
+choisir une connexion `default`. La configuration de ce fichier repose sur les variables d'environnement du projet et
+présente diverses configurations de base de données supportées par Goravel.
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+Vous pouvez également utiliser DSN pour vous connecter directement à la base de données, il suffit de configurer le champ `dsn` dans le fichier de configuration :
 
 ```go
 "postgres": map[string]any{
-  "driver":   "postgres",
-++  "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
+  "driver": "postgres",
+++ "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
   ...
 }
 ```
 
-### Read & Write Connections
+### Connexions en lecture et écriture
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+Parfois, vous pouvez utiliser une connexion à une base de données pour les requêtes `SELECT`, et une autre pour les instructions `INSERT`, `UPDATE`, et
+`DELETE`. Goravel fait de cela une brise.
 
-To see how read/write connections should be configured, let's look at this example:
+Pour voir comment les connexions en lecture/écriture doivent être configurées, regardons cet exemple :
 
 ```go
 import "github.com/goravel/framework/contracts/database"
 
-// config/database.go
+// config/database. o
 "connections": map[string]any{
   "mysql": map[string]any{
     "driver": "mysql",
-    "read": []database.Config{
-      {Host: "192.168.1.1", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "lu" : []base de données. onfig{
+      {Host: "192.168.1. ", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
     },
-    "write": []database.Config{
-      {Host: "192.168.1.2", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "write": []database. onfig{
+      {Host: "192.168.1. ", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
     },
-    "host": config.Env("DB_HOST", "127.0.0.1"),
-    "port":     config.Env("DB_PORT", 3306),
-    "database": config.Env("DB_DATABASE", "forge"),
+    "host": config. nv("DB_HOST", "127.0.0.1"),
+    "port": config.Env("DB_PORT", 3306),
+    "database": config. nv("DB_DATABASE", "forge"),
     "username": config.Env("DB_USERNAME", ""),
-    "password": config.Env("DB_PASSWORD", ""),
-    "charset":  "utf8mb4",
-    "loc":      "Local",
+    "password": config. nv("DB_PASSWORD", ""),
+    "charset": "utf8mb4",
+    "loc": "Local",
   },
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+Nous avons mis à jour le tableau de configuration avec deux nouvelles clés - `read` et `write`. La connexion `read` utilisera
+`192.168.1.1` comme hôte, tandis que la connexion `write` utilisera `192.168.1.2`. Les deux connexions partageront le même préfixe de la base de données
+, le jeu de caractères et d'autres options spécifiées dans le tableau mysql principal. Dans le cas de plusieurs valeurs dans le tableau de configuration
+`host`, un hôte de base de données sera sélectionné aléatoirement pour chaque requête.
 
-### Connection Pool
+### Pool de connexion
 
-You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
-can greatly improve concurrency performance:
+Vous pouvez configurer un pool de connexions dans le fichier de configuration, une configuration raisonnable des paramètres du pool de connexions
+peut grandement améliorer les performances simultanées:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| Clés                                                         | Action                                    |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| max_inactifs_conns | Nombre maximum de connexions inactives    |
+| max_open_conns     | Nombre maximum de connexions ouvertes     |
+| Temps max d'inactivité                                       | Temps maximum d'inactivité des connexions |
+| Durée de vie maximale du pool                                | Durée de vie max des connexions           |
 
-### Schema
+### Schéma
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres et Sqlserver supportent la configuration Schema. Postgres peut directement définir le Schéma dans le fichier de configuration, tandis que
+Sqlserver doit spécifier le Schéma via la méthode `TableName` dans le modèle.
 
 #### Postgres
 
 ```go
 "connections": map[string]any{
   "postgres": map[string]any{
-    "driver":   "postgres",
+    "driver": "postgres",
     ...
     "schema": "goravel",
   },
@@ -96,94 +96,94 @@ Sqlserver needs to specify the Schema through the `TableName` method in the mode
 #### Sqlserver
 
 ```go
-func (r *User) TableName() string {
-  return "goravel.users"
+func (r *User) Chaîne TableName() {
+  retourne "goravel.users"
 }
 ```
 
-### Get Database Information
+### Obtenir des informations sur la base de données
 
-You can use the `db:show` command to view all tables in the database.
+Vous pouvez utiliser la commande `db:show` pour afficher toutes les tables dans la base de données.
 
 ```bash
-go run . artisan db:show
+exécutez . artisan db:show
 ```
 
-You can also use the `db:table` command to view the structure of a specific table.
+Vous pouvez également utiliser la commande `db:table` pour afficher la structure d'une table spécifique.
 
 ```bash
-go run . artisan db:table
+aller exécuter. artisan db:table
 go run . artisan db:table users
 ```
 
-## Model Definition
+## Définition du modèle
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+Pour créer un modèle personnalisé, reportez-vous au fichier de modèle `app/models/user.go` qui est inclus dans le cadre. Le `struct`
+dans `app/models/user.go` contient deux frameworks: `orm.Model` et `orm.SoftDeletes`. Ces frameworks définissent les propriétés
+`id`, `created_at`, `updated_at` et `deleted_at` respectivement. Avec `orm.SoftDeletes`, vous pouvez activer la suppression soft
+pour le modèle.
 
-### Model Convention
+### Modèle de convention
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+1. Le modèle est nommé avec une grosse bosse ;
+2. Utiliser la forme plurielle du modèle "nom de serpent" comme nom de la table ;
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+Par exemple, le nom du modèle est `UserOrder`, et le nom de la table est `user_orders`.
 
-### Create Model
+### Créer un modèle
 
-Use the `make:model` command to create a model:
+Utilisez la commande `make:model` pour créer un modèle:
 
 ```shell
-go run . artisan make:model User
+exécutez . artisan make:model User
 go run . artisan make:model user/User
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+Le fichier modèle créé est situé dans le fichier `app/models/user.go`, le contenu est le suivant :
 
 ```go
-package models
+modèle de paquet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+  orm. odel
+  Chaîne de nom
+  Chaîne d'avatar
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+Si vous voulez définir le champ du modèle à `any`, vous devez ajouter un tag supplémentaire: `gorm:"type:text"`:
 
 ```go
 type User struct {
   orm.Model
-  Name   string
+  Name string
   Avatar string
-  Detail any `gorm:"type:text"`
+  Détail n'importe quel `gorm:"type:text"`
   orm.SoftDeletes
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+Plus de détails sur l'utilisation des balises peuvent être trouvés dans: <https://gorm.io/docs/models.html>.
 
-### Specify Table Name
+### Spécifier le nom de la table
 
 ```go
-package models
+modèle de paquet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+  orm. odel
+  Chaîne de nom
+  Chaîne d'avatar
+  orme. oftDeletes
 }
 
 func (r *User) TableName() string {
@@ -191,24 +191,24 @@ func (r *User) TableName() string {
 }
 ```
 
-### Database Connections
+### Connexions à la base de données
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
-distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
-model.
+Par défaut, tous les modèles utilisent la connexion par défaut de la base de données configurée pour votre application. Si vous souhaitez spécifier une connexion
+distincte à utiliser lors de l'interaction avec un modèle particulier, vous devez définir une méthode `Connection` sur le modèle
+.
 
 ```go
-package models
+modèle de paquet
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
 type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+  orm. odel
+  Chaîne de nom
+  Chaîne d'avatar
+  orme. oftDeletes
 }
 
 func (r *User) Connection() string {
@@ -216,81 +216,81 @@ func (r *User) Connection() string {
 }
 ```
 
-## facades.Orm() available functions
+## facades.Orm() fonctions disponibles
 
-| Nom         | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| Nom          | Action                                                                                              |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| Raccordement | [Spécifier la connexion à la base de données](#specify-database-connection)                         |
+| BD           | [Interface de base de données générique sql.DB](#generic-database-interface-sql-db) |
+| Requête      | [Obtenir l'instance de la base de données](#get-database-instance)                                  |
+| Opération    | [Transaction](#transaction)                                                                         |
+| Contexte     | [Contexte d'injection](#inject-context)                                                             |
 
-## facades.Orm().Query() available functions
+## facades.Orm().Query() fonctions disponibles
 
-| Functions       | Action                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Supprimez       | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| Chauffeur       | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Obtenir         | [Query multiple lines](#query-multiple-lines)                                 |
-| Groupes         | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Mise à jour     | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| Fonctions                     | Action                                                                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Commencer                     | [Commencer la transaction](#transaction)                                                                                                                      |
+| Valider                       | (#transaction)                                                                                                                             |
+| Compter                       | [Count](#count)                                                                                                                                               |
+| Créer                         | [Create](#create)                                                                                                                                             |
+| Cursor                        | [Cursor](#cursor)                                                                                                                                             |
+| Supprimez                     | [Delete](#delete)                                                                                                                                             |
+| Distingué                     | [Filtre répétition](#filter-repetition)                                                                                                                       |
+| Chauffeur                     | [Get Driver](#get-driver)                                                                                                                                     |
+| Exec                          | [Exécuter la mise à jour native SQL](#execute-native-update-sql)                                                                                              |
+| Existe                        | [Exists](#exists)                                                                                                                                             |
+| Chercher                      | [Requérir une ou plusieurs lignes par ID](#query-one-or-multiple-lines-by-id)                                                                                 |
+| Trouver ou échouer            | [Erreur de retour non trouvée](#not-found-return-error)                                                                                                       |
+| Premier                       | [Requérir une ligne](#query-one-line)                                                                                                                         |
+| Premier ou                    | [Requête ou retour de données via callback] (#query-one-line)                          |
+| Première ou première création | [Récupération ou création de modèles](#retrieving-or-creating-models)                                                                                         |
+| Premier ou nouveau            | [Récupération ou de nouveaux modèles](#retrieving-or-creating-models)                                                                                         |
+| Premier ou échec              | [Erreur non trouvée](#not-found-error)                                                                                                                        |
+| Forcer la suppression         | [Forcer la suppression](#delete)                                                                                                                              |
+| Obtenir                       | [Requête de plusieurs lignes](#query-multiple-lines)                                                                                                          |
+| Groupes                       | [Group](#group-by--having)                                                                                                                                    |
+| Avoir                         | [Having](#group-by-having)                                                                                                                                    |
+| Rejoindre                     | [Join](#join)                                                                                                                                                 |
+| Limite                        | [Limit](#limit)                                                                                                                                               |
+| LockForUpdate                 | [Verrouillage pessimistique] (#pessimistic-locking)                                    |
+| Modélisation                  | [Spécifier un modèle](#specify-table-query)                                                                                                                   |
+| Décalage                      | [Offset](#offset)                                                                                                                                             |
+| Commandes                     | [Order](#order)                                                                                                                                               |
+| Ordonner par                  | [Order](#order)                                                                                                                                               |
+| OrderByDesc                   | [Order](#order)                                                                                                                                               |
+| Dans l'ordre aléatoire        | [Order](#order)                                                                                                                                               |
+| Ou où                         | [OrWhere](#where)                                                                                                                                             |
+| Ou pas dans                   | [OrWhereNotIn](#where)                                                                                                                                        |
+| OrWhereNull                   | [OrWhereNull](#where)                                                                                                                                         |
+| OuiIn                         | [OrWhereIn](#where)                                                                                                                                           |
+| Paginer                       | [Paginate](#paginate)                                                                                                                                         |
+| Pousse                        | [Requête d'une seule colonne](#query-single-column)                                                                                                           |
+| Brute                         | [Exécuter SQL] (#execute-native-sql)                                                   |
+| Restaurer                     | [Restore](#restore)                                                                                                                                           |
+| Rollback                      | [Rollback transaction](#transaction)                                                                                                                          |
+| Enregistrer                   | (#update-a-existing-model)                                                                                                                 |
+| Enregistrer discrètement      | [Enregistrer un modèle unique sans événements] (#saving-a-single-model-without-events) |
+| Analyser                      | [Scan struct](#execute-native-sql)                                                                                                                            |
+| Portées                       | [Scopes](#scopes)                                                                                                                                             |
+| Sélectionner                  | [Spécifier les champs](#specify-fields)                                                                                                                       |
+| Verrou partagé                | [Verrouillage pessimistique] (#pessimistic-locking)                                    |
+| Sum                           | [Sum](#sum)                                                                                                                                                   |
+| Tableau                       | [Spécifier une table](#specify-table-query)                                                                                                                   |
+| ToSql                         | [Get SQL](#get-sql)                                                                                                                                           |
+| ToRawSql                      | [Get SQL](#get-sql)                                                                                                                                           |
+| Mise à jour                   | [Mettre à jour une seule colonne] (#update-a-single-column)                            |
+| Mettre à jour ou créer        | [Mettre à jour ou créer](#update-or-create)                                                                                                                   |
+| Où se trouve                  | [Where](#where)                                                                                                                                               |
+| Où entre-temps                | [WhereBetween](#where)                                                                                                                                        |
+| Où, pas entre                 | [WhereNotBetween](#where)                                                                                                                                     |
+| N'est pas dans                | [WhereNotIn](#where)                                                                                                                                          |
+| OùNull                        | [WhereNull](#where)                                                                                                                                           |
+| Où dans                       | [WhereIn](#where)                                                                                                                                             |
+| Sans événements               | [Événements muets](#muting-events)                                                                                                                            |
+| Retrait de la corbeille       | [Interrogation soft delete data](#query-soft-delete-data)                                                                                                     |
 
-## Query Builder
+## Constructeur de requêtes
 
 ### Contexte d'injection
 
@@ -298,19 +298,19 @@ func (r *User) Connection() string {
 facades.Orm().WithContext(ctx)
 ```
 
-### Specify Database Connection
+### Spécifier la connexion à la base de données
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
+Si plusieurs connexions de base de données sont définies dans `config/database.go`, vous pouvez les utiliser via la fonction `Connection`
+de `facades.Orm()`. Le nom de connexion passé à `Connection` devrait être une des connexions configurées dans
 `config/database.go`:
 
 ```go
 facades.Orm().Connection("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### Interface de base de données générique sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+Interface de base de données générique sql.DB, puis utilisez la fonctionnalité qu'elle fournit :
 
 ```go
 db, err := facades.Orm().DB()
@@ -319,25 +319,25 @@ db, err := facades.Orm().Connection("mysql").DB()
 // Ping
 db.Ping()
 
-// Close
-db.Close()
+// Fermer
+db. lose()
 
-// Returns database statistics
+// Retourne les statistiques de la base de données
 db.Stats()
 
-// SetMaxIdleConns sets the maximum number of connections in the idle connection pool
-db.SetMaxIdleConns(10)
+// SetMaxIdleConns définit le nombre maximum de connexions dans le pool de connexion inactif
+db. etMaxIdleConns(10)
 
-// SetMaxOpenConns sets the maximum number of open connections to the database
-db.SetMaxOpenConns(100)
+// SetMaxOpenConns définit le nombre maximal de connexions ouvertes à la base de données
+db. etMaxOpenConns(100)
 
-// SetConnMaxLifetime sets the maximum amount of time a connection may be reused
+// SetConnMaxLifetime définit le temps maximum qu'une connexion peut être réutilisée
 db.SetConnMaxLifetime(time.Hour)
 ```
 
-### Get Database Instance
+### Obtenir l'instance de la base de données
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+Avant chaque opération spécifique de base de données, il est nécessaire d'obtenir une instance de la base de données.
 
 ```go
 facades.Orm().Query()
@@ -345,9 +345,9 @@ facades.Orm().Connection("mysql").Query()
 facades.Orm().WithContext(ctx).Query()
 ```
 
-### Select
+### Sélectionner
 
-#### Query one line
+#### Requérir une ligne
 
 ```go
 var user models.User
@@ -355,39 +355,39 @@ facades.Orm().Query().First(&user)
 // SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+Parfois, vous pouvez effectuer une autre action si aucun résultat n'est trouvé. La méthode `FirstOr` retournera une seule instance de modèle
+ou, si aucun résultat n'est trouvé, exécutera la fermeture donnée. Vous pouvez définir des valeurs sur le modèle dans la fermeture:
 
 ```go
-facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
+facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() erreur {
   user.Name = "goravel"
 
   return nil
 })
 ```
 
-#### Query one or multiple lines by ID
+#### Requête d'une ou de plusieurs lignes par ID
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
 // SELECT * FROM `users` WHERE `users`.`id` = 1;
 
-var users []models.User
+var users []models. ser
 facades.Orm().Query().Find(&users, []int{1,2,3})
 // SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
 ```
 
-#### Not found return error
+#### Erreur de retour non trouvée
 
 ```go
-var user models.User
+var models.User
 err := facades.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### Lorsque la clé primaire de la table utilisateur est de type `string`, vous devez spécifier la clé primaire lors d'un appel
 
-`Find` method
+Méthode `Rechercher`
 
 ```go
 var user models.User
@@ -395,46 +395,46 @@ facades.Orm().Query().Find(&user, "uuid=?" ,"a")
 // SELECT * FROM `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### Requête de plusieurs lignes
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
 // SELECT * FROM `users` WHERE id in (1,2,3);
 ```
 
-#### Retrieving Or Creating Models
+#### Récupération ou création de modèles
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
-found in the database, it creates a new record with the attributes from merging the first argument with the optional
-second argument.
+La méthode `FirstOrCreate` recherche un enregistrement de base de données en utilisant les paires de colonnes/valeurs spécifiées. Si le modèle ne peut être
+trouvé dans la base de données, il crée un nouvel enregistrement avec les attributs à partir de la fusion du premier argument avec le second argument facultatif
+.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
-if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
+De même, la méthode `FirstOrNew` essaie également de localiser un enregistrement dans la base de données en fonction des attributs donnés. Cependant,
+si elle n'est pas trouvée, une nouvelle instance du modèle est retournée. It's important to note that this new model has not been
 saved to the database yet and you need to manually call the `Save` method to do so.
 
 ```go
 var user models.User
 facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+// SELECT * FROM `users` WHERE `gender` = 1 AND `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32. 56','2023-09-18 12:51:32.556','tom');
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
+facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, modèles. ser{Avatar: "avatar"})
+// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:52:59.913','tom','avatar');
 
-var user models.User
+var user models. ser
 facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// SELECT * FROM `users` WHERE `gender` = 1 AND `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, modèles. ser{Avatar: "avatar"})
 // SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 ```
 
-#### Not Found Error
+#### Erreur introuvable
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
-`FirstOrFail` method:
+Lorsque l'élément demandé n'est pas trouvé, la méthode `First` ne génère pas d'erreur. Pour générer une erreur, utilisez la méthode
+`FirstOrFail` :
 
 ```go
 var user models.User
@@ -442,7 +442,7 @@ err := facades.Orm().Query().FirstOrFail(&user)
 // err == orm.ErrRecordNotFound
 ```
 
-### Where
+### Où se trouve
 
 ```go
 facades.Orm().Query().Where("name", "tom")
@@ -451,62 +451,62 @@ facades.Orm().Query().Where("name = ?", "tom")
 facades.Orm().Query().WhereBetween("age", 1, 10)
 facades.Orm().Query().WhereNotBetween("age", 1, 10)
 facades.Orm().Query().WhereNotIn("name", []any{"a"})
-facades.Orm().Query().WhereNull("name")
+façades. rm().Query().WhereNull("name")
 facades.Orm().Query().WhereIn("name", []any{"a"})
 
 facades.Orm().Query().OrWhere("name = ?", "tom")
 facades.Orm().Query().OrWhereNotIn("name", []any{"a"})
 facades.Orm().Query().OrWhereNull("name")
-facades.Orm().Query().OrWhereIn("name", []any{"a"})
+facades.Orm().Orm().OrWhereIn("name", []any{"a"})
 ```
 
-### Limit
+### Limite
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
 ```
 
-### Offset
+### Décalage
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### Commandes
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
+var utilisateurs []models.User
+facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc"). et(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
+facades. rm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
+facades.Orm().Query().Where("name = ?", "tom"). rderBy("sort", "desc").Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
+facades.Orm().Query().Where ("name = ?", "tom").OrderByDesc("sort"). et(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
+facades.Orm().Query(). here("name = ?", "tom").InRandomOrder().Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### Paginate
+### Paginer
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 var total int64
-facades.Orm().Query().Paginate(1, 10, &users, &total)
+facades.Orm().Query(). aginate(1, 10, &users, &total)
 // SELECT count(*) FROM `users`;
 // SELECT * FROM `users` LIMIT 10;
 ```
 
-### Query Single Column
+### Requête colonne simple
 
 ```go
 var ages []int64
@@ -514,11 +514,11 @@ facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
 // SELECT `age` FROM `users`;
 ```
 
-### Specify Table Query
+### Spécifier la requête de table
 
-If you want to query some aggregate data, you need to specify a specific table.
+Si vous voulez interroger des données d'agrégat, vous devez spécifier une table spécifique.
 
-Specify a model
+Spécifier un modèle
 
 ```go
 var count int64
@@ -526,34 +526,34 @@ facades.Orm().Query().Model(&models.User{}).Count(&count)
 // SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
 ```
 
-Specify a table
+Spécifier une table
 
 ```go
 var count int
 facades.Orm().Query().Table("users").Count(&count)
-// SELECT count(*) FROM `users`; // get all records, whether deleted or not
+// SELECT count(*) FROM `users`; // récupère tous les enregistrements, qu'ils soient supprimés ou non
 ```
 
 ### Get SQL
 
-Get SQL with placeholder:
+Récupérer SQL avec un placeholder:
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
 // SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
 ```
 
-Get SQL with value:
+Obtenir SQL avec la valeur :
 
 ```go
 facades.Orm().Query().ToRawSql().Get(models.User{})
 // SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
+Les méthodes peuvent être appelées après `ToSql` et `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
 `Save`, `Sum`, `Update`.
 
-### Count
+### Compter
 
 ```go
 var count int64
@@ -561,9 +561,9 @@ facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
 // SELECT count(*) FROM `users` WHERE name = 'tom';
 ```
 
-### Specify Fields
+### Spécifier les champs
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+`Select` vous permet de spécifier quels champs récupérer de la base de données, par défaut, l'ORM récupère tous les champs.
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
@@ -573,82 +573,82 @@ facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
 // SELECT `name`,`age` FROM `users`;
 ```
 
-### Group By & Having
+### Grouper par & Avoir
 
 ```go
 type Result struct {
-  Name  string
+  Name string
   Total int
 }
 
 var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
+facades.Orm().Query().Model(&models.User{}). elect("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
 // SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
 ```
 
-### Join
+### Rejoindre
 
 ```go
 type Result struct {
-  Name  string
+  Name string
   Email string
 }
 
 var result Result
-facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
+facades.Orm().Query().Model(&models.User{}).Select("users. ame, emails.email").Join("a quitté les e-mails de jointure sur emails.user_id = users.id").Scan(&result)
 // SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
 ```
 
-### Create
+### Créer
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
+user := models.User{Name: "tom", Âge: 18}
+err := facades.Orm().Query(). reate(&user)
 // INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// Ne pas déclencher les événements de modèle
+err := façades. rm().Query().Table("users").Create(map[string]any{
   "name": "Goravel",
 })
 
-// Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
+// Déclencher les événements de modèle
+err := facades. rm().Query().Modèle(&models.User{}).Créer(mapper[string]any{
   "name": "Goravel",
 })
 ```
 
-### Multiple create
+### Création multiple
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+users := []models.User{{Name: "tom", Âge: 18}, {Name: "tim", Âge: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("users"). reate(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm(). uery().Model(&models.User{}).Create(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> `created_at` et `updated_at` seront remplis automatiquement.
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
-use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
+Peut être utilisé pour réduire considérablement la consommation de mémoire de votre application lors de l'itération à travers des dizaines de milliers d'enregistrements de modèles
+Eloquents. Notez que la méthode `Curseur` peut être utilisée avec `With` en même temps, veuillez
+utiliser [Lazy Eager Loading](./relationships#lazy-eager-loading) pour charger la relation dans la logique `for`.
 
 ```go
-cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
+curseur, err := facades.Orm().Query().Model(models.User{}).Cursor()
 if err != nil {
   return err
 }
 for row := range cursor {
-  var user models.User
+  var user models. ser
   if err := row.Scan(&user); err != nil {
     return err
   }
@@ -656,9 +656,9 @@ for row := range cursor {
 }
 ```
 
-### Save Model
+### Enregistrer le modèle
 
-#### Update an existing model
+#### Mettre à jour un modèle existant
 
 ```go
 var user models.User
@@ -666,60 +666,60 @@ facades.Orm().Query().First(&user)
 
 user.Name = "tom"
 user.Age = 100
-facades.Orm().Query().Save(&user)
+facades.Orm().Query(). ave(&user)
 // UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
 ```
 
-#### Update columns
+#### Mettre à jour les colonnes
 
 ```go
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
 // UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
+facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(modèles. ser{Name: "hello", Âge: 18})
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
 // UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
-> time.
+> Lors de la mise à jour avec `struct`, Orm ne mettra à jour que les champs non nuls. Vous pouvez utiliser `map` pour mettre à jour les attributs ou
+> utiliser `Select` pour spécifier les champs à mettre à jour. Notez que `struct` ne peut être que `Model`, si vous voulez mettre à jour avec non
+> `Model`, vous devez utiliser `. able("users")`, cependant, le champ `updated_at` ne peut pas être mis à jour automatiquement à cette heure
+> .
 
-#### Update or create
+#### Mettre à jour ou créer
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+Requête par `name`, si elle n'existe pas, créez par `name`, `avatar`, si elle existe, mettez à jour `avatar` sur la base de `name`:
 
 ```go
 facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
+// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08. 69',NULL,'name','avatar');
 // UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
 ### Supprimez
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+Supprimer par modèle, le nombre de lignes affectées par la requête est retourné par la méthode :
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
 res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
+res, err := facades.Orm().Query().Model(&models.User{}). ici("id", 1).Delete()
 res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
-// DELETE FROM `users` WHERE `users`.`id` = 1;
+// DELETE FROM `users` où `users`.`id` = 1;
 
 num := res.RowsAffected
 ```
 
-Multiple delete
+Suppression multiple
 
 ```go
 facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
 // DELETE FROM `users` WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+Vous voulez forcer la suppression d'une donnée de suppression logicielle.
 
 ```go
 facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
@@ -727,78 +727,78 @@ facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
 facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
 ```
 
-You can delete records with model associations via `Select`:
+Vous pouvez supprimer des enregistrements avec des associations de modèles via `Select`:
 
 ```go
-// Delete Account of user when deleting user
+// Supprimer le compte utilisateur lors de la suppression de l'utilisateur
 facades.Orm().Query().Select("Account").Delete(&user)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// Supprimer les commandes et les cartes de crédit de l'utilisateur lors de la suppression de l'utilisateur
+facades.Orm().Query().Select("Orders", "CreditCards"). elete(&user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// Supprime toutes les associations enfants de l'utilisateur lors de la suppression de l'utilisateur
+facades.Orm().Query().Select(orm.Associations). elete(&user)
 
-// Delete all Account of users when deleting users
-facades.Orm().Query().Select("Account").Delete(&users)
+// Supprimer tous les comptes d'utilisateurs lors de la suppression des utilisateurs
+facades.Orm().Query().Select("Compte").Supprimer(&users)
 ```
 
-Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
-keys as conditions to delete associated records:
+Note: Les associations ne seront supprimées que si la clé primaire de l'enregistrement n'est pas vide, et Orm utilise ces clés
+primaires comme conditions pour supprimer les enregistrements associés:
 
 ```go
-// Delete user that name='goravel', but don't delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{})
+// Supprime l'utilisateur qui nom='goravel', mais ne supprime pas le compte de l'utilisateur
+facades.Orm().Query().Select("Account").Where ("name = ?", "goravel"). elete(&models.User{})
 
-// Delete user that name='goravel' and id = 1, and delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
+// Supprime l'utilisateur que nom='goravel' et id = 1, et supprime le compte de l'utilisateur
+façades. rm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
 
-// Delete user that id = 1 and delete account of that user
+// Supprimer l'utilisateur qui id = 1 et supprimer le compte de cet utilisateur
 facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
-conditions, or use native SQL.
+Si vous exécutez batch delete sans aucune condition, ORM ne le fait pas et renvoie une erreur. Vous devez donc ajouter quelques conditions
+ou utiliser un SQL natif.
 
-### Query Soft Delete Data
+### Requête Soft Suppression de données
 
 ```go
-var user models.User
+var models.User
 facades.Orm().Query().WithTrashed().First(&user)
 ```
 
-### Filter Repetition
+### Filtrer la répétition
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Distinct("name").Find(&users)
 ```
 
-### Get Driver
+### Obtenir le chauffeur
 
 ```go
 driver := facades.Orm().Query().Driver()
 
-// Judge driver
+// juge le pilote
 if driver == orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### Exécuter le SQL natif
 
 ```go
 type Result struct {
-  ID   int
+  ID int
   Name string
-  Age  int
+  Age int
 }
 
 var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+facades. rm().Query().Raw("SELECT id, name, age FROM utilisateurs WHERE name = ?", "tom").Scan(&result)
 ```
 
-### Execute Native Update SQL
+### Exécuter la mise à jour native SQL
 
-The number of rows affected by the statement is returned by the method:
+Le nombre de lignes affectées par la requête est retourné par la méthode :
 
 ```go
 res, err := facades.Orm().Query().Exec("DROP TABLE users")
@@ -807,14 +807,14 @@ res, err := facades.Orm().Query().Exec("DROP TABLE users")
 num := res.RowsAffected
 ```
 
-### Exists
+### Existe
 
 ```go
-var exists bool
+var existe bool
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
 ```
 
-### Restore
+### Restaurer
 
 ```go
 facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
@@ -822,9 +822,9 @@ facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
 // UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
 ```
 
-### Transaction
+### Opération
 
-You can execute a transaction by `Transaction` function.
+Vous pouvez exécuter une transaction par la fonction `Transaction`.
 
 ```go
 import (
@@ -834,7 +834,7 @@ import (
   "goravel/app/models"
 )
 
-...
+. .
 
 return facades.Orm().Transaction(func(tx orm.Query) error {
   var user models.User
@@ -843,40 +843,40 @@ return facades.Orm().Transaction(func(tx orm.Query) error {
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+Vous pouvez également contrôler manuellement le flux de la transaction vous-même :
 
 ```go
 tx, err := facades.Orm().Query().Begin()
 user := models.User{Name: "Goravel"}
-if err := tx.Create(&user); err != nil {
+if err := tx. reate(&user); err != nil {
   err := tx.Rollback()
 } else {
   err := tx.Commit()
 }
 ```
 
-### Scopes
+### Portées
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+Vous permet de spécifier des requêtes couramment utilisées qui peuvent être référencées lorsque la méthode est appelée.
 
 ```go
-func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
+func Paginator(chaîne de page, chaîne de limite) fonction(méthodes orm.Query) orm. uery {
   return func(query orm.Query) orm.Query {
-    page, _ := strconv.Atoi(page)
-    limit, _ := strconv.Atoi(limit)
-    offset := (page - 1) * limit
+    page, _ := strconv. toile(page)
+    limite, _ := strconv. toi(limit)
+    offset := (page - 1) * limite
 
-    return query.Offset(offset).Limit(limit)
+    requête de retour. ffset(offset).Limit(limite)
   }
 }
 
-// scopes.Paginator is a custom function: func(ormcontract.Query) ormcontract.Query
-facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
+// scopes.Paginator est une fonction personnalisée: func(ormcontract.Query) ormcontract.Query
+facades.Orm().Query().Scopes.Paginator(page, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### Expressions brutes
 
-You can use the `db.Raw` method to update fields:
+Vous pouvez utiliser la méthode `db.Raw` pour mettre à jour les champs:
 
 ```go
 import "github.com/goravel/framework/database/db"
@@ -885,31 +885,31 @@ facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
 // UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### Pessimistic Locking
+### Verrouillage pessimiste
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+Le constructeur de requêtes inclut également quelques fonctions pour vous aider à atteindre le "verrouillage pessimistique" lors de l'exécution de vos instructions `select`
+.
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+Pour exécuter une instruction avec un "verrou partagé", vous pouvez appeler la méthode `SharedLock`. Un verrou partagé empêche les lignes
+sélectionnées d'être modifiées jusqu'à ce que votre transaction soit validée :
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
+Alternativement, vous pouvez utiliser la méthode `LockForUpdate`. A "for update" lock prevents the selected records from being
 modified or from being selected with another shared lock:
 
 ```go
-var users []models.User
+var utilisateurs []models.User
 facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
 ```
 
 ### Sum
 
 ```go
-var sum int
+var somme int
 if err := facades.Orm().Query().Model(models.User{}).Sum("id", &sum); err != nil {
   return err
 }
@@ -918,19 +918,19 @@ fmt.Println(sum)
 
 ## Évènements
 
-Orm models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `Retrieved`,
-`Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
+Les modèles Orm envoient plusieurs événements, vous permettant de vous connecter aux moments suivants dans le cycle de vie d'un modèle : `Retrieved`,
+`Creating`, `Créé`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
 `Restored`, `Restoring`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
-is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
-dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
-changes to the model are persisted.
+L'événement `Retrieved` enverra lorsqu'un modèle existant est récupéré dans la base de données. Quand un nouveau modèle est sauvegardé pour
+la première fois, les événements `Creating` et `Created` seront envoyés. The `Updating` / `Updated` events will dispatch when
+an existing model is modified and the `Save` method is called. Les événements `Saving` / `Saved` seront envoyés lorsqu'un modèle
+est créé ou mis à jour - même si les attributs du modèle n'ont pas été modifiés. Les noms d'événements se terminant par `-ing` sont
+envoyés avant que toute modification du modèle ne soit maintenue, tant que les événements se terminant par `-ed` sont envoyés après la
+les changements au modèle sont persistés.
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
-of the model's lifecycle to your own event classes.
+Pour commencer à écouter les événements du modèle, définissez une méthode `DispatchesEvents` sur votre modèle. Cette propriété cartographie différents points
+du cycle de vie du modèle à vos propres classes d'événement.
 
 ```go
 import (
@@ -939,46 +939,46 @@ import (
 )
 
 type User struct {
- orm.Model
- Name    string
+ orm. odel
+ Name string
 }
 
-func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.Event) error {
- return map[contractsorm.EventType]func(contractsorm.Event) error{
-  contractsorm.EventCreating: func(event contractsorm.Event) error {
+func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm. vent) erreur {
+ retour carte[contractsorm.EventType]func(contractsorm.Event) erreur{
+  contractsorm. ventCreating: func(event contractsorm.Event) erreur {
    return nil
   },
   contractsorm.EventCreated: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventSaving: func(event contractsorm.Event) error {
+  contractsorm.EventSaving: func(event contractsorm. vent) erreur {
    return nil
   },
   contractsorm.EventSaved: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventUpdating: func(event contractsorm.Event) error {
+  contractsorm.EventUpdating: func(event contractsorm. vent) erreur {
    return nil
   },
-  contractsorm.EventUpdated: func(event contractsorm.Event) error {
+  contractsorm.EventUpdate: func(événement contractsorm.Event) erreur {
    return nil
   },
-  contractsorm.EventDeleting: func(event contractsorm.Event) error {
+  contractsorm. ventDeleting: func(event contractsorm.Event) erreur {
    return nil
   },
-  contractsorm.EventDeleted: func(event contractsorm.Event) error {
+  contractsorm. ventDeleed: func(event contractsorm.Event) error {
    return nil
   },
   contractsorm.EventForceDeleting: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventForceDeleted: func(event contractsorm.Event) error {
+  contractsorm. ventForceDeleted: func(event contractsorm.Event) error {
    return nil
   },
   contractsorm.EventRetrieved: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventRestored: func(event contractsorm.Event) error {
+  contractsorm. ventRestored: func(event contractsorm.Event) error {
    return nil
   },
   contractsorm.EventRestoring: func(event contractsorm.Event) error {
@@ -988,27 +988,27 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> Note: Il vous suffit d'enregistrer les événements dont vous avez besoin. Les événements de modèles ne sont pas expédiés lorsque vous effectuez des opérations par lots via Orm.
 
-### Observers
+### Observateurs
 
-#### Defining Observers
+#### Définition des observateurs
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
+Si vous écoutez plusieurs événements sur un modèle donné, vous pouvez utiliser des observateurs pour regrouper tous vos auditeurs en une seule classe
+. Les classes d'observateur ont des noms de méthodes qui reflètent les événements Eloquent que vous souhaitez écouter. Chacune de ces méthodes
+reçoit le modèle affecté comme son seul argument. The `make:observer` Artisan command is the easiest way to create a
 new observer class:
 
 ```shell
-go run . artisan make:observer UserObserver
-go run . artisan make:observer user/UserObserver
+exécutez . artisan make:observateur UserObserver
+go run . artisan make:observateur user/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+Cette commande placera le nouvel observateur dans votre dossier `app/observers`. Si ce répertoire n'existe pas, Artisan
+le créera pour vous. Votre nouvel observateur ressemblera à ce qui suit:
 
 ```go
-package observers
+les observateurs du paquet
 
 import (
  "fmt"
@@ -1018,7 +1018,7 @@ import (
 
 type UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+func (u *UserObserver) Created(event orm. vent) error {
  return nil
 }
 
@@ -1026,25 +1026,25 @@ func (u *UserObserver) Updated(event orm.Event) error {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) Deleted(event orm. vent) erreur {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+func (u *UserObserver) ForceDeleted(event orm.Event) erreur {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+L'observateur du modèle ne contient que des événements, vous pouvez ajouter d'autres événements en fonction de vos besoins.
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
-observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
+Pour enregistrer un observateur, vous devez appeler la méthode `Observe` sur le modèle que vous souhaitez observer. Vous pouvez enregistrer
+observateurs dans la méthode `Boot` de votre application `app/providers/event_service_provider.go::Boot` fournisseur de service :
 
 ```go
-package providers
+importateurs de paquets
 
-import (
- "github.com/goravel/framework/facades"
+(
+ "github". om/goravel/framework/facades"
 
  "goravel/app/models"
  "goravel/app/observers"
@@ -1053,12 +1053,12 @@ import (
 type EventServiceProvider struct {
 }
 
-func (receiver *EventServiceProvider) Register(app foundation.Application) {
- facades.Event().Register(receiver.listen())
+func (receiver *EventServiceProvider) Register(app foundation. pplication) {
+ facades.Event().Register(receiver. isten())
 }
 
 func (receiver *EventServiceProvider) Boot(app foundation.Application) {
- facades.Orm().Observe(models.User{}, &observers.UserObserver{})
+ facades.Orm().Observe(models.User{}, &observers. serObserver{})
 }
 
 func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener {
@@ -1066,39 +1066,39 @@ func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener 
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> Note: Si vous définissez `DispatchesEvents` et `Observer` en même temps, seuls `DispatchesEvents` seront appliqués.
 
-#### Parameter in Observer
+#### Paramètre dans l'observateur
 
-The `event` parameter will be passed to all observers:
+Le paramètre `event` sera passé à tous les observateurs :
 
-| Méthode      | Action                                                                                                     |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| Méthode              | Action                                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Contexte             | Récupère le contexte qui passe par `facades.Orm().WithContext()`                                                           |
+| Attribut d'obtention | Récupère la valeur modifiée, si non modifiée, récupère la valeur originale, s'il n'y a pas de valeur originale, return nil |
+| Obtenir l'original   | Récupère la valeur originale, s'il n'y a pas de valeur originale, retourne nil                                             |
+| IsDirty              | Détermine si le champ est modifié                                                                                          |
+| IsClean              | Inversion IsDirty                                                                                                          |
+| Requête              | Obtenir une nouvelle requête, qui peut être utilisée avec la transaction                                                   |
+| SetAttribute         | Définir une nouvelle valeur pour un champ                                                                                  |
 
-### Muting Events
+### Événements en sourdine
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+Il se peut que vous ayez parfois besoin de « rendre muet » temporairement tous les événements déclenchés par un modèle. Vous pouvez y parvenir en utilisant la méthode
+`WithoutEvents` :
 
 ```go
-var user models.User
+var models.User
 facades.Orm().Query().WithoutEvents().Find(&user, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### Enregistrer un modèle unique sans événements
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
-`SaveQuietly` method:
+Parfois, vous pouvez vouloir "sauvegarder" un modèle donné sans envoyer aucun événement. Vous pouvez accomplir cela avec la méthode
+`SaveQuietly`:
 
 ```go
-var user models.User
+var models.User
 err := facades.Orm().Query().FindOrFail(&user, 1)
 user.Name = "Goravel"
 err := facades.Orm().Query().SaveQuietly(&user)
