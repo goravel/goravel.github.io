@@ -48,6 +48,43 @@ export const config = defineConfig({
     footer: {
       message: "基于 MIT 许可发布",
       copyright: `版权所有 © 2021-${new Date().getFullYear()} Goravel`
+    },
+    docFooter: {
+      prev: 'Previous page',
+      next: 'Next page'
+    },
+    outline: {
+      label: 'On this page'
+    },
+    langMenuLabel: 'Change language',
+    returnToTopLabel: 'Return to top',
+    sidebarMenuLabel: 'Menu',
+    darkModeSwitchLabel: 'Appearance',
+    lightModeSwitchTitle: 'Switch to light theme',
+    darkModeSwitchTitle: 'Switch to dark theme',
+    skipToContentLabel: 'Skip to content',
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: 'Search',
+                buttonAriaLabel: 'Search'
+              },
+              modal: {
+                noResultsText: 'No results for',
+                resetButtonTitle: 'Clear the search query',
+                footer: {
+                  selectText: 'Select',
+                  navigateText: 'Navigate'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 });
