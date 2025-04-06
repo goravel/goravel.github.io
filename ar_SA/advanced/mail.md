@@ -1,12 +1,12 @@
-# Mail
+# البريد
 
-Goravel can use `facades.Mail()` to easily send mail locally.
+يمكن لـ Goravel استخدام 'facades.Mail()' لإرسال البريد بسهولة محليا.
 
 ## الإعدادات
 
-Before sending an email, you need to configure the `config/mail.go` configuration file.
+قبل إرسال بريد إلكتروني، تحتاج إلى تكوين ملف تكوين \`config/mail.go'.
 
-## Send Mail
+## إرسال البريد
 
 ```go
 import "github.com/goravel/framework/mail"
@@ -20,63 +20,63 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Send()
 ```
 
-## Send Mail By Queue
+## إرسال البريد حسب قائمة الانتظار
 
 ```go
-import "github.com/goravel/framework/mail"
+استيراد "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
-  Attach([]string{"file.png"}).
+  ملحق ([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
   Queue()
 ```
 
-You can also customize the queue:
+يمكنك أيضا تخصيص قائمة الانتظار:
 
 ```go
-import "github.com/goravel/framework/mail"
+استيراد "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
-  Attach([]string{"file.png"}).
+  ملحق ([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
-  Queue(mail.Queue().Connection("redis").Queue("mail"))
+  Queue (mail.Queu(mail.Connection")"Queu").
 ```
 
-## Setting Sender
+## تعيين المرسل
 
-Framework uses `MAIL_FROM_ ADDRESS` and `MAIL_FROM_ NAME` in the `config/mail.go` configuration file as global senders.
-You can also customize the sender, but you need to note that the mail address needs to be consistent with the configured
+يستخدم الإطار `MAIL_FROM_ADDRESS` و`MAIL_FROM_NAME` في ملف تكوين `config/mail.go` كمرسلين عالميين.
+يمكنك أيضًا تخصيص المرسل، لكنك تحتاج إلى ملاحظة أن عنوان البريد يجب أن يكون متسقاً مع التكوين
 STMP:
 
 ```go
-import "github.com/goravel/framework/mail"
+استيراد "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   From(mail.Address(testFromAddress, testFromName)).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
-  Attach([]string{"file.png"}).
+  attachach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
-  Queue(mail.Queue().Connection("redis").Queue("mail"))
+  Queue(mail.Queue().Connection("redis").Queue("mail").
 ```
 
-## Using Mailable
+## استخدام البريد
 
-The parameters of the email can be set in a `Mailable` struct. These structs are stored in the `app/mails` directory.
-You can quickly create a `Mailable` using the `make:mail` Artisan command:
+يمكن تعيين معلمات البريد الإلكتروني في بنية "البريد الإلكتروني". يتم تخزين هذه الهياكل في دليل "app/mails".
+يمكنك إنشاء 'Mailable' بسرعة باستخدام الأمر الفني 'make:mail' Artisan:
 
 ```bash
-go run . artisan make:mail OrderShipped
+اذهب للتشغيل. اصنع حرفي: البريد طلب الشحن
 ```
 
-The generated `OrderShipped` struct is as follows:
+وفيما يلي هيكل `الطلب` الذي تم إنشاؤه:
 
 ```go
 import "github.com/goravel/framework/contracts/mail"
@@ -114,9 +114,9 @@ func (m *OrderShipped) Queue() *mail.Queue {
 }
 ```
 
-Then you can use the `Mailalbe` in the `Send` and `Queue` methods:
+ثم يمكنك استخدام "Mailalbe" في طريقتي "Send" و"قائمة الانتظار":
 
 ```go
 err := facades.Mail().Send(mails.NewOrderShipped())
-err := facades.Mail().Queue(mails.NewOrderShipped())
+: = facades.Mail().Queue(mails.NewOrderShipped())
 ```
