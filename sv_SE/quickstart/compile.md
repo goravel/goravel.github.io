@@ -1,92 +1,92 @@
-# Compile
+# Kompilera
 
-## Compile command
+## Kompilera kommando
 
-The Goravel project can be compiled with the following command:
+Goravel-projektet kan sammanställas med följande kommando:
 
 ```
-// Select the system to compile
-go run . artisan build
+// Välj systemet för att kompilera
+gå kör. hantverkare bygga
 
-// Specify the system to compile
-go run . artisan build --os=linux
-go run . artisan build -o=linux
+// Ange systemet för att kompilera
+gå köra . hantverkarbygget --os=linux
+går att köra. hantverkarbygg -o=linux
 
-// Static compilation
-go run . artisan build --static
-go run . artisan build -s
+// Statisk sammanställning
+gå att köra. hantverkare bygga --static
+gå att köra. hantverkare bygga -s
 
-// Specify the output file name
-go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+// Ange utdatafilnamnet
+gå att köra. hantverkare bygga --name=goravel
+gå köra . hantverkare bygga -n=goravel
 ```
 
-## Manual compilation
+## Manuell sammanställning
 
-### Regular compilation
+### Vanlig sammanställning
 
 ```shell
-go build .
+gå och bygg .
 ```
 
-#### Deploy Server
+#### Distribuera server
 
-The Following files and folders need to be uploaded to the server during deployment:
+Följande filer och mappar måste laddas upp till servern under driftsättning:
 
 ```
-./main // Compile the resulting binary file
+./main // Kompilera den resulterande binära filen
 .env
-./database
+./databas
 ./public
 ./storage
 ./resources
 ```
 
-### Static compilation
+### Statisk sammanställning
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Paketet genom regelbunden sammanställning måste också förlita sig på stöd från utplaceringsmiljön, de statiskt
+kompilerade filerna kan fritt köras på den angivna plattformen utan miljökonfiguration.
 
 ```shell
-go build --ldflags "-extldflags -static" -o main .
+gå och bygg --ldflags "-extldflags -static" -o main .
 ```
 
-### Cross compile
+### Kors kompilera
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
+Sammanställning är differentierad med plattform, du måste välja en matchande sammanställning metod enligt utbyggnaden
 situation.
 
 ```shell
-// Compile Linux environment
+// Kompilera Linuxmiljö
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
-// Compile Windows environment
+// Kompilera Windows-miljö
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
-// Compile Mac environment
+// Kompilera Mac-miljö
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
 ```
 
 ## Docker
 
-Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
-be `0.0.0.0` at this time.
+Goravel har en standard `Dockerfile` och `docker-compose.yml`-fil, du kan använda den direkt, notera att `APP_HOST` borde
+vara `0.0.0.0` just nu.
 
 ```shell
-docker build .
+byggmästare .
 ```
 
-### Docker Compose
+### Docker komponera
 
-You can also quickly start the service with the following command:
+Du kan också snabbt starta tjänsten med följande kommando:
 
 ```shell
-docker-compose build
-docker-compose up
+docker-komponera bygga
+docker-komponera upp
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Obs: Om du behöver extern åtkomst måste du ändra APP_HOST till 0.0.0.0
 
-## Reduce package size
+## Minska paketstorlek
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Kommentera den oanvända `ServiceProvider` i `config/app.go::providers` kommer effektivt att minska förpackningsvolymen.
