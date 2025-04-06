@@ -250,23 +250,23 @@ response.AssertStatus(200).
 
 ### 响应断言
 
-|                                                   |                                                         |                                                   |
-| ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
-| [AssertAccepted](#assertaccepted)                 | [AssertBadRequest](#assertbadrequest)                   | [AssertConflict](#assertconflict)                 |
-| [AssertCookie](#assertcookie)                     | [AssertCookieExpired](#assertcookieexpired)             | [AssertCookieMissing](#assertcookiemissing)       |
-| [AssertCookieNotExpired](#assertcookienotexpired) | [AssertCreated](#assertcreated)                         | [AssertDontSee](#assertdontsee)                   |
-| [AssertExactJson](#assertexactjson)               | [AssertFluentJson](#assertfluentjson)                   | [AssertForbidden](#assertforbidden)               |
-| [AssertFound](#assertfound)                       | [AssertGone](#assertgone)                               | [AssertHeader](#assertheader)                     |
-| [AssertHeaderMissing](#assertheadermissing)       | [AssertInternalServerError](#assertinternalservererror) | [AssertJson](#assertjson)                         |
-| [AssertJsonMissing](#assertjsonmissing)           | [AssertMethodNotAllowed](#assertmethodnotallowed)       | [AssertMovedPermanently](#assertmovedpermanently) |
-| [AssertNoContent](#assertnocontent)               | [AssertNotAcceptable](#assertnotacceptable)             | [AssertNotFound](#assertnotfound)                 |
-| [AssertNotModified](#assertnotmodified)           | [AssertOk](#assertok)                                   | [AssertPartialContent](#assertpartialcontent)     |
-| [AssertPaymentRequired](#assertpaymentrequired)   | [AssertRequestTimeout](#assertrequesttimeout)           | [AssertSee](#assertsee)                           |
-| [按顺序断言可见](#assertseeinorder)                      | [断言服务器错误](#assertservererror)                           | [断言服务不可用](#assertserviceunavailable)              |
-| [断言状态](#assertstatus)                             | [断言成功](#assertsuccessful)                               | [断言临时重定向](#asserttemporaryredirect)               |
-| [断言请求过多](#asserttoomanyrequests)                  | [断言未授权](#assertunauthorized)                            | [断言无法处理的实体](#assertunprocessableentity)           |
+|                                                   |                                                         |                                                         |
+| ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| [AssertAccepted](#assertaccepted)                 | [AssertBadRequest](#assertbadrequest)                   | [AssertConflict](#assertconflict)                       |
+| [AssertCookie](#assertcookie)                     | [AssertCookieExpired](#assertcookieexpired)             | [AssertCookieMissing](#assertcookiemissing)             |
+| [AssertCookieNotExpired](#assertcookienotexpired) | [AssertCreated](#assertcreated)                         | [AssertDontSee](#assertdontsee)                         |
+| [AssertExactJson](#assertexactjson)               | [AssertFluentJson](#assertfluentjson)                   | [AssertForbidden](#assertforbidden)                     |
+| [AssertFound](#assertfound)                       | [AssertGone](#assertgone)                               | [AssertHeader](#assertheader)                           |
+| [AssertHeaderMissing](#assertheadermissing)       | [AssertInternalServerError](#assertinternalservererror) | [AssertJson](#assertjson)                               |
+| [AssertJsonMissing](#assertjsonmissing)           | [AssertMethodNotAllowed](#assertmethodnotallowed)       | [AssertMovedPermanently](#assertmovedpermanently)       |
+| [AssertNoContent](#assertnocontent)               | [AssertNotAcceptable](#assertnotacceptable)             | [AssertNotFound](#assertnotfound)                       |
+| [AssertNotModified](#assertnotmodified)           | [AssertOk](#assertok)                                   | [AssertPartialContent](#assertpartialcontent)           |
+| [AssertPaymentRequired](#assertpaymentrequired)   | [AssertRequestTimeout](#assertrequesttimeout)           | [AssertSee](#assertsee)                                 |
+| [AssertSeeInOrder](#assertseeinorder)             | [AssertServerError](#assertservererror)                 | [AssertServiceUnavailable](#assertserviceunavailable)   |
+| [AssertStatus](#assertstatus)                     | [AssertSuccessful](#assertsuccessful)                   | [AssertTemporaryRedirect](#asserttemporaryredirect)     |
+| [AssertTooManyRequests](#asserttoomanyrequests)   | [AssertUnauthorized](#assertunauthorized)               | [AssertUnprocessableEntity](#assertunprocessableentity) |
 
-### 断言已接受
+### AssertAccepted
 
 断言响应具有 `202 Accepted` HTTP 状态码：
 
@@ -314,7 +314,7 @@ response.AssertCookieExpired("name")
 response.AssertCookieMissing("name")
 ```
 
-### 断言Cookie不存在
+### AssertCookieNotExpired
 
 断言指定的 cookie 未过期：
 
@@ -322,7 +322,7 @@ response.AssertCookieMissing("name")
 response.AssertCookieNotExpired("name")
 ```
 
-### 断言已创建
+### AssertCreated
 
 断言响应的 HTTP 状态码为 `201 Created`：
 
@@ -330,7 +330,7 @@ response.AssertCookieNotExpired("name")
 response.AssertCreated()
 ```
 
-### 断言不可见
+### AssertDontSee
 
 断言响应不包含指定的值。 第二个参数（可选）决定在检查之前是否转义值中的特殊字符。 如果未提供，默认为 true。
 
@@ -382,7 +382,7 @@ response.AssertFound()
 response.AssertGone()
 ```
 
-### 断言头部缺失
+### AssertHeader
 
 断言响应包含指定的头部及其给定值：
 
@@ -390,7 +390,7 @@ response.AssertGone()
 response.AssertHeader("Content-Type", "application/json")
 ```
 
-### 断言头部缺失
+### AssertHeaderMissing
 
 断言响应不包含指定的头部：
 
@@ -398,7 +398,7 @@ response.AssertHeader("Content-Type", "application/json")
 response.AssertHeaderMissing("X-Custom-Header")
 ```
 
-### 断言内部服务器错误
+### AssertInternalServerError
 
 断言响应具有 `500 Internal Server Error` HTTP 状态码：
 
@@ -406,7 +406,7 @@ response.AssertHeaderMissing("X-Custom-Header")
 response.AssertInternalServerError()
 ```
 
-### 断言JSON
+### AssertJson
 
 断言响应 JSON 包含提供的片段：
 
@@ -446,7 +446,7 @@ response.AssertMovedPermanently()
 response.AssertNoContent()
 ```
 
-### 断言不可接受
+### AssertNotAcceptable
 
 断言响应具有 `406 Not Acceptable` HTTP 状态码：
 
@@ -454,7 +454,7 @@ response.AssertNoContent()
 response.AssertNotAcceptable()
 ```
 
-### 断言未找到
+### AssertNotFound
 
 断言响应具有 `404 Not Found` HTTP 状态码：
 
@@ -462,7 +462,7 @@ response.AssertNotAcceptable()
 response.AssertNotFound()
 ```
 
-### 断言未修改
+### AssertNotModified
 
 断言响应具有 `304 Not Modified` HTTP 状态码：
 
@@ -470,7 +470,7 @@ response.AssertNotFound()
 response.AssertNotModified()
 ```
 
-### 断言成功
+### AssertOk
 
 断言响应具有 `200 OK` HTTP 状态码：
 
@@ -478,7 +478,7 @@ response.AssertNotModified()
 response.AssertOk()
 ```
 
-### 断言部分内容
+### AssertPartialContent
 
 断言响应具有 `206 Partial Content` HTTP 状态码：
 
@@ -486,7 +486,7 @@ response.AssertOk()
 response.AssertPartialContent()
 ```
 
-### 断言部分内容响应
+### AssertPaymentRequired
 
 断言响应具有 `402 Payment Required` HTTP 状态码：
 
@@ -494,7 +494,7 @@ response.AssertPartialContent()
 response.AssertPaymentRequired()
 ```
 
-### 断言需要付款
+### AssertRequestTimeout
 
 断言响应具有 `408 Request Timeout` HTTP 状态码：
 
@@ -502,7 +502,7 @@ response.AssertPaymentRequired()
 response.AssertRequestTimeout()
 ```
 
-### 断言请求超时
+### AssertSee
 
 断言响应包含指定的值。 第二个参数（可选）决定在检查之前是否转义值中的特殊字符。 如果未提供，默认为 `true`。
 
@@ -510,7 +510,7 @@ response.AssertRequestTimeout()
 response.AssertSee([]string{"<div>"}, false)  // 不转义特殊字符
 ```
 
-### 按顺序断言可见
+### AssertSeeInOrder
 
 断言响应按给定顺序包含指定值。 第二个参数（可选）决定
 在检查之前是否转义值中的特殊字符。 如果未提供，默认为 `true`。
@@ -519,7 +519,7 @@ response.AssertSee([]string{"<div>"}, false)  // 不转义特殊字符
 response.AssertSeeInOrder([]string{"First", "Second"}, false)  // 不转义特殊字符
 ```
 
-### 断言服务器错误
+### AssertServerError
 
 断言响应具有服务器错误（>= 500，< 600）HTTP 状态码：
 
@@ -527,7 +527,7 @@ response.AssertSeeInOrder([]string{"First", "Second"}, false)  // 不转义特�
 response.AssertServerError()
 ```
 
-### 断言服务不可用
+### AssertServiceUnavailable
 
 断言响应具有 `503 Service Unavailable` HTTP 状态码：
 
@@ -535,7 +535,7 @@ response.AssertServerError()
 response.AssertServiceUnavailable()
 ```
 
-### 断言状态
+### AssertStatus
 
 断言响应具有指定的 HTTP 状态码：
 
@@ -543,7 +543,7 @@ response.AssertServiceUnavailable()
 response.AssertStatus(200)
 ```
 
-### 断言成功
+### AssertSuccessful
 
 断言响应具有成功的 HTTP 状态码（2xx）：
 
@@ -551,7 +551,7 @@ response.AssertStatus(200)
 response.AssertSuccessful()
 ```
 
-### 断言临时重定向
+### AssertTemporaryRedirect
 
 断言响应具有 `307 Temporary Redirect` HTTP 状态码：
 
@@ -559,7 +559,7 @@ response.AssertSuccessful()
 response.AssertTemporaryRedirect()
 ```
 
-### 断言请求过多
+### AssertTooManyRequests
 
 断言响应具有 `429 Too Many Requests` HTTP 状态码：
 
@@ -567,7 +567,7 @@ response.AssertTemporaryRedirect()
 response.AssertTooManyRequests()
 ```
 
-### 断言未授权
+### AssertUnauthorized
 
 断言响应具有 `401 Unauthorized` HTTP 状态码：
 
