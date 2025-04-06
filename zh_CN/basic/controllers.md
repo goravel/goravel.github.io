@@ -1,38 +1,38 @@
-# Controllers
+# 控制器
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+控制器可以使用
+进行整合，而不是以单独路径关闭的形式定义所有请求处理逻辑。 控制器存储在 `app/http/controllers` 目录中。
 
-## Define Controllers
+## 定义控制器
 
-The following is an example of a basic controller:
+下面是基本控制器的示例：
 
 ```go
-package controllers
+软件包控制器
 
-import (
+导入 (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
-)
+  "github. om/goravel/framework/facades”
 
-type UserController struct {
-  // Dependent services
+
+type UserController struct v.
+  // Dependent Services
 }
 
-func NewUserController() *UserController {
-  return &UserController{
+func NewUserController() *UserController
+  return &UserController
     // Inject services
   }
 }
 
-func (r *UserController) Show(ctx http.Context) http.Response {
-  return ctx.Response().Success().Json(http.Json{
+func (r *UserController) Show(ctx http. http://texttext.Response 然后返回
+  return ctx.Response().Succes().Json(http.Jsonw
     "Hello": "Goravel",
   })
-}
+
 ```
 
-The route define:
+路线定义：
 
 ```go
 package routes
@@ -49,39 +49,39 @@ func Api() {
 }
 ```
 
-### Create Controller
+### 创建控制器
 
 ```shell
-go run . artisan make:controller UserController
-go run . artisan make:controller user/UserController
+去运行。个体操者make:controller UserController
+来运行个体操者make:controller user/UserController
 ```
 
-## Resource Controllers
+## 资源控制器
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+如果您认为您的应用程序中的每个讨论模式都是“资源”， 在您的应用程序中对每个资源执行相同的
+动作是典型的。 例如，请想象您的应用程序包含 `Photo` 模型和
+`Movie` 模型。 用户可能会创建、阅读、更新或删除这些资源。
 
-Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+由于这种常用情况，Goravel资源路由分配典型的创建、阅读， 更新并删除 ("CRUD")
+路径到具有单行代码的控制器。 要开始操作，我们可以使用 `make:controller` Artisan command's
+`--resource` 选项来快速创建一个控制器来处理这些动作：
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+去运行。个体操者make:controller --resource PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
-controller:
+此命令将在 `app/http/controllers/phot_controller.go` 中生成一个控制器。 控制器将包含每个可用资源操作的
+方法。 接下来，你可以注册一个指向
+控制器的资源路线：
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+Route().Resource("photos", controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| 动词        | URI               | 行 动 |
+| --------- | ----------------- | --- |
+| 获取        | `/photos`         | 索引  |
+| 帖子        | `/photos`         | 商店  |
+| 获取        | `/photos/{photo}` | 显示  |
+| PUT/PATCH | `/photos/{photo}` | 更新  |
+| 删除        | `/photos/{photo}` | 破坏的 |
