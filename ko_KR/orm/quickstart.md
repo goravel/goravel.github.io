@@ -235,7 +235,7 @@ func (r *User) Connection() string {
 | Count           | [Count](#count)                                                               |
 | Create          | [Create](#create)                                                             |
 | Cursor          | [Cursor](#cursor)                                                             |
-| Delete          | [Delete](#delete)                                                             |
+| 삭제              | [Delete](#delete)                                                             |
 | Distinct        | [Filter Repetition](#filter-repetition)                                       |
 | Driver          | [Get Driver](#get-driver)                                                     |
 | Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
@@ -248,8 +248,8 @@ func (r *User) Connection() string {
 | FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
 | FirstOrFail     | [Not Found Error](#not-found-error)                                           |
 | ForceDelete     | [Force delete](#delete)                                                       |
-| Get             | [Query multiple lines](#query-multiple-lines)                                 |
-| Group           | [Group](#group-by--having)                                                    |
+| 가져오기            | [Query multiple lines](#query-multiple-lines)                                 |
+| 그룹              | [Group](#group-by--having)                                                    |
 | Having          | [Having](#group-by-having)                                                    |
 | Join            | [Join](#join)                                                                 |
 | Limit           | [Limit](#limit)                                                               |
@@ -697,7 +697,7 @@ facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.Us
 // UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### Delete
+### 삭제
 
 Delete by model, the number of rows affected by the statement is returned by the method:
 
