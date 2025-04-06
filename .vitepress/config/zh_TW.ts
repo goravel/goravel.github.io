@@ -69,7 +69,7 @@ export const config = defineConfig({
     darkModeSwitchLabel: 'Appearance',
     lightModeSwitchTitle: 'Switch to light theme',
     darkModeSwitchTitle: 'Switch to dark theme',
-    skipToContentLabel: 'Skip to content',
+    skipToContentLabel: 'Skip to content'
   }
 });
 function nav(): DefaultTheme.NavItem[] {
