@@ -1,14 +1,14 @@
-# Compile
+# Compiler
 
-## Compile command
+## Compile la commande
 
-The Goravel project can be compiled with the following command:
+Le projet Goravel peut être compilé avec la commande suivante :
 
 ```
-// Select the system to compile
-go run . artisan build
+// Sélectionnez le système pour compiler
+aller exécuter . artisan build
 
-// Specify the system to compile
+// Spécifiez le système pour compiler
 go run . artisan build --os=linux
 go run . artisan build -o=linux
 
@@ -16,25 +16,25 @@ go run . artisan build -o=linux
 go run . artisan build --static
 go run . artisan build -s
 
-// Specify the output file name
+// Spécifie le nom du fichier de sortie
 go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+allez exécuter. artisan build -n=goravel
 ```
 
-## Manual compilation
+## Compilation manuelle
 
-### Regular compilation
+### Compilation régulière
 
 ```shell
-go build .
+aller à la compilation .
 ```
 
-#### Deploy Server
+#### Déployer le serveur
 
-The Following files and folders need to be uploaded to the server during deployment:
+Les fichiers et dossiers suivants doivent être téléchargés sur le serveur pendant le déploiement:
 
 ```
-./main // Compile the resulting binary file
+./main // Compiler le fichier binaire
 .env
 ./database
 ./public
@@ -42,51 +42,51 @@ The Following files and folders need to be uploaded to the server during deploym
 ./resources
 ```
 
-### Static compilation
+### Compilation statique
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Le paquet par compilation régulière doit également compter sur le support de l'environnement de déploiement, les fichiers compilés statiquement
+peuvent être librement mis en œuvre sur la plate-forme spécifiée sans configuration d'environnement.
 
 ```shell
 go build --ldflags "-extldflags -static" -o main .
 ```
 
-### Cross compile
+### Compilation croisée
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+La compilation est différenciée par plate-forme, vous devez sélectionner une méthode de compilation correspondante en fonction de la situation de déploiement
+.
 
 ```shell
-// Compile Linux environment
+// Compiler l'environnement Linux
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
-// Compile Windows environment
+// Compiler l'environnement Windows
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
-// Compile Mac environment
+// Compiler l'environnement Mac
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
 ```
 
 ## Docker
 
-Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
-be `0.0.0.0` at this time.
+Goravel a un fichier `Dockerfile` et `docker-compose.yml` par défaut, vous pouvez l'utiliser directement, notez que `APP_HOST` devrait
+être `0.0.0` pour le moment.
 
 ```shell
-docker build .
+construction de docker .
 ```
 
-### Docker Compose
+### Composition Docker
 
-You can also quickly start the service with the following command:
+Vous pouvez également démarrer rapidement le service avec la commande suivante :
 
 ```shell
-docker-compose build
-docker-compose up
+docker-compose la version
+docker-compose vers le haut
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Note: Si vous avez besoin d'un accès externe, vous devez changer APP_HOST à 0.0.0.0
 
-## Reduce package size
+## Réduire la taille du paquet
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Commenter le `ServiceProvider` inutilisé dans `config/app.go::providers` réduira efficacement le volume de l'emballage.
