@@ -1,107 +1,107 @@
-# Queues
+# Colas
 
-When building your web application, there may be tasks, like parsing and storing an uploaded CSV file, that take too
-long to complete during a web request. Fortunately, Goravel offers a solution by allowing you to create queued jobs that
-can run in the background. This way, by moving time-intensive tasks to a queue, your application can respond to web
-requests much faster and provide a better user experience for your customers. To implement this feature, we use
+Al construir su aplicación web, puede haber tareas, como analizar y almacenar un archivo CSV subido, que tarda demasiado
+en completarse durante una solicitud web. Afortunadamente, Goravel ofrece una solución al permitirte crear trabajos en cola que
+puede ejecutar en segundo plano. De esta manera, moviendo las tareas intensivas en tiempo a una cola, tu aplicación puede responder a las solicitudes
+web mucho más rápido y proporcionar una mejor experiencia de usuario para tus clientes. Para implementar esta función, usamos
 `facades.Queue()`.
 
-Goravel's queue configuration options are saved in your application's `config/queue.go` configuration file. Goravel
-supports two drivers: `redis` and `sync`.
+Las opciones de configuración de cola de Goravel se guardan en el archivo de configuración `config/queue.go` de tu aplicación. Goravel
+soporta dos controladores: `redis` y `sync`.
 
-### Connections Vs. Queues
+### Conexiones vs. Colas
 
-Before delving into Goravel queues, it's important to understand the difference between "connections" and "queues". In
-the configuration file, `config/queue.go`, you'll find an array for `connections` configuration. This option specifies
-the connections to backend queue services like Redis. However, every queue connection can have multiple "queues", which
-can be thought of as different stacks or piles of queued jobs.
+Antes de profundizar en las colas de Goravel, es importante entender la diferencia entre "conexiones" y "colas". En
+el archivo de configuración, `config/queue.go`, encontrarás un array para la configuración `connections`. Esta opción especifica
+las conexiones a los servicios de cola de backend como Redis. Sin embargo, cada conexión de cola puede tener múltiples "colas", en las que se puede pensar
+como diferentes pilas o pilas de trabajos en cola.
 
-It's essential to note that each connection configuration example in the queue configuration file includes a `queue`
-attribute. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
-connection. In simpler terms, if you dispatch a job without explicitly defining which queue it should be dispatched to,
-the job will be placed in the queue defined in the queue attribute of the connection configuration.
+Es esencial tener en cuenta que cada ejemplo de configuración de conexión en el archivo de configuración de cola incluye un atributo `cola`
+. Este atributo es la cola predeterminada a la que se enviarán los trabajos cuando se envíen a una conexión
+dada. En términos más sencillos, si envía un trabajo sin definir explícitamente a qué cola debe ser enviada,
+el trabajo se colocará en la cola definida en el atributo de cola de la configuración de conexión.
 
 ```go
-// This job is sent to the default connection's default queue
+// Este trabajo se envía a la cola por defecto de la conexión
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
-}).Dispatch()
+  {Type: "int", Valor: 1},
+}). ispatch()
 
-// This job is sent to the default connection's "emails" queue
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
+// Este trabajo se envía a la cola de "emails" de la conexión predeterminada
+err := facades.Queue(). ob(&jobs.Test{}, []queue.Arg{
+  {Type: "int", Valor: 1},
 }).OnQueue("emails").Dispatch()
 ```
 
-## Creating Jobs
+## Creando puestos
 
-### Generating Job Classes
+### Generando Clases de Job
 
-By default, all of the jobs for your application are stored in the `app/jobs` directory. If the `app/Jobs` directory
-doesn't exist, it will be created when you run the `make:job` Artisan command:
+Por defecto, todos los trabajos de tu aplicación se almacenan en el directorio `app/jobs`. Si el directorio `app/Jobs`
+no existe, se creará cuando ejecutes el comando de Artisan `make:job`:
 
 ```shell
 go run . artisan make:job ProcessPodcast
 go run . artisan make:job user/ProcessPodcast
 ```
 
-### Class Structure
+### Estructura de clase
 
-Job classes are very simple, consisting of two methods: `Signature` and `Handle`. `Signature` serves as a task's
-distinct identifier, while `Handle` executes when the queue processes the task. Additionally, the `[]queue.Arg{}` passed
-when the task executes will be transmitted into `Handle`:
+Las clases de trabajo son muy sencillas, consistentes en dos métodos: `Signature` y `Handle`. `Signature` sirve como un identificador distinto
+de tarea, mientras que `Handle` se ejecuta cuando la cola procesa la tarea. Además, el `[]queue.Arg{}` ha pasado
+cuando la tarea ejecuta se transmitirá a `Handle`:
 
 ```go
-package jobs
+trabajos de paquete
 
 type ProcessPodcast struct {
 }
 
-// Signature The name and signature of the job.
-func (receiver *ProcessPodcast) Signature() string {
+// Firma el nombre y firma del trabajo.
+func (receptor *ProcessPodcast) Signature() string {
   return "process_podcast"
 }
 
-// Handle Execute the job.
-func (receiver *ProcessPodcast) Handle(args ...any) error {
+// Maneja el trabajo.
+func (receptor *ProcessPodcast) Handle(args ...any) error {
   return nil
 }
 ```
 
-### Register Job
+### Registrar trabajo
 
-After creating the job, you need to register it in `app/provides/queue_service_provider.go`, so that it can be called
-correctly.
+Después de crear el trabajo, necesitas registrarlo en `app/provides/queue_service_provider.go`, para que pueda ser llamado
+correctamente.
 
 ```go
-func (receiver *QueueServiceProvider) Jobs() []queue.Job {
+func (receptor *QueueServiceProvider) Jobs() []queue.Job {
   return []queue.Job{
     &jobs.Test{},
   }
 }
 ```
 
-## Start Queue Server
+## Iniciar servidor de cola
 
-Start the queue server in `main.go` in the root directory.
+Inicia el servidor de cola en `main.go` en el directorio raíz.
 
 ```go
-package main
+importación
 
-import (
-  "github.com/goravel/framework/facades"
+paquete principal (
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Esto arranca el framework y lo prepara para su uso.
   bootstrap.Boot()
 
-  // Start queue server by facades.Queue().
+  // Iniciar servidor de cola por fachadas. ue().
   go func() {
-    if err := facades.Queue().Worker().Run(); err != nil {
-      facades.Log().Errorf("Queue run error: %v", err)
+    if err := facades. ue().Worker().Run(); err != nil {
+      facades. og().Errorf("Error de ejecución de cola: %v", err)
     }
   }()
 
@@ -109,40 +109,40 @@ func main() {
 }
 ```
 
-Different parameters can be passed in the `facades.Queue().Worker` method, you can monitor multiple queues by starting
-multiple `facades.Queue().Worker`.
+Diferentes parámetros se pueden pasar en el método `facades.Queue().Worker`, puedes monitorear múltiples colas iniciando
+múltiples `facades.Queue().Worker`.
 
 ```go
-// No parameters, default listens to the configuration in the `config/queue.go`, and the number of concurrency is 1
+// No hay parámetros, por defecto escucha la configuración en `config/queue. o`, y el número de concurrencia es 1
 go func() {
-  if err := facades.Queue().Worker().Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  if err := facades. ue().Worker().Run(); err != nil {
+    facades. og().Errorf("Queue run error: %v", err)
   }
 }()
 
-// Monitor processing queue for redis link, and the number of concurrency is 10
+// Monitorizar la cola de procesamiento para el enlace redis, y el número de concurrencia es 10
 go func() {
-  if err := facades.Queue().Worker(queue.Args{
-    Connection: "redis",
-    Queue: "processing",
-    Concurrent: 10,
-  }).Run(); err != nil {
+  if err := facades. ueue().Worker(cola. rgs{
+    Conexión: "redis",
+    Cola: "procesando",
+    Concurrente: 10,
+  }). un(); err != nil {
     facades.Log().Errorf("Queue run error: %v", err)
   }
 }()
 ```
 
-## Dispatching Jobs
+## Enviando Jobs
 
-Once you have written the job class, you can dispatch it using the `Dispatch` method on the job itself:
+Una vez que hayas escrito la clase de trabajo, puedes enviarla utilizando el método `Dispatch` en el propio trabajo:
 
 ```go
-package controllers
+controladores
 
-import (
+importar (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -150,26 +150,26 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatch()
   if err != nil {
-    // do something
+    // hacer algo
   }
 }
 ```
 
-### Synchronous Dispatching
+### Envío sincrónico
 
-If you want to dispatch a job immediately (synchronously), you can use the `DispatchSync` method. When using this
-method, the job will not be queued and will be executed immediately within the current process:
+Si desea enviar un trabajo inmediatamente (sincrónicamente), puede utilizar el método `DispatchSync`. Cuando se utiliza este método
+, el trabajo no se pondrá en cola y se ejecutará inmediatamente dentro del proceso actual:
 
 ```go
-package controllers
+controladores
 
-import (
+importar (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -177,74 +177,74 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).DispatchSync()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatchSync()
   if err != nil {
-    // do something
+    // hacer algo
   }
 }
 ```
 
-### Job Chaining
+### Funcionamiento
 
-Job chaining allows you to specify a list of queued jobs to be executed in a specific order. If any job in the sequence
-fails, the rest of the jobs will not be executed. To run a queued job chain, you can use the `Chain` method provided by
-the `facades.Queue()`:
+La cadena de trabajos le permite especificar una lista de trabajos en cola para ser ejecutados en un orden específico. Si cualquier trabajo en la secuencia
+falla, el resto de los trabajos no se ejecutarán. Para ejecutar una cadena de trabajo en cola, puedes usar el método `Chain` proporcionado por
+el `facades.Queue()`:
 
 ```go
 err := facades.Queue().Chain([]queue.Jobs{
   {
     Job: &jobs.Test{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 1},
+    Args: []cola. rg{
+      {Type: "int", Valor: 1},
     },
   },
   {
-    Job: &jobs.Test1{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 2},
+    Trabajo: &jobs. est1{},
+    Args: []cola. rg{
+      {Type: "int", Valor: 2},
     },
   },
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### Retraso de envío
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
-seconds of dispatching:
+Si desea especificar que un trabajo no debe ser procesado inmediatamente por un trabajador en cola, puedes usar el método `Delay`
+durante el envío del trabajo. Por ejemplo, especificemos que un trabajo no debe estar disponible para su procesamiento después de 100
+segundos de envío:
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
+err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Segundo).Dispatch()
 ```
 
-### Customizing The Queue & Connection
+### Personalizar la cola y la conexión
 
-#### Dispatching To A Particular Queue
+#### Enviando a una cola particular
 
 By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
 assign to various queues.
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
+err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("procesando").Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+#### Enviando a una conexión Particular
 
-If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
-connection to which the task is pushed.
+Si tu aplicación interactúa con múltiples conexiones de cola, puedes usar el método `OnConnection` para especificar la conexión
+a la que se empuja la tarea.
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+Puedes encadenar los métodos `OnConnection` y `OnQueue` juntos para especificar la conexión y la cola para un trabajo:
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
+err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("procesando").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+## `queue.Arg.Type` Tipos soportados
 
 ```go
 bool
