@@ -1,40 +1,40 @@
 # Middleware
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+Middleware ger en bekväm mekanism för att inspektera och filtrera HTTP-förfrågningar som matar in ditt program.
 
-## Define Middleware
+## Definiera Middleware
 
-You can create your own middleware in the `app/http/middleware` directory, the structure is as follows.
+Du kan skapa din egen middleware i katalogen `app/http/middleware` , strukturen är som följer.
 
 ```go
 package middleware
 
 import (
-  "github.com/goravel/framework/contracts/http"
+  "github.com/goravel/frameing/contracts/http"
 )
 
 func Auth() http.Middleware {
-  return func(ctx http.Context) {
+  returfunktion (ctx http.Context) {
     ctx.Request().Next()
   }
 }
 ```
 
-### Create Middleware By Command
+### Skapa Middleware efter kommando
 
 ```
-go run . artisan make:middleware Auth
+gå kör. hantverkare make:middleware Auth
 
-// Support nested folders
-go run . artisan make:middleware user/Auth
+// Stöd nästlade mappar
+gå att köra. hantverkare make:middleware användare/Auth
 ```
 
-## Register Middleware
+## Registrera Middleware
 
 ### Global Middleware
 
-If you want to apply middleware for every HTTP request of your application, you only need to register the middleware in
-the `Middleware` in the `app/http/kernel.go` file.
+Om du vill tillämpa middleware för varje HTTP-begäran i din applikation, du behöver bara registrera middleware i
+i `Middleware` i `app/http/kernel. o` fil.
 
 ```go
 // app/http/kernel.go
@@ -56,22 +56,22 @@ func (kernel *Kernel) Middleware() []http.Middleware {
 }
 ```
 
-### Assign Middleware for Routing
+### Tilldela Middleware för Routing
 
-You can register the middleware for some routing separately:
+Du kan registrera middleware för vissa routing separat:
 
 ```go
 import "github.com/goravel/framework/http/middleware"
 
-facades.Route().Middleware(middleware.Auth()).Get("users", userController.Show)
+facades.Route().Middleware(middleware.Auth()).Get("användare", userController.Show)
 ```
 
-## Abort Request
+## Avbryt begäran
 
-In middleware, if you need to interrupt the request, you can use the `Abort` method.
+I mittprogram, om du behöver avbryta begäran, kan du använda `Abort`-metoden.
 
 ```go
 ctx.Request().Abort()
 ctx.Request().Abort(http.StatusNotFound)
-ctx.Response().String(http.StatusNotFound, "Not Found").Abort()
+ctx.Response().String(http.StatusNotFound, "Hittades inte").Abort()
 ```
