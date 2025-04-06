@@ -1,13 +1,13 @@
-# Views
+# Weergaven
 
-Of course, it's not practical to return entire HTML document strings directly from your routes and controllers.
-Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller /
-application logic from your presentation logic and are stored in the `resources/views` directory.
+Natuurlijk is het niet praktisch om alle tekststrings van HTML-documenten rechtstreeks terug te geven van uw routes en controllers.
+Gelukkig bieden weergaven een handige manier om al onze HTML in afzonderlijke bestanden te plaatsen. Bekijkt de controller /
+toepassingslogica van uw presentatielogica en wordt opgeslagen in de `resources/views` map.
 
-## Creating & Rendering Views
+## Aanmaken & renderen weergaven
 
-When using the Goravel default template `html/template`, you can create views by adding a file with the `.tmpl`
-extension in the application `resources/views` directory.
+Wanneer je de Goravel standaard template `html/template` gebruikt, kun je bezoeken creëren door een bestand met de `.tmpl`
+extensie toe te voegen in de applicatie `resources/views` map.
 
 ```
 // resources/views/welcome.tmpl
@@ -20,37 +20,37 @@ extension in the application `resources/views` directory.
 {{ end }}
 ```
 
-After creating the view, you can use the `View` method to return the view from a route or controller in the application:
+Na het aanmaken van de weergave, kunt u de 'Bekijk' methode gebruiken om de weergave te retourneren van een route of controller in de applicatie:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
-  return ctx.Response().View().Make("welcome.tmpl", map[string]any{
+  retourneer ctx.Response().View().Make("welcome.tmpl", map[string]any{
     "name": "Goravel",
   })
 })
 ```
 
-### Nested View Directories
+### Geneste weergave mappen
 
-Views may also be nested within subdirectories of the `resources/views` directory. For example, if your view is stored
-at `resources/views/admin/profile.tmpl`, you can return it from one of your application's routes or controllers, note
-that the view needs to be defined as `define "admin/profile.tmpl"` as shown below:
+Weergaven kunnen ook worden genest binnen de submappen van de `resources/views` map. Bijvoorbeeld, als je weergave
+wordt opgeslagen op `resources/views/admin/profiel. mpl`, je kunt het terugsturen vanaf een van de routes of controllers van je applicatie, noteer
+dat de weergave moet worden gedefinieerd als `define "admin/profiel. mpl"` zoals hieronder getoond:
 
 ```go
 // resources/views/admin/profile.tmpl
 {{ define "admin/profile.tmpl" }}
-<h1>Welcome to the Admin Panel</h1>
+<h1>Welkom op het Admin Panel</h1>
 {{ end }}
 
-ctx.Response().View().Make("admin/profile.tmpl", map[string]any{
+ctx. esponse().View().Make("admin/profile.tmpl", map[string]any{
   "name": "Goravel",
 })
 ```
 
-### Creating The First Available View
+### Aanmaken van de eerste beschikbare weergave
 
-Using the `First` method, you can use the first view that exists in a given array of views. This may be useful if your
-application or package allows views to be customized or overwritten:
+Met de `First` methode kun je de eerste weergave gebruiken die bestaat in een groot aantal weergaven van de weergaven. Dit kan handig zijn als uw
+toepassing of pakket het mogelijk maakt om weergaven aan te passen of te overschrijven:
 
 ```go
 ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[string]any{
@@ -58,9 +58,9 @@ ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[str
 })
 ```
 
-### Determining If A View Exists
+### Bepalen of een weergave bestaat
 
-If you need to determine if a view exists, you can use the `facades.View()` method:
+Als u moet bepalen of een weergave bestaat, kunt u de `facades.View()` methode gebruiken:
 
 ```go
 if facades.View().Exist("welcome.tmpl") {
@@ -68,42 +68,42 @@ if facades.View().Exist("welcome.tmpl") {
 }
 ```
 
-## Passing Data To Views
+## Gegevens doorgeven aan weergaven
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view.
-Please note, the format of the passed data needs to change according to the template driver used, in the following
-example, using the default `html/template` driver:
+Zoals je hebt gezien in de vorige voorbeelden, kan je een reeks gegevens doorgeven aan weergaven om die gegevens beschikbaar te maken voor de weergave.
+Let op: het formaat van de doorgegeven gegevens moet worden gewijzigd volgens de gebruikte template driver in het volgende
+voorbeeld, met behulp van het standaard `html/template` driver:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
-  return ctx.Response().View().Make("welcome.tmpl", map[string]any{
+  retourneer ctx.Response().View().Make("welcome.tmpl", map[string]any{
     "name": "Goravel",
   })
 })
 ```
 
-### Sharing Data With All Views
+### Gegevens delen met alle weergaven
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the
-`Share` method in `facades.View()`. Typically, you should place calls to the `Share` method within a service provider's
-`Boot` method. You are free to add them to the `app/providers/app_service_provider.go` class or generate a separate
-service provider to house them:
+Soms moet u gegevens delen met alle weergaven die door uw applicatie worden weergegeven. Je kunt dit doen met de
+`Share` methode in `facades.View()`. Normaal gesproken moet je oproepen plaatsen naar de `Share` methode binnen een service provider's
+`Boot` methode. U bent vrij om ze toe te voegen aan de `app/providers/app_service_provider.go` klasse of genereer een aparte
+service provider om ze te wonen:
 
 ```go
 package providers
 
 import (
  "github.com/goravel/framework/contracts/foundation"
-    "github.com/goravel/framework/facades"
+    "github. om/goravel/framework/facades"
 )
 
-type AppServiceProvider struct {
+type AppServiceProvider bouwt {
 }
 
-func (receiver *AppServiceProvider) Register(app foundation.Application) {
+func (ontvanger *AppServiceProvider) Register(app foundation. pplication) {
 }
 
-func (receiver *AppServiceProvider) Boot(app foundation.Application) {
+func (ontvanger *AppServiceProvider) Boot(app foundation.Application) {
     facades.View().Share("key", "value")
 }
 ```
