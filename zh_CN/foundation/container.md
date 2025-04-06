@@ -1,17 +1,17 @@
-# Service Container
+# 服务容器
 
-The Goravel service container is a powerful tool for managing class dependencies and performing dependency injection. It
+Goravel服务容器是管理类依赖关系和执行依赖注入的一个强大工具。 It
 contains all the modules of Goravel, and allows you to bind your own services to container and resolve them when needed.
-The service container provides powerful support for third-party packages around Goravel.
+服务容器为Goravel周围的第三方包提供强大的支持。
 
-## Binding
+## 绑定中
 
-### Simple Bindings
+### 简单绑定
 
-Almost all of your service container bindings will be registered within [service providers](./providers).
-Within a service provider, you always have access to the container via the `app` parameter, then register a binding
-using the `Bind` method, passing the `key` that we wish to register along with a closure that returns an instance of the
-class:
+几乎所有您的服务容器绑定都将注册在 [服务提供商] (./providers)。
+在服务提供商中，您总是可以通过 `app` 参数访问容器，然后注册一个绑定的
+使用 `Bind` 方法， 传递我们想要注册的 `key` 以及返回一个
+类实例的闭合：
 
 ```go
 package route
@@ -36,19 +36,19 @@ func (route *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-As mentioned, you will typically be interacting with the container within service providers; however, if you would like
-to interact with the container outside of a service provider, you may do so via the `App` facade:
+如上文所述，您通常将与服务提供商内的容器进行互动； 然而，如果您想要
+与服务提供商外的容器交互，您可以通过 `App`的面板这样做：
 
 ```go
-facades.App().Bind("key", func(app foundation.Application) (any, error) {
+facades.App().Bind("key", function(app foundation.Application) (任何错误) {
     ...
 })
 ```
 
-### Binding A Singleton
+### 绑定单行符
 
-The `Singleton` method binds a class or interface into the container that should only be resolved one time. Once a
-singleton binding is resolved, the same object instance will be returned on subsequent calls into the container:
+`Singleton` 方法将类或接口绑定到容器中，容器只能解决一次。 一旦
+单独绑定解决，在随后调用到容器时将返回相同的对象实例：
 
 ```go
 app.Singleton(key, func(app foundation.Application) (any, error) {
@@ -56,16 +56,16 @@ app.Singleton(key, func(app foundation.Application) (any, error) {
 })
 ```
 
-### Binding Instances
+### 绑定实例
 
-You may also bind an existing object instance into the container using the `Instance` method. The given instance will
+您也可以使用 `Instance` 方法将现有对象实例绑定到容器中。 The given instance will
 always be returned on subsequent calls into the container:
 
 ```go
-app.Instance(key, instance)
+应用程序实例(键, 实例)
 ```
 
-### Binding With Parameter
+### 绑定参数
 
 If you need some extra parameters to construct the service provider, you can use the `BindWith` method to pass
 parameters to the closure:
@@ -76,35 +76,35 @@ app.BindWith(Binding, func(app foundation.Application, parameters map[string]any
 })
 ```
 
-## Resolving
+## 正在解决
 
-### The `Make` Method
+### `Make`方法
 
-You may use the `Make` method to resolve a class instance from the container. The `Make` method accepts the `key` you
-wish to resolve:
-
-```go
-instance, err := app.Make(key)
-```
-
-If you are outside of a service provider in a location of your code that does not have access to the `app` variable, you
-may use the `App` facade to resolve a class instance from the container:
+您可以使用 `Make` 方法来解析容器中的类实例。 `Make`方法接受了您的
+想解决的 `key`：
 
 ```go
-instance, err := facades.App().Make(key)
+例如，err := app.Make(key)
 ```
 
-### The `MakeWith` Method
-
-If some of your class's dependencies are not resolvable via the container, you may inject them by passing them as an
-associative array into the `MakeWith` method, corresponding to the `BindWith` binding method:
+如果您在无法访问`app`变量的代码位置的服务提供商之外， 您的
+可以使用 `App` 面来解析容器中的类实例：
 
 ```go
-instance, err := app.MakeWith(key, map[string]any{"id": 1})
+例如：err := facades.App().Make(key)
 ```
 
-### Other Methods
+### `MakeWid`方法
 
-The framework provides some convenient methods to quickly resolve various facades: `MakeArtisan`, `MakeAuth`,
-`MakeCache`, `MakeConfig`, `MakeCrypt`, `MakeEvent`, `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
+如果您的类的一些依赖关系无法通过容器解决， 您可以通过将它们作为一个
+关联数组传入对 `MakeWi` 方法中，对应的 `BindWith` 绑定方法来注入它们：
+
+```go
+例如：err := app.MakeWid(key, map[string]any {"id": 1})
+```
+
+### 其他方法
+
+框架提供了一些方便的方法来快速解决各种问题：“MakeArtisan”、“MakeAuth”、“
+`MakeCache`、`MakeConfig`、`MakeCrypt`、`MakeEvent`、`MakeEvent`”， `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
 `MakeOrm`, `MakeQueue`, `MakeRateLimiter`, `MakeRoute`, `MakeSchedule`, `MakeStorage`, `MakeValidation`.
