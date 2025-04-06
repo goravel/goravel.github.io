@@ -1,169 +1,169 @@
 import { defineConfig, type DefaultTheme } from 'vitepress';
-export const en = defineConfig({
-  lang: 'en-US',
-  description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
+export const config = defineConfig({
+  lang: "ro-RO",
+  description: "Goravel este un cadru pentru aplicații web cu funcții complete și excelente scalabilitate. Ca o schelă de început pentru a-l ajuta pe Gopher să își construiască rapid propriile aplicații.",
   themeConfig: {
     nav: nav(),
     sidebar: {
-      '/en/quickstart/': {
-        base: '/en/quickstart/',
+      '/quickstart/': {
+        base: '/quickstart/',
         items: sidebarQuickstart()
       },
-      '/en/upgrade/': {
-        base: '/en/upgrade/',
+      '/upgrade/': {
+        base: '/upgrade/',
         items: sidebarUpgrade()
       },
-      '/en/foundation/': {
-        base: '/en/foundation/',
+      '/foundation/': {
+        base: "/fundație/",
         items: sidebarFoundation()
       },
-      '/en/basic/': {
-        base: '/en/basic/',
+      '/basic/': {
+        base: "/bază/",
         items: sidebarBasic()
       },
-      '/en/advanced/': {
-        base: '/en/advanced/',
+      '/advanced/': {
+        base: "/avansat/",
         items: sidebarAdvanced()
       },
-      '/en/security/': {
-        base: '/en/security/',
+      '/security/': {
+        base: "/securitate/",
         items: sidebarSecurity()
       },
-      '/en/orm/': {
-        base: '/en/orm/',
+      '/orm/': {
+        base: '/orm/',
         items: sidebarOrm()
       },
-      '/en/testing/': {
-        base: '/en/testing/',
+      '/testing/': {
+        base: "/testare/",
         items: sidebarTesting()
       },
-      '/en/other/': {
-        base: '/en/other/',
+      '/other/': {
+        base: "/altel/",
         items: sidebarOther()
       }
     },
     editLink: {
       pattern: 'https://github.com/goravel/goravel.github.io/edit/main/:path',
-      text: 'Edit this page on GitHub'
+      text: "Editează această pagină pe GitHub"
     },
     footer: {
-      message: 'Released under the MIT License',
-      copyright: `Copyright © 2021-${new Date().getFullYear()} Goravel`
+      message: "Publicat sub licența MIT",
+      copyright: `Drepturi de autor ©️ 2021${new Date().getFullYear()} Goravel`
     }
   }
 });
 function nav(): DefaultTheme.NavItem[] {
   return [{
     text: 'Quickstart',
-    link: '/en/quickstart/installation',
-    activeMatch: '/en/quickstart/'
+    link: "/quickstart/instalare",
+    activeMatch: '/quickstart/'
   }, {
-    text: 'Upgrade',
-    link: '/en/upgrade/v1.15',
-    activeMatch: '/en/upgrade/'
+    text: "Actualizează",
+    link: '/upgrade/v1.15',
+    activeMatch: '/upgrade/'
   }, {
-    text: 'Foundation',
-    link: '/en/foundation/lifecycle',
-    activeMatch: '/en/foundation/'
+    text: "Fundație",
+    link: "/fundaţie/ciclu de viaţă",
+    activeMatch: "/fundație/"
   }, {
-    text: 'Basic',
-    link: '/en/basic/routing',
-    activeMatch: '/en/basic/'
+    text: "Baza",
+    link: "/bază/rutare",
+    activeMatch: "/bază/"
   }, {
-    text: 'Advanced',
-    link: '/en/advanced/artisan',
-    activeMatch: '/en/advanced/'
+    text: "Avansat",
+    link: "/avansat/artizan",
+    activeMatch: "/avansat/"
   }, {
-    text: 'Security',
-    link: '/en/security/authentication',
-    activeMatch: '/en/security/'
+    text: "Securitate",
+    link: "/securitate/autentificare",
+    activeMatch: "/securitate/"
   }, {
     text: 'ORM',
-    link: '/en/orm/quickstart',
+    link: '/orm/quickstart',
     activeMatch: '/orm/'
   }, {
     text: "Testare",
-    link: '/en/testing/quickstart',
-    activeMatch: '/testing/'
+    link: "/testare/pornire rapidă",
+    activeMatch: "/testare/"
   }, {
-    text: 'Other',
-    link: '/en/other/contributing',
-    activeMatch: '/other/'
+    text: "Altele",
+    link: "/altele/contribuții",
+    activeMatch: "/altel/"
   }];
 }
 function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Installation',
-    link: 'installation'
+    text: "Instalare",
+    link: "instalare"
   }, {
     text: "Configurare",
-    link: 'configuration'
+    link: "configurare"
   }, {
-    text: 'Directory Structure',
-    link: 'directory-structure'
+    text: "Structura Directoarelor",
+    link: "Structura-director"
   }, {
-    text: 'Compile',
-    link: 'compile'
+    text: "Compilare",
+    link: "compilează"
   }];
 }
 function sidebarUpgrade(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Upgrade from v1.15',
-    link: 'v1.15'
+    text: "Upgrade de la v1.15",
+    link: "v1,15"
   }, {
-    text: 'Upgrade from v1.14',
-    link: 'v1.14'
+    text: "Upgrade de la v1.14",
+    link: "v1,14"
   }, {
-    text: 'History',
-    link: 'history'
+    text: "Istoric",
+    link: "Istoric"
   }];
 }
 function sidebarFoundation(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Lifecycle',
-    link: 'lifecycle'
+    text: "Lifeciclu",
+    link: "ciclu de viaţă"
   }, {
     text: "Container serviciu",
     link: 'container'
   }, {
     text: "Furnizori de servicii",
-    link: 'providers'
+    link: "furnizori"
   }, {
     text: "Fațete",
-    link: 'facades'
+    link: "fațade"
   }];
 }
 function sidebarBasic(): DefaultTheme.SidebarItem[] {
   return [{
     text: "Rutare",
-    link: 'routing'
+    link: "rutare"
   }, {
     text: 'Middlewares',
-    link: 'middlewares'
+    link: "middleware"
   }, {
     text: "Controlori",
-    link: 'controllers'
+    link: "controlori"
   }, {
-    text: 'Requests',
-    link: 'requests'
+    text: "Cereri",
+    link: "cereri"
   }, {
-    text: 'Responses',
-    link: 'responses'
+    text: "Răspunsuri",
+    link: "răspunsuri"
   }, {
     text: "Vizualizări",
-    link: 'views'
+    link: "vizualizări"
   }, {
     text: "Grătar",
-    link: 'grpc'
+    link: "grătar"
   }, {
     text: "Sesiune",
-    link: 'session'
+    link: "sesiune"
   }, {
     text: "Validare",
-    link: 'validation'
+    link: "validarea"
   }, {
     text: "Logare",
-    link: 'logging'
+    link: "logare"
   }];
 }
 function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
@@ -172,34 +172,34 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
     link: 'artisan'
   }, {
     text: "Geocutie",
-    link: 'cache'
+    link: "geocutie"
   }, {
     text: "Evenimente",
-    link: 'events'
+    link: "evenimente"
   }, {
     text: "Spațiu de stocare",
     link: 'fs'
   }, {
     text: "E-mail",
-    link: 'mail'
+    link: "poştă"
   }, {
     text: "Cozi",
-    link: 'queues'
+    link: "cozi"
   }, {
     text: "Programarea sarcinilor",
-    link: 'schedule'
+    link: "program"
   }, {
     text: "Localizare",
-    link: 'localization'
+    link: "localizare"
   }, {
     text: "Pachet Dezvoltare",
-    link: 'package'
+    link: "pachet"
   }, {
-    text: 'Color Output',
-    link: 'color'
+    text: "Ieșire culoare",
+    link: "culoare"
   }, {
     text: "Șiruri",
-    link: 'strings'
+    link: "șiruri"
   }, {
     text: 'Helpers',
     link: 'helpers'
@@ -207,14 +207,14 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
 }
 function sidebarSecurity(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Authentication',
-    link: 'authentication'
+    text: "Autentificare",
+    link: "autentificare"
   }, {
-    text: 'Authorization',
-    link: 'authorization'
+    text: "Autorizare",
+    link: "Autorizare"
   }, {
-    text: 'Encryption',
-    link: 'encryption'
+    text: "Criptare",
+    link: "criptare"
   }, {
     text: 'Hashing',
     link: 'hashing'
@@ -223,42 +223,42 @@ function sidebarSecurity(): DefaultTheme.SidebarItem[] {
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
     text: 'Quickstart',
-    link: 'quickstart'
+    link: "pornire rapidă"
   }, {
-    text: 'Relationships',
-    link: 'relationships'
+    text: "Relaţii",
+    link: "relaţii"
   }, {
     text: "Migrații",
-    link: 'migrations'
+    link: "migrări"
   }, {
     text: 'Seeding',
-    link: 'seeding'
+    link: "însămânțare"
   }, {
     text: "Fabrici",
-    link: 'factories'
+    link: "fabrici"
   }];
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
     text: 'Quickstart',
-    link: 'quickstart'
+    link: "pornire rapidă"
   }, {
-    text: 'HTTP Tests',
+    text: "Teste HTTP",
     link: 'http'
   }, {
-    text: 'Mocks',
-    link: 'mocks'
+    text: "Șosete",
+    link: "dubluri"
   }];
 }
 function sidebarOther(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Contributing',
-    link: 'contributing'
+    text: "Contribuție",
+    link: "contributie"
   }, {
-    text: 'Excellent Packages',
-    link: 'packages'
+    text: "Pachete Excelente",
+    link: "pachete"
   }, {
-    text: 'Privacy Policy',
-    link: 'privacy'
+    text: "Politica de confidenţialitate",
+    link: "intimitate"
   }];
 }
