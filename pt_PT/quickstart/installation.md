@@ -1,68 +1,68 @@
-# Installation
+# Instalação
 
-## Server Requirements
+## Requisitos do Servidor
 
 - Golang >= 1.21
 
-## Installation
+## Instalação
 
-### Using Goravel Installer
+### Usando Goravel Installer
 
-Initialize the installer according to the [documentation](https://github.com/goravel/installer), and then initialize a
-new Goravel project using the following command:
+Inicialize o instalador de acordo com o [documentation](https://github.com/goravel/installer) e, em seguida, inicialize um novo projeto
+Goravel usando o seguinte comando:
 
 ```shell
-// Enter the directory where you want to install the project
-goravel new blog
+// Digite o diretório onde você deseja instalar o projeto
+goravel novo blog
 ```
 
-### Manual Installation
+### Instalação manual
 
 ```shell
-// Download framework
-git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/.git*
+// Baixar framework
+git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/. it*
 
-// Install dependencies
+// Instale dependências
 cd goravel && go mod tidy
 
-// Create .env environment configuration file
+// Crie . nv environment configuration file
 cp .env.example .env
 
-// Generate application key
+// Gera aplicação chave
 go run . artisan key:generate
 ```
 
-## Start HTTP Service
+## Iniciar serviço HTTP
 
-### Start Service According To .env File In The Root Directory
+### Iniciar o serviço de acordo com o arquivo .env na pasta raiz
 
 ```shell
-go run .
+vá correr .
 ```
 
-### Specify .env File To Start Service
+### Especificar o arquivo .env para iniciar o serviço
 
 ```shell
-go run . --env=./.env
+vá executar . --env=./.env
 ```
 
-### Start Service Using Environment Variables
+### Iniciar Serviço Usando Variáveis de Ambiente
 
 ```shell
-APP_ENV=production APP_DEBUG=true go run .
+APP_ENV=produção APP_DEBUG=verdadeiro é executado.
 ```
 
 ### Live reload
 
-Install [cosmtrek/air](https://github.com/cosmtrek/air), Goravel has a built-in configuration file that can be used
-directly:
+Instalar [cosmtrek/air](https://github.com/cosmtrek/air), Goravel tem um arquivo de configuração embutido que pode ser usado
+diretamente:
 
 ```
-air
+ar
 ```
 
-If you are using Windows system, you need to modify the `.air.toml` file in the root directory, and add the `.exe`
-suffix to the following two lines:
+Se você estiver usando o sistema Windows, será necessário modificar o `.air. arquivo oml` no diretório raiz e adicione o sufixo `.exe`
+para as seguintes duas linhas:
 
 ```shell
 [build]
@@ -72,24 +72,24 @@ suffix to the following two lines:
 
 ## Configuração
 
-### Configuration files
+### Arquivos de configuração
 
-All configuration files of the Goravel framework are placed in the `config` directory. All configuration items have
+Todos os arquivos de configuração da estrutura do Goravel são colocados no diretório `config`. All configuration items have
 annotations, you can adjust them according to your needs.
 
-### Generate Application key
+### Gerar chave da aplicação
 
-You need to generate the application key after Goravel is installed locally. Running the command below, a 32-bit string
-will be generated on the `APP_KEY` key in the `.env` file. This key is mainly used for data encryption and decryption.
+Você precisa gerar a chave de aplicativo após o Goravel ser instalado localmente. Executando o comando abaixo, uma string 32-bit
+será gerada na chave `APP_KEY` no arquivo `.env`. Essa chave é usada principalmente para criptografia de dados e descriptografia.
 
 ```shell
-go run . artisan key:generate
+ir executar . artisan chave: gerar
 ```
 
-### Generate JWT Token
+### Gerar Token JWT
 
-You need to generate JWT Token if you use [Authentication](../security/authentication).
+Você precisa gerar o Token JWT se usar [Authentication](../security/authentication).
 
 ```shell
-go run . artisan jwt:secret
+ir executar . artisan jwt:secret
 ```
