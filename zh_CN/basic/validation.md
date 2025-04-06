@@ -271,9 +271,7 @@ func (r *PostController) Store(ctx http.Context) http.Response {
 
 ### 自定义错误消息
 
-If needed, you may provide custom error messages that a validator instance should use instead of the default error
-messages provided by Goravel. You may pass the custom messages as the third argument to the `Make` method (also
-applicable to `ctx.Request().Validate()`):
+如果需要，您可以为验证器实例提供自定义错误消息，以替代 Goravel 提供的默认错误消息。 您可以将自定义消息作为第三个参数传递给 `Make` 方法（也适用于 `ctx.Request().Validate()`）：
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
@@ -281,10 +279,9 @@ validator, err := facades.Validation().Make(input, rules, validation.Messages(ma
 }))
 ```
 
-### Specifying A Custom Message For A Given Attribute
+### 为给定属性指定自定义消息
 
-Sometimes you may wish to specify a custom error message only for a specific attribute. You may do so using "dot"
-notation. Specify the attribute's name first, followed by the rule (also applicable to `ctx.Request().Validate()`):
+有时您可能希望仅为特定属性指定自定义错误消息。 您可以使用 "点" 表示法来实现。 首先指定属性名称，然后是规则（也适用于 `ctx.Request().Validate()`）：
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
@@ -292,12 +289,9 @@ validator, err := facades.Validation().Make(input, rules, validation.Messages(ma
 }))
 ```
 
-### Specifying Custom Attribute Values
+### 指定自定义属性值
 
-Many of Goravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the
-field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you
-may pass an array of custom attributes as the third argument to the `Make` method (also applicable to
-`ctx.Request().Validate()`):
+Goravel 的许多内置错误消息包含一个 `:attribute` 占位符，该占位符会被替换为正在验证的字段或属性的名称。 要自定义用于替换特定字段的这些占位符的值，您可以将自定义属性数组作为第三个参数传递给 `Make` 方法（也适用于 `ctx.Request().Validate()`）：
 
 ```go
 validator, err := facades.Validation().Make(input, rules, validation.Attributes(map[string]string{
@@ -305,10 +299,9 @@ validator, err := facades.Validation().Make(input, rules, validation.Attributes(
 }))
 ```
 
-### Format Data Before Validation
+### 验证前格式化数据
 
-You can format the data before validating the data for more flexible data validation, and you can pass the method of
-formatting the data as the third parameter to the `Make` method (also applicable to `ctx.Request().Validate()`):
+您可以在验证数据之前格式化数据以实现更灵活的数据验证，并且可以将格式化数据的方法作为第三个参数传递给 `Make` 方法（也适用于 `ctx.Request().Validate()`）：
 
 ```go
 import (
@@ -330,12 +323,11 @@ func (r *PostController) Store(ctx http.Context) http.Response {
 }
 ```
 
-## Working With Validated Input
+## 使用验证后的输入
 
-After validating incoming request data using form requests or manually created validator instances, you still want to
-bind the request data to a `struct`, there are two ways to do this:
+在使用表单请求或手动创建的验证器实例验证传入的请求数据后，如果你仍然想将请求数据绑定到一个 `struct`，有两种方法可以做到这一点：
 
-1. Use the `Bind` method, this will bind all incoming data, including unvalidated data:
+1. 使用 `Bind` 方法，这将绑定所有传入的数据，包括未经验证的数据：
 
 ```go
 validator, err := ctx.Request().Validate(rules)
@@ -347,7 +339,7 @@ var user models.User
 err := validator.Bind(&user)
 ```
 
-2. The incoming data is automatically bound to the form when you use request for validation:
+2. 当您使用 request 进行验证时，传入的数据会自动绑定到表单：
 
 ```go
 var storePost requests.StorePostRequest
@@ -355,9 +347,9 @@ errors, err := ctx.Request().ValidateRequest(&storePost)
 fmt.Println(storePost.Name)
 ```
 
-## Working With Error Messages
+## 处理错误消息
 
-### Retrieving one Error Message For A Field (Random)
+### 获取字段的一个错误消息（随机）
 
 ```go
 validator, err := ctx.Request().Validate(rules)
@@ -366,19 +358,19 @@ validator, err := facades.Validation().Make(input, rules)
 message := validator.Errors().One("email")
 ```
 
-### Retrieving All Error Messages For A Field
+### 检索字段的所有错误消息
 
 ```go
 messages := validator.Errors().Get("email")
 ```
 
-### Retrieving All Error Messages For All Fields
+### 检索所有字段的所有错误消息
 
 ```go
 messages := validator.Errors().All()
 ```
 
-### Determining If Error Messages Exist For A Field
+### 确定字段是否存在错误消息
 
 ```go
 if validator.Errors().Has("email") {
@@ -386,99 +378,90 @@ if validator.Errors().Has("email") {
 }
 ```
 
-## Available Validation Rules
+## 可用的验证规则
 
-Below is a list of all available validation rules and their function:
+以下是所有可用验证规则及其功能的列表：
 
-| Name                   | Description                                                                                                                                                                                         |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `required`             | Check value is required and cannot be zero value. For example, field type is `bool`, the passing value is `false`, it can not pass the validation.                  |
-| `required_if`          | `required_if:anotherfield,value,...` The field under validation must be present and not empty if the anotherField field is equal to any value.                                      |
-| `required_unless`      | `required_unless:anotherfield,value,...` The field under validation must be present and not empty unless the anotherField field is equal to any value.                              |
-| `required_with`        | `required_with:foo,bar,...` The field under validation must be present and not empty only if any of the other specified fields are present.                                         |
-| `required_with_all`    | `required_with_all:foo,bar,...` The field under validation must be present and not empty only if all of the other specified fields are present.                                     |
-| `required_without`     | `required_without:foo,bar,...` The field under validation must be present and not empty only when any of the other specified fields are not present.                                |
-| `required_without_all` | `required_without_all:foo,bar,...` The field under validation must be present and not empty only when all of the other specified fields are not present.                            |
-| `int`                  | Check value is `intX` `uintX` type, and support size checking. eg: `int` `int:2` `int:2,12`. Notice: [Points for using rules](#int) |
-| `uint`                 | Check value is `uint(uintX)` type, `value >= 0`                                                                                                                                                     |
-| `bool`                 | Check value is bool string(`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false").                                |
-| `string`               | Check value is string type, and support size checking. eg:`string` `string:2` `string:2,12`                                                                         |
-| `float`                | Check value is `float(floatX)` type                                                                                                                                                                 |
-| `slice`                | Check value is slice type(`[]intX` `[]uintX` `[]byte` `[]string`)                                                                                                                |
-| `in`                   | `in:foo,bar,…` Check if the value is in the given enumeration                                                                                                                                       |
-| `not_in`               | `not_in:foo,bar,…` Check if the value is not in the given enumeration                                                                                                                               |
-| `starts_with`          | `starts_with:foo` Check if the input string value is starts with the given sub-string                                                                                                               |
-| `ends_with`            | `ends_with:foo` Check if the input string value is ends with the given sub-string                                                                                                                   |
-| `between`              | `between:min,max` Check that the value is a number and is within the given range                                                                                                                    |
-| `max`                  | `max:value` Check value is less than or equal to the given value(`intX` `uintX` `floatX`)                                                                                        |
-| `min`                  | `min:value` Check value is greater than or equal to the given value(`intX` `uintX` `floatX`)                                                                                     |
-| `eq`                   | `eq:value` Check that the input value is equal to the given value                                                                                                                                   |
-| `ne`                   | `ne:value` Check that the input value is not equal to the given value                                                                                                                               |
-| `lt`                   | `lt:value` Check value is less than the given value(`intX` `uintX` `floatX`)                                                                                                     |
-| `gt`                   | `gt:value` Check value is greater than the given value(`intX` `uintX` `floatX`)                                                                                                  |
-| `len`                  | `len:value` Check value length is equals to the given size(`string` `array` `slice` `map`)                                                                                       |
-| `min_len`              | `min_len:value` Check the minimum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `max_len`              | `max_len:value` Check the maximum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `email`                | Check value is email address string                                                                                                                                                                 |
-| `array`                | Check value is array, slice type                                                                                                                                                                    |
-| `map`                  | Check value is a MAP type                                                                                                                                                                           |
-| `eq_field`             | `eq_field:field` Check that the field value is equals to the value of another field                                                                                                                 |
-| `ne_field`             | `ne_field:field` Check that the field value is not equals to the value of another field                                                                                                             |
-| `gt_field`             | `gt_field:field` Check that the field value is greater than the value of another field                                                                                                              |
-| `gte_field`            | `gte_field:field` Check that the field value is greater than or equal to the value of another field                                                                                                 |
-| `lt_field`             | `lt_field:field` Check that the field value is less than the value of another field                                                                                                                 |
-| `lte_field`            | `lte_field:field` Check if the field value is less than or equal to the value of another field                                                                                                      |
-| `file`                 | Verify if it is an uploaded file                                                                                                                                                                    |
-| `image`                | Check if it is an uploaded image file and support suffix check                                                                                                                                      |
-| `date`                 | Check the field value is date string                                                                                                                                                                |
-| `gt_date`              | `gt_date:value` Check that the input value is greater than the given date string                                                                                                                    |
-| `lt_date`              | `lt_date:value` Check that the input value is less than the given date string                                                                                                                       |
-| `gte_date`             | `gte_date:value` Check that the input value is greater than or equal to the given date string                                                                                                       |
-| `lte_date`             | `lte_date:value` Check that the input value is less than or equal to the given date string                                                                                                          |
-| `alpha`                | Verify that the value contains only alphabetic characters                                                                                                                                           |
-| `alpha_num`            | Check that only letters, numbers are included                                                                                                                                                       |
-| `alpha_dash`           | Check to include only letters, numbers, dashes ( - ), and underscores ( _ )                                                              |
-| `json`                 | Check value is JSON string                                                                                                                                                                          |
-| `number`               | Check value is number string `>= 0`                                                                                                                                                                 |
-| `full_url`             | Check value is full URL string(must start with http,https)                                                                                                                       |
-| `ip`                   | Check value is IP(v4 or v6) string                                                                                                                                               |
-| `ipv4`                 | Check value is IPv4 string                                                                                                                                                                          |
-| `ipv6`                 | Check value is IPv6 string                                                                                                                                                                          |
-| `regex`                | Check if the value can pass the regular verification                                                                                                                                                |
+| 名称                     | 描述                                                                                                                                     |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `required`             | 检查值是必需的，且不能是零值。 例如，字段类型为`bool`，传递的值为`false`，无法通过验证。                                                                                    |
+| `required_if`          | `required_if:anotherfield,value,...` 如果另一个字段等于任何值，则验证中的字段必须存在且不能为空。                                                                    |
+| `required_unless`      | `required_unless:anotherfield,value,...` 该验证字段必须存在且不能为空，除非另一字段等于任何值。                                                                   |
+| `required_with`        | `required_with:foo,bar,...` 仅当其他指定字段存在时，被验证的字段必须存在且不能为空。                                                                               |
+| `required_with_all`    | `required_with_all:foo,bar,...` 只有在所有其他指定字段都存在时，正在验证的字段必须存在且不能为空。                                                                      |
+| `required_without`     | `required_without:foo,bar,...` 仅在未提供其他指定字段时，验证字段必须呈现且不能为空。                                                                             |
+| `required_without_all` | `required_without_all:foo,bar,...` 仅当所有其他指定字段均不存在时，待验证字段必须存在且不能为空。                                                                     |
+| `int`                  | 检查值是否为 `intX` `uintX` 类型，并支持大小检查。 例子：`int` `int:2` `int:2,12`。 注意：[使用注意事项](#int)                                                       |
+| `uint`                 | 检查值是 `uint(uintX)` 类型，`value >= 0`                                                                                                     |
+| `bool`                 | 检查值是否为布尔字符串（`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false"）。                     |
+| `string`               | 检查值是字符串类型，并支持大小检查。 例子：`string` `string:2` `string:2,12`                                                                                |
+| `float`                | 检查值为 `float(floatX)` 类型                                                                                                                |
+| `slice`                | 检查值是否为切片类型（`[]intX` `[]uintX` `[]byte` `[]string`）                                                                                     |
+| `in`                   | `in:foo,bar,…` 检查值是否在给定的枚举中                                                                                                            |
+| `not_in`               | `not_in:foo,bar,…` 检查值是否不在给定的枚举中                                                                                                       |
+| `starts_with`          | `starts_with:foo` 检查输入字符串值是否以给定子字符串开头                                                                                                  |
+| `ends_with`            | `ends_with:foo` 检查输入字符串值是否以给定的子字符串结尾                                                                                                   |
+| `between`              | `between:min,max` 检查值是否为数字且在给定范围内                                                                                                      |
+| `max`                  | `max:value` 检查值是否小于或等于给定值（`intX` `uintX` `floatX`）                                                                                     |
+| `min`                  | `min:value` 检查值是否大于或等于给定值（`intX` `uintX` `floatX`）                                                                                     |
+| `eq`                   | `eq:value` 检查输入值是否等于给定值                                                                                                                |
+| `ne`                   | `ne:value` 检查输入值是否不等于给定值                                                                                                               |
+| `lt`                   | `lt:value` Check value is less than the given value(`intX` `uintX` `floatX`)                                        |
+| `gt`                   | `gt:value` Check value is greater than the given value(`intX` `uintX` `floatX`)                                     |
+| `len`                  | `len:value` Check value length is equals to the given size(`string` `array` `slice` `map`)                          |
+| `min_len`              | `min_len:value` Check the minimum length of the value is the given size(`string` `array` `slice` `map`)             |
+| `max_len`              | `max_len:value` Check the maximum length of the value is the given size(`string` `array` `slice` `map`)             |
+| `email`                | Check value is email address string                                                                                                    |
+| `array`                | Check value is array, slice type                                                                                                       |
+| `map`                  | Check value is a MAP type                                                                                                              |
+| `eq_field`             | `eq_field:field` Check that the field value is equals to the value of another field                                                    |
+| `ne_field`             | `ne_field:field` Check that the field value is not equals to the value of another field                                                |
+| `gt_field`             | `gt_field:field` Check that the field value is greater than the value of another field                                                 |
+| `gte_field`            | `gte_field:field` Check that the field value is greater than or equal to the value of another field                                    |
+| `lt_field`             | `lt_field:field` Check that the field value is less than the value of another field                                                    |
+| `lte_field`            | `lte_field:field` Check if the field value is less than or equal to the value of another field                                         |
+| `file`                 | Verify if it is an uploaded file                                                                                                       |
+| `image`                | Check if it is an uploaded image file and support suffix check                                                                         |
+| `date`                 | Check the field value is date string                                                                                                   |
+| `gt_date`              | `gt_date:value` Check that the input value is greater than the given date string                                                       |
+| `lt_date`              | `lt_date:value` Check that the input value is less than the given date string                                                          |
+| `gte_date`             | `gte_date:value` Check that the input value is greater than or equal to the given date string                                          |
+| `lte_date`             | `lte_date:value` Check that the input value is less than or equal to the given date string                                             |
+| `alpha`                | Verify that the value contains only alphabetic characters                                                                              |
+| `alpha_num`            | Check that only letters, numbers are included                                                                                          |
+| `alpha_dash`           | Check to include only letters, numbers, dashes ( - ), and underscores ( _ ) |
+| `json`                 | Check value is JSON string                                                                                                             |
+| `number`               | Check value is number string `>= 0`                                                                                                    |
+| `full_url`             | Check value is full URL string(must start with http,https)                                                          |
+| `ip`                   | 检查值为 IP（v4 或 v6）字符串                                                                                                                    |
+| `ipv4`                 | 检查值为 IPv4 字符串                                                                                                                          |
+| `ipv6`                 | 检查值为 IPv6 字符串                                                                                                                          |
+| `regex`                | Check if the value can pass the regular verification                                                                                   |
 
-### Points For Using Rules
+### 规则使用注意事项
 
 #### int
 
-When using `ctx.Request().Validate(rules)` for validation, the incoming `int` type data will be parsed by
-`json.Unmarshal` into `float64` type, which will cause the int rule validation to fail.
+当使用 `ctx.Request().Validate(rules)` 进行验证时，传入的 `int` 类型数据将被 `json.Unmarshal` 解析为 `float64` 类型，这将导致 int 规则验证失败。
 
-**Solutions**
+**解决方案**
 
-Option 1: Add [`validation.PrepareForValidation`](#format-data-before-validation), format the data before validating the
-data;
+选项 1：添加 [`validation.PrepareForValidation`](#format-data-before-validation)，在验证数据之前格式化数据；
 
-Option 2: Use `facades.Validation().Make()` for rule validation;
+选项 2：使用 `facades.Validation().Make()` 进行规则验证；
 
-## Custom Validation Rules
+## 自定义验证规则
 
-Goravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of
-registering custom validation rules is using rule objects. To generate a new rule object, you can simply use the
-`make:rule` Artisan command.
+Goravel 提供了多种有用的验证规则；但是，您可能希望指定一些自己的规则。 注册自定义验证规则的一种方法是使用规则对象。 要生成一个新的规则对象，你可以简单地使用 `make:rule` Artisan 命令。
 
-For instance, if you want to verify that a string is uppercase, you can create a rule with this command. Goravel will
-then save this new rule in the `app/rules` directory. If this directory does not exist, Goravel will create it when you
-run the Artisan command to create your rule.
+例如，如果你想验证一个字符串是否为大写，你可以使用这个命令创建一个规则。 Goravel 会将新规则保存在 `app/rules` 目录中。 如果此目录不存在，当您运行 Artisan 命令创建规则时，Goravel 将创建它。
 
 ```go
 go run . artisan make:rule Uppercase
 go run . artisan make:rule user/Uppercase
 ```
 
-After creating the rule, we need to define its behavior. A rule object has two methods: `Passes` and `Message`. The
-Passes method receives all data, including the data to be validated and the validation parameters. It should return
-`true` or `false` depending on whether the attribute value is valid. The `Message` method should return the error
-message for validation that should be used when the validation fails.
+创建规则后，我们需要定义其行为。 规则对象有两个方法：`Passes` 和 `Message`。 `Passes` 方法接收所有数据，包括要验证的数据和验证参数。 它应该返回 `true` 或 `false`，具体取决于属性值是否有效。 `Message` 方法应返回验证失败时应使用的验证错误消息。
 
 ```go
 package rules
@@ -492,25 +475,25 @@ import (
 type Uppercase struct {
 }
 
-// Signature The name of the rule.
+// Signature 规则的名称。
 func (receiver *Uppercase) Signature() string {
   return "uppercase"
 }
 
-// Passes Determine if the validation rule passes.
+// Passes 判断验证规则是否通过。
 func (receiver *Uppercase) Passes(data validation.Data, val any, options ...any) bool {
   return strings.ToUpper(val.(string)) == val.(string)
 }
 
-// Message Get the validation error message.
+// Message 获取验证错误消息。
 func (receiver *Uppercase) Message() string {
   return "The :attribute must be uppercase."
 }
 
 ```
 
-Then you need to register the rule to the `rules` method in the `app/providers/validation_service_provider.go` file, and
-the rule can be used like other rules:
+然后你需要在 `app/providers/validation_service_provider.go` 文件中的 `rules` 方法中注册该规则，并且
+该规则可以像其他规则一样使用：
 
 ```go
 package providers
@@ -531,7 +514,7 @@ func (receiver *ValidationServiceProvider) Register() {
 
 func (receiver *ValidationServiceProvider) Boot() {
   if err := facades.Validation().AddRules(receiver.rules()); err != nil {
-    facades.Log().Errorf("add rules error: %+v", err)
+    facades.Log().Errorf("添加规则错误：%+v", err)
   }
 }
 
@@ -542,39 +525,35 @@ func (receiver *ValidationServiceProvider) rules() []validation.Rule {
 }
 ```
 
-## Available Validation Filters
+## 可用的验证过滤器
 
-| Name                           | Description                                                                                                                                                             |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `int/toInt`                    | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `uint/toUint`                  | Convert value(string/intX/floatX) to `uint` type `v.FilterRule("id", "uint")`                                                                        |
-| `int64/toInt64`                | Convert value(string/intX/floatX) to `int64` type `v.FilterRule("id", "int64")`                                                                      |
-| `float/toFloat`                | Convert value(string/intX/floatX) to `float` type                                                                                                    |
-| `bool/toBool`                  | Convert string value to bool. (`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false") |
-| `trim/trimSpace`               | Clean up whitespace characters on both sides of the string                                                                                                              |
-| `ltrim/trimLeft`               | Clean up whitespace characters on left sides of the string                                                                                                              |
-| `rtrim/trimRight`              | Clean up whitespace characters on right sides of the string                                                                                                             |
-| `int/integer`                  | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `lower/lowercase`              | Convert string to lowercase                                                                                                                                             |
-| `upper/uppercase`              | Convert string to uppercase                                                                                                                                             |
-| `lcFirst/lowerFirst`           | Convert the first character of a string to lowercase                                                                                                                    |
-| `ucFirst/upperFirst`           | Convert the first character of a string to uppercase                                                                                                                    |
-| `ucWord/upperWord`             | Convert the first character of each word to uppercase                                                                                                                   |
-| `camel/camelCase`              | Convert string to camel naming style                                                                                                                                    |
-| `snake/snakeCase`              | Convert string to snake naming style                                                                                                                                    |
-| `escapeJs/escapeJS`            | Escape JS string.                                                                                                                                       |
-| `escapeHtml/escapeHTML`        | Escape HTML string.                                                                                                                                     |
-| `str2ints/strToInts`           | Convert string to int slice `[]int`                                                                                                                                     |
-| `str2time/strToTime`           | Convert date string to `time.Time`.                                                                                                                     |
-| `str2arr/str2array/strToArray` | Convert string to string slice `[]string`                                                                                                                               |
+| 名称                             | 描述                                                                                                                  |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `int/toInt`                    | 将值（string/intX/floatX）转换为`int`类型`v.FilterRule("id", "int")`                                                         |
+| `uint/toUint`                  | 将值（string/intX/floatX）转换为`uint`类型 `v.FilterRule("id", "uint")`                                                      |
+| `int64/toInt64`                | 将值（string/intX/floatX）转换为 `int64` 类型 `v.FilterRule("id", "int64")`                                                  |
+| `float/toFloat`                | 将值（string/intX/floatX）转换为 `float` 类型                                                                                |
+| `bool/toBool`                  | 将字符串值转换为布尔值。 （`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false"） |
+| `trim/trimSpace`               | 清理字符串两侧的空白字符                                                                                                        |
+| `ltrim/trimLeft`               | 清理字符串左侧的空白字符                                                                                                        |
+| `rtrim/trimRight`              | 清除字符串右侧的空白字符                                                                                                        |
+| `int/integer`                  | 将值（string/intX/floatX）转换为 `int` 类型 `v.FilterRule("id", "int")`                                                      |
+| `lower/lowercase`              | 将字符串转换为小写                                                                                                           |
+| `upper/uppercase`              | 将字符串转换为大写                                                                                                           |
+| `lcFirst/lowerFirst`           | 将字符串的第一个字符转换为小写                                                                                                     |
+| `ucFirst/upperFirst`           | 将字符串的第一个字符转换为大写                                                                                                     |
+| `ucWord/upperWord`             | 将每个单词的第一个字符转换为大写                                                                                                    |
+| `camel/camelCase`              | 将字符串转换为驼峰命名风格                                                                                                       |
+| `snake/snakeCase`              | 将字符串转换为蛇形命名风格                                                                                                       |
+| `escapeJs/escapeJS`            | 转义 JS 字符串                                                                                                           |
+| `escapeHtml/escapeHTML`        | 转义 HTML 字符串                                                                                                         |
+| `str2ints/strToInts`           | 将字符串转换为 int 切片 `[]int`                                                                                              |
+| `str2time/strToTime`           | 将日期字符串转换为 `time.Time`。                                                                                              |
+| `str2arr/str2array/strToArray` | 将字符串转换为字符串切片 `[]string`                                                                                             |
 
-## Custom filter
+## 自定义过滤器
 
-Goravel provides a variety of helpful filters, however, you may wish to specify some of your own. To generate a new rule
-object, you can simply use the `make:filter` Artisan command. Let's use this command to generate a rule that converts a
-string to an integer. This rule is already built into the framework, we just create it as an example. Goravel will save
-this new filter in the `app/filters` directory. If this directory does not exist, Goravel will create it when you run
-the Artisan command to create the rule:
+Goravel提供了多种有用的过滤器，但是，您可能希望指定一些自己的过滤器。 要生成一个新的规则对象，您可以简单地使用 `make:filter` Artisan 命令。 让我们使用这个命令生成一个将字符串转换为整数的规则。 此规则已内置于框架中，我们只是作为示例创建它。 Goravel 将把这个新过滤器保存在 `app/filters` 目录中。 如果此目录不存在，Goravel 将在您运行创建规则的 Artisan 命令时创建它：
 
 ```go
 go run . artisan make:filter ToInt
@@ -582,8 +561,7 @@ go run . artisan make:filter ToInt
 go run . artisan make:filter user/ToInt
 ```
 
-One filter contains two methods: `Signature` and `Handle`. The `Signature` method sets the name of the filter. The
-`Handle` method performs the specific filtering logic:
+一个过滤器包含两个方法：`Signature ` 和 `Handle` 。 `Signature` 方法设置过滤器的名称。 `Handle` 方法执行特定的过滤逻辑：
 
 ```go
 package filters
@@ -598,12 +576,12 @@ import (
 type ToInt struct {
 }
 
-// Signature The signature of the filter.
+// Signature 过滤器的签名。
 func (receiver *ToInt) Signature() string {
   return "ToInt"
 }
 
-// Handle defines the filter function to apply.
+// Handle 定义要应用的过滤器函数。
 func (receiver *ToInt) Handle() any {
   return func (val any) int {
     return cast.ToString(val)
@@ -611,8 +589,7 @@ func (receiver *ToInt) Handle() any {
 }
 ```
 
-Then you need to register the filter to the `filters` method in the `app/providers/validation_service_provider.go` file,
-and the filter can be used like others:
+然后你需要在 `app/providers/validation_service_provider.go` 文件中将过滤器注册到 `filters` 方法中，这样就可以像其他过滤器一样使用它了：
 
 ```go
 package providers
