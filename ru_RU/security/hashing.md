@@ -1,42 +1,42 @@
-# Hashing
+# Хэширование
 
-The Goravel `facades.Hash()` provides secure Argon2id and Bcrypt hashing for storing user passwords. If you are using
-one of the Goravel application starter kits, Argon2id will be used for registration and authentication by default.
+«facades.Hash()» обеспечивает безопасный Argon2id и Bcrypt хеширование для хранения паролей пользователей. Если вы используете
+один из стартовых наборов приложений Goravel, Argon2id будет использован для регистрации и аутентификации по умолчанию.
 
 ## Конфигурация
 
 The default hashing driver for your application is configured in your application's `config/hashing.go` configuration
-file. There are currently several supported drivers: Argon2id and Bcrypt.
+file. В настоящее время поддерживается несколько драйверов: Argon2id и Bcrypt.
 
-## Basic Usage
+## Базовое использование
 
-### Hashing Passwords
+### Хэширование паролей
 
-You may hash a password by calling the `Make` method on the `facades.Hash()`:
+Вы можете хэшировать пароль, выбрав метод `Make` на `facades.Hash()`:
 
 ```go
-password, err := facades.Hash().Make(password)
+пароль, err := facades.Hash().Make(пароль)
 ```
 
-### Verifying That A Password Matches A Hash
+### Проверка совпадений пароля с хешем
 
-The `Check` method provided by the Hash facade allows you to verify that a given plain-text string corresponds to a
-given hash:
+Метод `Проверка`, предоставляемый фасадом хеша, позволяет убедиться, что данная строка обычного текста соответствует
+указанному хэша:
 
 ```go
 if facades.Hash().Check('plain-text', hashedPassword) {
-    // The passwords match...
+    // Пароли совпадают...
 }
 ```
 
-### Determining If A Password Needs To Be Rehashed
+### Определяет, необходим ли пароль для восстановления хеширования
 
 The `NeedsRehash` method provided by the Hash facade allows you to determine if the work factor used by the hasher has
 changed since the password was hashed. Some applications choose to perform this check during the application's
 authentication process:
 
 ```go
-if facades.Hash().NeedsRehash(hashed) {
-     hashed = facades.Hash().Make('plain-text');
+if facades.Hash().NeedsRehash(хэш) {
+     хэшид = facades.Hash().Make('plain-text');
 }
 ```
