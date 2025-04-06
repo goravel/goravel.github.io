@@ -1,60 +1,60 @@
-# Compile
+# Kompilieren
 
-## Compile command
+## Befehl kompilieren
 
-The Goravel project can be compiled with the following command:
+Das Goravel-Projekt kann mit dem folgenden Befehl kompiliert werden:
 
 ```
-// Select the system to compile
+// Wählen Sie das zu kompilierende System
 go run . artisan build
 
-// Specify the system to compile
+// Geben Sie das System an, um es zu kompilieren
 go run . artisan build --os=linux
 go run . artisan build -o=linux
 
-// Static compilation
+// Statische Kompilierung
 go run . artisan build --static
 go run . artisan build -s
 
-// Specify the output file name
-go run . artisan build --name=goravel
+// Geben Sie den Dateinamen
+go run an. artisan build --name=goravel
 go run . artisan build -n=goravel
 ```
 
-## Manual compilation
+## Manuelle Kompilierung
 
-### Regular compilation
+### Normale Kompilierung
 
 ```shell
-go build .
+gehe Build .
 ```
 
-#### Deploy Server
+#### Deploy-Server
 
-The Following files and folders need to be uploaded to the server during deployment:
+Die folgenden Dateien und Ordner müssen während des Bereitstellens auf den Server hochgeladen werden:
 
 ```
-./main // Compile the resulting binary file
+./main // Die resultierende Binärdatei
 .env
-./database
+./Datenbank
 ./public
 ./storage
-./resources
+./resources kompilieren
 ```
 
-### Static compilation
+### Statische Kompilierung
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Das Paket durch regelmäßige Kompilierung muss sich auch auf die Unterstützung der Bereitstellungsumgebung verlassen die statisch
+kompilierten Dateien können ohne Umgebungskonfiguration frei auf der angegebenen Plattform ausgeführt werden.
 
 ```shell
 go build --ldflags "-extldflags -static" -o main .
 ```
 
-### Cross compile
+### Cross-Kompilierung
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+Die Kompilierung wird nach Plattform unterschieden. Sie müssen eine passende Kompilierungsmethode entsprechend der
+Situation auswählen.
 
 ```shell
 // Compile Linux environment
@@ -76,17 +76,17 @@ be `0.0.0.0` at this time.
 docker build .
 ```
 
-### Docker Compose
+### Docker komponieren
 
-You can also quickly start the service with the following command:
+Sie können den Dienst auch schnell mit dem folgenden Befehl starten:
 
 ```shell
 docker-compose build
 docker-compose up
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Notiz: Wenn Sie externen Zugriff benötigen, müssen Sie APP_HOST auf 0.0.0 ändern
 
-## Reduce package size
+## Paketgröße verkleinern
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Das Kommentieren des ungenutzten `ServiceProvider` in `config/app.go::providers` wird das Paketvolumen effektiv reduzieren.
