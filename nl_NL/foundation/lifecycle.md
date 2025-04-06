@@ -1,11 +1,11 @@
-# Request Lifecycle
+# Lifecycle aanvragen
 
-The `main.go` file serves as the entry point for all requests in the Goravel application. It utilizes the
-`bootstrap.Boot()` function to initialize the framework.
+Het `main.go` bestand dient als invoerpunt voor alle aanvragen in de Goravel applicatie. Het maakt gebruik van de
+`bootstrap.Boot()` functie om het framework te initialiseren.
 
-Then a Goravel instance is created by `app := foundation.NewApplication()` in `bootstrap/app.go`.
+Vervolgens wordt een Goravel instantie gemaakt door `app := foundation.NewApplication()` in `bootstrap/app.go`.
 
-After this, use `app.Boot()` to load the [Service Provider](providers) registered, and `config.Boot()` to
-load the configuration files under the config directory.
+Na dit gebruik `app.Boot()` om de [Service Provider](providers) geregistreerd, en `config.Boot()` om
+de configuratiebestanden onder de config directory te laden.
 
-Finally, start the HTTP server by using  `facades.Route().Run(facades.Config().GetString("app.host"))` in `main.go`.
+Begin tot slot de HTTP-server met het gebruik van `facades.Route().Run(facades.Config().GetString("app.host")` in `main.go`.
