@@ -1,40 +1,40 @@
-# Compile
+# Compileren
 
-## Compile command
+## Opdracht compileren
 
-The Goravel project can be compiled with the following command:
+Het Goravel project kan worden gecompileerd met het volgende commando:
 
 ```
-// Select the system to compile
-go run . artisan build
+// Selecteer het systeem om
+te compileren. Start . artisan build
 
-// Specify the system to compile
-go run . artisan build --os=linux
+// Specificeer het systeem om
+te compileren ga uit. artisan build --os=linux
 go run . artisan build -o=linux
 
-// Static compilation
-go run . artisan build --static
+// Statische compilatie
+go run . artisan build --statische
 go run . artisan build -s
 
-// Specify the output file name
+// Specificeer de output file name
 go run . artisan build --name=goravel
-go run . artisan build -n=goravel
+ga uit. artisan build -n=goravel
 ```
 
-## Manual compilation
+## Handmatige compilatie
 
-### Regular compilation
+### Normaal compilatie
 
 ```shell
-go build .
+ga bouwen .
 ```
 
-#### Deploy Server
+#### Server implementeren
 
-The Following files and folders need to be uploaded to the server during deployment:
+De volgende bestanden en mappen moeten worden geüpload naar de server tijdens de implementatie:
 
 ```
-./main // Compile the resulting binary file
+./main // Compile het resulterende binaire bestand
 .env
 ./database
 ./public
@@ -42,19 +42,19 @@ The Following files and folders need to be uploaded to the server during deploym
 ./resources
 ```
 
-### Static compilation
+### Statische compilatie
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Het pakket door middel van regelmatige compilatie moet ook gebaseerd zijn op de ondersteuning van de werkomgeving. de statisch
+gecompileerde bestanden kunnen vrij op het opgegeven platform worden uitgevoerd zonder omgevingsconfiguratie.
 
 ```shell
-go build --ldflags "-extldflags -static" -o main .
+ga bouwen--ldflags "-extldflags -static" -o main .
 ```
 
-### Cross compile
+### Cross compileer
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+Compilatie is gedifferentieerd per platform, u moet een overeenkomende compilatiemethode selecteren volgens de deployment
+situatie.
 
 ```shell
 // Compile Linux environment
@@ -63,30 +63,30 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 // Compile Windows environment
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
-// Compile Mac environment
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
+// Compile Mac omgeving
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 ga build .
 ```
 
 ## Docker
 
-Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
-be `0.0.0.0` at this time.
+Goravel heeft een standaard `Dockerfile` en `docker-compose.yml` bestand, je kan het direct gebruiken, noteer dat `APP_HOST` moet
+op dit moment `0.0.0` zijn.
 
 ```shell
-docker build .
+docker maken .
 ```
 
-### Docker Compose
+### Docker opstellen
 
-You can also quickly start the service with the following command:
+Je kunt ook snel de service starten met de volgende opdracht:
 
 ```shell
 docker-compose build
-docker-compose up
+docker-compose omhoog
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Opmerking: Als je externe toegang nodig hebt, moet je APP_HOST veranderen naar 0.0.0
 
-## Reduce package size
+## Verkleinen verpakkingsgrootte
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Commentaar voor de ongebruikte `ServiceProvider` in `config/app.go:providers` zal het verpakkingsvolume effectief verminderen.
