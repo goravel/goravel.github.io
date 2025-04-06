@@ -1,11 +1,10 @@
-# Controllers
+# 控制器
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+控制器可以用于集成，而不是在单独的路由中以闭包形式定义所有请求处理逻辑。 控制器存储在 `app/http/controllers` 目录中。
 
-## Define Controllers
+## 定义控制器
 
-The following is an example of a basic controller:
+以下是一个基本控制器的示例：
 
 ```go
 package controllers
@@ -16,12 +15,12 @@ import (
 )
 
 type UserController struct {
-  // Dependent services
+  // 依赖服务
 }
 
 func NewUserController() *UserController {
   return &UserController{
-    // Inject services
+    // 注入服务
   }
 }
 
@@ -32,7 +31,7 @@ func (r *UserController) Show(ctx http.Context) http.Response {
 }
 ```
 
-The route define:
+路由定义：
 
 ```go
 package routes
@@ -49,7 +48,7 @@ func Api() {
 }
 ```
 
-### Create Controller
+### 创建控制器
 
 ```shell
 go run . artisan make:controller UserController
