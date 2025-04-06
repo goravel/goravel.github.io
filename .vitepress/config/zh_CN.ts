@@ -69,7 +69,7 @@ export const config = defineConfig({
     darkModeSwitchLabel: "主题",
     lightModeSwitchTitle: "切换到浅色主题",
     darkModeSwitchTitle: "切换到深色主题",
-    skipToContentLabel: "跳转到内容",
+    skipToContentLabel: "跳转到内容"
   }
 });
 function nav(): DefaultTheme.NavItem[] {
