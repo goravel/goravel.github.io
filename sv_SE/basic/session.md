@@ -1,25 +1,25 @@
 # Session
 
-Session enables you to store user information across multiple requests, providing a stateful experience within the
-inherently stateless HTTP protocol. This user information is stored persistently on the server side. Goravel offers a
-unified interface for interacting with various persistent storage drivers.
+Sessionen gör det möjligt för dig att lagra användarinformation över flera förfrågningar, vilket ger en staty upplevelse inom
+inneboende statslösa HTTP-protokollet. Denna användarinformation lagras ständigt på serversidan. Goravel erbjuder ett enat
+gränssnitt för att interagera med olika ihållande lagringsdrivrutiner.
 
 ## Konfiguration
 
-The `session` configuration file is located at `config/session.go`. The default driver is `file`, which stores sessions
-in the `storage/framework/sessions` directory. Goravel allows you to create a custom `session` driver by implementing
-the `contracts/session/driver` interface.
+`session` -konfigurationsfilen finns på `config/session.go`. Standarddrivrutinen är `file`, som lagrar sessioner
+i katalogen `storage/framee/sessions` . Goravel låter dig skapa en anpassad `session`-drivrutin genom att implementera
+gränssnittet `contracts/session/driver` .
 
-### Register Middleware
+### Registrera Middleware
 
-By default, Goravel does not start a session automatically. However, it provides middleware to start a session. You can
-register the session middleware in the `app/http/kernel.go` file to apply it to all routes, or you can add it to
-specific routes:
+Som standard startar Goravel inte en session automatiskt. Det ger dock middleware för att starta en session. Du kan
+registrera sessionen middleware i `app/http/kernel. o` fil att tillämpa den på alla rutter, eller så kan du lägga till den till
+specifika rutter:
 
 ```go
 import (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/session/middleware"
+  "github.com/goravel/frameing/session/middleware"
 )
 
 func (kernel Kernel) Middleware() []http.Middleware {
@@ -29,222 +29,222 @@ func (kernel Kernel) Middleware() []http.Middleware {
 }
 ```
 
-## Interacting With The Session
+## Interagerar med sessionen
 
-### Retrieving Data
+### Hämtar data
 
-You can use the `Get` method to retrieve data from the session. If the value does not exist, `nil` will be returned.
-
-```go
-value := ctx.Request().Session().Get("key")
-```
-
-You may also pass a default value as the second argument to the `Get` method. This value will be returned if the
-specified key does not exist in the session:
+Du kan använda `Get`-metoden för att hämta data från sessionen. Om värdet inte finns kommer `nil` att returneras.
 
 ```go
-value := ctx.Request().Session().Get("key", "default")
+värde := ctx.Request().Session().Get("key")
 ```
 
-### Retrieving All Data
+Du kan också skicka ett standardvärde som det andra argumentet till `Get`-metoden. Detta värde kommer att returneras om den
+angivna nyckeln inte finns i sessionen:
 
-If you would like to retrieve all data from the session, you may use the `All` method:
+```go
+värde := ctx.Request().Session().Get("key", "default")
+```
+
+### Hämtar alla data
+
+Om du vill hämta all data från sessionen kan du använda `All`-metoden:
 
 ```go
 data := ctx.Request().Session().All()
 ```
 
-### Retrieving a Subset of Data
+### Hämtar en delmängd av data
 
-If you would like to retrieve a subset of the session data, you may use the `Only` method:
+Om du vill hämta en delmängd av sessionsdata kan du använda `Only`-metoden:
 
 ```go
-data := ctx.Request().Session().Only([]string{"username", "email"})
+data := ctx.Request().Session().Endast ([]string{"username", "email"})
 ```
 
-### Determining If An Item Exists In The Session
+### Bestämma om ett föremål finns i sessionen
 
-To determine if an item is present in the session, you may use the `Has` method. The `Has` method returns `true` if the
-item is present and is not `nil`:
+För att avgöra om ett objekt finns i sessionen kan du använda `Has`-metoden. `Has`-metoden returnerar `true` om
+-objektet är närvarande och inte `nil`:
 
 ```go
-if ctx.Request().Session().Has("user") {
+om ctx.Request().Session().Has("användare") {
     //
 }
 ```
 
-To determine if an item is present and even if it is `nil`, you may use the `Exists` method:
+För att avgöra om ett objekt är närvarande och även om det är `nil`, kan du använda `Exists`-metoden:
 
 ```go
-if ctx.Request().Session().Exists("user") {
+om ctx.Request().Session().Exister("användare") {
     //
 }
 ```
 
-To determine if an item is not present in the session, you may use the `Missing` method:
+För att avgöra om ett objekt inte finns i sessionen kan du använda `Missing`-metoden:
 
 ```go
-if ctx.Request().Session().Missing("user") {
+om ctx.Request().Session().Saknar ("användare") {
     //
 }
 ```
 
-### Storing Data
+### Lagrar data
 
-You can use the `Put` method to store data in the session:
+Du kan använda `Put`-metoden för att lagra data i sessionen:
 
 ```go
-ctx.Request().Session().Put("key", "value")
+ctx.Request().Session().Put("key", "värde")
 ```
 
-### Retrieving & Deleting Data
+### Hämtar och tar bort data
 
-If you would like to retrieve an item from the session and then delete it, you may use the `Pull` method:
+Om du vill hämta ett objekt från sessionen och sedan ta bort det, kan du använda `Pull`-metoden:
 
 ```go
-value := ctx.Request().Session().Pull("key")
+värde := ctx.Request().Session().Pull("key")
 ```
 
-### Deleting Data
+### Tar bort data
 
-The `Forget` method can be used to remove a piece of data from the session. If you would like to remove all data from
-the session, you can use the `Flush` method:
+Metoden `Forget` kan användas för att ta bort en bit data från sessionen. Om du vill ta bort all data från
+sessionen kan du använda `Flush`-metoden:
 
 ```go
-ctx.Request().Session().Forget("username", "email")
+ctx.Request().Session().Glöm ("användarnamn", "e-post")
 
 ctx.Request().Session().Flush()
 ```
 
-### Regenerating The Session ID
+### Återskapa sessions-ID
 
-Regenerating the session ID is often done in order to prevent malicious users from exploiting a session fixation attack
-on your application. You may regenerate the session ID using the `Regenerate` method:
+Regenerering av sessions-ID görs ofta för att förhindra skadliga användare från att utnyttja en session fixation attack
+på din ansökan. Du kan regenerera sessions-ID med hjälp av `Regenerate`-metoden:
 
 ```go
 ctx.Request().Session().Regenerate()
 ```
 
-If you would like to regenerate the session ID and forget all data that was in the session, you may use the `Invalidate`
-method:
+Om du vill regenerera sessions-ID och glömma all data som fanns i sessionen kan du använda `Invalidate`
+metoden:
 
 ```go
 ctx.Request().Session().Invalidate()
 ```
 
-Then, you need to save the new session to the cookie:
+Då måste du spara den nya sessionen till cookien:
 
 ```go
 ctx.Response().Cookie(http.Cookie{
-  Name:     ctx.Request().Session().GetName(),
-  Value:    ctx.Request().Session().GetID(),
-  MaxAge:   facades.Config().GetInt("session.lifetime") * 60,
-  Path:     facades.Config().GetString("session.path"),
-  Domain:   facades.Config().GetString("session.domain"),
-  Secure:   facades.Config().GetBool("session.secure"),
+  Namn: ctx.Request().Session().GetName(),
+  Värde: ctx.Request().Session(). etID(),
+  MaxAge: fasader.Config().GetInt("session.lifetime") * 60,
+  Sökväg: fasader.Config().GetString("session. ath"),
+  Domän: fasader.Config().GetString("session.domain"),
+  Secure: fasader.Config().GetBool("session. ecure"),
   HttpOnly: facades.Config().GetBool("session.http_only"),
   SameSite: facades.Config().GetString("session.same_site"),
 })
 ```
 
-### Flash Data
+### Blixt data
 
-Flash data is session data that will only be available during the subsequent HTTP request, and then will be deleted.
-Flash data is useful for storing temporary messages such as status messages. You may use the `Flash` method to store
-flash data in the session:
+Flash-data är sessionsdata som endast kommer att vara tillgängliga under den efterföljande HTTP-begäran, och sedan kommer att raderas.
+Flash-data är användbart för att lagra tillfälliga meddelanden som statusmeddelanden. Du kan använda `Flash`-metoden för att lagra
+flashdata i sessionen:
 
 ```go
-ctx.Request().Session().Flash("status", "Task was successful!")
+ctx.Request().Session().Flash("status", "Uppgiften lyckades!")
 ```
 
-If you would like to keep your flash data around for an additional request, you may use the `Reflash` method:
+Om du vill behålla dina flashdata för ytterligare en begäran kan du använda `Reflash`-metoden:
 
 ```go
 ctx.Request().Session().Reflash()
 ```
 
-If you would like to keep specific flash data around for an additional request, you may use the `Keep` method:
+Om du vill behålla specifik flashdata för en ytterligare begäran kan du använda `Keep`-metoden:
 
 ```go
-ctx.Request().Session().Keep("status", "username")
+ctx.Request().Session().Keep("status", "användarnamn")
 ```
 
-If you would like to keep specific data around for immediate use, you may use the `Now` method:
+Om du vill behålla specifika data runt för omedelbar användning kan du använda `Now`-metoden:
 
 ```go
-ctx.Request().Session().Now("status", "Task was successful!")
+ctx.Request().Session().Now("status", "Uppgiften lyckades!")
 ```
 
-## Interacting With Session Manager
+## Interagera med sessionshanteraren
 
-### Building A Custom Session
+### Bygger en anpassad session
 
-Use the `Session` facade to build a custom session. The `Session` facade provides the `BuildSession` method, which takes
-a driver instance and an optional session ID if you want to specify a custom session ID:
+Använd fasaden `Session` för att bygga en anpassad session. Fasaden `Session` ger `BuildSession` -metoden, som tar
+en förarinstans och ett valfritt sessions-ID om du vill ange ett anpassat sessions-ID:
 
 ```go
-import "github.com/goravel/framework/facades"
+importera "github.com/goravel/frameing/facades"
 
 session := facades.Session().BuildSession(driver, "sessionID")
 ```
 
-### Add Custom Session Drivers
+### Lägg till anpassade sessions-drivrutiner
 
-#### Implementing The Driver
+#### Implementera föraren
 
-To implement a custom session driver, driver must implement the `contracts/session/driver` interface.
+För att implementera en anpassad session-drivrutin måste drivrutinen implementera gränssnittet `contracts/session/driver`.
 
 ```go
 // Driver is the interface for Session handlers.
 type Driver interface {
-  // Close closes the session handler.
-  Close() error
-  // Destroy destroys the session with the given ID.
-  Destroy(id string) error
-  // Gc performs garbage collection on the session handler with the given maximum lifetime.
-  Gc(maxLifetime int) error
-  // Open opens a session with the given path and name.
-  Open(path string, name string) error
-  // Read reads the session data associated with the given ID.
-  Read(id string) (string, error)
-  // Write writes the session data associated with the given ID.
-  Write(id string, data string) error
+  // Stäng sessionshanteraren.
+  Close() fel
+  // Destroy förstör sessionen med det givna ID.
+  Destroy(id string) fel
+  // Gc utför sophämtning på sessionshanteraren med den angivna maximala livslängden.
+  Gc(maxLifetime int) fel
+  // Öppna en session med given sökväg och namn.
+  Open(sökvägsträning, namnsträng) fel
+  // Läser sessionsdata som associeras med det angivna ID.
+  Läs(ID-sträng) (sträng, fel)
+  // Skriv skriver sessionsdata som associeras med det angivna ID.
+  Skriv(id sträng, datasträng) fel
 }
 ```
 
-#### Registering The Driver
+#### Registrerar föraren
 
-After implementing the driver, you need to register it in Goravel. You can do this using `Extend` method of the
-`facades.Session`. You should call the `Extend` method in the `boot` method of `app/providers/app_service_provider.go`:
+Efter genomförandet av föraren, måste du registrera den i Goravel. Du kan göra detta med `Extend`-metoden i
+`facades.Session`. Du bör anropa `Extend`-metoden i `boot`-metoden för `app/providers/app_service_provider.go`:
 
 ```go
-import "github.com/goravel/framework/contracts/session"
+importera "github.com/goravel/framework/contracts/session"
 
 facades.Session().Extend("redis", func() session.Driver {
   return &RedisDriver{}
 })
 ```
 
-Once the driver is registered, you can use it by setting the `driver` option in the session configuration file to
-`redis` or by setting the `SESSION_DRIVER` environment variable to `redis`.
+När föraren är registrerad, du kan använda den genom att ställa in `driver` -alternativet i sessionskonfigurationsfilen till
+`redis` eller genom att ställa in miljövariabeln `SESSION_DRIVER` till `redis`.
 
-### Retrieving driver instance
+### Hämtar förarinstans
 
-Use the `Driver` method to retrieve the driver instance from the session manager. It accepts an optional driver name, if
-not provided, it returns the default driver instance:
+Använd `Driver`-metoden för att hämta taxiförarinstansen från sessionshanteraren. Det accepterar ett valfritt förarnamn, om
+inte anges, det returnerar standardförarens instans:
 
 ```go
-driver, err := facades.Session().Driver("file")
+förare, err := fasader.Session().Driver("fil")
 ```
 
-### Starting A New Session
+### Startar en ny session
 
 ```go
 session := facades.Session().BuildSession(driver)
 session.Start()
 ```
 
-### Saving The Session Data
+### Sparar sessionsdata
 
 ```go
 session := facades.Session().BuildSession(driver)
@@ -252,7 +252,7 @@ session.Start()
 session.Save()
 ```
 
-### Attaching the Session to the Request
+### Bifoga sessionen till förfrågan
 
 ```go
 session := facades.Session().BuildSession(driver)
@@ -260,10 +260,10 @@ session.Start()
 ctx.Request().SetSession(session)
 ```
 
-### Checking if request has session
+### Kontrollerar om begäran har session
 
 ```go
-if ctx.Request().HasSession() {
+om ctx.Request().HasSession() {
     //
 }
 ```
