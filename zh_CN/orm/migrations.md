@@ -1,62 +1,62 @@
-# Migrations
+# 迁移
 
-When multiple people collaborate to develop applications, it's crucial to have a standardized database structure for
-synchronization. Without this, there could be chaos as everyone's individual data won't match up. Database migration is
-the solution to this problem. The database structure is version-controlled to ensure its consistency within all
-developers.
+当多人协作开发应用程序时，它非常重要的是有一个标准化的
+同步数据库结构。 不这样做，就可能出现混乱，因为每个人的数据都不会匹配。 数据库迁移是
+解决这个问题的方法。 数据库结构是由版本控制的，以确保它在所有的
+开发者中的一致性。
 
 ## 配置
 
-The database migration files are stored in the `database/migrations` directory. You can configure the database
-connection information in the `config/database.go` file. Currently, there are two drivers available for migrations: Go
-language migration and SQL migration. However, the SQL migration will be removed in future versions.
+数据库迁移文件存储在 `database/migrations` 目录中。 您可以在“config/database.go”文件中配置数据库
+连接信息。 目前，有两个迁移驱动程序可用：Go
+语言迁移和 SQL 迁移。 但是，将在未来版本中删除SQL迁移。
 
 ```go
-// Available Drivers: "default", "sql"
-"migrations": map[string]any{
+// 可用驱动器: "default", "sql"
+"migrations": map[string]anyn
   "driver": "default",
-  // You can cumstomize the table name of migrations
-  "table":  "migrations",
+  // 您可以累积迁移表名
+  "table": "migrations",
 },
 ```
 
-## Create Migrations
+## 创建迁移
 
-Use the `make:migration` command to create the migration:
+使用 `make:migration` 命令来创建迁移：
 
 ```shell
-go run . artisan make:migration create_users_table
+去运行。个体人make:migration create_users_table
 ```
 
-This command will generate migration files in the `database/migrations` directory. Each migration file will begin with a
-timestamp, which Goravel will use to determine the execution order of the migration files.
+此命令将在 `database/migrations` 目录中生成迁移文件。 每个迁移文件将以一个
+时间戳开头，Goravel 将用来决定迁移文件的执行顺序。
 
-### Quickly Create
+### 快速创建
 
-Use `create_users_table` to automatically generate a table containing the infrastructure of `users`:
+使用 "create_users_table" 自动生成包含"users"基础结构的表格：
 
 ```
 ^create_(\w+)_table$
 ^create_(\w+)$
 ```
 
-Use `add_avatar_to_users_table` to automatically generate a structure for adding fields to the `users` table:
+使用 "add_avatar_to_users_table" 自动生成一个结构以添加字段到 "users" 表：
 
 ```
 _(to|from|in)_(\w+)_table$
 _(to|from|in)_(\w+)$
 ```
 
-If the above conditions are not matched, the framework will generate an empty migration file.
+如果上述条件不匹配，框架将生成一个空的迁移文件。
 
-## Migration Structure
+## 迁移结构
 
-### Go Language Migration
+### 转到语言迁移
 
-The migration struct contains two methods: `Up` and `Down`. The `Up` method is used to add new tables, columns, or
-indexes to the database, while the `Down` method is used to undo the operations performed by the `Up` method. In these
-two methods, you can use `facades.Schema()` to create and operate database tables. For available methods, see
-the [documentation](#tables). The following migration will create a `users` table:
+迁移结构包含两个方法：`Up` 和 `Down` 。 `Up`方法用于向数据库添加新的表、 列或
+索引。 使用 `Down` 方法来撤消`Up` 方法进行的操作。 在这些
+两种方法中，您可以使用 `facades.Schema()` 创建和运行数据库表。 关于可用的方法，请参阅
+[documentation](#tables)。 以下迁移将创建 "用户" 表：
 
 ```go
 package migrations
@@ -94,117 +94,117 @@ func (r *M20241207095921CreateUsersTable) Down() error {
 }
 ```
 
-#### Set Migration Connection
+#### 设置迁移连接
 
 If the migration will interact with a database connection other than the application's default database connection, you
 should use the migration's `Connection` method:
 
 ```go
-func (r *M20241207095921CreateUsersTable) Connection() string {
+func (r *M20241207095921CreateUsersTable) Connection() string Community
   return "connection-name"
 }
 ```
 
-### SQL Migration
+### SQL 迁移
 
-The migration command will generate two migration files: `***.up.sql` and `***.down.sql`, corresponding to execution and
-rollback, respectively. You can write SQL statements directly in these two files.
+迁移命令将生成两个迁移文件：`***.up.sql`和`***.down.sql`，分别对应于执行和
+回滚。 您可以直接在这两个文件中写入 SQL 语句。
 
 ```sql
--- ***.up.sql
+-- ***.up。 ql
 CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `id` bigint(20) unigned not NULL AUTO_INCREMENT,
+  `name` varchar(255) COLATE utf8mb4_unicode_ci DEFAULL,
+  `email` varchar(255) COLATE utf8mb4_unicode_ci DEFAULLL,
+  `created_at` timestamp NULL DEFAULL,
+  `updated_at` tiestamp NULL DEFAULLL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLATE=utf8mb4_unicode_ci；
 
--- ***.down.sql
-DROP TABLE `users`;
+- ***。 own.sql
+DROP TABLE 'users' ;
 ```
 
-## Register Migrations
+## 注册迁移
 
-When using Go language migrations, you need to register the migration files in the `database/kernel.go` file after the
-migration files are generated:
+当使用 Go 语言迁移时，您需要在
+迁移文件生成后在 `database/kernel.go` 文件中注册迁移文件：
 
 ```go
 // database/kernel.go
-func (kernel Kernel) Migrations() []schema.Migration {
- return []schema.Migration{
+func (kernel Kernel) Migrations() []schema.Migration@un.org[]return
+ return []schema.Migrationeur
   &migrations.M20241207095921CreateUsersTable{},
  }
 }
 ```
 
-SQL migrations do not need to be registered, as the framework will automatically scan the SQL files in the
-`database/migrations` directory.
+SQL 迁移不需要注册，因为框架将自动扫描
+`database/migrations` 目录中的 SQL 文件。
 
-## Run Migrations
+## 运行迁移
 
-To run all of your outstanding migrations, execute the `migrate` Artisan command:
-
-```shell
-go run . artisan migrate
-```
-
-If you would like to see which migrations have run thus far, you may use the `migrate:status` Artisan command:
+要运行所有未完成的迁移，请执行 `migrate` Artisan 命令：
 
 ```shell
-go run . artisan migrate:status
+去运行。手工人员迁移
 ```
 
-## Rolling Back Migrations
-
-To roll back the latest migration, use the `rollback` Artisan command. This command rolls back the last "batch" of
-migrations, which may include multiple migration files:
+如果你想看到到到目前为止有哪些迁移，你可以使用 `migrate:status` Artisan 命令：
 
 ```shell
-go run . artisan migrate:rollback
+去运行。手艺人迁移:状态
 ```
 
-You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example,
-the following command will roll back the last five migrations:
+## 滚动回移
+
+要回滚最新的迁移，请使用 "回滚" Artisan 命令。 此命令回滚最后一次的
+迁移的“批”，可能包含多个迁移文件：
 
 ```shell
-go run . artisan migrate:rollback --step=5
+去运行。手工人员迁移:回滚。
 ```
 
-The `migrate:reset` command will roll back all of your application's migrations:
+你可以通过提供 "step" 选项到 "回滚" 命令来回滚数量有限的迁移。 例如，
+以下命令将会回滚最后五个迁移：
 
 ```shell
-go run . artisan migrate:reset
+开始运行。手艺人迁移:回滚--step=5
 ```
 
-### Roll Back & Migrate Using A Single Command
-
-The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command
-effectively re-creates your entire database:
+`migrate:reset`命令将会回滚你所有的应用程序的迁移：
 
 ```shell
-go run . artisan migrate:refresh
+去运行。手工人员迁移:重置
 ```
 
-You may roll back and re-migrate a limited number of migrations by providing the `step` option to the `refresh` command.
-For example, the following command will roll back and re-migrate the last five migrations:
+### 使用单个命令滚动并迁移
+
+`migrate:refresh`命令将会回滚你所有的迁移，然后执行`migrate`命令。 此命令
+有效地重新创建整个数据库：
 
 ```shell
-go run . artisan migrate:refresh --step=5
+开始运行。手工人员迁移:刷新
 ```
 
-### Drop All Tables & Migrate
-
-The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+你可以回滚并重新迁移数量有限的迁移，提供"步" 选项到 "刷新" 命令。
+例如，下面的命令将回滚并重新迁移最后五个迁移：
 
 ```shell
-go run . artisan migrate:fresh
+开始运行。手艺人迁移:刷新--step=5
 ```
 
-## Tables
+### 丢弃所有数据表并迁移
 
-### Create Table
+`migrate:fresh`命令将从数据库中丢弃所有表格，然后执行 `migrate`命令：
+
+```shell
+去运行。手艺人迁移:fresh
+```
+
+## 表
+
+### 创建表
 
 ```go
 facades.Schema().Create("users", func(table schema.Blueprint) {
@@ -215,7 +215,7 @@ facades.Schema().Create("users", func(table schema.Blueprint) {
 })
 ```
 
-### Check If Table / Column Exists
+### 检查是否存在表 / 列
 
 ```go
 if facades.Schema().HasTable("users") {}
@@ -224,7 +224,7 @@ if facades.Schema().HasColumns("users", []string{"name", "email"}) {}
 if facades.Schema().HasIndex("users", "email_unique") {}
 ```
 
-### Database Connection
+### 数据库连接
 
 ```go
 facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprint) {
@@ -232,7 +232,7 @@ facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprin
 })
 ```
 
-### Update Table
+### 更新表
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -240,75 +240,75 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Rename / Drop Table
+### 重命名/丢弃表
 
 ```go
-facades.Schema().Rename("users", "new_users")
+Schema().Rename("users", "new_users")
 facades.Schema().Drop("users")
 facades.Schema().DropIfExists("users")
 
 ```
 
-## Columns
+## 列
 
-### Available Column Types
+### 可用列类型
 
 |                     |                    |                       |                             |
 | ------------------- | ------------------ | --------------------- | --------------------------- |
-| BigIncrements       | BigInteger         | Boolean               | Char                        |
-| Date                | DateTime           | DateTimeTz            | Decimal                     |
-| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
-| Increments          | Integer            | IntegerIncrements     | Json                        |
-| Increments          | LongText           | MediumIncrements      | MediumInteger               |
-| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
-| SoftDeletesTz       | String             | Text                  | Time                        |
-| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
-| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
+| 增量                  | BigInteger         | Boolean               | 字符                          |
+| 日期                  | 日期时间               | 日期TimeTz              | 小数                          |
+| 双精度                 | [Enum](#enum)      | 浮点数                   | [ID](#id)                   |
+| 增量                  | 整数                 | 整数增量                  | Json                        |
+| 增量                  | LongText           | 中度增量                  | MediumInteger               |
+| 中文本                 | 小增量                | 小整数                   | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz       | 字符串                | 文本                    | 时间                          |
+| TimeTz              | 时间戳                | 时间戳                   | 时间戳Tz                       |
+| 时间戳Tz               | UnsignedBigInteger | 温度增量                  | TinyInteger                 |
 | TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
 | UnsignedTinyInteger |                    |                       |                             |
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
-`Sqlserver` databases, it is a `String` type.
+创建一个 `Enum` 字段，可以按照`[]任何`类型存储在 `Mysql` 中 但在 `Postgres`, `Sqlite`, 和
+`Sqlserver`数据库中，它是 `String` 类型。
 
 ```go
-table.Enum("difficulty", []any{"easy", "hard"})
+表格.枚举("难度", []任何{"easy", "hard"})
 table.Enum("num", []any{1, 2})
 ```
 
 #### ID
 
-The `ID` method is an alias for the `BigIncrements` method. By default, this method will create an `id` column; however,
-if you would like to assign a different name to the column, you may pass the column name:
+`ID`方法是`Bigamendments`方法的一个别名。 默认情况下，这个方法将创建 "id" 列; 然而,
+如果你想要给列分配一个不同的名称, 你可以通过列名称:
 
 ```go
 table.ID()
 table.ID("user_id")
 ```
 
-#### SoftDeletes
+#### 软删除
 
-The `SoftDeletes` method adds a nullable `deleted_at` `TIMESTAMP` column. This column is intended to store the
-`deleted_at` timestamp required for the Orm "soft delete" feature:
+`SoftDeletes`方法添加了一个 null `deleted_at` `TIMESTAMP` 栏。 此列旨在保存 Orm "soft delete" 功能所需的
+`deleted_at` 时间戳：
 
 ```go
-table.SoftDeletes()
+Table.SoftDeletes()
 ```
 
-#### Custom column
+#### 自定义列
 
-If you are using column types that framework does not support yet, you can use the `Column` method to customize the
-field type:
+如果您正在使用此框架不支持的列类型，您可以使用 `Column` 方法自定义
+字段类型：
 
 ```go
 table.Column("geometry", "geometry")
 ```
 
-### Column Modifiers
+### 列修改器
 
 In addition to the column types listed above, when adding a column to a database table, you can also add "modifiers" to
-the column. For example, to allow a column to be "nullable," you can use the `Nullable` method:
+the column. 例如，要允许列为“空”，您可以使用 `Nullable` 方法：
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -316,19 +316,19 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-The following table contains all available column modifiers:
+下表包含所有可用列修饰符：
 
-| Modified                 | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.AutoIncrement()`       | Sets an integer column as auto-incrementing (primary key)                                                     |
-| `.Comment("my comment")` | Adds a comment to the column (MySQL / PostgreSQL)                                                             |
-| `.Default(value)`        | Sets the default value for the column                                                                                            |
-| `.Nullable()`            | Allows NULL values to be inserted into the column                                                                                |
-| `.Unsigned()`            | Sets an integer column as UNSIGNED (MySQL only)                                                               |
-| `.UseCurrent()`          | Sets a timestamp column to use CURRENT_TIMESTAMP as the default value                                       |
-| `.UseCurrentOnUpdate()`  | Sets a timestamp column to use CURRENT_TIMESTAMP when the record is updated (MySQL only) |
+| 已修改                     | 描述                                                       |
+| ----------------------- | -------------------------------------------------------- |
+| `.自动增量()`               | 设置一个整数列为自动递增(主键)                      |
+| `.comment("我的评论")`      | 在列中添加评论 (MySQL / PostgreSQL)          |
+| `.Default(value)`       | 设置列的默认值                                                  |
+| `.Nullable()`           | 允许将NULL值插入列                                              |
+| `.未签名()`                | 设置一个整数列为UNSIGNED(仅MySQL)              |
+| `.UseCurrent()`         | 设置时间戳列作为默认值                                              |
+| `.UseCurrentOnUpdate()` | 设置一个时间戳列以在记录更新时使用 CURRENT_TIMESTAMP |
 
-### Drop Column
+### 拖放列
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -337,9 +337,9 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-## Indexes
+## 索引
 
-### Create Index
+### 创建索引
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -362,7 +362,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Rename Index
+### 重命名索引
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -370,7 +370,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Index
+### 丢弃索引
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -384,7 +384,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Create Foreign Key
+### 创建外键
 
 ```go
 facades.Schema().Table("posts", func(table schema.Blueprint) {
@@ -393,7 +393,7 @@ facades.Schema().Table("posts", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Foreign Key
+### 丢弃外键
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
