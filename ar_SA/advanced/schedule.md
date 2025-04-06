@@ -1,129 +1,130 @@
-# Task Scheduling
+# جدولة المهمة
 
-In the past, you might need to create a cron configuration entry for each task that needed scheduling on your server.
-However, this approach can quickly become a pain as your task schedule is not in source control, and you have to SSH
-into your server to view or add/edit cron entries.
+في الماضي، قد تحتاج إلى إنشاء إدخال تكوين كرون لكل مهمة تحتاج إلى جدولة على الخادم الخاص بك.
+ومع ذلك، يمكن أن يصبح هذا النهج ألم بسرعة لأن الجدول الزمني للمهمة الخاص بك ليس في التحكم في المصادر، ويجب عليك أن تصل إلى SSH
+في الخادم الخاص بك لعرض أو إضافة/تحرير إدخالات كرون.
 
-Goravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. With the scheduler, you
-can easily and clearly define your command schedule within your Goravel application. Using the scheduler, you only need
-to create a single cron entry on your server.
+يوفر جدولة الأوامر لجورافيل طريقة جديدة لإدارة المهام المجدولة على الخادم الخاص بك. With the scheduler, you
+can easily and clearly define your command schedule within your Goravel application. باستخدام الجدول، تحتاج فقط
+لإنشاء إدخال كرون واحد على الخادم الخاص بك.
 
-## Defining Schedules
+## تعريف الجداول الزمنية
 
-To schedule tasks for your application, you can define them in the `Schedule` method in `app\console\kernel.go`. Let's
+لجدولة المهام لتطبيقك، يمكنك تعريفها في طريقة 'Schedule' في 'app\console\kernel.go\`. Let's
 consider an example to understand this better. In this case, we want to schedule a closure that will run every day at
-midnight. Inside this closure, we will execute a database query to clear a table:
+midnight. في إطار هذا الإغلاق، سنقوم بتنفيذ استعلام قاعدة البيانات لمسح الجدول:
 
 ```go
-package console
+وحدة تحكم الطرد
 
-import (
+استيراد (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/models"
-)
 
-type Kernel struct {
+
+من نوع Kernel struct {
 }
 
-func (kernel Kernel) Schedule() []schedule.Event {
-  return []schedule.Event{
+func (kernel Kernel) Schedule() []schedu. حدث {
+  العودة []schedule.Event{
     facades.Schedule().Call(func() {
-      facades.Orm().Query().Where("1 = 1").Delete(&models.User{})
+      facades. rm().Query().حيث ("1 = 1").Delete(&models.User{})
     }).Daily(),
-  }
+
 }
 ```
 
-### Scheduling Artisan Commands
+### جدولة الأوامر الحرفية
 
-In addition to scheduling closures, you can also schedule [Artisan commands](./artisan). For example, you may
-use the `Command` method to schedule an Artisan command using either the command's name or class.
+بالإضافة إلى جدولة الإغلاقات، يمكنك أيضًا جدولة [الأوامر الحرفية](./artisan). على سبيل المثال، يمكنك
+استخدام طريقة "الأمر" لجدولة أمر حرفي إما باستخدام اسم الأمر أو الصف الدراسي.
 
 ```go
-package console
+وحدة تحكم الطرد
 
-import (
+استيراد (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
-)
+  "github. om/goravel/framework/facades"
 
-type Kernel struct {
-}
 
-func (kernel *Kernel) Schedule() []schedule.Event {
-  return []schedule.Event{
-    facades.Schedule().Command("send:emails name").Daily(),
-  }
+
+من نوع Kernel بنيت {
+
+
+Fc (kernel *Kernel) Schedule() []schedu. الحدث {
+  العودة []schedule.Event{
+    facades.Schedule().command("send:emails name").Daily(),
+
 }
 ```
 
-### Logging Level
+### مستوى قطع الأشجار
 
-When `app.debug` is `true`, the console will print all logs. Otherwise, only `error` level logs will be printed.
+عندما يكون \`app.debug' 'true'، ستطبع وحدة التحكم جميع السجلات. خلاف ذلك، سيتم طباعة سجلات مستوى "الخطأ" فقط.
 
-### Schedule Frequency Options
+### جدولة خيارات التردد
 
-We've already seen a few examples of how you may configure a task to run at specified intervals. However, there are many
-more task schedule frequencies avaibable to assign to tasks:
+لقد رأينا بالفعل بعض الأمثلة عن كيفية تكوين مهمة لتشغيلها في فواصل محددة. ومع ذلك، هناك العديد من
+المزيد من ترددات الجدول الزمني للمهام التي يمكن تعيينها للمهام:
 
-| 方法                       | 描述                                                  |
-| ------------------------ | --------------------------------------------------- |
-| `.Cron("* * * * *")`     | Run the task on a custom cron schedule              |
-| `.EveryMinute()`         | Run the task every minute                           |
-| `.EveryTwoMinutes()`     | Run the task every two minutes                      |
-| `.EveryThreeMinutes()`   | Run the task every three minutes                    |
-| `.EveryFourMinutes()`    | Run the task every four minutes                     |
-| `.EveryFiveMinutes()`    | Run the task every five minutes                     |
-| `.EveryTenMinutes()`     | Run the task every ten minutes                      |
-| `.EveryFifteenMinutes()` | Run the task every fifteen minutes                  |
-| `.EveryThirtyMinutes()`  | Run the task every thirty minutes                   |
-| `.Hourly()`              | Run the task every hour                             |
-| `.HourlyAt(17)`          | Run the task every hour at 17 minutes past the hour |
-| `.EveryTwoHours()`       | Run the task every two hours                        |
-| `.EveryThreeHours()`     | Run the task every three hours                      |
-| `.EveryFourHours()`      | Run the task every four hours                       |
-| `.EverySixHours()`       | Run the task every six hours                        |
-| `.Daily()`               | Run the task every day at midnight                  |
-| `.DailyAt("13:00")`      | Run the task every day at 13:00     |
+| 方法                      | 描述                                                  |
+| ----------------------- | --------------------------------------------------- |
+| `.Cron("* * * * *")`    | تشغيل المهمة على جدول كرون مخصص                     |
+| `.EveryMinute()`        | تشغيل المهمة كل دقيقة                               |
+| `.EveryTwoMinutes()`    | تشغيل المهمة كل دقيقتين                             |
+| `.EveryThreeMinutes()`  | تشغيل المهمة كل ثلاث دقائق                          |
+| `.EveryFourMinutes()`   | تشغيل المهمة كل أربع دقائق                          |
+| `.EveryFiveMinutes()`   | تشغيل المهمة كل خمس دقائق                           |
+| `.EverytenMinutes()`    | تشغيل المهمة كل عشر دقائق                           |
+| `.Every15-Minutes()`    | تشغيل المهمة كل خمس عشرة دقيقة                      |
+| `.EveryThirtyMinutes()` | تشغيل المهمة كل ثلاثين دقيقة                        |
+| `.ساعة()`               | تشغيل المهمة كل ساعة                                |
+| `.HourlyAt(17)`         | قم بتشغيل المهمة كل ساعة بعد 17 دقيقة من الساعة     |
+| `.EveryoHours()`        | تشغيل المهمة كل ساعتين                              |
+| `.EveryThreeHours()`    | تشغيل المهمة كل ثلاث ساعات                          |
+| `.EveryFourHours()`     | تشغيل المهمة كل أربع ساعات                          |
+| `.EverySixHours()`      | تشغيل المهمة كل ست ساعات                            |
+| `.Daily()`              | تشغيل المهمة كل يوم في منتصف الليل                  |
+| `.DailyAt("13:00")`     | تشغيل المهمة كل يوم في الساعة 13:00 |
 
-### Preventing Task Overlaps
+### منع تداخل المهام
 
-By default, scheduled tasks will continue to run even if a previous instance is still running. To prevent this, use the
+بشكل افتراضي، ستستمر المهام المجدولة في العمل حتى لو كان مثيل سابق لا يزال قيد التشغيل. To prevent this, use the
 following methods:
 
-| 方法                       | 描述                     |
-| ------------------------ | ---------------------- |
-| `.SkipIfStillRunning()`  | Skip if still running  |
-| `.DelayIfStillRunning()` | Delay if still running |
+| 方法                       | 描述                                |
+| ------------------------ | --------------------------------- |
+| `.SkipIfStillRunning()`  | تخطي إذا كان لا يزال قيد التشغيل  |
+| `.DelayIfStillRunning()` | تأخير إذا كان لا يزال قيد التشغيل |
 
 ```go
 facades.Schedule().Command("send:emails name").EveryMinute().SkipIfStillRunning()
-facades.Schedule().Command("send:emails name").EveryMinute().DelayIfStillRunning()
+facades.Schedule().command("send:emails name").EveryMinute().DelayIfStillRunning()
 ```
 
-### Running Tasks On One Server
+### تشغيل المهام على خادم واحد
 
-> To utilize this feature, your application must be using the memcached, dynamodb, or redis cache driver as the default
-> cache driver. In addition, all servers must be communicating with the same central cache server.
+> لاستخدام هذه الميزة، يجب أن يستخدم التطبيق الخاص بك مشغل ذاكرة التخزين المؤقت أو الدينامودب أو ذاكرة التخزين المؤقت redis كمشغل ذاكرة التخزين المؤقت
+> الافتراضي. بالإضافة إلى ذلك، يجب أن تكون جميع الخوادم متصلة بنفس خادم ذاكرة التخزين المؤقت المركزي.
 
-If your application's scheduler runs on multiple servers, you can ensure that a scheduled job is executed on only one of
-them. For example, let's say you have a scheduled task that generates a new report every Friday night. If the task
+إذا كان جدولة طلبك يعمل على خوادم متعددة، يمكنك التأكد من أن العمل المجدول يتم تنفيذه على واحد فقط من
+منها. على سبيل المثال، دعونا نقول أن لديك مهمة مجدولة تنتج تقريرا جديدا كل ليلة جمعة. If the task
 scheduler runs on three worker servers, the scheduled task will run on all three servers and create the report three
-times. This is not ideal!
+times. هذا ليس مثاليا!
 
-To prevent this, use the `OnOneServer` method when defining the scheduled task, which will make sure that the task runs
-on only one server. The first server to receive the task will secure an atomic lock on the job, preventing other servers
-from executing the same task at the same time:
+لمنع هذا، استخدم طريقة "OnOneServer" عند تحديد المهمة المجدولة، والتي ستتأكد من أن المهمة تعمل
+على خادم واحد فقط. الخادم الأول الذي سيتلقى المهمة سيضمن قفلاً ذرياً على العمل، منع الخوادم الأخرى
+من تنفيذ نفس المهمة في نفس الوقت:
 
 ```go
-facades.Schedule().Command("report:generate").Daily().OnOneServer()
+facades.Schedule().command("report:generate").Daily().OnOneServer()
 ```
 
-Scheduled closures must be assigned a name if they are intended to be run on one server:
+يجب أن يعطى الإغلاقات المجدولة اسماً إذا كان من المزمع تشغيلها على خادم واحد:
 
 ```go
 facades.Schedule().Call(func() {
@@ -131,57 +132,57 @@ facades.Schedule().Call(func() {
 }).Daily().OnOneServer().Name("goravel")
 ```
 
-## Running The Scheduler
+## تشغيل الجدولة
 
-Now that we have learned how to define scheduled tasks, let's discuss how to actually run them on our server.
+الآن بعد أن تعلمنا كيفية تحديد المهام المجدولة، دعونا نناقش كيفية تشغيلها بالفعل على خادمنا.
 
-Add `go facades.Schedule().Run()` to the root `main.go` file.
+أضف 'go facades.Schedule().Run()' إلى ملف 'main.go' الجذر.
 
 ```go
-package main
+استيراد الحزمة الرئيسية
 
-import (
-  "github.com/goravel/framework/facades"
+(
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
-)
 
-func main() {
-  // This bootstraps the framework and gets it ready for use.
+
+ch() mainformat@@3
+  // هذا التمهيد هو جاهز للاستخدام.
   bootstrap.Boot()
 
-  // Start schedule by facades.Schedule
+  // بدء الجدول بواسطة facades.Schedule
   go facades.Schedule().Run()
 
-  select {}
+  اختر {}
 }
 ```
 
-## Stopping The Scheduler
+## إيقاف المجدول
 
-You can call the `Shutdown` method to gracefully shut down the scheduler. This method will wait for all tasks to
-complete before shutting down.
+يمكنك استدعاء طريقة "إيقاف التشغيل" لإغلاق الجدولة بسهولة. هذه الطريقة ستنتظر جميع المهام ل
+اكتمالها قبل إيقاف التشغيل.
 
 ```go
-// main.go
+//main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
-quit := make(chan os.Signal)
-signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+// إنشاء قناة للاستماع إلى إشارات نظام التشغيل
+الإقلاع عن التدخين:= make(chan os.Signal)
+otify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-// Start schedule by facades.Schedule
-go facades.Schedule().Run()
+// جدول البدء بواسطة facades.Schedule
+انتقل إلى facades.Schedule(). un()
 
-// Listen for the OS signal
-go func() {
+// الاستماع لإشارة OS
+اذهب إلى الدالة () {
   <-quit
-  if err := facades.Schedule().Shutdown(); err != nil {
-    facades.Log().Errorf("Schedule Shutdown error: %v", err)
-  }
+  إذا كان الخطأ := واجهة. chedule().Shutdown(); err != صفر {
+    واجهة. og().Errorf("جدولة خطأ الإغلاق: %v", err)
+
 
   os.Exit(0)
 }()
 
-select {}
+اختر {}
 ```
