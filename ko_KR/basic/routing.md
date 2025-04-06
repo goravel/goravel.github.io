@@ -1,31 +1,25 @@
-# Routing
+# 라우팅
 
-The Goravel routing module can be operated by `facades.Route()`.
+Goravel 라우팅 모듈은 `facades.Route()`를 통해 작동할 수 있습니다.
 
-## HTTP Driver
+## HTTP 드라이버
 
-Goravel uses [gin](https://github.com/gin-gonic/gin) as its default HTTP driver. To use other drivers, configure them in
-the `config/http.go` file. The official default supports [gin](https://github.com/gin-gonic/gin)
-and [fiber](https://github.com/gofiber/fiber).
+Goravel은 기본 HTTP 드라이버로 [gin](https://github.com/gin-gonic/gin)을 사용합니다. 다른 드라이버를 사용하려면 `config/http.go` 파일에서 구성하세요. 공식적으로 기본 지원되는 드라이버는 [gin](https://github.com/gin-gonic/gin)과 [fiber](https://github.com/gofiber/fiber)입니다.
 
 | Driver | Link                                                                                                 |
 | ------ | ---------------------------------------------------------------------------------------------------- |
 | Gin    | [https://github.com/goravel/gin](https://github.com/goravel/gin)     |
 | Fiber  | [https://github.com/goravel/fiber](https://github.com/goravel/fiber) |
 
-## Default Routing File
+## 기본 라우팅 파일
 
-To define routing files, simply navigate to the `/routes` directory. By default, the framework utilizes a sample route
-located in `/routes/web.go`. To establish routing binding, the `func Web()` method is registered in the
-`app/providers/route_service_provider.go` file.
+라우팅 파일을 정의하려면 `/routes` 디렉토리로 이동하기만 하면 됩니다. 기본적으로 프레임워크는 `/routes/web.go`에 위치한 샘플 라우트를 사용합니다. 라우팅 바인딩을 설정하기 위해 `func Web()` 메서드가 `app/providers/route_service_provider.go` 파일에 등록됩니다.
 
-If you require more precise management, you can add routing files to the `/routes` directory and register them in the
-`app/providers/route_service_provider.go` file.
+더 정확한 관리가 필요한 경우, `/routes` 디렉토리에 라우팅 파일을 추가하고 `app/providers/route_service_provider.go` 파일에 등록할 수 있습니다.
 
-## Start HTTP Server
+## HTTP 서버 시작하기
 
-Start the HTTP server in `main.go` in the root directory by calling `facades.Route().Run()`. This will automatically
-fetch the `route.host` configuration.
+루트 디렉토리의 `main.go`에서 `facades.Route().Run()`을 호출하여 HTTP 서버를 시작합니다. 이렇게 하면 자동으로 `route.host` 구성을 가져옵니다.
 
 ```go
 package main
@@ -37,10 +31,10 @@ import (
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // 이것은 프레임워크를 부트스트랩하고 사용할 준비를 합니다.
   bootstrap.Boot()
 
-  // Start http server by facades.Route().
+  // facades.Route()로 http 서버를 시작합니다.
   go func() {
     if err := facades.Route().Run(); err != nil {
       facades.Log().Errorf("Route run error: %v", err)
@@ -51,10 +45,9 @@ func main() {
 }
 ```
 
-## Start HTTPS Server
+## HTTPS 서버 시작
 
-Please complete the configuration of `http.tls` in `config/http.go` before using HTTPS, the `facades.Route().RunTLS()`
-method will start the HTTPS server according to the relevant configuration:
+HTTPS를 사용하기 전에 `config/http.go`에서 `http.tls` 구성을 완료해 주세요. `facades.Route().RunTLS()` 메서드는 관련 구성에 따라 HTTPS 서버를 시작합니다:
 
 ```go
 // main.go
@@ -63,7 +56,7 @@ if err := facades.Route().RunTLS(); err != nil {
 }
 ```
 
-You can also use `facades.Route().RunTLSWithCert()` method to customize the host and certificate.
+`facades.Route().RunTLSWithCert()` 메서드를 사용하여 호스트와 인증서를 사용자 정의할 수도 있습니다.
 
 ```go
 // main.go
@@ -72,27 +65,26 @@ if err := facades.Route().RunTLSWithCert("127.0.0.1:3000", "ca.pem", "ca.key"); 
 }
 ```
 
-## Close HTTP/HTTPS Server
+## HTTP/HTTPS 서버 종료
 
-You can gracefully close the HTTP/HTTPS server by calling the `Shutdown` method, which will wait for all requests to be
-processed before closing.
+HTTP/HTTPS 서버를 `Shutdown` 메서드를 호출하여 정상적으로 종료할 수 있습니다. 이 메서드는 종료하기 전에 모든 요청이 처리될 때까지 기다립니다.
 
 ```go
 // main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
+// OS 신호를 수신하기 위한 채널 생성
 quit := make(chan os.Signal)
 signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-// Start http server by facades.Route().
+// facades.Route()로 http 서버 시작
 go func() {
   if err := facades.Route().Run(); err != nil {
     facades.Log().Errorf("Route run error: %v", err)
   }
 }()
 
-// Listen for the OS signal
+// OS 신호 수신 대기
 go func() {
   <-quit
   if err := facades.Route().Shutdown(); err != nil {
@@ -105,27 +97,27 @@ go func() {
 select {}
 ```
 
-### Routing Methods
+### 라우팅 메소드
 
-| Methods    | Action                                |
-| ---------- | ------------------------------------- |
-| Group      | [Group Routing](#group-routing)       |
-| Prefix     | [Routing Prefix](#routing-prefix)     |
-| ServeHTTP  | [Testing Routing](#testing-routing)   |
-| Get        | [Basic Routing](#basic-routing)       |
-| Post       | [Basic Routing](#basic-routing)       |
-| Put        | [Basic Routing](#basic-routing)       |
-| Delete     | [Basic Routing](#basic-routing)       |
-| Patch      | [Basic Routing](#basic-routing)       |
-| Options    | [Basic Routing](#basic-routing)       |
-| Any        | [Basic Routing](#basic-routing)       |
-| Resource   | [Resource Routing](#resource-routing) |
-| Static     | [File Routing](#file-routing)         |
-| StaticFile | [File Routing](#file-routing)         |
-| StaticFS   | [File Routing](#file-routing)         |
-| Middleware | [Middleware](#middleware)             |
+| 메소드        | Action                       |
+| ---------- | ---------------------------- |
+| 그룹         | [그룹 라우팅](#group-routing)     |
+| 접두사        | [라우팅 접두사](#routing-prefix)   |
+| ServeHTTP  | [라우팅 테스트](#testing-routing)  |
+| 가져오기       | [기본 라우팅](#basic-routing)     |
+| 게시         | [기본 라우팅](#basic-routing)     |
+| 넣기         | [기본 라우팅](#basic-routing)     |
+| 삭제         | [기본 라우팅](#basic-routing)     |
+| 패치         | [기본 라우팅](#basic-routing)     |
+| Options    | [기본 라우팅](#basic-routing)     |
+| 모두         | [기본 라우팅](#basic-routing)     |
+| 리소스        | [리소스 라우팅](#resource-routing) |
+| 정적         | [파일 라우팅](#file-routing)      |
+| 정적 파일      | [파일 라우팅](#file-routing)      |
+| 정적 파일 시스템  | [파일 라우팅](#file-routing)      |
+| Middleware | [미들웨어](#middleware)          |
 
-## Basic Routing
+## 기본 라우팅
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -141,7 +133,7 @@ facades.Route().Options("/", userController.Show)
 facades.Route().Any("/", userController.Show)
 ```
 
-## Resource Routing
+## 리소스 라우팅
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -165,7 +157,7 @@ func (c *ResourceController) Update(ctx http.Context) {}
 func (c *ResourceController) Destroy(ctx http.Context) {}
 ```
 
-## Group Routing
+## 그룹 라우팅
 
 ```go
 facades.Route().Group(func(router route.Router) {
@@ -175,13 +167,13 @@ facades.Route().Group(func(router route.Router) {
 })
 ```
 
-## Routing Prefix
+## 라우팅 접두사
 
 ```go
 facades.Route().Prefix("users").Get("/", userController.Show)
 ```
 
-## File Routing
+## 파일 라우팅
 
 ```go
 import "net/http"
