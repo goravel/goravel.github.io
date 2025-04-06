@@ -1,77 +1,77 @@
-# Middleware
+# البرامج المتوسطة
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+يوفر البرنامج الأوسط آلية مناسبة للتفتيش على طلبات HTTP التي تدخل تطبيقك وتصفيتها.
 
-## Define Middleware
+## تعريف البرنامج الأوسط
 
-You can create your own middleware in the `app/http/middleware` directory, the structure is as follows.
+يمكنك إنشاء برنامج وسيط خاص بك في دليل "app/http/medileware"، الهيكل كما يلي.
 
 ```go
-package middleware
+حزمة الوسيط
 
-import (
+استيراد (
   "github.com/goravel/framework/contracts/http"
-)
 
-func Auth() http.Middleware {
-  return func(ctx http.Context) {
-    ctx.Request().Next()
-  }
+
+Auth() http.Middleware {
+  وظيفة العودة (tx http.Context) {
+    ctx.request().Next()
+
 }
 ```
 
-### Create Middleware By Command
+### إنشاء برنامج متوسط بأمر
 
 ```
-go run . artisan make:middleware Auth
+قم بتشغيل. يتم تشغيل المصادقة الحرفية:medileware
 
-// Support nested folders
-go run . artisan make:middleware user/Auth
+// دعم المجلدات
+. يقوم الحرفي بتشغيل:medileware user/Auth
 ```
 
-## Register Middleware
+## تسجيل البرامج المتوسطة
 
-### Global Middleware
+### البرامج المتوسطة العالمية
 
-If you want to apply middleware for every HTTP request of your application, you only need to register the middleware in
-the `Middleware` in the `app/http/kernel.go` file.
+إذا كنت ترغب في تطبيق برنامج وسيط لكل طلب HTTP من التطبيق الخاص بك، تحتاج فقط إلى تسجيل المنتصف في
+'Middleware' في 'app/http/kernel. o\` ملف.
 
 ```go
-// app/http/kernel.go
-package http
+استيراد // app/http/kernel.go
+حزمة تنبيه
 
-import (
-  "github.com/goravel/framework/contracts/http"
+(
+  "github. om/goravel/framework/contracts/http"
   
-  "goravel/app/http/middleware"
-)
+  "goravel/app/http/medileware"
 
-type Kernel struct {
+
+من نوع Kernel struct {
 }
 
-func (kernel *Kernel) Middleware() []http.Middleware {
-  return []http.Middleware{
-    middleware.Auth(),
-  }
+Fc (kernel *Kernel) Middleware() []:/p. البرمجيات iddleware {
+  العودة []http.Middleware{
+    medileware.Auth(),
+
 }
 ```
 
-### Assign Middleware for Routing
+### تعيين برنامج متوسط للتوجيه
 
-You can register the middleware for some routing separately:
+يمكنك تسجيل المنتصف لبعض المسارات بشكل منفصل:
 
 ```go
-import "github.com/goravel/framework/http/middleware"
+استيراد "github.com/goravel/framework/http/medileware"
 
-facades.Route().Middleware(middleware.Auth()).Get("users", userController.Show)
+facades.Route().Middleware(medileware.Auth()).Get("users", userController.Show)
 ```
 
-## Abort Request
+## طلب إلغاء
 
-In middleware, if you need to interrupt the request, you can use the `Abort` method.
+في الوسط ، إذا كنت بحاجة إلى مقاطعة الطلب، يمكنك استخدام طريقة "إلغائ".
 
 ```go
-ctx.Request().Abort()
-ctx.Request().Abort(http.StatusNotFound)
+ctx.request().Abort()
+ctx.request().Abort(http.StatusNotFound)
 ctx.Response().String(http.StatusNotFound, "Not Found").Abort()
 ```
