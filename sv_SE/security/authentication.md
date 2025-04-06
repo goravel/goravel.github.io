@@ -1,57 +1,57 @@
-# Authentication
+# Autentisering
 
-Authentication is an indispensable feature in Web Applications, the `facades.Auth()` module of Goravel provides support
-for JWT.
+Autentisering är en oumbärlig funktion i webbapplikationer, `fasades.Auth()` modulen i Goravel ger stöd
+för JWT.
 
 ## Konfiguration
 
-You can configure `defaults` guard and multiple `guards` in the `config/auth.go` file to switch different user
-identities in the application.
+Du kan konfigurera 'defaults' vakt och flera 'guards' i filen 'config/auth.go' för att byta olika användare
+identiteter i programmet.
 
-You can configure the parameters of JWT in the `config/jwt.go` file, such as `secret`, `ttl`, `refresh_ttl`.
+Du kan konfigurera parametrarna för JWT i filen `config/jwt.go`, som `secret`, `ttl`, `refresh_ttl`.
 
-### Configure TTL for different Guards
+### Konfigurera TTL för olika vakter
 
-You can set TTL for each Guard separately in the `config/auth.go` file, if not set, the `jwt.ttl` configuration is used
-by default.
+Du kan ställa in TTL för varje vakt separat i filen `config/auth.go`, om den inte är satt, är konfigurationen `jwt.ttl` använd
+som standard.
 
 ```go
 // config/auth.go
 "guards": map[string]any{
   "user": map[string]any{
     "driver": "jwt",
-++  "ttl": 60,
+++ "ttl": 60,
   },
 },
 ```
 
-## Generate JWT Token
+## Generera JWT-token
 
 ```shell
-go run . artisan jwt:secret
+gå springa. hantverkare jwt:secret
 ```
 
-## Generate Token Using User
+## Generera token med användare
 
-You can generate a token by Model, there is no extra configuration if the model uses `orm.Model`, otherwise, you need to
-configure Tag on the model primary key field, for example:
+Du kan generera en token av modell, det finns ingen extra konfiguration om modellen använder `orm. odel`, annars behöver du
+konfigurera Tag på modellens primära nyckelfält, till exempel:
 
 ```go
 type User struct {
   ID uint `gorm:"primaryKey"`
-  Name string
+  Namnsträng
 }
 
-var user models.User
-user.ID = 1
+var användarmodeller. ser
+användare.ID = 1
 
-token, err := facades.Auth(ctx).Login(&user)
+token, err := fasader.Auth(ctx).Inloggning(&användare)
 ```
 
-## Generate Token Using ID
+## Generera token med ID
 
 ```go
-token, err := facades.Auth(ctx).LoginUsingID(1)
+token, err := fasader.Auth(ctx).LoginUsingID(1)
 ```
 
 ## Parse Token
@@ -60,29 +60,29 @@ token, err := facades.Auth(ctx).LoginUsingID(1)
 payload, err := facades.Auth(ctx).Parse(token)
 ```
 
-Through `payload` you can get:
+Genom `payload` kan du få:
 
-1. `Guard`: Current Guard;
-2. `Key`: User flag;
-3. `ExpireAt`: Expire time;
-4. `IssuedAt`: Issued time;
+1. `Guard`: Nuvarande Vakt;
+2. `Key`: Användarens flagga
+3. `Förfalla`: Förfallodatum
+4. `Utfärdad`: Utfärdad tid;
 
-> If `err` isn't nil other than `ErrorTokenExpired`, the payload should be nil.
+> Om `err` inte är nil annat än `ErrorTokenExpired`, borde nyttolasten vara nil.
 
-You can judge whether the Token is expired by err:
+Du kan bedöma om token har löpt ut av fel:
 
 ```go
-"errors"
-"github.com/goravel/framework/auth"
+"fel"
+"github.com/goravel/frameing/auth"
 
-errors.Is(err, auth.ErrorTokenExpired)
+errors.Is(err, auth.ErrorTokenUtgång)
 ```
 
-> The token can be parsed normally with or without the Bearer prefix.
+> Tecken kan tolkas normalt med eller utan Bearer prefix.
 
-## Get User
+## Hämta användare
 
-You need to generate a Token by `Parse` before getting a user, the process can be handled in HTTP middleware.
+Du måste generera en token av `Parse` innan du får en användare, processen kan hanteras i HTTP middleware.
 
 ```go
 var user models.User
@@ -90,26 +90,26 @@ err := facades.Auth(ctx).User(&user) // Must point
 id, err := facades.Auth(ctx).ID()
 ```
 
-## Refresh Token
+## Uppdatera token
 
-You need to generate a Token by `Parse` before refreshing the user.
-
-```go
-token, err := facades.Auth(ctx).Refresh()
-```
-
-## Logout
+Du måste generera en token av `Parse` innan du uppdaterar användaren.
 
 ```go
-err := facades.Auth(ctx).Logout()
+token, err := fasader.Auth(ctx).Refresh()
 ```
 
-## Multiple Guards
+## Utloggning
 
 ```go
-token, err := facades.Auth(ctx).Guard("admin").LoginUsingID(1)
-err := facades.Auth(ctx).Guard("admin").Parse(token)
-token, err := facades.Auth(ctx).Guard("admin").User(&user)
+err := fasader.Auth(ctx).Logout()
 ```
 
-> When the default guard is not used, the `Guard` method must be called before calling the above methods.
+## Flera vakter
+
+```go
+token, err := fasader.Auth(ctx).Guard("admin").LoginUsingID(1)
+err := fasader.Auth(ctx).Guard("admin").Parse(token)
+token, err := fasader.Auth(ctx).Guard("admin").User(&user)
+```
+
+> När standardvakten inte används måste `Guard`-metoden anropas innan ovanstående metoder anropas.
