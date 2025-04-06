@@ -1,55 +1,55 @@
-# Queues
+# Coda
 
-When building your web application, there may be tasks, like parsing and storing an uploaded CSV file, that take too
-long to complete during a web request. Fortunately, Goravel offers a solution by allowing you to create queued jobs that
-can run in the background. This way, by moving time-intensive tasks to a queue, your application can respond to web
-requests much faster and provide a better user experience for your customers. To implement this feature, we use
+Quando si costruisce la tua applicazione web, ci possono essere attività, come l'analisi e la memorizzazione di un file CSV caricato, che richiedono troppo
+tempo per completare durante una richiesta web. Fortunatamente, Goravel offre una soluzione consentendo di creare lavori in coda che
+può eseguire in background. In questo modo, spostando i compiti ad alta intensità di tempo in una coda, la tua applicazione può rispondere alle richieste web
+molto più velocemente e fornire una migliore esperienza utente per i tuoi clienti. Per implementare questa funzionalità, utilizziamo
 `facades.Queue()`.
 
-Goravel's queue configuration options are saved in your application's `config/queue.go` configuration file. Goravel
-supports two drivers: `redis` and `sync`.
+Le opzioni di configurazione della coda di Goravel sono salvate nel file di configurazione `config/queue.go` della tua applicazione. Goravel
+supporta due driver: `redis` e `sync`.
 
-### Connections Vs. Queues
+### Connessioni Vs. Coda
 
-Before delving into Goravel queues, it's important to understand the difference between "connections" and "queues". In
-the configuration file, `config/queue.go`, you'll find an array for `connections` configuration. This option specifies
-the connections to backend queue services like Redis. However, every queue connection can have multiple "queues", which
-can be thought of as different stacks or piles of queued jobs.
+Prima di entrare nelle code di Goravel, è importante capire la differenza tra "connessioni" e "code". In
+il file di configurazione, `config/queue.go`, troverai un array per la configurazione di `connections`. Questa opzione specifica
+le connessioni ai servizi di coda di backend come Redis. Tuttavia, ogni connessione in coda può avere più "code", di cui
+può essere pensato come stack diversi o mucchi di lavori in coda.
 
-It's essential to note that each connection configuration example in the queue configuration file includes a `queue`
-attribute. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
-connection. In simpler terms, if you dispatch a job without explicitly defining which queue it should be dispatched to,
-the job will be placed in the queue defined in the queue attribute of the connection configuration.
+È essenziale notare che ogni esempio di configurazione della connessione nel file di configurazione della coda include un attributo `queue`
+. Questo attributo è la coda predefinita a cui verranno inviati i processi quando vengono inviati a una data connessione
+. In termini più semplici, se si invia un lavoro senza definire esplicitamente quale coda dovrebbe essere inviato,
+il lavoro verrà inserito nella coda definita nell'attributo coda della configurazione della connessione.
 
 ```go
-// This job is sent to the default connection's default queue
+// Questo lavoro viene inviato alla coda predefinita della connessione predefinita
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
   {Type: "int", Value: 1},
-}).Dispatch()
+}). ispatch()
 
-// This job is sent to the default connection's "emails" queue
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
+// Questo lavoro viene inviato alla coda "emails" della connessione predefinita
+err := facades.Queue(). ob(&jobs.Test{}, []queue.Arg{
+  {Type: "int", Valore: 1},
 }).OnQueue("emails").Dispatch()
 ```
 
-## Creating Jobs
+## Creare Processi
 
-### Generating Job Classes
+### Generazione Lezioni Di Lavoro
 
-By default, all of the jobs for your application are stored in the `app/jobs` directory. If the `app/Jobs` directory
-doesn't exist, it will be created when you run the `make:job` Artisan command:
+Per impostazione predefinita, tutti i processi per la tua applicazione sono memorizzati nella directory `app/jobs`. Se la directory `app/Jobs`
+non esiste, verrà creata quando esegui il comando `make:job` Artigiano:
 
 ```shell
 go run . artisan make:job ProcessPodcast
 go run . artisan make:job user/ProcessPodcast
 ```
 
-### Class Structure
+### Struttura Della Classe
 
-Job classes are very simple, consisting of two methods: `Signature` and `Handle`. `Signature` serves as a task's
-distinct identifier, while `Handle` executes when the queue processes the task. Additionally, the `[]queue.Arg{}` passed
-when the task executes will be transmitted into `Handle`:
+Le classi di lavoro sono molto semplici, consistenti in due metodi: `Signature` e `Handle`. `Signature` funge da identificatore distinto
+di un compito, mentre `Handle` esegue quando la coda elabora l'attività. Inoltre, la `[]queue.Arg{}` passata
+quando il task esegue verrà trasmesso in `Handle`:
 
 ```go
 package jobs
@@ -57,21 +57,21 @@ package jobs
 type ProcessPodcast struct {
 }
 
-// Signature The name and signature of the job.
+// Firma Il nome e la firma del lavoro.
 func (receiver *ProcessPodcast) Signature() string {
   return "process_podcast"
 }
 
 // Handle Execute the job.
-func (receiver *ProcessPodcast) Handle(args ...any) error {
+func (ricevitore *ProcessPodcast) Errore manico(args ...any) {
   return nil
 }
 ```
 
-### Register Job
+### Registra Lavoro
 
-After creating the job, you need to register it in `app/provides/queue_service_provider.go`, so that it can be called
-correctly.
+Dopo aver creato il lavoro, è necessario registrarlo in `app/provides/queue_service_provider.go`, in modo che possa essere chiamato correttamente
+.
 
 ```go
 func (receiver *QueueServiceProvider) Jobs() []queue.Job {
@@ -81,27 +81,27 @@ func (receiver *QueueServiceProvider) Jobs() []queue.Job {
 }
 ```
 
-## Start Queue Server
+## Avvia Il Server Coda
 
-Start the queue server in `main.go` in the root directory.
+Avvia il server coda in `main.go` nella directory root.
 
 ```go
-package main
+pacchetto principale di importazione
 
-import (
-  "github.com/goravel/framework/facades"
+(
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Questo bootstraps il framework e lo rende pronto per l'uso.
   bootstrap.Boot()
 
-  // Start queue server by facades.Queue().
+  // Avvia il server coda per facciate. ueue().
   go func() {
-    if err := facades.Queue().Worker().Run(); err != nil {
-      facades.Log().Errorf("Queue run error: %v", err)
+    if err := facades. ueue().Worker().Run(); err != nil {
+      facades. og().Errorf("Queue run error: %v", err)
     }
   }()
 
@@ -109,40 +109,40 @@ func main() {
 }
 ```
 
-Different parameters can be passed in the `facades.Queue().Worker` method, you can monitor multiple queues by starting
-multiple `facades.Queue().Worker`.
+Parametri diversi possono essere passati nel metodo `facades.Queue().Worker`, è possibile monitorare più code avviando
+multipli `facades.Queue().Worker`.
 
 ```go
-// No parameters, default listens to the configuration in the `config/queue.go`, and the number of concurrency is 1
+// Nessun parametro, predefinito ascolta la configurazione nella `config/queue. o`, e il numero di convaluta è 1
 go func() {
-  if err := facades.Queue().Worker().Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  if err := facades. ueue().Worker().Run(); err != nil {
+    facades. og().Errorf("Queue run error: %v", err)
   }
 }()
 
 // Monitor processing queue for redis link, and the number of concurrency is 10
 go func() {
-  if err := facades.Queue().Worker(queue.Args{
+  if err := facades. ueue().Worker(queue. rgs{
     Connection: "redis",
     Queue: "processing",
-    Concurrent: 10,
-  }).Run(); err != nil {
+    Concorrente: 10,
+  }). un(); err != nil {
     facades.Log().Errorf("Queue run error: %v", err)
   }
 }()
 ```
 
-## Dispatching Jobs
+## Trasmissione Processi
 
-Once you have written the job class, you can dispatch it using the `Dispatch` method on the job itself:
+Una volta scritta la classe di lavoro, puoi inviarla con il metodo `Dispatch` sul lavoro stesso:
 
 ```go
-package controllers
+package controller
 
 import (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -150,26 +150,26 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatch()
   if err != nil {
     // do something
   }
 }
 ```
 
-### Synchronous Dispatching
+### Spedizione Sincrona
 
-If you want to dispatch a job immediately (synchronously), you can use the `DispatchSync` method. When using this
-method, the job will not be queued and will be executed immediately within the current process:
+Se si desidera inviare un lavoro immediatamente (sincronizzato), è possibile utilizzare il metodo `DispatchSync`. Quando si utilizza questo metodo
+, il processo non verrà accodato e verrà eseguito immediatamente all'interno del processo corrente:
 
 ```go
-package controllers
+package controller
 
 import (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -177,8 +177,8 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).DispatchSync()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatchSync()
   if err != nil {
     // do something
   }
@@ -187,64 +187,64 @@ func (r *UserController) Show(ctx http.Context) {
 
 ### Job Chaining
 
-Job chaining allows you to specify a list of queued jobs to be executed in a specific order. If any job in the sequence
-fails, the rest of the jobs will not be executed. To run a queued job chain, you can use the `Chain` method provided by
-the `facades.Queue()`:
+Job chaining consente di specificare un elenco di processi in coda da eseguire in un ordine specifico. Se un job nella sequenza
+fallisce, il resto dei lavori non verrà eseguito. Per eseguire una catena di lavoro in coda, puoi usare il metodo `Chain` fornito da
+le `facades.Queue()`:
 
 ```go
 err := facades.Queue().Chain([]queue.Jobs{
   {
     Job: &jobs.Test{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 1},
+    Args: []queue. rg{
+      {Type: "int", Valore: 1},
     },
   },
   {
-    Job: &jobs.Test1{},
-    Args: []queue.Arg{
+    Lavoro: &jobs est1{},
+    Args: []coda. rg{
       {Type: "int", Value: 2},
     },
   },
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### Spedizione Ritardata
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
-seconds of dispatching:
+Se si desidera specificare che un lavoro non deve essere immediatamente elaborato da un lavoratore in coda, puoi usare il metodo `Delay`
+durante l'invio del lavoro. Ad esempio, specificiamo che un lavoro non dovrebbe essere disponibile per l'elaborazione dopo 100
+secondi di spedizione:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
 ```
 
-### Customizing The Queue & Connection
+### Personalizzare La Coda E La Connessione
 
-#### Dispatching To A Particular Queue
+#### Dispatching In Una Coda Particolare
 
-By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
-assign to various queues.
+Spingendo i lavori in code diverse, puoi "categorizzare" i tuoi lavori in coda e persino dare la priorità a quanti lavoratori
+assegnano alle code diverse.
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+#### Spedizione A Una Connessione Particolare
 
-If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
-connection to which the task is pushed.
+Se l'applicazione interagisce con più connessioni in coda, è possibile utilizzare il metodo `OnConnection` per specificare la connessione
+a cui l'attività viene spinta.
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+Puoi incatenare i metodi `OnConnection` e `OnQueue` insieme per specificare la connessione e la coda per un lavoro:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+## `queue.Arg.Type` Tipi Supportati
 
 ```go
 bool
