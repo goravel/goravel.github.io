@@ -273,106 +273,106 @@ som filnamn och tillägg kan manipuleras av en skadlig användare. Av denna anle
 `HashName` och` Extension`-metoderna för att få ett namn och ett tillägg för den angivna filuppladdningen:
 
 ```go
-file, err := ctx.Request().File("avatar")
+fil, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+namn := file.HashName() // Generera ett unikt, slumpmässigt namn...
+tillägg, err := file.Extension() // Bestäm filens tillägg baserat på filens MIME-typ...
 ```
 
-## Deleting Files
+## Tar bort filer
 
-The `Delete` method accepts a single filename or an array of files to delete:
+Metoden `Delete` accepterar ett enda filnamn eller en samling filer att ta bort:
 
 ```go
-err := facades.Storage().Delete("file.jpg")
-err := facades.Storage().Delete("file.jpg", "file2.jpg")
+err := facades.Storage().Radera ("file.jpg")
+err := facades.Storage().Radera ("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+Vid behov kan du ange vilken disk som filen ska tas bort från:
 
 ```go
-err := facades.Storage().Disk("s3").Delete("file.jpg")
+err := fasades.Storage().Disk("s3").Ta bort ("file.jpg")
 ```
 
-## Directories
+## Kataloger
 
-### Get All Files Within A Directory
+### Få alla filer inom en katalog
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
+`Files`-metoden returnerar en skiva av alla filer i en given katalog. Om du vill hämta en lista över alla
+-filer i en given katalog inklusive alla underkataloger, kan du använda `AllFiles`-metoden:
 
 ```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
+filer, err := fasades.Storage().Disk("s3").Filer("katalog")
+filer, err := facades.Storage().Disk(s3").AllaFiles("katalog")
 ```
 
-### Get All Directories Within A Directory
+### Hämta alla kataloger inom en katalog
 
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+Metoden `Directories` returnerar en skiva av alla kataloger i en given katalog. Dessutom kan du använda metoden
+`AllDirectories` för att få en lista över alla kataloger i en given katalog och alla dess underkataloger:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+kataloger, err := fasader.Lagring().Diskett ("s3").Kataloger("katalog")
+kataloger, err := fasader.Lagring().Diskar ("s3").AllDirectories("katalog")
 ```
 
-### Create A Directory
+### Skapa en katalog
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+Metoden `MakeDirectory` kommer att skapa den givna katalogen, inklusive alla nödvändiga underkataloger:
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+err := fasader.Förvaring().MakeDirectory(katalog)
 ```
 
-### Delete A Directory
+### Ta bort en katalog
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+Slutligen kan `DeleteDirectory`-metoden användas för att ta bort en katalog och alla dess filer:
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+err := fasader.Förvaring().RaderaDirectory(katalog)
 ```
 
-## Custom Filesystems
+## Anpassade filsystem
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+Du kan ställa in 'custom' drivrutinen i filen 'config/filesystems.go'.
 
 ```go
-"custom": map[string]any{
+"custom": karta[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+Du måste implementera `github.com/goravel/frameing/contracts/filesystem/Driver` -gränssnittet i `via`
+konfigurationsobjekt.
 
 ```go
-type Driver interface {
+typ Driver interface {
   AllDirectories(path string) ([]string, error)
-  AllFiles(path string) ([]string, error)
+  AllFiles(path string) ([]string, fel)
   Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
-  Directories(path string) ([]string, error)
-  Exists(file string) bool
-  Files(path string) ([]string, error)
-  Get(file string) (string, error)
-  GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
-  MimeType(file string) (string, error)
-  Missing(file string) bool
-  Move(oldFile, newFile string) error
-  Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
-  Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
+  Radera (fil ... tring) fel
+  DeleteDirectory(katalogsträng) fel
+  kataloger (sökvägsträngen) ([]string, fel)
+  Befintliga (filsträng) böla
+  Filer(sökvägsträngen) ([]sträng, fel)
+  Get(filsträng) (sträng, fel)
+  GetBytes(filsträng) ([]byte, fel)
+  LastModified(filsträng) (tid. ime, error)
+  MakeDirectory(katalogsträng) fel
+  MimeType(filsträng) (sträng, fel)
+  Miss(filsträng) bool
+  Move(oldFile, newFilsträng) fel
+  Path(filsträng) sträng
+  Put(fil, content string) fel
+  PutFile(sökvägsträning, källfil) (sträng, fel)
+  PutFileAs(sökvägsträning, källfil, namnsträng) (sträng, fel)
+  Storlek (filsträng) (int64, fel)
+  TemporaryUrl(filsträng, tidpunkt. ime) (sträng, fel)
   WithContext(ctx context.Context) Driver
-  Url(file string) string
+  Url(filsträng) sträng
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> Obs: Eftersom konfigurationen inte har laddats när den anpassade drivrutinen är registrerad, så använd
+> `fasader. onfig().Env` för att erhålla konfigurationen i den anpassade drivrutinen.
