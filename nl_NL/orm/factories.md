@@ -1,87 +1,87 @@
-# Factories
+# Fabrieken
 
-When testing your application or seeding your database, it might be necessary to insert a few records into your database
-beforehand. Instead of manually inputting values for each column, Goravel allows you to define a set of default
-attributes for each of your models by creating model factories.
+Bij het testen van uw applicatie of het uploaden van uw database, kan het nodig zijn om vooraf een paar records in uw database
+in te voegen. In plaats van handmatig invoeren van waarden voor elke kolom, Goravel geeft je de mogelijkheid om een set standaard
+attributen te definiëren voor elk van je modellen door modelfabrieken te creëren.
 
-To see an example of how to write a factory, you can check out the `user_factory.go` file located in your application's
-`database/factories` directory.
+Om een voorbeeld te zien van hoe je een fabriek schrijft, kun je het `user_factory.go` bestand in de
+`database/factories` map van je applicatie bekijken.
 
 ```go
-package factories
+pakket fabrieken
 
 type UserFactory struct {
 }
 
-// Definition Define the model's default state.
+// Definitie van het model de standaard staat.
 func (f *UserFactory) Definition() map[string]any {
   return map[string]any{
-    "Name": "Goravel",
+    "Naam": "Goravel",
   }
 }
 ```
 
-As you can see, in their most basic form, factories are structs that have a `Definition` method. The method returns the
-default set of attribute values that should be used when creating a model with the factory. To generate a range of
-random data, you can rely on [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
+Zoals je kunt zien, zijn fabrieken in hun meest elementaire vorm gebouwd met een 'Definition'-methode. De methode geeft de
+standaard set van attribuutwaarden die moet worden gebruikt bij het maken van een model met de fabriek. Om een reeks
+willekeurige gegevens te genereren, kunt u vertrouwen op [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
 
-## Generating Factories
+## Fabrieken genereren
 
-To create a factory, run the `make:factory` Artisan command:
+Om een fabriek te maken, voer het `make:factory` Artisan commando uit:
 
 ```
-go run . artisan make:factory PostFactory
+uitvoeren . artisan make:factory PostFactory
 ```
 
-The new factory `struct` will be placed in your `database/factories` directory.
+De nieuwe fabriek `struct` zal worden geplaatst in uw `database/factories` map.
 
-### Model & Factory Discovery Conventions
+### Model & Fabriek Discovery-conventies
 
-After defining a factory, you can use the `Factory()` method in the model to bind the factory to the model:
+Na het definiëren van een fabriek kun je de methode 'Fabriek' gebruiken om de fabriek aan het model te koppelen:
 
 ```go
-package models
+pakket modellen
 
 import (
   "github.com/goravel/framework/contracts/database/factory"
-  "github.com/goravel/framework/database/orm"
+  "github. om/goravel/framework/database/orm"
 
-  "goravel/database/factories"
+  "goravel/database/fabrieken"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+type gebruiker {
+  orm maakt. odel
+  Naam tekenreeks
+  Avatar tekenreeks
+  of m. oftDeletes
 }
 
-func (u *User) Factory() factory.Factory {
-  return &factories.UserFactory{}
+func (u *User) Factory() fabriek.Factory {
+  retourneer &factories.UserFactory{}
 }
 ```
 
-## Creating Models Using Factories
+## Aanmaken van modellen met behulp van fabrieken
 
-### Instantiating Models
+### Geïnstantieerde modellen
 
-We can use the `Make` method to create models without persisting them in the database:
+We kunnen de `Make` methode gebruiken om modellen te maken zonder ze te blijven vasthouden in de database:
 
 ```go
 var user models.User
 err := facades.Orm().Factory().Make(&user)
 ```
 
-You may create a collection of many models using the `Count` method:
+Je kunt een verzameling van vele modellen maken met de `Count` methode:
 
 ```go
-var users []models.User
+gebruikers []modellen.User
 err := facades.Orm().Factory().Count(2).Make(&users)
 ```
 
-If you would like to override some of the default values of your models, you may pass `map[string]any` to the `Make`
-method. Only the specified attributes will be replaced while the rest of the attributes remain set to their default
-values as specified by the factory:
+Als je een aantal van de standaard waarden van je modellen wilt overschrijven, kan je `map[string]any` passeren aan de `Make`
+methode. Alleen de opgegeven attributen worden vervangen zolang de rest van de attributen ingesteld blijft op hun standaard
+waarden zoals gespecificeerd door de fabriek:
 
 ```go
 var user models.User
@@ -90,9 +90,9 @@ err := facades.Orm().Factory().Make(&user, map[string]any{
 })
 ```
 
-### Persisting Models
+### Persisterende Modellen
 
-The `Create` method creates and saves model instances to the database using Orm's `Save` method.
+De `Create` methode maakt en slaat modellen instanties op in de database met behulp van de `Opslaan` methode.
 
 ```go
 var user models.User
@@ -102,8 +102,8 @@ var users []models.User
 err := facades.Orm().Factory().Count(2).Create(&users)
 ```
 
-You may override the factory's default model attributes by passing `map[string]any` of the attributes to the `Create`
-method:
+Je kunt de standaard modelattributen van de fabriek overschrijven door `map[string]any` te passeren van de attributen aan de `Create`
+methode:
 
 ```go
 var user models.User
@@ -112,10 +112,10 @@ err := facades.Orm().Factory().Create(&user, map[string]any{
 })
 ```
 
-### Ignore Model Event
+### Negeer Model Event
 
-There may be [model event](../orm/quickstart#events) defined on the model, you can ignore those events with the
-`CreateQuietly` method:
+Er kan [model event] (../orm/quickstart#events) gedefinieerd zijn op het model, je kan deze gebeurtenissen negeren met de
+`CreateQuietly` methode:
 
 ```go
 var user models.User
