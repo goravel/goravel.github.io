@@ -1,55 +1,55 @@
-# Installation
+# Установка
 
-## Server Requirements
+## Требования к серверу
 
 - Golang >= 1.21
 
-## Installation
+## Установка
 
-### Using Goravel Installer
+### Использование установщика Goravel
 
 Initialize the installer according to the [documentation](https://github.com/goravel/installer), and then initialize a
 new Goravel project using the following command:
 
 ```shell
-// Enter the directory where you want to install the project
-goravel new blog
+// Введите директорию, где вы хотите установить проект
+goravel новый блог
 ```
 
-### Manual Installation
+### Ручная установка
 
 ```shell
-// Download framework
-git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/.git*
+// Скачать фреймворк
+git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/. it*
 
-// Install dependencies
+// Устанавливаем зависимости
 cd goravel && go mod tidy
 
-// Create .env environment configuration file
+// Создаём . nv конфигурационный файл окружения
 cp .env.example .env
 
-// Generate application key
+// Генерация ключа приложения
 go run . artisan key:generate
 ```
 
-## Start HTTP Service
+## Запустить службу HTTP
 
-### Start Service According To .env File In The Root Directory
+### Запуск службы в соответствии с файлом .env в корневом каталоге
 
 ```shell
-go run .
+идите запустить .
 ```
 
-### Specify .env File To Start Service
+### Укажите файл .env для запуска службы
 
 ```shell
-go run . --env=./.env
+запустить . --env=./.ruv
 ```
 
-### Start Service Using Environment Variables
+### Запустить службу с использованием переменных среды
 
 ```shell
-APP_ENV=production APP_DEBUG=true go run .
+APP_ENV=production APP_DEBUG=true идет запуск .
 ```
 
 ### Live reload
@@ -58,11 +58,11 @@ Install [cosmtrek/air](https://github.com/cosmtrek/air), Goravel has a built-in 
 directly:
 
 ```
-air
+воздух
 ```
 
-If you are using Windows system, you need to modify the `.air.toml` file in the root directory, and add the `.exe`
-suffix to the following two lines:
+Если вы используете систему Windows, вам нужно изменить `.air. oml` файл в корневом каталоге и добавьте `.exe`
+к следующим двум строкам:
 
 ```shell
 [build]
@@ -72,23 +72,23 @@ suffix to the following two lines:
 
 ## Конфигурация
 
-### Configuration files
+### Файлы конфигурации
 
-All configuration files of the Goravel framework are placed in the `config` directory. All configuration items have
-annotations, you can adjust them according to your needs.
+Все конфигурационные файлы среды Goravel находятся в папке `config`. Все элементы конфигурации имеют аннотации
+, вы можете настроить их в соответствии с вашими потребностями.
 
-### Generate Application key
+### Сгенерировать ключ приложения
 
-You need to generate the application key after Goravel is installed locally. Running the command below, a 32-bit string
-will be generated on the `APP_KEY` key in the `.env` file. This key is mainly used for data encryption and decryption.
+Вам нужно сгенерировать ключ приложения после того, как Goravel установлен локально. При запуске команды ниже будет сгенерирована 32-битная строка
+на ключе `APP_KEY` в файле `.env`. Этот ключ используется в основном для шифрования и дешифрования данных.
 
 ```shell
-go run . artisan key:generate
+запустить . artisan key:generate
 ```
 
-### Generate JWT Token
+### Сгенерировать JWT токен
 
-You need to generate JWT Token if you use [Authentication](../security/authentication).
+Вам нужно сгенерировать JWT токен если вы используете [Authentication](../security/authentication).
 
 ```shell
 go run . artisan jwt:secret
