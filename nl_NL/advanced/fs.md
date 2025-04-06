@@ -273,106 +273,106 @@ omdat de bestandsnaam en extensie kunnen worden gemanipuleerd door een kwaadaard
 de `HashName` en `Extension` methoden om een naam en een extensie voor het opgegeven bestand te verkrijgen:
 
 ```go
-file, err := ctx.Request().File("avatar")
+bestand, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+naam := file.HashName() // Genereer een unieke, willekeurige naam...
+extensie, err := file.Extension() // Bepaal de bestandsextensie gebaseerd op het MIME-type van het bestand...
 ```
 
-## Deleting Files
+## Bestanden verwijderen
 
-The `Delete` method accepts a single filename or an array of files to delete:
+De `Delete` methode accepteert een enkele bestandsnaam of een array van bestanden om te verwijderen:
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+Indien nodig kunt u opgeven dat het bestand moet worden verwijderd van:
 
 ```go
 err := facades.Storage().Disk("s3").Delete("file.jpg")
 ```
 
-## Directories
+## Mappen
 
-### Get All Files Within A Directory
+### Krijg alle bestanden binnen een map
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
-
-```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
-```
-
-### Get All Directories Within A Directory
-
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+De `Files` methode geeft een slice van alle bestanden in een bepaalde map. Als u een lijst van alle
+bestanden in een bepaalde map wilt ophalen, inclusief alle submappen, kunt u de `AllFiles` methode gebruiken:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+bestanden, err := facades.Storage().Disk("s3").Files("map")
+bestanden, err := facades.Storage().Disk("s3").AllFiles("Map")
 ```
 
-### Create A Directory
+### Krijg alle mappen binnen een map
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+De `Directories` methode retourneert een slice van alle mappen binnen een bepaalde map. Daarnaast kan je de
+`AllDirectories` methode gebruiken om een lijst van alle mappen binnen een bepaalde map en alle bijbehorende submappen te verkrijgen:
+
+```go
+directories, err := facades.Storage().Disk("s3").Directories("Map")
+directories, err := facades.Storage().Disk("s3").AllDirectories("Map")
+```
+
+### Maak een map aan
+
+De `MakeDirectory` methode maakt de opgegeven map aan, inclusief eventuele benodigde submappen,
 
 ```go
 err := facades.Storage().MakeDirectory(directory)
 ```
 
-### Delete A Directory
+### Verwijder een map
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+Tot slot, de `DeleteDirectory` methode kan worden gebruikt om een map en alle bestanden te verwijderen:
 
 ```go
 err := facades.Storage().DeleteDirectory(directory)
 ```
 
-## Custom Filesystems
+## Aangepaste bestandssystemen
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+U kunt het `custom` stuurprogramma instellen in het `config/filesystems.go` bestand.
 
 ```go
 "custom": map[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+U moet het `github.com/goravel/framework/contracts/filesystem/Driver` interface implementeren in het `via`
+configuratie-item.
 
 ```go
 type Driver interface {
   AllDirectories(path string) ([]string, error)
   AllFiles(path string) ([]string, error)
   Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
+  Delete(file ... probeer) fout
+  Verwijdert eDirectory(directory string) fout
   Directories(path string) ([]string, error)
-  Exists(file string) bool
+  Bestaat (bestand string) bool
   Files(path string) ([]string, error)
-  Get(file string) (string, error)
-  GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
+  Get(bestandstring) (string, error)
+  Gettes(bestandstring) ([]byte, error)
+  LastModified(bestandstring) (tijd. ime, fout)
+  MakeDirectory(directory string) fout
   MimeType(file string) (string, error)
   Missing(file string) bool
-  Move(oldFile, newFile string) error
+  Move(oldFile, newFile string) fout
   Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
-  Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
+  Put(bestand, tekenreeks) fout
+  PutFile(path string, bron bestand) (string, fout)
+  PutFileAs(padstring, bronbestand, naam string) (string, fout)
+  Grootte (bestandstring) (int64, error)
+  TemporaryUrl(file string, tijd ime) (string, error)
   WithContext(ctx context.Context) Driver
   Url(file string) string
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> Opmerking: aangezien de configuratie niet is geladen wanneer de aangepaste driver is geregistreerd, gebruik dan
+> `facades. onfig().Env` om de configuratie van de aangepaste driver te verkrijgen.
