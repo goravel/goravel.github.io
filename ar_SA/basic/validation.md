@@ -1,265 +1,264 @@
-# Validation
+# المصادقة
 
-Goravel provides several different approaches to validate your application's incoming data. It is most common to use the
-`Validate` method available on all incoming HTTP requests. Goravel includes a wide variety of convenient validation
-rules.
+يوفر Goravel عدة نُهج مختلفة للتحقق من صحة البيانات الواردة لتطبيقك. من الأكثر شيوعاً استخدام طريقة
+'Validate' المتوفرة على جميع طلبات HTTP الواردة. يتضمن Goravel مجموعة واسعة من قواعد التحقق المريحة
 
-## Validation Quickstart
+## بدء سريع للتحقق
 
-Let's take a closer look at a complete example of how to validate a form and return error messages to the user. This
+دعونا نلقي نظرة أدق على مثال كامل لكيفية التحقق من صحة النموذج وإرجاع رسائل الخطأ إلى المستخدم. This
 overview will provide you with a general understanding of how to validate incoming request data using Goravel.
 
-### Defining The Routes
+### تعريف الطرق
 
-First, let's assume we have the following routes defined in our `routes/web.go` file:
+أولا، دعونا نفترض أن الطرق التالية محددة في ملفنا \`routes/web.go':
 
 ```go
-import "goravel/app/http/controllers"
+استيراد "goravel/app/http/controllers"
 
-postController := controllers.NewPostController()
+post-Controller := controlllers.NewPostController()
 facades.Route().Get("/post/create", postController.Create)
 facades.Route().Post("/post", postController.Store)
 ```
 
-The `GET` route displays a form for creating a new blog post. The `POST` route stores the new post in the database.
+يعرض مسار "GET" استمارة لإنشاء مشاركة مدونة جديدة. ويخزن مسار "POST" الوظيفة الجديدة في قاعدة البيانات.
 
-### Creating The Controller
+### إنشاء المراقب المالي
 
-Next, let's take a look at a simple controller that handles incoming requests to these routes. We'll leave the `Store`
-method empty for now:
+بعد ذلك، دعونا نلقي نظرة على وحدة تحكم بسيطة تتعامل مع الطلبات الواردة إلى هذه الطرق. سنترك طريقة "المتجر"
+فارغة الآن:
 
 ```go
-package controllers
+تحكم الحزمة
 
-import (
-  "github.com/goravel/framework/contracts/http"
-)
+استيراد (
+  "github. om/goravel/framework/contracts/http"
+
 
 type PostController struct {
-  // Dependent services
-}
+  // Dependent Services
+
 
 func NewPostController() *PostController {
   return &PostController{
-    // Inject services
-  }
+    // Inject Services
+
+
+
+
+func (r *PostController) Create(ctx SUp. ontext) {
+
 }
 
-func (r *PostController) Create(ctx http.Context) {
-
-}
-
-func (r *PostController) Store(ctx http.Context) {
+func (r *PostController) متجر (tx http.Context) {
 
 }
 ```
 
-### Writing The Validation Logic
+### كتابة منطق التحقق
 
-Now we are ready to fill in our `Store` method with the logic to validate the new blog post.
+نحن الآن مستعدون لملء طريقة "المتجر" الخاصة بنا بالمنطق للتحقق من صحة مشاركة المدونة الجديدة.
 
 ```go
-func (r *PostController) Store(ctx http.Context) {
-  validator, err := ctx.Request().Validate(map[string]string{
-    "title": "required|max_len:255",
-    "body": "required",
-    "code": "required|regex:^\d{4,6}$",
+مربع (r *PostController) متجر (tx http.Context) {
+  المصادق، الخطأ := ctx.request). alidate(map[string]string{
+    "title": "required<unk> max_len:255",
+    "body": "مطلوب",
+    "الرمز": "مطلوب: ^\d{4,6}$",
   })
 }
 ```
 
-### Nested Attributes
+### السمات المتداخلة
 
 If the incoming HTTP request contains "nested" field data, you may specify these fields in your validation rules using
 the "dot" syntax:
 
 ```go
-validator, err := ctx.Request().Validate(map[string]string{
-  "title": "required|max_len:255",
-  "author.name": "required",
-  "author.description": "required",
+محقق، err := ctx.request().Validate(map[string]string{
+  "title": "required<unk> max_len:255",
+  "author.name": "مطلوب"،
+  "author.description": "مطلوب"،
 })
 ```
 
-### Slice Validation
+### التحقق من الجليد
 
 If the incoming HTTP request contains "array" field data, you may specify these fields in your validation rules using
 the `*` syntax:
 
 ```go
-validator, err := ctx.Request().Validate(map[string]string{
-  "tags.*": "required",
+المصادق، الخطأ := ctx.request().Validate(map[string]string{
+  "علامات.*": "مطلوب"،
 })
 ```
 
-## Form Request Validation
+## التحقق من طلب النموذج
 
-### Creating Form Requests
+### إنشاء طلبات النموذج
 
-For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes
-that encapsulate their own validation and authorization logic. To create a form request class, you may use the
-`make:request` Artisan CLI command:
+بالنسبة لسيناريوهات التحقق الأكثر تعقيدا، قد ترغب في إنشاء "طلب استمارة". طلبات الاستمارة هي فئات طلب مخصصة
+التي تتضمن منطق التحقق والتصريح الخاص بها. لإنشاء صف طلب نموذجي، يمكنك استخدام الأمر
+\`make:request' Artisan CLI:
 
 ```go
-go run . artisan make:request StorePostRequest
-go run . artisan make:request user/StorePostRequest
+ابدأ بالتشغيل. اعمل الحرفية على:request StorePostRequest
+. ابدأ تشغيل الحرفية على:request user/StorePostRequest
 ```
 
-The generated form request class will be placed in the `app/http/requests` directory. If this directory does not exist,
-it will be created when you run the `make:request` command. Each form request generated by Goravel has six methods:
-`Authorize`, `Rules`. In addition, you can customize the `Filters`, `Messages`, `Attributes` and `PrepareForValidation`
-methods for further operations.
+سيتم وضع فئة طلب النموذج التي تم إنشاؤها في دليل "app/http/requests". إذا كان هذا الدليل غير موجود،
+سيتم إنشاؤه عند تشغيل الأمر `make:request'. ولكل طلب من طلبات الاستمارة التي أنشأتها غورافيل ست أساليب:
+`إذن`، `القواعد`. بالإضافة إلى ذلك، يمكنك تخصيص طرق 'المرشحات` و 'الرسائل` و 'السمات و 'التأهب` و 'التأهب\`
+لمزيد من العمليات.
 
 The `Authorize` method is responsible for determining if the currently authenticated user can perform the action
 represented by the request, while the `Rules` method returns the validation rules that should apply to the request's
 data:
 
 ```go
-package requests
+طلب الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/contracts/validation"
-)
+  "github. om/goravel/framework/contracts/validation"
+
 
 type StorePostRequest struct {
-  Name string `form:"name" json:"name"`
+  Name string `form:"name"` json:"name"`
 }
 
-func (r *StorePostRequest) Authorize(ctx http.Context) error {
+func (r *StorePostrequest) Authorize(tx A/Cp. ontext) خطأ {
   return nil
 }
 
-func (r *StorePostRequest) Rules(ctx http.Context) map[string]string {
-  return map[string]string{
-    // The keys are consistent with the incoming keys.
-    "name": "required|max_len:255",
-  }
+func (r *StorePostrequest) قواعد (tx { p. ontext) خريطة[string]سلسلة {
+  خريطة العودة[string]سلسلة{
+    // المفاتيح متسقة مع المفاتيح الواردة.
+    "name": "required<unk> max_len:255",
+
 }
 
-func (r *StorePostRequest) Filters(ctx http.Context) map[string]string {
-  return map[string]string{
-    "name": "trim",
-  }
+func (r *StorePostrequest) Filters(ctx. ontext) خريطة[string]سلسلة {
+  خريطة العودة[string]سلسلة{
+    "الاسم": "trim",
+
+
+
+func (r *StorePostrequest) Messages(ctx /SBp. ontext) map[string]string {
+  Remap[string]string{}
 }
 
-func (r *StorePostRequest) Messages(ctx http.Context) map[string]string {
-  return map[string]string{}
-}
+func (r * StorePostrequest) Attributes(ctx iopp. ontext) map[string]string {
+  Remap[string]string{}
 
-func (r *StorePostRequest) Attributes(ctx http.Context) map[string]string {
-  return map[string]string{}
-}
 
-func (r *StorePostRequest) PrepareForValidation(ctx http.Context, data validation.Data) error {
+func (r * StorePostrequest) PrepareValidation(ctx i. على النص، التحقق من صحة البيانات.البيانات) خطأ {
   return nil
 }
 ```
 
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The
-incoming form request is validated before the controller method is called, meaning you do not need to clutter your
-controller with any validation logic:
+إذن، كيف يتم تقييم قواعد التحقق؟ كل ما عليك فعله هو كتابة تلميح الطلب على طريقة وحدة التحكم الخاصة بك. تم التحقق من طلب النموذج
+الوارد قبل تسمية طريقة وحدة التحكم، يعني أنك لست بحاجة إلى تفكيك وحدة التحكم
+الخاصة بك مع أي منطق التحقق من صحة:
 
-Then you can use the `ValidateRequest` method to validate the request in the controller:
+ثم يمكنك استخدام طريقة 'Validaterequest' للتحقق من صحة الطلب في وحدة التحكم:
 
 ```go
-func (r *PostController) Store(ctx http.Context) {
+تفكيك (r *PostController) مخزن (tx http.Context) {
   var storePost requests.StorePostRequest
-  errors, err := ctx.Request().ValidateRequest(&storePost)
+  الأخطاء، الخطأ := ctx.request().Validaterequest(&storePost)
 }
 ```
 
-Check more rules in the [Available Validation Rules](#available-validation-rules) section.
+تحقق من المزيد من القواعد في قسم [قواعد التحقق المتاحة](#available-validation-rules).
 
-> Note that since `form` passed values ​​are of `string` type by default, all fields in request should also be of
-> `string` type, otherwise please use `JSON` to pass values.
+> لاحظ أنه منذ تمرير القيم 'form`<unk> <unk> are من نوع 'string' بشكل افتراضي، جميع الحقول في الطلب يجب أن تكون أيضا من نوع`سلسلة'، وإلا فالرجاء استخدام \`JSON' لتمرير القيم.
 
-### Authorizing Form Requests
+### تخويل طلبات النموذج
 
-The form request class also contains an `Authorize` method. Within this method, you may determine if the authenticated
-user actually has the authority to update a given resource. For example, you may determine if a user actually owns a
-blog comment they are attempting to update. Most likely, you will interact with
-your [authorization gates and policies](../security/authorization) within this method:
+نوع الطلب يحتوي أيضا على طريقة 'إذن\`. ضمن هذه الطريقة، يمكنك تحديد ما إذا كان المستخدم المصادق
+لديه في الواقع الصلاحية لتحديث مورد معين. على سبيل المثال، قد تحدد ما إذا كان المستخدم يمتلك بالفعل تعليق مدونة
+يحاول تحديثها. على الأرجح، سوف تتفاعل مع
+[بوابات التفويض وسياساتك](../security/authorization) ضمن هذه الطريقة:
 
 ```go
-func (r *StorePostRequest) Authorize(ctx http.Context) error {
-  var comment models.Comment
+تفكيك (r *StorePostrequest) تفويض الخطأ (tx http.Context) {
+  var Commodels. omment
   facades.Orm().Query().First(&comment)
-  if comment.ID == 0 {
-    return errors.New("no comment is found")
+  if comment.ID =0 {
+    خطأ في الإرجاع. ew("لا يوجد تعليق")
   }
 
-  if !facades.Gate().Allows("update", map[string]any{
-    "comment": comment,
+  إذا !facades.Gate. llows("تحديث", map[string]any{
+    "تعليق": تعليق،
   }) {
-    return errors.New("can't update comment")
-  }
+    خطأ في الإرجاع. ew("لا يمكن تحديث التعليق")
 
-  return nil
+
+  Rerefl
 }
 ```
 
-`error` will be passed to the return value of `ctx.Request().ValidateRequest`.
+سيتم نقل "خطأ" إلى قيمة الإرجاع لـ \`ctx.request().Validaterequest.
 
-### Filter Input Data
+### تصفية بيانات الإدخال
 
-You can format the input data by improving the `Filters` method of the form request. This method should return an map of
+يمكنك تنسيق بيانات الإدخال عن طريق تحسين طريقة `المرشحات` لطلب النموذج. يجب أن تعيد هذه الطريقة خريطة من
 `attribute/filter`:
 
 ```go
-func (r *StorePostRequest) Filters(ctx http.Context) map[string]string {
-  return map[string]string{
-    "name": "trim",
+Fters(ctx http.Context) map[string]string {
+  Remap[string]string{
+    "الاسم": "trim",
   }
 }
 ```
 
-### Customizing The Error Messages
+### تخصيص رسائل الخطأ
 
-You may customize the error messages used by the form request by overriding the `Messages` method. This method should
-return an array of attribute / rule pairs and their corresponding error messages:
+يمكنك تخصيص رسائل الخطأ المستخدمة في طلب النموذج عن طريق تجاوز طريقة "الرسائل". يجب أن تقوم هذه الطريقة
+بإرجاع مجموعة من السمات / أزواج القواعد ورسائل الخطأ المقابلة:
 
 ```go
-func (r *StorePostRequest) Messages() map[string]string {
-  return map[string]string{
-    "title.required": "A title is required",
-    "body.required": "A message is required",
-  }
+تموج (r *StorePostrequest) الرسائل()[string]سلسلة{
+  خريطة إرجاع[string]سلسلة{
+    "العنوان.
+    "body.required": "رسالة مطلوبة"،
+
 }
 ```
 
-### Customizing The Validation Attributes
+### تخصيص سمات التحقق
 
-Many of Goravel's built-in validation rule error messages contain an `:attribute` placeholder. If you would like the
-`:attribute` placeholder of your validation message to be replaced with a custom attribute name, you may specify the
-custom names by overriding the `Attributes` method. This method should return an array of attribute / name pairs:
+العديد من رسائل خطأ قاعدة Goravel's المدمجة في Goravel's تحتوي على عنصر تحويل ':attribute'. إذا كنت ترغب في استبدال العنصر النائب
+':attribute' لرسالة التحقق الخاصة بك باسم سمة مخصصة، يمكنك تحديد الأسماء المخصصة
+عن طريق تجاوز طريقة \`السمات'. يجب أن تعيد هذه الطريقة مجموعة من السمة / زواج الاسم:
 
 ```go
-func (r *StorePostRequest) Attributes() map[string]string {
-  return map[string]string{
-    "email": "email address",
+مالك (r *StorePostrequest) سمات الخريطة[string]سلسلة {
+  العودة[string]string{
+    "البريد الإلكتروني": "عنوان البريد الإلكتروني"،
   }
 }
 ```
 
-### Preparing Input For Validation
+### إعداد الإدخال للتحقق
 
-If you need to prepare or sanitize any data from the request before you apply your validation rules, you may use the
-`PrepareForValidation` method:
+إذا كنت بحاجة إلى إعداد أو تصحيح أي بيانات من الطلب قبل تطبيق قواعد التحقق الخاصة بك، فيمكنك استخدام طريقة
+`التأهب`:
 
 ```go
-func (r *StorePostRequest) PrepareForValidation(ctx http.Context, data validation.Data) error {
-  if name, exist := data.Get("name"); exist {
-    return data.Set("name", name.(string)+"1")
+مربع (r *StorePostrequest) PrepareValidation(ctx http.Contexation.Data) خطأ {
+  إذا كان الاسم، موجود := البيانات. et("name"); هناك {
+    Redata.Set("name", name.(string)+"1")
   }
-  return nil
+  Renl
 }
 ```
 
-## Manually Creating Validators
+## إنشاء المدققين يدويا
 
-If you do not want to use the `Validate` method on the request, you may create a validator instance manually using the
-`facades.Validator`. The `Make` method of the facade generates a new validator instance:
+إذا كنت لا ترغب في استخدام طريقة "Validate" بناء على الطلب، فيمكنك إنشاء مثيل متحقق يدوياً باستخدام
+`facades.Validator`. وتولّد طريقة "مفعول" الواجهة مثالاً جديداً للمصادقة:
 
 ```go
 func (r *PostController) Store(ctx http.Context) http.Response {
@@ -282,49 +281,48 @@ func (r *PostController) Store(ctx http.Context) http.Response {
 }
 ```
 
-The first argument passed to the `Make` method is the data under validation which can be `map[string]any` or `struct`.
-The second argument is an array of validation rules to be applied to the data.
+أول حجة مرسلة إلى طريقة "Make" هي البيانات قيد التحقق والتي يمكن أن تكون "map[string]any" أو "struct".
+أما الحجة الثانية فهي مجموعة من قواعد التحقق التي ينبغي تطبيقها على البيانات.
 
-### Customizing The Error Messages
+### تخصيص رسائل الخطأ
 
-If needed, you may provide custom error messages that a validator instance should use instead of the default error
-messages provided by Goravel. You may pass the custom messages as the third argument to the `Make` method (also
-applicable to `ctx.Request().Validate()`):
+عند الحاجة، يمكنك تقديم رسائل خطأ مخصصة التي يجب أن يستخدمها مثيل متحقق بدلاً من الخطأ الافتراضي
+الرسائل المقدمة من Goravel. يمكنك نقل الرسائل المخصصة بوصفها الحجة الثالثة إلى طريقة 'Make' (أيضًا
+ينطبق على 'ctx.request().Validate()\`:
 
 ```go
-validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
-  "required": "The :attribute field is required.",
+المصادق، الخطأ := facades.Validation().Make(input, rules validation.Messages(map[string]string{
+  "المطلوب": "حقل :attribute مطلوب.",
 }))
 ```
 
-### Specifying A Custom Message For A Given Attribute
+### تحديد رسالة مخصصة للسمة المعطاة
 
-Sometimes you may wish to specify a custom error message only for a specific attribute. You may do so using "dot"
-notation. Specify the attribute's name first, followed by the rule (also applicable to `ctx.Request().Validate()`):
+في بعض الأحيان قد ترغب في تحديد رسالة خطأ مخصصة فقط لسمة معينة. يمكنك فعل ذلك باستخدام "dot"
+تعليق. حدد اسم السمة أولا، متبوعا بالقاعدة (تنطبق أيضا على `ctx.request().Validate()`):
 
 ```go
-validator, err := facades.Validation().Make(input, rules, validation.Messages(map[string]string{
-  "email.required": "We need to know your email address!",
+المصادق، الخطأ := facades.Validation().Make(input, Rulation.Messages(map[string]string{
+  "email.required": "نحن بحاجة إلى معرفة عنوان بريدك الإلكتروني!",
 }))
 ```
 
-### Specifying Custom Attribute Values
+### تحديد قيم السمات المخصصة
 
-Many of Goravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the
-field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you
-may pass an array of custom attributes as the third argument to the `Make` method (also applicable to
-`ctx.Request().Validate()`):
+العديد من رسائل الأخطاء المدمجة في Goravel's تتضمن العنصر النائب `:attribute' الذي يتم استبداله باسم الحقل
+أو السمة قيد التحقق. To customize the values used to replace these placeholders for specific fields, you
+may pass an array of custom attributes as the third argument to the `Make`method (also applicable to`ctx.Request().Validate()\`):
 
 ```go
-validator, err := facades.Validation().Make(input, rules, validation.Attributes(map[string]string{
-  "email": "email address",
+المصادق، الخطأ := facades.Validation().Make(input, Rulation.Attributes(map[string]string{
+  "البريد الإلكتروني": "البريد الإلكتروني"،
 }))
 ```
 
-### Format Data Before Validation
+### تنسيق البيانات قبل التحقق
 
-You can format the data before validating the data for more flexible data validation, and you can pass the method of
-formatting the data as the third parameter to the `Make` method (also applicable to `ctx.Request().Validate()`):
+يمكنك تنسيق البيانات قبل التحقق من صحة البيانات من أجل التحقق من صحة البيانات أكثر مرونة، ويمكنك تمرير طريقة
+تنسيق البيانات كعامل ثالث إلى طريقة "Make" (ينطبق أيضًا على ctx. equest().Validate()\`:
 
 ```go
 import (
@@ -346,155 +344,155 @@ func (r *PostController) Store(ctx http.Context) http.Response {
 }
 ```
 
-## Working With Validated Input
+## العمل مع الإدخال المصادق عليه
 
-After validating incoming request data using form requests or manually created validator instances, you still want to
-bind the request data to a `struct`, there are two ways to do this:
+بعد التحقق من صحة طلب البيانات الوارد باستخدام طلبات الاستمارة أو حالات المصادقة التي تم إنشاؤها يدويًا، مازلت تريد
+ربط بيانات الطلب بـ \`هيكل'، هناك طريقتان للقيام بذلك:
 
-1. Use the `Bind` method, this will bind all incoming data, including unvalidated data:
+1. استخدم طريقة "بيند"، وهذا سيربط جميع البيانات الواردة، بما في ذلك البيانات غير المصادقة عليها:
 
 ```go
-validator, err := ctx.Request().Validate(rules)
-var user models.User
-err := validator.Bind(&user)
+المصادقة على المصادقة، الخطأ := ctx.request().Validate(القواعد)
+var user models.user
+err := المصادقة. ind(&user)
 
-validator, err := facades.Validation().Make(input, rules)
-var user models.User
+محقق المصادقة، الخطأ := facades.Validation().Make(input, rules)
+var user models.user
 err := validator.Bind(&user)
 ```
 
-2. The incoming data is automatically bound to the form when you use request for validation:
+2. البيانات الواردة مربوطة تلقائياً بالنموذج عند استخدام طلب المصادقة:
 
 ```go
 var storePost requests.StorePostRequest
-errors, err := ctx.Request().ValidateRequest(&storePost)
+خطأ، الخطأ := ctx.request().Validaterequest(&storePost)
 fmt.Println(storePost.Name)
 ```
 
-## Working With Error Messages
+## العمل مع رسائل الخطأ
 
-### Retrieving one Error Message For A Field (Random)
+### استرداد رسالة خطأ واحدة للحقل (عشوائي)
 
 ```go
-validator, err := ctx.Request().Validate(rules)
-validator, err := facades.Validation().Make(input, rules)
+المصادقة ، الخطأ := ctx.request().Validate(القواعد)
+المصادقة ، الخطأ := facades.Validation().Make(input, rules)
 
-message := validator.Errors().One("email")
+رسالة := validator.Errors().One("البريد الإلكتروني")
 ```
 
-### Retrieving All Error Messages For A Field
+### استرداد جميع رسائل الخطأ للحقل
 
 ```go
-messages := validator.Errors().Get("email")
+الرسائل := صحيح.Errors().Get("البريد الإلكتروني")
 ```
 
-### Retrieving All Error Messages For All Fields
+### استرداد جميع رسائل الخطأ لجميع الحقول
 
 ```go
-messages := validator.Errors().All()
+الرسائل := صحيح.Errors().All()
 ```
 
-### Determining If Error Messages Exist For A Field
+### تحديد إذا كانت رسائل الخطأ موجودة لحقل
 
 ```go
-if validator.Errors().Has("email") {
+if validator.Errors().Has("البريد الإلكتروني") {
   //
 }
 ```
 
-## Available Validation Rules
+## قواعد التحقق المتاحة
 
-Below is a list of all available validation rules and their function:
+فيما يلي قائمة بجميع قواعد التحقق المتاحة ووظائفها:
 
-| Name                   | Description                                                                                                                                                                                         |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `required`             | Check value is required and cannot be zero value. For example, field type is `bool`, the passing value is `false`, it can not pass the validation.                  |
-| `required_if`          | `required_if:anotherfield,value,...` The field under validation must be present and not empty if the anotherField field is equal to any value.                                      |
-| `required_unless`      | `required_unless:anotherfield,value,...` The field under validation must be present and not empty unless the anotherField field is equal to any value.                              |
-| `required_with`        | `required_with:foo,bar,...` The field under validation must be present and not empty only if any of the other specified fields are present.                                         |
-| `required_with_all`    | `required_with_all:foo,bar,...` The field under validation must be present and not empty only if all of the other specified fields are present.                                     |
-| `required_without`     | `required_without:foo,bar,...` The field under validation must be present and not empty only when any of the other specified fields are not present.                                |
-| `required_without_all` | `required_without_all:foo,bar,...` The field under validation must be present and not empty only when all of the other specified fields are not present.                            |
-| `int`                  | Check value is `intX` `uintX` type, and support size checking. eg: `int` `int:2` `int:2,12`. Notice: [Points for using rules](#int) |
-| `uint`                 | Check value is `uint(uintX)` type, `value >= 0`                                                                                                                                                     |
-| `bool`                 | Check value is bool string(`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false").                                |
-| `string`               | Check value is string type, and support size checking. eg:`string` `string:2` `string:2,12`                                                                         |
-| `float`                | Check value is `float(floatX)` type                                                                                                                                                                 |
-| `slice`                | Check value is slice type(`[]intX` `[]uintX` `[]byte` `[]string`)                                                                                                                |
-| `in`                   | `in:foo,bar,…` Check if the value is in the given enumeration                                                                                                                                       |
-| `not_in`               | `not_in:foo,bar,…` Check if the value is not in the given enumeration                                                                                                                               |
-| `starts_with`          | `starts_with:foo` Check if the input string value is starts with the given sub-string                                                                                                               |
-| `ends_with`            | `ends_with:foo` Check if the input string value is ends with the given sub-string                                                                                                                   |
-| `between`              | `between:min,max` Check that the value is a number and is within the given range                                                                                                                    |
-| `max`                  | `max:value` Check value is less than or equal to the given value(`intX` `uintX` `floatX`)                                                                                        |
-| `min`                  | `min:value` Check value is greater than or equal to the given value(`intX` `uintX` `floatX`)                                                                                     |
-| `eq`                   | `eq:value` Check that the input value is equal to the given value                                                                                                                                   |
-| `ne`                   | `ne:value` Check that the input value is not equal to the given value                                                                                                                               |
-| `lt`                   | `lt:value` Check value is less than the given value(`intX` `uintX` `floatX`)                                                                                                     |
-| `gt`                   | `gt:value` Check value is greater than the given value(`intX` `uintX` `floatX`)                                                                                                  |
-| `len`                  | `len:value` Check value length is equals to the given size(`string` `array` `slice` `map`)                                                                                       |
-| `min_len`              | `min_len:value` Check the minimum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `max_len`              | `max_len:value` Check the maximum length of the value is the given size(`string` `array` `slice` `map`)                                                                          |
-| `email`                | Check value is email address string                                                                                                                                                                 |
-| `array`                | Check value is array, slice type                                                                                                                                                                    |
-| `map`                  | Check value is a MAP type                                                                                                                                                                           |
-| `eq_field`             | `eq_field:field` Check that the field value is equals to the value of another field                                                                                                                 |
-| `ne_field`             | `ne_field:field` Check that the field value is not equals to the value of another field                                                                                                             |
-| `gt_field`             | `gt_field:field` Check that the field value is greater than the value of another field                                                                                                              |
-| `gte_field`            | `gte_field:field` Check that the field value is greater than or equal to the value of another field                                                                                                 |
-| `lt_field`             | `lt_field:field` Check that the field value is less than the value of another field                                                                                                                 |
-| `lte_field`            | `lte_field:field` Check if the field value is less than or equal to the value of another field                                                                                                      |
-| `file`                 | Verify if it is an uploaded file                                                                                                                                                                    |
-| `image`                | Check if it is an uploaded image file and support suffix check                                                                                                                                      |
-| `date`                 | Check the field value is date string                                                                                                                                                                |
-| `gt_date`              | `gt_date:value` Check that the input value is greater than the given date string                                                                                                                    |
-| `lt_date`              | `lt_date:value` Check that the input value is less than the given date string                                                                                                                       |
-| `gte_date`             | `gte_date:value` Check that the input value is greater than or equal to the given date string                                                                                                       |
-| `lte_date`             | `lte_date:value` Check that the input value is less than or equal to the given date string                                                                                                          |
-| `alpha`                | Verify that the value contains only alphabetic characters                                                                                                                                           |
-| `alpha_num`            | Check that only letters, numbers are included                                                                                                                                                       |
-| `alpha_dash`           | Check to include only letters, numbers, dashes ( - ), and underscores ( _ )                                                              |
-| `json`                 | Check value is JSON string                                                                                                                                                                          |
-| `number`               | Check value is number string `>= 0`                                                                                                                                                                 |
-| `full_url`             | Check value is full URL string(must start with http,https)                                                                                                                       |
-| `ip`                   | Check value is IP(v4 or v6) string                                                                                                                                               |
-| `ipv4`                 | Check value is IPv4 string                                                                                                                                                                          |
-| `ipv6`                 | Check value is IPv6 string                                                                                                                                                                          |
-| `regex`                | Check if the value can pass the regular verification                                                                                                                                                |
+| الاسم                                                      | الوصف                                                                                                                                                                                      |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `مطلوب`                                                    | قيمة التحقق مطلوبة ولا يمكن أن تكون قيمة صفر. على سبيل المثال، نوع الحقل هو 'bool\`، قيمة المرور هي 'false'، لا يمكن اجتياز التحقق من الصحة.               |
+| `مطلوبة_if`                                                | `مطلوبة_if:anotherfield,value,...` يجب أن يكون الحقل قيد التحقق حاضراً وليس فارغاً إذا كان الحقل الآخر مساوياً لأي قيمة.                                                   |
+| `مطلوبة_unless`                                            | `required_unless:anotherfield,value،...` يجب أن يكون الحقل قيد التحقق حاضراً وليس فارغاً ما لم يكن حقل آخر مساوياً لأي قيمة.                                               |
+| `مطلوبة_مع`                                                | `مطلوب_مع:foo,bar,...` يجب أن يكون الحقل قيد التحقق موجوداً وليس فارغاً فقط إذا كان أي من الحقول المحددة الأخرى موجودة.                                                    |
+| `مطلوب_مع _كل`                                             | `required_with_all:foo,bar,...` يجب أن يكون الحقل قيد التحقق حاضراً وليس فارغاً فقط إذا كانت جميع الحقول المحددة الأخرى موجودة.                                            |
+| `مطلوبة_دون إبعاد`                                         | `مطلوبة_without:foo,bar,...` يجب أن يكون الحقل قيد التحقق حاضراً وألا يكون فارغاً فقط عند عدم وجود أي من الحقول الأخرى المحددة.                                            |
+| 'مطلوب_مع _الكل' | `required_without_all:foo,bar,...` يجب أن يكون الحقل قيد التحقق حاضراً وليس فارغاً فقط عندما تكون جميع الحقول المحددة الأخرى غير موجودة.                                   |
+| `int`                                                      | قيمة التحقق هي نوع 'intX' 'uintX' والتحقق من حجم الدعم. eg: `int` `int:2` `int:2,12`. إشعار: [نقاط لاستخدام القواعد](#int) |
+| `uint`                                                     | قيمة التحقق هي نوع 'uint(uintX)`، 'القيمة >= 0`                                                                                                                         |
+| `bool`                                                     | قيمة التحقق هي سلسلة بولي (`true`: "1", "on", "نعم", "true", `false`: "0", "off", "no", "false").                       |
+| `سلسلة`                                                    | قيمة التحقق هي نوع السلسلة، والتحقق من حجم الدعم. eg:`string` `string:2` `string:2,12`                                                                     |
+| `float`                                                    | قيمة التحقق هي نوع 'float(floatX)'                                                                                                                                      |
+| `شريحة`                                                    | قيمة التحقق هي نوع الشريحة (`[]intX` `[]uintX` `[]byte` `[]string`)                                                                                                     |
+| 'in\`                                                      | `in:foo,bar,…` تحقق مما إذا كانت القيمة في التعداد المعطى                                                                                                                                  |
+| `not_in`                                                   | `not_in:foo,bar,…` تحقق مما إذا كانت القيمة غير موجودة في التعداد المعطى                                                                                                                   |
+| `starts_with`                                              | "starts_with:foo" تحقق مما إذا كانت قيمة سلسلة الإدخال تبدأ بسلسلة فرعية معينة                                                                        |
+| `ends_with`                                                | 'ends_with:foo' تحقق مما إذا كانت قيمة سلسلة الإدخال تنتهي بسلسلة فرعية معينة                                                                         |
+| `بين`                                                      | 'between:min,max' تحقق من أن القيمة عدد وداخل نطاق معين                                                                                                                    |
+| `حد أقصى`                                                  | قيمة التحقق `max:value' أقل أو يساوي القيمة المعينة (`intX` `uintX` `floatX\`)                                                                                                             |
+| `دقيقة`                                                    | 'min:value' قيمة التحقق أكبر من أو يساوي القيمة المعينة ('intX' `uintX' `floatX')                                                                       |
+| `eq`                                                       | 'eq:value' تحقق من أن قيمة الإدخال تساوي القيمة المعطاة                                                                                                                    |
+| `ne`                                                       | 'ne:value' تحقق من أن قيمة الإدخال لا تساوي القيمة المعطاة                                                                                                                 |
+| `lt`                                                       | قيمة التحقق `lt:value' أقل من القيمة المعطاة. (`intX' `uintX' `floatX')                                                                                                                    |
+| `gt`                                                       | 'gt:value' قيمة التحقق أكبر من القيمة المعينة ('intX' `uintX' `floatX')                                                                                 |
+| `len`                                                      | 'len:value' طول قيمة التحقق يساوي الحجم المعين ('سلسلة' 'slice' 'map')                                                                                  |
+| `min_len`                                                  | 'min_len:value' تحقق من الحد الأدنى لطول القيمة هو الحجم المعين ('سلسلة' 'slice' 'map\`)                                           |
+| `max_len`                                                  | 'max_len:value' تحقق من الحد الأقصى لطول القيمة هو الحجم المعين ('سلسلة' 'slice' 'map\`)                                           |
+| `email`                                                    | قيمة التحقق هي سلسلة عنوان البريد الإلكتروني                                                                                                                                               |
+| 'صفيف\`                                                    | قيمة التحقق هي المصفوفة، نوع الشريحة                                                                                                                                                       |
+| `خريطة`                                                    | قيمة التحقق هي نوع الـ MAP                                                                                                                                                                 |
+| `eq_field`                                                 | 'eq_field:field' تحقق من أن قيمة الحقل تساوي قيمة حقل آخر                                                                                             |
+| `ne_field`                                                 | "ne_field:field" تحقق من أن قيمة الحقل لا تساوي قيمة حقل آخر                                                                                          |
+| `gt_field`                                                 | 'gt_field:field' تحقق من أن قيمة الحقل أكبر من قيمة حقل آخر                                                                                           |
+| `gte_field`                                                | 'gte_field:field' تحقق من أن قيمة الحقل أكبر أو تساوي قيمة حقل آخر                                                                                    |
+| `lt_field`                                                 | 'lt_field:field' تحقق من أن قيمة الحقل أقل من قيمة حقل آخر                                                                                            |
+| `lte_field`                                                | 'lte_field:field' تحقق مما إذا كانت قيمة الحقل أقل أو تساوي قيمة حقل آخر                                                                              |
+| `ملف`                                                      | تحقق إذا كان ملف تم تحميله                                                                                                                                                                 |
+| `image`                                                    | تحقق مما إذا كان ملف صورة مرفوع ودعمها لاحقة التحقق                                                                                                                                        |
+| `التاريخ`                                                  | تحقق من قيمة الحقل هو سلسلة التاريخ                                                                                                                                                        |
+| `gt_date`                                                  | 'gt_date:value' تحقق من أن قيمة الإدخال أكبر من سلسلة التاريخ المعينة                                                                                 |
+| `lt_date`                                                  | "lt_date:value" تحقق من أن قيمة الإدخال أقل من سلسلة التاريخ المعينة                                                                                  |
+| `gte_date`                                                 | 'gte_date:value' تحقق من أن قيمة الإدخال أكبر من أو يساوي سلسلة التاريخ المعينة                                                                       |
+| `lte_date`                                                 | 'lte_date:value' تحقق من أن قيمة الإدخال أقل من أو يساوي سلسلة التاريخ المعينة                                                                        |
+| ألفا                                                       | تحقق من أن القيمة تحتوي على أحرف أبجدية فقط                                                                                                                                                |
+| `alpha_num`                                                | تحقق من أن الأحرف والأرقام فقط متضمنة                                                                                                                                                      |
+| `ألفا_داش`                                                 | تحقق لتضمينها فقط الأحرف والأرقام والشرطات ( -) والشرطات السفلية ( _ )                                                          |
+| `json`                                                     | قيمة التحقق هي سلسلة JSON                                                                                                                                                                  |
+| `عدد`                                                      | قيمة التحقق هي سلسلة `>= 0`                                                                                                                                                                |
+| `full_url`                                                 | قيمة التحقق هي سلسلة URL كاملة(يجب أن تبدأ مع http,https)                                                                                                               |
+| `ip`                                                       | قيمة التحقق هي سلسلة IP(v4 أو v6)                                                                                                                                       |
+| \`ipv4'                                                    | قيمة التحقق هي سلسلة IPv4                                                                                                                                                                  |
+| `ipv6`                                                     | قيمة التحقق هي سلسلة IPv6                                                                                                                                                                  |
+| `regex`                                                    | تحقق مما إذا كانت القيمة يمكن أن تمر بالتحقق العادي                                                                                                                                        |
 
-### Points For Using Rules
+### نقاط لاستخدام القواعد
 
-#### int
+#### تلميح
 
-When using `ctx.Request().Validate(rules)` for validation, the incoming `int` type data will be parsed by
-`json.Unmarshal` into `float64` type, which will cause the int rule validation to fail.
+عند استخدام 'ctx.request().Validate(rules)' للتحقق من صحة صحة البيانات، سيتم تحليل بيانات نوع 'int' الواردة بواسطة
+'json. nmarshal`إلى نوع`float64\`، الذي سيؤدي إلى فشل التحقق من صحة القاعدة الواردة.
 
-**Solutions**
+**الحلول**
 
-Option 1: Add [`validation.PrepareForValidation`](#format-data-before-validation), format the data before validating the
-data;
+الخيار 1: إضافة [`validation.PrepareForValidation`](#format-data-before-validation)، تنسيق البيانات قبل التحقق من صحة البيانات
+؛
 
-Option 2: Use `facades.Validation().Make()` for rule validation;
+الخيار 2: استخدام `facades.Validation().Make()` للتحقق من صحة القاعدة؛
 
-## Custom Validation Rules
+## قواعد التحقق المخصصة
 
-Goravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of
-registering custom validation rules is using rule objects. To generate a new rule object, you can simply use the
-`make:rule` Artisan command.
+يوفر Goravel مجموعة متنوعة من قواعد التحقق المفيدة؛ ومع ذلك، قد ترغب في تحديد بعض من قواعد التحقق الخاصة بك. طريقة واحدة من قواعد التحقق المخصصة
+هي استخدام كائنات القاعدة. لإنشاء عنصر قاعدة جديد، يمكنك ببساطة استخدام أمر Artisan
+\`make:rule'.
 
-For instance, if you want to verify that a string is uppercase, you can create a rule with this command. Goravel will
-then save this new rule in the `app/rules` directory. If this directory does not exist, Goravel will create it when you
+على سبيل المثال، إذا كنت ترغب في التحقق من أن سلسلة هي حرف رئيسي، فيمكنك إنشاء قاعدة بهذا الأمر. Goravel سوف
+ثم حفظ هذه القاعدة الجديدة في دليل "app/rules". If this directory does not exist, Goravel will create it when you
 run the Artisan command to create your rule.
 
 ```go
-go run . artisan make:rule Uppercase
-go run . artisan make:rule user/Uppercase
+قم بتشغيل. مارست الحرفية:rule Uppercase
+تشغيل. مارست الحرفية:rule user/Uppercase
 ```
 
-After creating the rule, we need to define its behavior. A rule object has two methods: `Passes` and `Message`. The
-Passes method receives all data, including the data to be validated and the validation parameters. It should return
-`true` or `false` depending on whether the attribute value is valid. The `Message` method should return the error
-message for validation that should be used when the validation fails.
+بعد إنشاء القاعدة، نحتاج إلى تعريف سلوكها. كائن القاعدة له طريقتان: `تصريح` و `رسالة`. وتتلقى طريقة المرور
+جميع البيانات، بما في ذلك البيانات التي سيتم التحقق من صحتها ومعلمات التحقق. يجب أن يرجع
+`true` أو `false` اعتماداً على ما إذا كانت قيمة السمة صالحة. يجب أن ترجع طريقة "الرسالة" رسالة الخطأ
+للتحقق التي يجب استخدامها عند فشل عملية التحقق.
 
 ```go
 package rules
@@ -525,8 +523,8 @@ func (receiver *Uppercase) Message() string {
 
 ```
 
-Then you need to register the rule to the `rules` method in the `app/providers/validation_service_provider.go` file, and
-the rule can be used like other rules:
+ثم تحتاج إلى تسجيل القاعدة في طريقة "القواعد" في ملف "app/providers/validation_service_provider.go"، و
+يمكن استخدام القاعدة مثل القواعد الأخرى:
 
 ```go
 package providers
@@ -558,48 +556,48 @@ func (receiver *ValidationServiceProvider) rules() []validation.Rule {
 }
 ```
 
-## Available Validation Filters
+## فلاتر التحقق المتوفرة
 
-| Name                           | Description                                                                                                                                                             |
+| الاسم                          | الوصف                                                                                                                                                                   |
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `int/toInt`                    | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `uint/toUint`                  | Convert value(string/intX/floatX) to `uint` type `v.FilterRule("id", "uint")`                                                                        |
-| `int64/toInt64`                | Convert value(string/intX/floatX) to `int64` type `v.FilterRule("id", "int64")`                                                                      |
-| `float/toFloat`                | Convert value(string/intX/floatX) to `float` type                                                                                                    |
-| `bool/toBool`                  | Convert string value to bool. (`true`: "1", "on", "yes", "true", `false`: "0", "off", "no", "false") |
-| `trim/trimSpace`               | Clean up whitespace characters on both sides of the string                                                                                                              |
-| `ltrim/trimLeft`               | Clean up whitespace characters on left sides of the string                                                                                                              |
-| `rtrim/trimRight`              | Clean up whitespace characters on right sides of the string                                                                                                             |
-| `int/integer`                  | Convert value(string/intX/floatX) to `int` type `v.FilterRule("id", "int")`                                                                          |
-| `lower/lowercase`              | Convert string to lowercase                                                                                                                                             |
-| `upper/uppercase`              | Convert string to uppercase                                                                                                                                             |
-| `lcFirst/lowerFirst`           | Convert the first character of a string to lowercase                                                                                                                    |
-| `ucFirst/upperFirst`           | Convert the first character of a string to uppercase                                                                                                                    |
-| `ucWord/upperWord`             | Convert the first character of each word to uppercase                                                                                                                   |
-| `camel/camelCase`              | Convert string to camel naming style                                                                                                                                    |
-| `snake/snakeCase`              | Convert string to snake naming style                                                                                                                                    |
-| `escapeJs/escapeJS`            | Escape JS string.                                                                                                                                       |
-| `escapeHtml/escapeHTML`        | Escape HTML string.                                                                                                                                     |
-| `str2ints/strToInts`           | Convert string to int slice `[]int`                                                                                                                                     |
-| `str2time/strToTime`           | Convert date string to `time.Time`.                                                                                                                     |
-| `str2arr/str2array/strToArray` | Convert string to string slice `[]string`                                                                                                                               |
+| `int/toInt`                    | تحويل القيمة (سلسلة/intX/floatX) إلى `int' نوع `v.FilterRule("id", "int")\`                                       |
+| `uint/toUint`                  | تحويل القيمة (سلسلة/intX/floatX) إلى 'uint' نوع 'v.FilterRule("id", "uint")'                                      |
+| `int64/toInt64`                | تحويل القيمة (سلسلة/intX/floatX) إلى `int64' نوع `v.FilterRule("id", "int64")\`                                   |
+| `float/toFloat`                | تحويل القيمة (سلسلة/intX/floatX) إلى نوع 'float'                                                                                                     |
+| `bool/toBool`                  | تحويل قيمة السلسلة إلى البول. (`true`: "1", "on", "نعم", "true", `false`: "0", "off", "no", "false") |
+| `trim/trimSpace`               | تنظيف أحرف المساحة البيضاء على كلا جانبي السلسلة                                                                                                                        |
+| `ltrim/trimLeft`               | تنظيف أحرف المساحة البيضاء على الجانب الأيسر من السلسلة                                                                                                                 |
+| `rtrim/trimRight`              | تنظيف أحرف المساحة البيضاء على الجوانب اليمنى من السلسلة                                                                                                                |
+| `int/integer`                  | تحويل القيمة (سلسلة/intX/floatX) إلى `int' نوع `v.FilterRule("id", "int")\`                                       |
+| `حالة منخفضة/منخفضة`           | تحويل السلسلة إلى أحرف صغيرة                                                                                                                                            |
+| `uppercase/uppercase`          | تحويل السلسلة إلى الحروف الكبيرة                                                                                                                                        |
+| `lcFirst/low erFirst`          | تحويل الحرف الأول من سلسلة إلى حروف صغيرة                                                                                                                               |
+| `ucFirst/upperFirst`           | تحويل الحرف الأول من سلسلة إلى حرف كبير                                                                                                                                 |
+| `ucWord/upperWord`             | تحويل الحرف الأول لكل كلمة إلى حرف كبير                                                                                                                                 |
+| `camel/camelCase`              | تحويل السلسلة إلى نمط تسمية الجمال                                                                                                                                      |
+| `snake/snakeCase`              | تحويل السلسلة إلى نمط تسمية الثعبان                                                                                                                                     |
+| `escapeJs/escapeJS`            | هرّب من سلسلة JS.                                                                                                                                       |
+| `escapeHtml/escapeHTML`        | الهروب من سلسلة HTML.                                                                                                                                   |
+| `str2ints/strToInts`           | تحويل السلسلة إلى إشارة شريحة `[]int`                                                                                                                                   |
+| `str2time/strToTime`           | تحويل سلسلة التاريخ إلى `time.Time`.                                                                                                                    |
+| `str2arr/str2array/strToArray` | تحويل السلسلة إلى شريحة سلسلة `[]سلسلة`                                                                                                                                 |
 
-## Custom filter
+## عامل تصفية مخصص
 
-Goravel provides a variety of helpful filters, however, you may wish to specify some of your own. To generate a new rule
-object, you can simply use the `make:filter` Artisan command. Let's use this command to generate a rule that converts a
-string to an integer. This rule is already built into the framework, we just create it as an example. Goravel will save
-this new filter in the `app/filters` directory. If this directory does not exist, Goravel will create it when you run
-the Artisan command to create the rule:
+توفر Goravel مجموعة متنوعة من الفلاتر المفيدة، على كل حال، قد ترغب في تحديد بعض من فلاتك الخاصة. لإنشاء قاعدة جديدة
+كائن، يمكنك ببساطة استخدام الأمر الفني `make:filter`. دعونا نستخدم هذا الأمر لإنشاء قاعدة تحول سلسلة
+إلى عدد صحيح. هذه القاعدة مدمجة بالفعل في الإطار، نحن فقط ننشئها كمثال. Goravel سوف تحفظ
+هذا الفلتر الجديد في دليل "app/filters". إذا كان هذا الدليل غير موجود، سيقوم Goravel بإنشائه عند تشغيل
+الأمر الفني لإنشاء القاعدة:
 
 ```go
-go run . artisan make:filter ToInt
-// or
-go run . artisan make:filter user/ToInt
+إذهب إلى التشغيل. تشغيل الحرفي: تصفية ToInt
+// أو
+. يعمل الحرفي: filter user/ToInt
 ```
 
-One filter contains two methods: `Signature` and `Handle`. The `Signature` method sets the name of the filter. The
-`Handle` method performs the specific filtering logic:
+فلتر واحد يحتوي على طريقتين: "التوقيع" و "Handle". وتحدد طريقة "التوقيع" اسم المرشح. طريقة
+`Handle` تؤدي منطق التصفية المحدد:
 
 ```go
 package filters
@@ -627,8 +625,8 @@ func (receiver *ToInt) Handle() any {
 }
 ```
 
-Then you need to register the filter to the `filters` method in the `app/providers/validation_service_provider.go` file,
-and the filter can be used like others:
+ثم تحتاج إلى تسجيل الفلتر إلى طريقة 'التصفية' في ملف 'app/providers/validation_service_provider.go'، و
+و الفلتر يمكن استخدامه مثل الآخرين:
 
 ```go
 package providers
