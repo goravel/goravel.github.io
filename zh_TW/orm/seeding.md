@@ -1,4 +1,4 @@
-# Database: Seeding
+# Seeding
 
 Goravel includes the ability to seed your database with data using seed struct. All seed structs are stored in the
 `database/seeders` directory. By default, a `DatabaseSeeder` struct is defined for you.
