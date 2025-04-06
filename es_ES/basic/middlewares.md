@@ -1,15 +1,15 @@
-# Middleware
+# Medios
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+El Middleware proporciona un mecanismo conveniente para inspeccionar y filtrar las peticiones HTTP que entran en la aplicación.
 
-## Define Middleware
+## Definir Middleware
 
-You can create your own middleware in the `app/http/middleware` directory, the structure is as follows.
+Puedes crear tu propio middleware en el directorio `app/http/middleware`, la estructura es la siguiente.
 
 ```go
-package middleware
+paquete middleware
 
-import (
+importar (
   "github.com/goravel/framework/contracts/http"
 )
 
@@ -20,28 +20,28 @@ func Auth() http.Middleware {
 }
 ```
 
-### Create Middleware By Command
+### Crear Middleware por Comando
 
 ```
 go run . artisan make:middleware Auth
 
-// Support nested folders
+// Soporta carpetas anidadas
 go run . artisan make:middleware user/Auth
 ```
 
-## Register Middleware
+## Registrar Middleware
 
-### Global Middleware
+### Middleware global
 
-If you want to apply middleware for every HTTP request of your application, you only need to register the middleware in
-the `Middleware` in the `app/http/kernel.go` file.
+Si desea aplicar middleware para cada petición HTTP de su aplicación, solo necesitas registrar el middleware en
+el `Middleware` en `app/http/kernel. o` archivo.
 
 ```go
-// app/http/kernel.go
-package http
+// app/http/kernel.go importación
+paquete http
 
-import (
-  "github.com/goravel/framework/contracts/http"
+(
+  "github. om/goravel/framework/contracts/http"
   
   "goravel/app/http/middleware"
 )
@@ -49,29 +49,29 @@ import (
 type Kernel struct {
 }
 
-func (kernel *Kernel) Middleware() []http.Middleware {
+func (kernel *Kernel) Middleware() []http. iddleware {
   return []http.Middleware{
     middleware.Auth(),
   }
 }
 ```
 
-### Assign Middleware for Routing
+### Asignar Middleware para la ruta
 
-You can register the middleware for some routing separately:
+Puede registrar el middleware para algunas rutas por separado:
 
 ```go
-import "github.com/goravel/framework/http/middleware"
+importar "github.com/goravel/framework/http/middleware"
 
-facades.Route().Middleware(middleware.Auth()).Get("users", userController.Show)
+facades.Route().Middleware(middleware.Auth()).Get("usuarios", userController.Show)
 ```
 
-## Abort Request
+## Anular solicitud
 
-In middleware, if you need to interrupt the request, you can use the `Abort` method.
+En middleware, si necesita interrumpir la solicitud, puede utilizar el método `Abort`.
 
 ```go
 ctx.Request().Abort()
 ctx.Request().Abort(http.StatusNotFound)
-ctx.Response().String(http.StatusNotFound, "Not Found").Abort()
+ctx.Response().String(http.StatusNotFound, "No encontrado").Abort()
 ```
