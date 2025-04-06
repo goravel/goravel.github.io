@@ -1,24 +1,24 @@
-# Logging
+# تسجيل
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+من أجل فهم حالة تشغيل التطبيق، يوفر Goravel خدمة تسجيل قوية يمكنها تسجيل
+رسائل التسجيل وأخطاء النظام إلى ملف أو قنوات أخرى من خلال 'واجهات'. og()\`.
 
 ## الإعدادات
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+لتكوين قنوات تسجيل مختلفة، يمكن تكوين تكوينات مخصصة في `config/logging.go`.
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+يستخدم "Goravel" قناة "stack" لتسجيل السجلات بشكل افتراضي، يسمح "stack" بإعادة السجلات إلى قنوات متعددة.
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+يمكن لتكوين "print" في مشغل "single" و "daily" التحكم في إخراج السجل إلى وحدة التحكم.
 
-## Available channel drivers
+## مشغلات القنوات المتاحة
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| الاسم    | الوصف                 |
+| -------- | --------------------- |
+| `مكدس`   | السماح بقنوات متعددة  |
+| `وحيد`   | ملف السجل الفردي      |
+| `يوميا`  | ملف سجل واحد في اليوم |
+| `custom` | محرك قرص مخصص         |
 
 ### حقن السياق
 
@@ -26,7 +26,7 @@ The `print` configuration in `single` and `daily` drivers can control log output
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## كتابة رسائل السجل
 
 ```go
 facades.Log().Debug(message)
@@ -35,7 +35,7 @@ facades.Log().Info(message)
 facades.Log().Infof(message, args)
 facades.Log().Warning(message)
 facades.Log().Warningf(message, args)
-facades.Log().Error(message)
+. og().Error(message)
 facades.Log().Errorf(message, args)
 facades.Log().Fatal(message)
 facades.Log().Fatalf(message, args)
@@ -43,70 +43,68 @@ facades.Log().Panic(message)
 facades.Log().Panicf(message, args)
 ```
 
-### Write to a specific channel
+### الكتابة إلى قناة محددة
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+في بعض الأحيان، قد ترغب في تسجيل الرسائل إلى قناة أخرى غير القناة الافتراضية للتطبيق:
 
 ```go
 facades.Log().Channel("single").Info(message)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+إذا كنت ترغب في الكتابة إلى قنوات متعددة في نفس الوقت، يمكنك استخدام طريقة "تكديس":
 
 ```go
 facades.Log().Stack([]string{"single", "slack"}).Info(message)
 ```
 
-## Chain Methods
+## طرق السلسلة
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+ويوفر Goravel أساليب سلسلة مناسبة، تجعل من السهل إدراج معلومات أكثر فائدة في السجل:
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| الطريقة  | اجراء                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------- |
+| الكود    | تعيين رمز أو مسبار يصف السجل. (Automatic Translation)        |
+| تلميح    | تعيين تلميح لتصحيح أخطاء أسرع.                                                  |
+| في       | تعيين فئة أو نطاق الميزة التي يكون فيها إدخال السجل ذا صلة بالموضوع.            |
+| المالك   | مفيد لأغراض التنبيه.                                                            |
+| طلب      | يوفر http.request.                                              |
+| الرد     | يوفر http.Response.                                             |
+| الوسوم   | إضافة وسوم متعددة، وصف الميزة لإرجاع خطأ.                                       |
+| المستخدم | تعيين المستخدم المرتبط بإدخال السجل. (Automatic Translation) |
+| مع       | أضف أزواج القيمة الرئيسية إلى سياق إدخال السجل.                                 |
+| السحب    | إضافة معلومات مكدس إلى إدخال السجل.                                             |
 
-## Create a custom channel
+## إنشاء قناة مخصصة
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+إذا كنت ترغب في تحديد قناة مخصصة بالكامل، يمكنك تحديد نوع مشغل 'custom' في ملف 'config/logging.go\`ثم قم بإدراج خيار 'via' لتنفيذ بنية 'framework\contracts\log\Logger':
 
 ```go
 // config/logging.go
 "custom": map[string]interface{}{
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### تشغيل السائق
 
-Implement `framework\contracts\log\Logger` interface.
+تنفيذ واجهة 'Frame\contracts\log\Logger'.
 
 ```go
 // framework/contracts/log/Logger
-package log
+حزمة سجل
 
-type Logger interface {
-  // Handle pass channel config path here
-  Handle(channel string) (Hook, error)
+نوع واجهة تسجيل التسجيل {
+  / / مسار تكوين قناة المرور باليد هنا
+  Handle(سلسلة القناة) (Hook, خطأ)
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). مثال:
+يمكن تخزين الملفات في مجلد "app/extensions" (تعديل). مثال:
 
 ```go
 package extensions
