@@ -269,7 +269,7 @@ facades.Schema().DropIfExists("users")
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
+Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `SQLite`, and
 `Sqlserver` databases, it is a `String` type.
 
 ```go
