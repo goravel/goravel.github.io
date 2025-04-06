@@ -1,172 +1,172 @@
-# Strings
+# Строки
 
-Goravel provides a fluent string manipulation library that allows you to easily manipulate strings. Fluent Strings
-allows you to combine multiple string operations through method chaining, where most of the methods returns an instance
-of `support/str.String`, letting you chain additional methods. To get the final string value after applying the chained
-operations, you can call the `String` method, which returns the underlying `string` value.
+Горавель предоставляет библиотеку свободно манипулирования струнами, которая позволяет легко манипулировать строками. Fluent Strings
+позволяет комбинировать несколько строковых операций через цепочку методов, где большинство методов возвращает экземпляр
+из `support/str. tring`, давая вам цепь дополнительных методов. Чтобы получить окончательное значение строки после применения операций с цепочкой
+, вы можете вызвать метод `String`, который возвращает лежащее в его основе значение `string`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").Trim().Lower().UpperFirst().String() // "Goravel"
+str.Of(" Goravel ").Trim().Lower().UpperFirst().String() // "Goravel"
 ```
 
-## Available Methods
+## Доступные методы
 
 ### `Of`
 
-The `Of` method creates a new fluent string instance from a given string.
+Метод `Of` создает новый беглый экземпляр строки из заданной строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("Goravel")
 ```
 
-### `After`
+### `После`
 
-The `After` method returns the portion of a string that appears after a specified value. If the value is an empty string
-or does not exist within the original string, the full string is returned.
+Метод «После» возвращает часть строки, которая появляется после указанного значения. Если значение является пустой строкой
+или не существует в исходной строке, то возвращается полная строка.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello World!").After("Hello").String() // " World!"
+str.Of("Hello World!").After("Hello").String() // " Мир!"
 ```
 
 ### `AfterLast`
 
-The `AfterLast` method returns the portion of a string that appears after the last occurrence of a specified value. If
-the value is an empty string or does not exist within the original string, the full string is returned.
+Метод `AfterLast` возвращает часть строки, которая появляется после последнего вхождения указанного значения. Если
+значение является пустой строкой или не существует в исходной строке, то возвращается полная строка.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("docs.goravel.dev").AfterLast(".").String() // "dev"
 ```
 
-### `Append`
+### `Добавить`
 
-The `Append` method appends the specified value to the end of the string.
+Метод «Добавить» добавляет указанное значение к концу строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Bowen").Append(" Han").String() // "Bowen Han"
 ```
 
-### `Basename`
+### `Базовое имя`
 
-The `Basename` method returns the trailing name component of a path, optionally removing a specified suffix from the
-base name.
+Метод «Basename» возвращает конечный компонент имени пути, при желании удаляя указанный суффикс из имени базы
+.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("framework/support/str").Basename().String() // "str"
 
 str.Of("framework/support/str.go").Basename(".go").String() // "str"
 ```
 
-### `Before`
+### «Раньше
 
-The `Before` method returns the portion of a string that appears before a specified value. If the value is an empty
-string or does not exist within the original string, the full string is returned.
+Метод `Bore` возвращает часть строки, которая появляется перед указанным значением. Если значение является пустой строкой
+или не существует в исходной строке, то возвращается полная строка.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello World!").Before("World").String() // "Hello "
+str.Of("Hello World!").Before("World").String() // "Привет"
 ```
 
-### `BeforeLast`
+### `Досрочка`
 
-The `BeforeLast` method returns the portion of a string that appears before the last occurrence of a specified value. If
-the value is an empty string or does not exist within the original string, the full string is returned.
+Метод `BeforeLast` возвращает часть строки, которая появляется до последнего вхождения указанного значения. Если
+значение является пустой строкой или не существует в исходной строке, то возвращается полная строка.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("docs.goravel.dev").BeforeLast(".").String() // "docs.goravel"
 ```
 
 ### `Between`
 
-The `Between` method returns the portion of a string between two given values.
+Метод «Between» возвращает часть строки между двумя заданными значениями.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("[Hello] World!").Between("[", "]").String() // "Hello"
 ```
 
 ### `BetweenFirst`
 
-The `BetweenFirst` method returns the portion of a string between the first occurrence of two given values.
+Метод «BetweenFirst» возвращает часть строки между первым вхождением двух заданных значений.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("[Hello] [World]!").BetweenFirst("[", "]").String() // "Hello"
 ```
 
-### `Camel`
+### `Камель`
 
-The `Camel` method converts the string to `camelCase`.
+Метод `Camel` преобразует строку в `camelCase`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("hello_world").Camel().String() // "helloWorld"
 ```
 
 ### `CharAt`
 
-The `CharAt` method returns the character at the given index. If the index is out of bounds, an empty string will be
+Метод `CharAt` возвращает символ по заданному индексу. If the index is out of bounds, an empty string will be
 returned.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").CharAt(1) // "o"
 ```
 
-### `ChopEnd`
+### `Чопэнд`
 
-The `ChopEnd` method removes the given value(s) from the end of the string.
+Метод 'ChopEnd' удаляет заданное значение из конца строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("https://goravel.com").ChopEnd(".dev", ".com").String() // https://goravel
 ```
 
 ### `ChopStart`
 
-The `ChopStart` method removes the given value(s) from the start of the string.
+Метод `ChopStart` удаляет заданное значение из начала строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("https://goravel.dev").ChopStart("http://", "https://").String() // goravel.dev
 ```
 
-### `Contains`
+### «Содержит»
 
-The `Contains` method determines if the given string contains the given value. The method is case-sensitive. If multiple
-values are provided, it will return `true` if the string contains any of the values.
+Метод «Содержит» определяет, содержит ли данная строка заданное значение. Метод чувствителен к регистру. Если представлено несколько значений
+, то они будут возвращены `true`, если строка содержит любые значения.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Contains("Gor") // true
 
 str.Of("Hello World").Contains("Gor", "Hello") // true
 ```
 
-### `ContainsAll`
+### `Содержит все`
 
-The `ContainsAll` method determines if the given string contains all of the given values. The method is case-sensitive.
+Метод «ContainsAll» определяет, содержит ли данная строка все заданные значения. Метод чувствителен к регистру.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -178,53 +178,53 @@ str.Of("Hello World").ContainsAll("Hello", "Gor") // false
 
 ### `Dirname`
 
-The `Dirname` method returns the parent portion of a path.
+Метод «Dirname» возвращает родительскую часть пути.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("framework/support/str").Dirname().String() // "framework/support"
 ```
 
-Optionally, you may provide the directory level to trim from the path.
+При необходимости вы можете указать уровень каталога для обрезания из пути.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("framework/support/str").Dirname(2).String() // "framework"
 ```
 
 ### `EndsWith`
 
-The `EndsWith` method determines if the given string ends with the given value. The method is case-sensitive.
+Метод «EndsWith» определяет, заканчивается ли заданная строка заданным значением. Метод чувствителен к регистру.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").EndsWith("vel") // true
 ```
 
-You may pass multiple values to the method to determine if the string ends with any of the values.
+Методу можно передать несколько значений, чтобы определить, заканчивается ли строка любым из значений.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").EndsWith("vel", "lie") // true
 ```
 
-### `Exactly`
+### `Ровно`
 
-The `Exactly` method determines if the given string is exactly equal to the given value. The method is case-sensitive.
+Метод «Точно» определяет, соответствует ли данная строка заданному значению. Метод чувствителен к регистру.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Exactly("Goravel") // true
 ```
 
-### `Except`
+### `Исключить`
 
-The `Except` method extracts an excerpt from the string that matches the first occurrence of the given value.
+Метод «Исключение» извлекает выдержку из строки, которая соответствует первому вхождению данного значения.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -235,7 +235,7 @@ str.Of("This is a beautiful morning").
     }).String() // "...is a beautiful morn...
 ```
 
-Additionally, you may use `Omission` option to change the string that is used to indicate the excerpt.
+Кроме того, вы можете использовать параметр `Omission` для изменения строки, используемой для указания выдержки.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -249,87 +249,87 @@ str.Of("This is a beautiful morning").
 
 ### `Explode`
 
-The `Explode` method splits the string into an array of strings using the given delimiter.
+Метод `Explode` разбивает строку на массив строк, используя заданный разделитель.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").Explode(" ") // []string{"Hello", "World"}
 ```
 
-### `Finish`
+### `Закончить`
 
-The `Finish` method ensures that the given string ends with the given value. If the string already ends with the value,
-it will not be added again.
+Метод `Finish` гарантирует, что данная строка заканчивается с заданным значением. Если строка уже заканчивается со значением, то
+не будет добавлено снова.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("framework").Finish("/").String() // "framework/"
 
 str.Of("framework/").Finish("/").String() // "framework/"
 ```
 
-### `Headline`
+### `Заголовк`
 
-The `Headline` method converts the string to a headline.
+Метод `Headline` преобразует строку в заголовки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("bowen_han").Headline().String() // "Bowen Han"
 
 str.Of("HelloWorld").Headline().String() // "Hello World"
 ```
 
-### `Is`
+### `Я`
 
-The `Is` method determines if the given string matches the given pattern. The method is case-sensitive.
+Метод «Is» определяет, соответствует ли данная строка данному шаблону. Метод чувствителен к регистру.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("foo123").Is("bar*", "baz*", "foo*") // true
 ```
 
 ### `IsEmpty`
 
-The `IsEmpty` method determines if the given string is empty.
+Метод «IsEmpty» определяет пустую ли указанную строку.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("").IsEmpty() // true
 ```
 
 ### `IsNotEmpty`
 
-The `IsNotEmpty` method determines if the given string is not empty.
+Метод `IsNotEmpty` определяет, не пустая ли данная строка.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").IsNotEmpty() // true
 ```
 
 ### `IsAscii`
 
-The `IsAscii` method determines if the given string contains only ASCII characters.
+Метод `IsAscii` определяет, содержит ли данная строка только ASCII символы.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").IsAscii() // true
 
-str.Of("你好").IsAscii() // false
+str.Of("<unk> <unk> ").IsAscii() // ложь
 ```
 
 ### `IsSlice`
 
-The `IsSlice` method determines if the given string is a slice.
+Метод «IsSlice» определяет является ли данная строка ломтиком.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of(`[{"name": "John"}, {"name": "Alice"}]`).IsSlice() // true
 
@@ -338,10 +338,10 @@ str.Of(`{"name": "John"}`).IsSlice() // false
 
 ### `IsMap`
 
-The `IsMap` method determines if the given string is a map.
+Метод `IsMap` определяет является ли данная строка картой.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of(`{"name": "John"}`).IsMap() // true
 
@@ -350,22 +350,22 @@ str.Of(`[{"name": "John"}, {"name": "Alice"}]`).IsMap() // false
 
 ### `IsUlid`
 
-The `IsUlid` method determines if the given string is a ULID.
+Метод «IsUlid» определяет, является ли данная строка ULID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
-str.Of("01E5Z6Z1Z6Z1Z6Z1Z6Z1Z6Z1Z6").IsUlid() // true
+str.Of("01E5Z6Z1Z6Z6Z1Z6Z6Z6Z1Z6").IsUlid() // true
 
 str.Of("krishan").IsUlid() // false
 ```
 
 ### `IsUuid`
 
-The `IsUuid` method determines if the given string is a UUID.
+Метод «IsUuid» определяет является ли данная строка UUID.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("550e8400-e29b-41d4-a716-446655440000").IsUuid() // true
 
@@ -374,108 +374,108 @@ str.Of("krishan").IsUuid() // false
 
 ### `Kebab`
 
-The `Kebab` method converts the string to `kebab-case`.
+Метод `Kebab` преобразует строку в `kebab-case`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("GoravelFramework").Kebab().String() // "goravel-framework"
 ```
 
 ### `LcFirst`
 
-The `LcFirst` method converts the first character of the string to lowercase.
+Метод «LcFirst» преобразует первый символ строки в строчные буквы.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel Framework").LcFirst().String() // "goravel Framework"
 ```
 
-### `Length`
+### «Длиная»
 
-The `Length` method returns the length of the string.
+Метод «Длина» возвращает длину строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Length() // 7
 ```
 
-### `Limit`
+### `Лимит`
 
-The `Limit` method truncates the string to the given length.
+Метод «Ограничение» урезает строку до заданной длины.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").Limit(7).String() // "This is..."
+str.Of("Это красивый morning").Limit(7).String() // "This is..."
 ```
 
-Optionally, you may provide the second argument to change the string that is used to indicate the truncation.
+При необходимости вы можете предоставить второй аргумент для изменения строки, которая используется для обозначения усечения.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
-str.Of("This is a beautiful morning").Limit(7, " (****)").String() // "This is (****)"
+str.Of("Это красивый утр").Limit(7, " (****)").String() // "Это (****)"
 ```
 
-### `Lower`
+### «Нижнее»
 
-The `Lower` method converts the string to lowercase.
+Метод «Нижняя строка» преобразует строку в строчные буквы.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("GORAVEL").Lower().String() // "goravel"
 ```
 
 ### `LTrim`
 
-The `LTrim` method trims the left side of the string.
+Метод «LTrim» обрезает левую сторону строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").LTrim().String() // "Goravel  "
+str.Of(" Goravel ").LTrim().String() // "Goravel "
 
 str.Of("/framework/").LTrim("/").String() // "framework/"
 ```
 
-### `Mask`
+### «Маски»
 
-The `Mask` method masks the string with the given mask character.
+Метод `Mask` замаскирует строку заданным символом.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
-str.Of("krishan@email.com").Mask("*", 3).String() // "kri**************"
+str.Of("krishan@email.com").Mask("*", 3).String() // "kri**********"
 ```
 
 If needed, you may provide negative number to mask method which instruct the method to begin masking from the end of the
 string.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("krishan@email.com").Mask("*", -13, 3).String() // "kris***@email.com"
 
-str.Of("krishan@email.com").Mask("*", -13).String() // "kris**************"
+str.Of("krishan@email.com").Mask("*", -13).String() // "kris********"
 ```
 
-### `Match`
+### `Совпадение`
 
-The `Match` method determines if the given string matches the given regular expression.
+Метод «Совпадает» определяет, соответствует ли данная строка данному регулярному выражению.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("This is a (test) string").Match(`\([^)]+\)`).String() // (test)
+str.Of("Это (test) string").Match(`\([^)]+\)`).String() // (test)
 ```
 
-### `MatchAll`
+### `Совпадение`
 
-The `MatchAll` method determines if the given string matches all of the given regular expressions.
+Метод «Соответствие» определяет, соответствует ли данная строка всем заданным регулярным выражениям.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -485,7 +485,7 @@ str.Of("abc123def456def").MatchAll(`\d+`) // []string{"123", "456"}
 
 ### `IsMatch`
 
-The `IsMatch` method determines if the given string matches (any of) the given regular expression.
+Метод «IsMatch» определяет, соответствует ли данная строка (любой из них) данному регулярному выражению.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -495,108 +495,108 @@ str.Of("Hello, Goravel!").IsMatch(`(?i)goravel`, `goravel!(.*)`) // true
 
 ### `NewLine`
 
-The `NewLine` method appends a newline character to the string.
+Метод `NewLine` добавляет к строке символ новой строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").NewLine(2).Append("Framework").String() // "Goravel\n\nFramework"
 ```
 
 ### `PadBoth`
 
-The `PadBoth` method pads both sides of the string.
+В «PadBoth» используется метод «PadBoth» с обеих сторон строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("Hello").PadBoth(10, "_").String() // "__Hello___"
 ```
 
 ### `PadLeft`
 
-The `PadLeft` method pads the left side of the string.
+Поле `PadLeft` отображает левую сторону строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello").PadLeft(10, "_").String() // "_____Hello"
 ```
 
 ### `PadRight`
 
-The `PadRight` method pads the right side of the string.
+В поле `PadRight` используется метод `PadRight` с правой стороны строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello").PadRight(10, "_").String() // "Hello_____"
 ```
 
 ### `Pipe`
 
-The `Pipe` method allows you to transform the string using a given closure.
+Метод `Pipe` позволяет преобразовать строку, используя замыкание.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Pipe(func(s string) string {
     return s + " Framework"
 }).String() // "Goravel Framework"
 ```
 
-### `Prepend`
+### `Предстояние`
 
-The `Prepend` method prepends the given value to the string.
+Метод `Prepend` добавляет заданное значение строке.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Framework").Prepend("Goravel ").String() // "Goravel Framework"
 ```
 
-### `Remove`
+### `Удалить`
 
-The `Remove` method removes the given value(s) from the string.
+Метод `Удалить` удаляет заданное значение из строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").Remove("World").String() // "Hello "
 
 str.Of("Hello World").Remove("World", "Hello").String() // " "
 ```
 
-### `Repeat`
+### `Повторить`
 
-The `Repeat` method repeats the string a given number of times.
+Метод «повторить» повторяет строку заданное количество раз.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
 str.Of("a").Repeat(2).String() // "aa"
 ```
 
-### `Replace`
+### «Заменить»
 
-The `Replace` method replaces the given value in the string.
+Метод «Заменить» заменяет заданное значение в строке.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").Replace("World", "Krishan").String() // "Hello Krishan"
+str.Of("Hello World").Заменить("Мир", "Krishan").String() // "Hello Krishan"
 ```
 
-By default, the `Replace` method is case-sensitive. If you would like the method to be case-insensitive, you may pass
-`false` as the third argument.
+По умолчанию метод «Заменить» чувствителен к регистру. Если вы хотите, чтобы метод был нечувствительным к регистру, вы можете передать в качестве третьего аргумента
+`false`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").Replace("world", "Krishan", false).String() // "Hello Krishan"
 ```
 
-### `ReplaceEnd`
+### `Заменить`
 
 The `ReplaceEnd` method replaces the last occurrence of the given value in the string only if it is at the end of the
 string.
@@ -606,110 +606,110 @@ import "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").ReplaceEnd("World", "Goravel").String() // "Hello Goravel"
 
-str.Of("Hello World").ReplaceEnd("Hello", "Goravel").String() // "Hello World"
+str.Of("Hello World").ReplaceEnd("Hello", "Goravel").String() // "Hello World" // "Hello World"
 ```
 
-### `ReplaceFirst`
+### `ЗаменитьFirst`
 
-The `ReplaceFirst` method replaces the first occurrence of the given value in the string.
+Метод «Заменить первый» заменяет первое вхождение данного значения в строке.
+
+```go
+импорт "github.com/goravel/framework/support/str"
+
+str.Of("Hello World").ReplaceFirst("Мир", "Goravel").String() // "Hello Goravel"
+```
+
+### `ЗаменитьLast`
+
+Метод `ReplaceLast` заменяет последнее вхождение заданного значения в строку.
+
+```go
+импорт "github.com/goravel/framework/support/str"
+
+str.Of("Hello World").ReplaceLast("World", "Goravel").String() // "Hello Goravel" // "Hello Goravel"
+```
+
+### `Заменные Матчи`
+
+Метод `ReplaceMatches` заменяет совпадения данного регулярного выражения в строке.
 
 ```go
 import "github.com/goravel/framework/support/str"
 
-str.Of("Hello World").ReplaceFirst("World", "Goravel").String() // "Hello Goravel"
+str.Of("Привет, Goravel!").ReplaceMatches(`goravel!(.*)`, "Krishan") // "Hello, Krishan!"
 ```
 
-### `ReplaceLast`
+### `ЗаменитьStart`
 
-The `ReplaceLast` method replaces the last occurrence of the given value in the string.
-
-```go
-import "github.com/goravel/framework/support/str"
-
-str.Of("Hello World").ReplaceLast("World", "Goravel").String() // "Hello Goravel"
-```
-
-### `ReplaceMatches`
-
-The `ReplaceMatches` method replaces the given regular expression matches in the string.
+Метод `ReplaceStart` заменяет первое вхождение заданного значения в строке только в том случае, если оно находится в начале
+строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
-
-str.Of("Hello, Goravel!").ReplaceMatches(`goravel!(.*)`, "Krishan") // "Hello, Krishan!"
-```
-
-### `ReplaceStart`
-
-The `ReplaceStart` method replaces the first occurrence of the given value in the string only if it is at the start of
-the string.
-
-```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").ReplaceStart("Hello", "Goravel").String() // "Goravel World"
 
-str.Of("Hello World").ReplaceStart("World", "Goravel").String() // "Hello World"
+str.Of("Hello World").ReplaceStart("World", "Goravel").String() // "Hello World" // "Hello World"
 ```
 
 ### `RTrim`
 
-The `RTrim` method trims the right side of the string.
+Метод 'RTrim' обрезает правую сторону строки.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортировать "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").RTrim().String() // "  Goravel"
+str.Of(" Goravel ").RTrim().String() // " Goravel"
 
 str.Of("/framework/").RTrim("/").String() // "/framework"
 ```
 
-### `Snake`
+### `Змея`
 
-The `Snake` method converts the string to `snake_case`.
+Метод `Snake` преобразует строку в `snake_case`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("GoravelFramework").Snake().String() // "goravel_framework"
 ```
 
-### `Split`
+### `Сплит`
 
-The `Split` method splits the string into an array of strings using the given delimiter.
+Метод «Split» разбивает строку на массив строк, используя заданный разделитель.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Hello World").Split(" ") // []string{"Hello", "World"}
 ```
 
 ### `Squish`
 
-The `Squish` method replaces consecutive whitespace characters with a single space.
+Метод `Squish` заменяет последовательные пробелы пробелами.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello    World").Squish().String() // "Hello World"
+str.Of("Hello World").Squish().String() // "Hello World"
 ```
 
-### `Start`
+### «Начало»
 
-The `Start` method adds a single instance of the given value to the beginning of the string if it does not already start
-with the value.
+Метод `Start` добавляет отдельный экземпляр заданного значения в начало строки, если он еще не запускает
+со значением.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("framework").Start("/").String() // "/framework"
 
 str.Of("/framework").Start("/").String() // "/framework"
 ```
 
-### `StartsWith`
+### `НачинаетС`
 
-The `StartsWith` method determines if the given string starts with (any) given value(s). The method is case-sensitive.
+Метод «StartsWith» определяет, начинается ли данная строка с заданным значением (любыми). Метод чувствителен к регистру.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -719,52 +719,52 @@ str.Of("Goravel").StartsWith("Gor") // true
 str.Of("Hello World").StartsWith("Gor", "Hello") // true
 ```
 
-### `String`
+### `Строка`
 
-The `String` method returns the string.
+Метод `String` возвращает строку.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").String() // "Goravel"
 ```
 
-### `Studly`
+### `Студент`
 
-The `Studly` method converts the string to `StudlyCase`.
+Метод `Studly` преобразует строку в `StudlyCase`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("goravel_framework").Studly().String() // "GoravelFramework"
 ```
 
 ### `Substr`
 
-The `Substr` method returns the portion of the string starting at the given index and continuing for the given length.
+Метод `Substr` возвращает часть строки, начиная с заданного индекса и продолжая для заданной длины.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").Substr(1, 3) // "ora"
 ```
 
 ### `Swap`
 
-The `Swap` method swaps multiple values in the string.
+Метод «Swap» изменяет несколько значений в строке.
 
 ```go
 import "github.com/goravel/framework/support/str"
 
 str.Of("Golang is awesome").Swap(map[string]string{
-  "Golang":  "Go",
+  "Golang": "Go",
   "awesome": "excellent",
  }).String() // "Go is excellent"
 ```
 
-### `Tap`
+### «Тап»
 
-The `Tap` method passes the string to the given closure and returns the string.
+Метод «Tap» передает строку в указанный замыкание и возвращает строку.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -774,51 +774,51 @@ str.Of("Goravel").Tap(func(s string) {
 }).String() // "Goravel"
 ```
 
-### `Test`
+### «Тест»
 
-The `Test` method determines if the given string matches the given regular expression.
+Метод «Тест» определяет, соответствует ли данная строка данному регулярному выражению.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello, Goravel!").Test(`goravel!(.*)`) // true
+str.Of("Привет, Goravel!").Test(`goravel!(.*)`) // true
 ```
 
 ### `Title`
 
-The `Title` method converts the string to `Title Case`.
+Метод `Title` преобразует строку в `Title Case`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").Title().String() // "Goravel Framework"
 ```
 
-### `Trim`
+### «Обрезать»
 
-The `Trim` method trims the string.
+Метод «Обрезать» обрезает строку.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("  Goravel  ").Trim().String() // "Goravel"
+str.Of(" Goravel ").Trim().String() // "Goravel"
 
-str.Of("/framework/").Trim("/").String() // "framework"
+str.Of("/framework/").Trim("/").String() // "framework" // "framework"
 ```
 
 ### `UcFirst`
 
-The `UcFirst` method converts the first character of the string to uppercase.
+Метод «UcFirst» преобразует первый символ строки в верхний регистр.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").UcFirst().String() // "Goravel framework"
 ```
 
 ### `UcSplit`
 
-The `UcSplit` method splits the string into an array of strings using uppercase characters.
+Метод «UcSplit» разделяет строку на массив строк, используя заглавные символы.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -828,7 +828,7 @@ str.Of("GoravelFramework").UcSplit() // []string{"Goravel", "Framework"}
 
 ### `Unless`
 
-The `Unless` method passes the string to the given closure and returns the string if the given condition is `false`.
+Метод «Unless» передает строку в заданное закрытие и возвращает строку, если данное условие является «false».
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -840,32 +840,32 @@ str.Of("Goravel").Unless(func(s *String) bool {
     }).String() // "Fallback Applied"
 ```
 
-### `Upper`
+### «Верхний»
 
-The `Upper` method converts the string to uppercase.
+Метод `Upper` преобразует строку в верхние буквы.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("goravel").Upper().String() // "GORAVEL"
 ```
 
-### `When`
+### «Когда»
 
-The `When` method passes the string to the given closure and returns the string if the given condition is `true`.
+Метод `When` передает строку в заданный замыкание и возвращает строку, если данное условие является `true`.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Bowen").When(true, func(s *str.String) *str.String {
     return s.Append(" Han")
 }).String() // "Bowen Han"
 ```
 
-If necessary, you may provide the third argument to the `When` method which is a closure that will be executed when the
-condition is `false`.
+При необходимости вы можете предоставить третий аргумент методу `Когда`, который является закрытием, который будет выполняться, когда условие
+является `false`.
 
-### `WhenContains`
+### `Когда-нибудь содержит`
 
 The `WhenContains` method passes the string to the given closure and returns the string if the given string contains the
 given value.
@@ -878,8 +878,8 @@ str.Of("Hello Bowen").WhenContains("Hello", func(s *str.String) *str.String {
 }).String() // "Hello Bowen Han"
 ```
 
-If necessary, you may provide the third argument to the `WhenContains` method which is a closure that will be executed
-when the string does not contain the given value.
+При необходимости вы можете предоставить третий аргумент методу `WhenContains`, который представляет собой замыкание, которое будет выполнено
+если строка не содержит заданного значения.
 
 ### `WhenContainsAll`
 
@@ -894,12 +894,12 @@ str.Of("Hello Bowen").WhenContainsAll([]string{"Hello", "Bowen"}, func(s *str.St
 }).String() // "Hello Bowen Han"
 ```
 
-If necessary, you may provide the third argument to the `WhenContainsAll` method which is a closure that will be
-executed when the string does not contain all the given values.
+При необходимости вы можете предоставить третий аргумент методу `WhenContainsAll`, который представляет собой замыкание, которое будет
+выполнено, если строка не содержит всех заданных значений.
 
-### `WhenEmpty`
+### `Когда-то осталось`
 
-The `WhenEmpty` method passes the string to the given closure and returns the string if the given string is empty.
+Метод `WhenEmpty` передает строку в заданный замыкание и возвращает строку, если заданная строка пуста.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -911,25 +911,25 @@ str.Of("").WhenEmpty(func(s *str.String) *str.String {
 
 ### `WhenIsAscii`
 
-The `WhenIsAscii` method passes the string to the given closure and returns the string if the given string contains only
-ASCII characters.
+Метод `WhenIsAscii` передает строку в заданный замыкание и возвращает строку, если заданная строка содержит только символы
+ASCII.
 
 ```go
 import "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").WhenIsAscii(func(s *str.String) *str.String {
     return s.Append(" Framework")
-}).String() // "Goravel Framework"
+}). tring() // "Goravel Framework"
 
-str.Of("你好").WhenIsAscii(func(s *str.String) *str.String {
+str.Of("<unk> <unk> ").WhenIsAscii(func(s *str.String) *str.String {
     return s.Append(" Framework")
-}).String() // "你好"
+}).String() // "<unk> <unk> "
 ```
 
-### `WhenNotEmpty`
+### `Не пусто`
 
-The `WhenNotEmpty` method passes the string to the given closure and returns the string if the given string is not
-empty.
+Метод `WhenNotEmpty` передает строку в заданный замыкание и возвращает строку, если заданная строка не
+пуста.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -945,43 +945,43 @@ The `WhenStartsWith` method passes the string to the given closure and returns t
 with the given value.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импортируйте "github.com/goravel/framework/support/str"
 
 str.Of("hello world").WhenStartsWith("hello", func(s *str.String) *str.String {
     return s.Title()
 }).String() // "Hello World"
 ```
 
-### `WhenEndsWith`
+### `По окончанию`
 
-The `WhenEndsWith` method passes the string to the given closure and returns the string if the given string ends with
-the given value.
+Метод `WhenEndsWith` передает строку в заданный замыкание и возвращает строку, если заданная строка заканчивается с
+заданным значением.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("hello world").WhenEndsWith("world", func(s *str.String) *str.String {
     return s.Title()
 }).String() // "Hello World"
 ```
 
-### `WhenExactly`
+### `Откровенное`
 
-The `WhenExactly` method passes the string to the given closure and returns the string if the given string is exactly
-equal to the given value.
+Метод `WhenExactly` передает строку в заданный замыкание и возвращает строку, если заданная строка ровно
+равным заданному значению.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("Goravel").WhenExactly("Goravel", func(s *str.String) *str.String {
     return s.Append(" Framework")
 }).String() // "Goravel Framework"
 ```
 
-### `WhenNotExactly`
+### `Не соответствует действительности`
 
-The `WhenNotExactly` method passes the string to the given closure and returns the string if the given string is not
-exactly equal to the given value.
+Метод `WhenNotExactly` передает строку в заданный замыкание и возвращает строку, если заданная строка не
+ровно равна заданному значению.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -991,10 +991,10 @@ str.Of("Goravel").WhenNotExactly("Goravel", func(s *str.String) *str.String {
 }).String() // "Goravel"
 ```
 
-### `WhenIs`
+### `Когда`
 
-The `WhenIs` method passes the string to the given closure and returns the string if the given string matches the given
-pattern.
+Метод `WhenIs` передает строку к заданному закрытию и возвращает строку, если заданная строка соответствует данному шаблону
+.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -1006,19 +1006,19 @@ str.Of("foo/bar").WhenIs("foo/*", func(s *str.String) *str.String {
 
 ### `WhenIsUlid`
 
-The `WhenIsUlid` method passes the string to the given closure and returns the string if the given string is a ULID.
+Метод `WhenIsUlid` передает строку в заданный замыкание и возвращает строку, если заданная строка является ULID.
 
 ```go
 import "github.com/goravel/framework/support/str"
 
-str.Of("01E5Z6Z1Z6Z1Z6Z1Z6Z1Z6Z1Z6").WhenIsUlid(func(s *str.String) *str.String {
+str.Of("01E5Z6Z1Z6Z6Z1Z6Z6Z6Z1Z1Z6").WhenIsUlid(func(s *str.String) *str.String {
     return s.Substr(0, 10)
 }).String() // "01E5Z6Z1Z6"
 ```
 
 ### `WhenIsUuid`
 
-The `WhenIsUuid` method passes the string to the given closure and returns the string if the given string is a UUID.
+Метод `WhenIsUuid` передает строку в заданный замыкание и возвращает строку, если заданная строка является UUID.
 
 ```go
 import "github.com/goravel/framework/support/str"
@@ -1028,13 +1028,13 @@ str.Of("550e8400-e29b-41d4-a716-446655440000").WhenIsUuid(func(s *str.String) *s
 }).String() // "550e8400"
 ```
 
-### `WhenTest`
+### \`Когда-то тест
 
-The `WhenTest` method passes the string to the given closure and returns the string if the given string matches the
-given regular expression.
+Метод `WhenTest` передает строку к заданному закрытию и возвращает строку, если заданная строка соответствует
+данному регулярному выражению.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
 str.Of("goravel framework").WhenTest(`goravel(.*)`, func(s *str.String) *str.String {
     return s.Append(" is awesome")
@@ -1043,23 +1043,23 @@ str.Of("goravel framework").WhenTest(`goravel(.*)`, func(s *str.String) *str.Str
 
 ### `WordCount`
 
-The `WordCount` method returns the number of words in the string.
+Метод `WordCount` возвращает количество слов в строке.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello, World!").WordCount() // 2
+str.Of("Здравствуйте, Мир!").WordCount() // 2
 ```
 
 ### `Words`
 
-The `Words` method limits the number of words in the string. If necessary, you may provide the second argument to change
-the string that is used to indicate the truncation.
+Метод `Words` ограничивает количество слов в строке. При необходимости вы можете привести второй аргумент для изменения
+строки, используемой для обозначения усечения.
 
 ```go
-import "github.com/goravel/framework/support/str"
+импорт "github.com/goravel/framework/support/str"
 
-str.Of("Hello, World!").Words(1) // "Hello..."
+str.Of("Здравствуйте, Мир!").Words(1) // "Hello..."
 
 str.Of("Hello, World!").Words(1, " (****)") // "Hello (****)"
 ```
