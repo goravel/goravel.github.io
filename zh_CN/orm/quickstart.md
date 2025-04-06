@@ -71,7 +71,8 @@ import "github.com/goravel/framework/contracts/database"
 
 ### 模式
 
-Postgres 和 Sqlserver 支持配置 Schema。 Postgres 可以直接在配置文件中设置 Schema，而 Sqlserver 需要通过模型中的 `TableName` 方法指定 Schema。
+Postgres and SQL Server support configuring Schema. Postgres can directly set the Schema in the configuration file, while
+SQL Server needs to specify the Schema through the `TableName` method in the model.
 
 #### Postgres
 
@@ -85,7 +86,7 @@ Postgres 和 Sqlserver 支持配置 Schema。 Postgres 可以直接在配置文�
 }
 ```
 
-#### Sqlserver
+#### SQL Server
 
 ```go
 func (r *User) TableName() string {
