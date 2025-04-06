@@ -1,58 +1,58 @@
-# Facades
+# Fassaden
 
 `facades` provide a "static" interface for the core functionality of the application and provide a more flexible, more
 elegant, and easy-to-test syntax.
 
-All `facades` of Goravel are defined under `github.com/goravel/framework/facades`. We can easily use `facades`:
+Alle `Fassaden` von Goravel sind unter `github.com/goravel/framework/facades` definiert. Wir können einfach "Fassaden" verwenden:
 
 ```go
-import "github.com/goravel/framework/facades"
+importieren "github.com/goravel/framework/facades"
 
 facades.Route().Run(facades.Config().GetString("app.host"))
 ```
 
-## How Facades Work
+## Wie Fassaden funktionieren
 
-`facades` are generally instantiated in the `Register` or `Boot` stage of each module `ServerProvider`.
+`facades` werden im Allgemeinen in der `Register` oder `Boot` Phase jedes Moduls `ServerProvider` instanziiert.
 
 ```go
 func (config *ServiceProvider) Register() {
-  app := Application{}
+  app := Anwendung{}
   facades.Config = app.Init()
 }
 ```
 
-If the `facades` use other `facades`, then instantiate them in the `Boot` phase of the `ServerProvider`:
+Wenn die `facades` andere `facades` verwenden, dann instantiiere sie in der `Boot` Phase des `ServerProvider`:
 
 ```go
-func (database *ServiceProvider) Boot() {
-  app := Application{}
+func (Datenbank *ServiceProvider) Boot() {
+  app := Anwendung{}
   facades.DB = app.Init()
 }
 ```
 
-## Facade Class Reference
+## Fassade Klassenreferenz
 
-| Facade      | Document                                     |
-| ----------- | -------------------------------------------- |
-| App         | [Container](../foundation/container)         |
-| Artisan     | [Command Console](../advanced/artisan)       |
-| Auth        | [Authentication](../security/authentication) |
-| Cache       | [Cache](../advanced/cache)                   |
-| Config      | [Configuration](../quickstart/configuration) |
-| Crypt       | [Encryption](../security/encryption)         |
-| Event       | [Event](../advanced/events)                  |
-| Gate        | [Authorization](../security/authorization)   |
-| Grpc        | [Grpc](../basic/grpc)                        |
-| Hash        | [Hashing](../security/hashing)               |
-| Log         | [Log](../basic/logging)                      |
-| Mail        | [Mail](../advanced/mail)                     |
-| Orm         | [ORM](../orm/quickstart)                     |
-| Queue       | [Queue](../advanced/queues)                  |
-| RateLimiter | [RateLimiter](../basic/routing)              |
-| Route       | [Route](../basic/routing)                    |
-| Seeder      | [Seeder](../orm/seeding)                     |
-| Schedule    | [Schedule](../advanced/schedule)             |
-| Storage     | [Storage](../advanced/schedule)              |
-| Testing     | [Testing](../testing/quickstart)             |
-| Validation  | [Validation](../advanced/schedule)           |
+| Fassade       | Dokument                                     |
+| ------------- | -------------------------------------------- |
+| App           | [Container](../foundation/container)         |
+| Artisan       | [Befehlskonsole](../advanced/artisan)        |
+| Audi          | [Authentication](../security/authentication) |
+| Cache         | [Cache](../advanced/cache)                   |
+| Konfiguration | [Configuration](../quickstart/configuration) |
+| Krypta        | [Encryption](../security/encryption)         |
+| Ereignis      | [Event](../advanced/events)                  |
+| Tor           | [Authorization](../security/authorization)   |
+| Grpc          | [Grpc](../basic/grpc)                        |
+| Hash          | [Hashing](../security/hashing)               |
+| Log           | [Log](../basic/logging)                      |
+| Mail          | [Mail](../advanced/mail)                     |
+| Orm           | [ORM](../orm/quickstart)                     |
+| Warteschlange | [Queue](../advanced/queues)                  |
+| RateLimiter   | [RateLimiter](../basic/routing)              |
+| Route         | [Route](../basic/routing)                    |
+| Seemann       | [Seeder](../orm/seeding)                     |
+| Zeitplan      | [Schedule](../advanced/schedule)             |
+| Speicher      | [Storage](../advanced/schedule)              |
+| Testen        | [Testing](../testing/quickstart)             |
+| Validierung   | [Validation](../advanced/schedule)           |
