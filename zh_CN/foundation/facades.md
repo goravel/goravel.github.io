@@ -46,12 +46,12 @@ func (database *ServiceProvider) Boot() {
 | Hash        | [哈希](../security/hashing)         |
 | Log         | [日志](../basic/logging)            |
 | Mail        | [邮件](../advanced/mail)            |
-| Orm         | [ORM](../orm/getting-started)          |
+| Orm         | [ORM](../orm/getting-started)     |
 | Queue       | [队列](../advanced/queues)          |
 | RateLimiter | [速率限制器](../basic/routing)         |
 | Route       | [路由](../basic/routing)            |
 | Seeder      | [种子](../orm/seeding)              |
 | Schedule    | [调度](../advanced/schedule)        |
 | Storage     | [存储](../advanced/schedule)        |
-| Testing     | [测试](../testing/getting-started)       |
+| Testing     | [测试](../testing/getting-started)  |
 | Validation  | [验证](../advanced/schedule)        |
