@@ -1,15 +1,15 @@
-# Helpers
+# المساعدات
 
-## Available Methods
+## الطرق المتاحة
 
-### Paths
+### المسارات
 
 |                                                                      |                                                                    |                                                                  |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | [path.App()](#path-app)           | [path.Base()](#path-base)       | [path.Config()](#path-config) |
 | [path.Database()](#path-database) | [path.Storage()](#path-storage) | [path.Public()](#path-public) |
 
-### Time
+### الوقت
 
 |                                                                                    |                                                                                  |                                                                              |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -18,13 +18,13 @@
 | [carbon.FromTime()](#carbon-fromtime)           | [carbon.FromStdTime()](#carbon-fromstdtime)   | [carbon.IsTestNow()](#istestnow-fromdate) |
 | [carbon.SetTestNow()](#carbon-settestnow)       | [carbon.UnsetTestNow()](#carbon-unsettestnow) |                                                                              |
 
-### Debug
+### تصحيح الأخطاء
 
 |                                                                |                                                                  |                                                                  |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [debug.Dump()](#debug-dump) | [debug.SDump()](#debug-sdump) | [debug.FDump()](#debug-fdump) |
 
-### Maps
+### الخرائط
 
 |                                                                |                                                                  |                                                                  |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -33,14 +33,14 @@
 | [maps.Only()](#maps-only)   | [maps.Pull()](#maps-pull)     | [maps.Set()](#maps-set)       |
 | [maps.Where()](#maps-where) |                                                                  |                                                                  |
 
-### Convert
+### تحويل
 
 |                                                                          |                                                                          |                                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | [convert.Tap()](#convert-tap)         | [convert.With()](#convert-with)       | [convert.Transform()](#convert-transform) |
 | [convert.Default()](#convert-default) | [convert.Pointer()](#convert-pointer) |                                                                              |
 
-### Collect
+### تجميع
 
 |                                                                        |                                                                          |                                                                          |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
@@ -51,12 +51,12 @@
 | [collect.Split()](#collect-split)   | [collect.Sum()](#collect-sum)         | [collect.Unique()](#collect-unique)   |
 | [collect.Values()](#collect-values) |                                                                          |                                                                          |
 
-## Paths
+## المسارات
 
 ### `path.App()`
 
-The `path.App()` function returns the path to your application's app directory. You may also use the `path.App()`
-function to generate a path to a file relative to the application directory:
+تُرجع دالة `path.App()` المسار إلى دليل التطبيق الخاص بتطبيقك. يمكنك أيضًا استخدام دالة `path.App()`
+لإنشاء مسار إلى ملف نسبة إلى دليل التطبيق:
 
 ```go
 import "github.com/goravel/framework/support/path"
@@ -67,8 +67,8 @@ path := path.App("http/controllers/controller.go")
 
 ### `path.Base()`
 
-The `path.Base()` function returns the path to your application's root directory. You may also use the `path.Base()`
-function to generate a path to a given file relative to the project root directory:
+تُرجع دالة `path.Base()` المسار إلى الدليل الجذر للتطبيق الخاص بك. يمكنك أيضًا استخدام دالة `path.Base()`
+لإنشاء مسار إلى ملف معين بالنسبة إلى دليل جذر المشروع:
 
 ```go
 path := path.Base()
@@ -77,8 +77,8 @@ path := path.Base("vendor/bin")
 
 ### `path.Config()`
 
-The `path.Config()` function returns the path to your application's config directory. You may also use the
-`path.Config()` function to generate a path to a given file within the application's configuration directory:
+تُرجع دالة `path.Config()` المسار إلى دليل التكوين الخاص بتطبيقك. يمكنك أيضًا استخدام
+دالة `path.Config()` لإنشاء مسار إلى ملف معين داخل دليل التكوين الخاص بالتطبيق:
 
 ```go
 path := path.Config()
@@ -87,8 +87,8 @@ path := path.Config("app.go")
 
 ### `path.Database()`
 
-The `path.Database()` function returns the path to your application's database directory. You may also use the
-`path.Database()` function to generate a path to a given file within the `database` directory:
+تُرجع دالة `path.Database()` المسار إلى دليل قاعدة البيانات الخاص بتطبيقك. يمكنك أيضًا استخدام
+دالة `path.Database()` لإنشاء مسار إلى ملف معين داخل دليل `database`:
 
 ```go
 path := path.Database()
@@ -97,8 +97,8 @@ path := path.Database("factories/user_factory.go")
 
 ### `path.Storage()`
 
-The `path.Storage()` function returns the path to your application's storage directory. You may also use the
-`path.Storage()` function to generate a path to a given file within the `storage` directory:
+تُرجع دالة `path.Storage()` المسار إلى دليل التخزين الخاص بتطبيقك. يمكنك أيضًا استخدام دالة
+`path.Storage()` لإنشاء مسار إلى ملف معين داخل دليل `storage`:
 
 ```go
 path := path.Storage()
@@ -107,8 +107,8 @@ path := path.Storage("app/file.txt")
 
 ### `path.Public()`
 
-The `path.Public()` function returns the path to your application's public directory. You may also use the
-`path.Public()` function to generate a path to a given file within the `public` directory:
+تُرجع دالة `path.Public()` المسار إلى دليل public الخاص بتطبيقك. يمكنك أيضًا استخدام دالة
+`path.Public()` لإنشاء مسار إلى ملف معين داخل دليل `public`:
 
 ```go
 path := path.Public()
@@ -117,22 +117,20 @@ path := path.Public("css/app.css")
 
 ### `path.Lang()`
 
-The `path.Lang()` function returns the path to the `lang` directory. You may also use the `path.Lang()` function to
-generate a path to a given file within the `lang` directory:
+تُرجع دالة `path.Lang()` المسار إلى دليل `lang`. يمكنك أيضًا استخدام دالة `path.Lang()` لإنشاء مسار إلى ملف معين داخل دليل `lang`:
 
 ```go
 path := path.Lang()
 path := path.Lang("en.json")
 ```
 
-## Time
+## الوقت
 
-The `carbon` module of Goravel is an expansion by [golang-module/carbon](https://github.com/golang-module/carbon), the
-main feature is the realization of time backtracking, please refer to the official documentation for details.
+وحدة `carbon` في Goravel هي توسعة من [golang-module/carbon](https://github.com/golang-module/carbon)، الميزة الرئيسية هي تحقيق تتبع الوقت، يرجى الرجوع إلى الوثائق الرسمية للحصول على التفاصيل.
 
 ### `carbon.Now()`
 
-Get current time:
+الحصول على الوقت الحالي:
 
 ```go
 import "github.com/goravel/framework/support/carbon"
@@ -142,7 +140,7 @@ carbon.Now()
 
 ### `carbon.SetTimezone()`
 
-Set timezone：
+تعيين المنطقة الزمنية:
 
 ```go
 carbon.SetTimezone(carbon.UTC)
@@ -150,7 +148,7 @@ carbon.SetTimezone(carbon.UTC)
 
 ### `carbon.Parse()`
 
-Get `Carbon` object by String:
+الحصول على كائن `Carbon` من خلال سلسلة نصية:
 
 ```go
 carbon.Parse("2020-08-05 13:14:15")
@@ -158,7 +156,7 @@ carbon.Parse("2020-08-05 13:14:15")
 
 ### `carbon.FromTimestamp()`
 
-Get `Carbon` Object by timestamp:
+الحصول على كائن `Carbon` بواسطة الطابع الزمني:
 
 ```go
 carbon.FromTimestamp(1577836800)
@@ -166,7 +164,7 @@ carbon.FromTimestamp(1577836800)
 
 ### `carbon.FromDateTime()`
 
-Get `Carbon` Object by date time:
+الحصول على كائن `Carbon` بواسطة التاريخ والوقت:
 
 ```go
 carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
@@ -174,7 +172,7 @@ carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
 
 ### `carbon.FromDate()`
 
-Get `Carbon` Object by date:
+الحصول على كائن `Carbon` بواسطة التاريخ:
 
 ```go
 carbon.FromDate(2020, 1, 1)
@@ -182,7 +180,7 @@ carbon.FromDate(2020, 1, 1)
 
 ### `carbon.FromTime()`
 
-Get `Carbon` Object by time:
+الحصول على كائن `Carbon` بواسطة الوقت:
 
 ```go
 carbon.FromTime(0, 0, 0)
@@ -190,7 +188,7 @@ carbon.FromTime(0, 0, 0)
 
 ### `carbon.FromStdTime()`
 
-Get `Carbon` Object by `time.Time`:
+الحصول على كائن `Carbon` بواسطة `time.Time`:
 
 ```go
 carbon.FromStdTime(time.Now())
@@ -198,7 +196,7 @@ carbon.FromStdTime(time.Now())
 
 ### `carbon.IsTestNow()`
 
-Determine whether the time is a test value:
+تحديد ما إذا كان الوقت قيمة اختبار:
 
 ```go
 carbon.IsTestNow()
@@ -206,7 +204,7 @@ carbon.IsTestNow()
 
 ### `carbon.SetTestNow()`
 
-Set the time to a test value:
+تعيين الوقت إلى قيمة اختبار:
 
 ```go
 carbon.SetTestNow(carbon.Now())
@@ -214,17 +212,17 @@ carbon.SetTestNow(carbon.Now())
 
 ### `carbon.UnsetTestNow()`
 
-Restore the time to a normal value:
+استعادة الوقت إلى قيمة طبيعية:
 
 ```go
 carbon.UnsetTestNow()
 ```
 
-## Debug
+## تصحيح الأخطاء
 
 ### `debug.Dump()`
 
-`debug.Dump()` can print any variable:
+يمكن لـ `debug.Dump()` طباعة أي متغير:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -234,7 +232,7 @@ debug.Dump(myVar1, myVar2, ...)
 
 ### `debug.FDump()`
 
-`debug.FDump()` can print any variable to `io.Writer`:
+`debug.FDump()` يمكنه طباعة أي متغير إلى `io.Writer`:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -244,7 +242,7 @@ debug.FDump(someWriter, myVar1, myVar2, ...)
 
 ### `debug.SDump()`
 
-`debug.SDump()` can print any variable to `string`:
+`debug.SDump()` يمكنه طباعة أي متغير إلى `string`:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -252,11 +250,11 @@ import "github.com/goravel/framework/support/debug"
 debug.SDump(myVar1, myVar2, ...)
 ```
 
-## Maps
+## الخرائط
 
 ### `maps.Add()`
 
-The `maps.Add()` function adds a new key-value pair to the given map if the key does not already exist in the map:
+تقوم دالة `maps.Add()` بإضافة زوج جديد من المفتاح والقيمة إلى الخريطة المعطاة إذا لم يكن المفتاح موجودًا بالفعل في الخريطة:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -273,7 +271,7 @@ maps.Add(mp2, "name", "Krishan")
 
 ### `maps.Exists()`
 
-The `maps.Exists()` function determines if the given key exists in the provided map:
+تحدد دالة `maps.Exists()` ما إذا كان المفتاح المحدد موجودًا في الخريطة المقدمة:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -287,7 +285,7 @@ exists = maps.Exists(mp, "email") // false
 
 ### `maps.Forget()`
 
-The `maps.Forget()` function removes the given key(s) from the provided map:
+تقوم دالة `maps.Forget()` بإزالة المفتاح (المفاتيح) المحددة من الخريطة المقدمة:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -300,15 +298,14 @@ maps.Forget(mp, "name", "age")
 
 ### `maps.Get()`
 
-The `maps.Get()` function retrieves the value of the given key from the provided map. If the key does not exist, the
-default value will be returned:
+تسترجع دالة `maps.Get()` قيمة المفتاح المحدد من الخريطة المقدمة. إذا لم يكن المفتاح موجودًا، سيتم إرجاع القيمة الافتراضية:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Bowen"}
+mp := map[string]أي {"name": "Bowen"}
 
-value := maps.Get(mp, "name", "Krishan")
+قيمة := الخرائط. et(mp, "name", "Krishan")
 // Bowen
 
 value = maps.Get(mp, "age", 22)
@@ -317,123 +314,123 @@ value = maps.Get(mp, "age", 22)
 
 ### `maps.Has()`
 
-The `maps.Has()` function determines if the given key(s) exists in the provided map:
+تحدد دالة 'maps.Has()' ما إذا كان المفتاح (المفتاح) المعطى موجود في الخريطة المقدمة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel", "language": "Go"}
+mp := map[string]أي {"name": "Goravel", "language": "Go"}
 
-exists := maps.Has(mp, "name", "language")
-// true
+موجود := خرائط. كـ (mp, "name", "language")
+/\true
 
-exists = maps.Has(mp, "name", "age")
+يوجد = maps.Has(mp, "name", "age")
 // false
 ```
 
 ### `maps.HasAny()`
 
-The `maps.HasAny()` function determines if any of the given key(s) exists in the provided map:
+تحدد دالة 'maps.HasAny()' ما إذا كان أي من المفاتيح المعينة موجود في الخريطة المقدمة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel", "language": "Go"}
+mp := map[string]أي {"name": "Goravel", "language": "Go"}
 
-exists := maps.HasAny(mp, "name", "age")
-// true
+موجود := خرائط. asAny(mp, "name", "age")
+/true
 
-exists = maps.HasAny(mp, "age", "email")
+يوجد = maps.HasAny(mp, "age", "email")
 // false
 ```
 
 ### `maps.Only()`
 
-The `maps.Only()` function retrieves only the given key(s) from the provided map:
+تسترجع دالة "maps.Only()" المفتاح (المفتاح) المعطى فقط من الخريطة المقدمة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel", "language": "Go"}
+mp := map[string]أي {"name": "Goravel", "language": "Go"}
 
-newMap := maps.Only(mp, "name")
-// map[string]any{"name": "Goravel"}
+newmap := maps. nly(mp, "name")
+//map[string]أي{"name": "Goravel"}
 
-newMap = maps.Only(mp, "name", "age")
-// map[string]any{"name": "Goravel"}
+newmap = maps.Only(mp, "name", "age")
+// map[string]أي{"name": "Goravel"}
 ```
 
 ### `maps.Pull()`
 
-The `maps.Pull()` function retrieves and removes the given key from the provided map:
+تسترجع دالة 'maps.Pull()' المفتاح المعطى وتزيله من الخريطة المقدمة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel", "language": "Go"}
+mp := map[string]أي {"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "name")
+اسم := الخرائط. ull(mp, "name")
 // name = "Goravel"
-// mp = map[string]any{"language": "Go"}
+//mp = الخريطة[string]أي{"اللغة": "Go"}
 ```
 
-A default value can be provided as the third argument to the `maps.Pull()` function. This value will be returned if the
-key does not exist in the map:
+يمكن تقديم قيمة افتراضية كحجة ثالثة لوظيفة "maps.Pull()". سيتم إرجاع هذه القيمة إذا كان المفتاح
+غير موجود في الخريطة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel", "language": "Go"}
+mp := map[string]أي {"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "age", "default")
+اسم := الخرائط. ull(mp, "age", "default")
 // name = "default"
-// mp = map[string]any{"name": "Goravel", "language": "Go"}
+//mp = map[string]أي{"name": "Goravel", "language": "Go"}
 ```
 
 ### `maps.Set()`
 
-The `maps.Set()` function sets the given key and value in the provided map:
+تحدد دالة "maps.Set()" المفتاح والقيمة المعطاين في الخريطة المقدمة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
-mp := map[string]any{"name": "Goravel"}
+mp := map[string]أي {"name": "Goravel"}
 
 maps.Set(mp, "language", "Go")
-// map[string]any{"name": "Goravel", "language": "Go"}
+// map[string]أي {"name": "Goravel", "language": "Go"}
 ```
 
 ### `maps.Where()`
 
-The `maps.Where()` function filters the provided map using the given callback:
+تقوم دالة "maps.Where()" بتصفية الخريطة المقدمة باستخدام المكالمة المعطاة:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+استيراد "github.com/goravel/framework/support/maps"
 
 mp := map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap := maps.Where(mp, func(key string, value string) bool {
-    return key == "name"
+newmap := maps. هنا(mp, func(key str, value strol {
+    Rekey == "name"
 })
 // map[string]string{"name": "Goravel"}
 ```
 
-## Convert
+## تحويل
 
 ### `convert.Tap()`
 
-The `convert.Tap()` function passes the given value to the provided callback and returns the value:
+وتنقل دالة 'convert.Tap()' القيمة المعطاة لرد الاتصال المقدم وتعيد القيمة:
 
 ```go
-import "github.com/goravel/framework/support/convert"
+استيراد "github.com/goravel/framework/support/convert"
 
-value := convert.Tap("Goravel", func(value string) {
-    fmt.Println(value + " Framework")
+القيمة := convert.Tap("Goravel", func(value string) {
+    fmt. rintln(value + " Framework")
 })
 // Goravel
 
 mp := map[string]string{"name": "Goravel"}
-val := convert.Tap(mp, func(value map[string]string) {
+val := convert. ap(mp, func(value map[string]string) {
     mp["language"] = "Go"
 })
 // map[string]string{"name": "Goravel", "language": "Go"}
@@ -441,70 +438,70 @@ val := convert.Tap(mp, func(value map[string]string) {
 
 ### `convert.Transform()`
 
-The `convert.Transform()` transforms the given value using the provided callback and returns the result:
+يحوِّل `convert.Transform()` القيمة المعطاة باستخدام رد الاتصال المقدم ويعيد النتيجة:
 
 ```go
-import "github.com/goravel/framework/support/convert"
+استيراد "github.com/goravel/framework/support/convert"
 
-value := convert.Transform(1, strconv.Itoa)
+القيمة := convert.Transform(1, strconv.Itoa)
 // "1"
 
-val := convert.Transform("foo", func(s string) *foo {
-      return &foo{Name: s}
+val := convert. ransform("foo", func(s string) *foo {
+      Re&foo{Name: s}
 })
-// &foo{Name: "foo"}
+// &foo{name: "foo"}
 ```
 
 ### `convert.With()`
 
-The `convert.With()` executes the given callback with the provided value and returns the result of the callback:
+ينفذ 'convert.With()' رد الاتصال المعطى مع القيمة المقدمة ويعيد نتيجة المكالمة:
 
 ```go
-import "github.com/goravel/framework/support/convert"
+استيراد "github.com/goravel/framework/support/convert"
 
-value := convert.With("Goravel", func(value string) string {
-    return value + " Framework"
+قيمة := convert.With("Goravel", func(value string) string {
+    Revalue + "Framework"
 })
 // Goravel Framework
 ```
 
 ### `convert.Default()`
 
-The `convert.Default()` method returns first non-zero value. If all values are zero, it returns zero value.
+طريقة "convert.Default()" ترجع أولاً القيمة غير الصفرية. إذا كانت جميع القيم صفر، فإنها ترجع قيمة صفر.
 
 ```go
-import "github.com/goravel/framework/support/convert"
+استيراد قيمة "github.com/goravel/framework/support/convert"
 
-value := convert.Default("", "foo")
+:= convert.Default("", "foo")
 // foo
 
-value = convert.Default("bar", "foo")
-// bar
+= transt. fault("بار", "foo")
+// بار
 
-value = convert.Default(0, 1)
+قيمة = convert.Default(0, 1)
 // 1
 ```
 
 ### `convert.Pointer()`
 
-The `convert.Pointer()` method returns the pointer of the given value.
+وتعيد طريقة "convert.Pointer()" مؤشر القيمة المعينة.
 
 ```go
-import "github.com/goravel/framework/support/convert"
+استيراد "github.com/goravel/framework/support/convert"
 
 convert.Pointer("foo") // *string("foo")
 
 convert.Pointer(1) // *int(1)
 ```
 
-## Collect
+## تجميع
 
 ### `collect.Count()`
 
-The `collect.Count()` function returns the number of items in the given collection:
+ترجع وظيفة 'collect.Count()' عدد الأصناف في مجموعة معينة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 collect.Count([]string{"Goravel", "Framework"})
 // 2
@@ -512,10 +509,10 @@ collect.Count([]string{"Goravel", "Framework"})
 
 ### `collect.CountBy()`
 
-The `collect.CountBy()` function counts the occurrences for which the predicate is true:
+أما دالة `collect.CountBy()` فتعد الأحداث التي يكون الأصل فيها صحيحاً:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 collect.CountBy([]string{"Goravel", "Framework"}, func(value string) bool {
     return strings.Contains(value, "Goravel")
@@ -525,14 +522,14 @@ collect.CountBy([]string{"Goravel", "Framework"}, func(value string) bool {
 
 ### `collect.Each()`
 
-The `collect.Each()` function iterates over the items in the given collection and passes each item to the given
-callback:
+الدالة 'collect.Each()' تكرر العناصر في المجموعة المعينة وتمرير كل عنصر إلى مكالمة
+معينة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-collect.Each([]string{"Goravel", "Framework"}, func(value string, index int) {
-    fmt.Println(index + 1, value)
+collect.Each([]string{"Goravel", "Framework"}, func(value string, indexint) {
+    fmt.Println(index+1, value)
 })
 // 1 Goravel
 // 2 Framework
@@ -540,10 +537,10 @@ collect.Each([]string{"Goravel", "Framework"}, func(value string, index int) {
 
 ### `collect.Filter()`
 
-The `collect.Filter()` function filters the items in the collection using the given callback:
+تقوم دالة 'collect.Filter()' بتصفية العناصر في المجموعة باستخدام المكالمة المعطاة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Filter([]string{"Goravel", "Framework"}, func(value string) bool {
     return strings.Contains(value, "Goravel")
@@ -554,45 +551,45 @@ newCollection := collect.Filter([]string{"Goravel", "Framework"}, func(value str
 
 ### `collect.GroupBy()`
 
-The `collect.GroupBy()` function groups the items in the collection by the result of the given callback:
+الدالة 'collect.GroupBy()' تجمع العناصر الموجودة في المجموعة بنتيجة المكالمة المعينة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-// use example of complex map slice (use different example)
-newCollection := collect.GroupBy([]map[string]string{
+// استخدم مثال شريحة خريطة معقدة (استخدم مثالا مختلفا)
+NewCollection := collect. roupBy([]map[string]string{
     {"class": "1", "Name": "Rohan"},
-    {"class": "2", "Name": "Bowen"},
+    {"class": "2", "الاسم": "Bowen"},
     {"class": "2", "Name": "Krishan"},
-}, func(value map[string]string) string {
-    return value["class"]
+}, دالة (خريطة القيمة[string]سلسلة) سلسلة {
+    قيمة الإرجاع ["صف"]
 })
 
 // map[string][]map[string]string{
-//     "1": []map[string]string{{"class": "1", "Name": "Rohan"}},
-//     "2": []map[string]string{{"class": "2", "Name": "Bowen"}, {"class": "2", "Name": "Krishan"}},
-// }
+// "1": []خريطة[string]سلسلة{{"class": "1", "Name": "Rohan"}}،
+// "2": []خريطة[string]سلسلسلة{{"صف": "2"، "الاسم": "Bowen"}، {"class": "2"، "الاسم": "Krishan"}،
+/}
 ```
 
 ### `collect.Keys()`
 
-The `collect.Keys()` function returns all the keys for the items in the collection:
+ترجع دالة 'collect.Keys()' جميع مفاتيح العناصر في المجموعة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-keys := collect.Keys(map[string]string{"name": "Goravel", "language": "Go"})
+مفاتيح := collect.Keys(map[string]سلسلة {"name": "Goravel", "language": "Go"})
 // []string{"name", "language"}
 ```
 
 ### `collect.Map()`
 
-The `collect.Map()` function converts one type of collection into another using the given iteratee:
+وتحول دالة 'collect.Map()' نوعا من المجموعة إلى نوع آخر باستخدام التكرار المحدد:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string,  _ int) string {
+newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string, _ int) string {
     return strings.ToUpper(value)
 })
 
@@ -601,35 +598,35 @@ newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string
 
 ### `collect.Max()`
 
-The `collect.Max()` function returns the maximum value of the given collection:
+ترجع دالة 'collect.Max()' القيمة القصوى لمجموعة معينة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-max := collect.Max([]int{1, 2, 3, 4, 5})
+حد أقصى: = collect.Max([]int{1, 2, 3, 4, 5})
 // 5
 ```
 
 ### `collect.Merge()`
 
-The `collect.Merge()` function merges the given maps into a single map:
+تدمج دالة \`collect.Merge()' الخرائط المعينة في خريطة واحدة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newMap := collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"language": "Go"})
 // map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap = collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
+newMap = collect. erge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
 // map[string]string{"name": "Framework"}
 ```
 
 ### `collect.Min()`
 
-The `collect.Min()` function returns the minimum value of the given collection:
+ترجع دالة 'collect.Min()' القيمة الدنيا لمجموعة معينة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 min := collect.Min([]int{1, 2, 3, 4, 5})
 // 1
@@ -637,10 +634,10 @@ min := collect.Min([]int{1, 2, 3, 4, 5})
 
 ### `collect.Reverse()`
 
-The `collect.Reverse()` function reverses the items in the collection:
+وتعكس دالة \`collect.Reverse()' العناصر الواردة في المجموعة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
@@ -649,49 +646,49 @@ newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
 ### `collect.Shuffle()`
 
-The `collect.Shuffle()` function shuffles the items in the collection:
+تعمل دالة 'collect.Shuffle()' على خلط العناصر في المجموعة:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Shuffle([]int{1, 2, 3, 4, 5})
 
-// []int{3, 1, 5, 2, 4}(example)
+// []int{3, 1, 5, 2, 4}(مثال)
 ```
 
 ### `collect.Split()`
 
-The `collect.Split()` function splits a collection into the groups of the given length. If the collection can't be split
-evenly, the final chunk will contain the remaining items:
+وتقسم دالة \`collect.Split()' مجموعة إلى مجموعات الطول المحدد. إذا كان لا يمكن تقسيم المجموعة
+بالتساوي، فإن الجزء الأخير سوف يحتوي على العناصر المتبقية:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Split([]int{1, 2, 3, 4, 5}, 2)
 
-// [][]int{{1, 2}, {3, 4}, {5}}
+// []]int{{1, 2}, {3, 4}, {5}}
 ```
 
 ### `collect.Sum()`
 
-The `collect.Sum()` function returns the sum of all items in the collection:
+ترجع وظيفة 'collect.Sum()' مجموع جميع الأصناف في المجموعة:
 
 ```go
 
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-sum := collect.Sum([]int{1, 2, 3, 4, 5})
+مبلغ := collect.Sum([]int{1, 2, 3, 4, 5})
 
 // 15
 ```
 
 ### `collect.Unique()`
 
-The `collect.Unique()` method returns the duplicate-free collection where in case of duplicate values, only the first
-occurrence will be kept:
+طريقة `collect.Unique()` تعيد المجموعة الخالية من التكرار حيث في حالة ازدواجية القيم، سيتم الحفاظ فقط على أول حدث من نوع
+:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 
@@ -700,11 +697,11 @@ newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 
 ### `collect.Values()`
 
-The `collect.Values()` function returns all the values of the given collection:
+ترجع دالة 'collect.Values()' جميع قيم المجموعة المعنية:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+استيراد "github.com/goravel/framework/support/collect"
 
-values := collect.Values(map[string]string{"name": "Goravel", "language": "Go"})
+القيم := collect.Values(map[string]سلسلة {"name": "Goravel", "language": "Go"})
 // []string{"Goravel", "Go"}
 ```
