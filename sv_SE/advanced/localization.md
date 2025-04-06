@@ -1,10 +1,10 @@
-# Localization
+# Lokalisering
 
-Goravel's localization features provide a convenient way to retrieve strings in various languages, making it easy to
-support multiple languages in your application. Language strings are stored in files in the `lang` directory, and
-Goravel supports two ways to organize language files:
+Gorfels lokaliseringsfunktioner ger ett bekvämt sätt att hämta strängar på olika språk, vilket gör det enkelt att
+stödja flera språk i din applikation. Språksträngar lagras i filer i katalogen 'lang', och
+Goravel stöder två sätt att organisera språkfiler:
 
-Each language has its own file:
+Varje språk har sin egen fil:
 
 ```
 /lang
@@ -12,70 +12,52 @@ Each language has its own file:
   cn.json
 ```
 
-Or, when there are too many translations, they can be categorized:
+Eller, när det finns för många översättningar, kan de kategoriseras:
 
 ```
 /lang
-  /en
+  /sv
     user.json
   /cn
     user.json
 ```
 
-## Configuring the Locale
+## Konfigurera Locale
 
-The default language of the application is stored in the `locale` configuration option in the `config/app.go`
-configuration file. You can modify this value as needed to suit your application's requirements.
+Standardspråket för programmet lagras i konfigurationsalternativet `locale` i konfigurationsfilen `config/app.go`
+Du kan ändra detta värde som behövs för att passa din applikations krav.
 
-You can also use the `SetLocale` method provided by the App Facade to modify the default language for a single `HTTP`
-request at runtime:
+Du kan också använda `SetLocale`-metoden som tillhandahålls av appfasaden för att ändra standardspråket för en enda `HTTP`
+begäran vid runtime:
 
 ```
 facades.Route().Get("/", func(ctx http.Context) http.Response {
-    facades.App().SetLocale(ctx, "en")
+    facades.App().SetLocale(ctx, "sv")
 
-    return ctx.Response()
+    returnera ctx.Response()
 })
 ```
 
-You can configure a "fallback locale" that will be used when the current language does not contain the given translation
-string. Like the default language, the fallback language is also configured in the `config/app.go` configuration file.
+Du kan konfigurera en "reserv lokal" som kommer att användas när det aktuella språket inte innehåller den givna översättningen
+sträng. Precis som standardspråket är reservspråket också konfigurerat i konfigurationsfilen `config/app.go`.
 
 ```
 "fallback_locale": "en",
 ```
 
-### Determining the Current Locale
+### Fastställande av aktuell lokal
 
-You can use the `CurrentLocale` and `IsLocale` methods to determine the current `locale` or check if the `locale` is a
-given value.
+Du kan använda `CurrentLocale` och` IsLocale`-metoderna för att bestämma den aktuella `locale` eller kontrollera om `locale` är ett
+givet värde.
 
 ```
 locale := facades.App().CurrentLocale(ctx)
-if facades.App().IsLocale(ctx, "en") {}
+if facades.App().IsLocale(ctx, "sv") {}
 ```
 
-### Defining Translation Strings
+### Definiera översättningssträngar
 
-In language files, you can define single-level or multi-level structures:
-
-```
-// lang/en.json
-{
-  "name": "It's your name",
-  "required": {
-    "user_id": "UserID is required"
-  }
-}
-```
-
-### Retrieving Translation Strings
-
-You can use the `facades.Lang(ctx).Get()` method to retrieve translation strings from language files. If the language
-file contains multiple levels, you can use `.` to connect them, and if the language file is in multiple levels of
-folders, you can use `/` to connect them.
-
-For example:
+I språkfiler kan du definiera strukturer på en nivå eller på flera nivåer:
 
 ```
 // lang/en.json
@@ -85,26 +67,44 @@ For example:
     "user_id": "UserID is required"
   }
 }
+```
 
-facades.Lang(ctx).Get("name")
-facades.Lang(ctx).Get("required.user_id")
+### Hämtar översättningssträngar
 
-// lang/en/role/user.json
+Du kan använda `facades.Lang(ctx).Get()` -metoden för att hämta översättningssträngar från språkfiler. Om språkfilen
+innehåller flera nivåer, kan du använda `. för att ansluta dem, och om språkfilen är i flera nivåer av
+-mappar, kan du använda `/\` för att ansluta dem.
+
+Till exempel:
+
+```
+// lang/sv. son
 {
-  "name": "It's your name",
-  "required": {
-    "user_id": "UserID is required"
+  "namn": "Det är ditt namn",
+  "obligatoriskt": {
+    "user_id": "UserID krävs"
   }
 }
 
-facades.Lang(ctx).Get("role/user.name")
-facades.Lang(ctx).Get("role/user.required.user_id")
+fasader. ang(ctx).Get("namn")
+fasades.Lang(ctx).Get("required.user_id")
+
+// lang/sv/roll/user. son
+{
+  "namn": "Det är ditt namn",
+  "obligatorisk": {
+    "user_id": "UserID krävs"
+  }
+}
+
+fasader. ang(ctx).Get("roll/user.name")
+fasader.Lang(ctx).Get("roll/user.required.user_id")
 ```
 
-#### Replacing Parameters in Translation Strings
+#### Ersätter parametrar i översättningssträngar
 
-You can define placeholders in translation strings. All placeholders have the prefix `:`. For example, you can use a
-placeholder to define a welcome message:
+Du kan definiera platshållare i översättningssträngar. Alla platshållare har prefixet `:`. Du kan till exempel använda en
+platshållare för att definiera ett välkomstmeddelande:
 
 ```
 {
@@ -112,53 +112,53 @@ placeholder to define a welcome message:
 }
 ```
 
-To replace placeholders when retrieving a translation string, you can pass a translation option with the replacement map
-as the second parameter to the `facades.Lang(ctx).Get()` method:
+Att ersätta platshållare när du hämtar en översättningssträng, du kan skicka ett översättningsalternativ med ersättningskarta
+som den andra parametern till `fasaderna. ang(ctx).Get()` metod:
 
 ```
 facades.Lang(ctx).Get("welcome", translation.Option{
-  Replace: map[string]string{
+  Ersätt: karta[string]string{
     "name": "Goravel",
   },
 })
 ```
 
-#### Pluralization
+#### Pluralisering
 
-Pluralization is a complex problem because different languages have various pluralization rules. However, Goravel can
-help you translate strings based on the pluralization rules you define. By using the `|` character, you can
-differentiate between the singular and plural forms of a string:
-
-```
-{
-  "apples": "There is one apple|There are many apples"
-}
-```
-
-You can even create more complex pluralization rules by specifying translation strings for multiple value ranges:
+Pluralization är ett komplext problem, därför att olika språk har olika pluraliseringsregler. Men Goravel kan
+hjälpa dig att översätta strängar baserat på pluraliseringsreglerna du definierar. Genom att använda `<unk> `-tecknet kan du
+skilja mellan de singulära och plurala formerna av en sträng:
 
 ```
 {
-  "apples": "{0} There are none|[1,19] There are some|[20,*] There are many"
+  "äpplen": "Det finns ett äpple Det finns många äpplen"
 }
 ```
 
-After defining a translation string with pluralization options, you can use the `facades.Lang(ctx).Choice()` method to
-retrieve the line for a given `count`. In this example, because the count is greater than 1, the plural form of the
-translation string is returned:
+Du kan även skapa mer komplexa pluraliseringsregler genom att ange översättningssträngar för flera värdeområden:
 
 ```
-facades.Lang(ctx).Choice("messages.apples", 10)
+{
+  "äpplen": "{0} Det finns none<unk> [1,19] Det finns någon [20,*] Det finns många"
+}
 ```
 
-You can also define placeholder attributes in pluralization strings. By passing an array as the third parameter to the
-`facades.Lang(ctx).Choice()` method, you can replace these placeholders:
+Efter att ha definierat en översättningssträng med pluraliseringsalternativ kan du använda `fasades.Lang(ctx).Choice()` -metoden till
+hämta linjen för en given `count`. I detta exempel, eftersom räkningen är större än 1, är pluralformen av
+översättningssträngen returnerad:
 
 ```
-"minutes_ago": "{1} :value minute ago|[2,*] :value minutes ago",
+fasader.Lang(ctx).Val ("messages.apples", 10)
+```
+
+Du kan också definiera platshållarattribut i pluraliseringssträngar. Genom att skicka en array som den tredje parametern till
+`fasades.Lang(ctx).Choice()` metod kan du ersätta dessa platshållare:
+
+```
+"minutes_ago": "{1} :value minute ago<unk> [2,*] :value minutes ago",
 
 facades.Lang(ctx).Choice("time.minutes_ago", 5, translation.Option{
-  Replace: map[string]string{
+  Ersätt: karta[string]string{
     "value": "5",
   },
 })
