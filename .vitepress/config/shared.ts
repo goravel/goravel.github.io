@@ -58,6 +58,9 @@ export const shared = defineConfig({
             {icon: 'github', link: 'https://github.com/goravel/goravel'},
             {icon: 'discord', link: 'https://discord.gg/cFc5csczzS'},
         ],
+        search: {
+            provider: 'local',
+        }
     },
 
     vite: {
