@@ -431,12 +431,12 @@ if validator.Errors().Has("email") {
 | `alpha_num`            | 检查仅包含字母和数字                                                                                                         |
 | `alpha_dash`           | 检查仅包含字母、数字、破折号（ - ）和下划线（ _ ）                                                                  |
 | `json`                 | 检查值是否为 JSON 字符串                                                                                                    |
-| `number`               | Check value is number string `>= 0`                                                                                |
-| `full_url`             | Check value is full URL string(must start with http,https)                                      |
+| `number`               | 检查值是否为数字字符串 `>= 0`                                                                                                 |
+| `full_url`             | 检查值是否为完整的 URL 字符串（必须以 http 或 https 开头）                                                                             |
 | `ip`                   | 检查值为 IP（v4 或 v6）字符串                                                                                                |
 | `ipv4`                 | 检查值为 IPv4 字符串                                                                                                      |
 | `ipv6`                 | 检查值为 IPv6 字符串                                                                                                      |
-| `regex`                | Check if the value can pass the regex verification                                                                 |
+| `regex`                | 检查值是否可以通过正则表达式验证                                                                                                   |
 
 ### 规则使用注意事项
 
