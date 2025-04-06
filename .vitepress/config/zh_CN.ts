@@ -48,6 +48,50 @@ export const config = defineConfig({
     footer: {
       message: "基于 MIT 许可发布",
       copyright: `版权所有 © 2021-${new Date().getFullYear()} Goravel`
+    },
+    docFooter: {
+      prev: "上一页",
+      next: "下一页"
+    },
+    outline: {
+      label: "页面导航"
+    },
+    lastUpdated: {
+      text: "最后更新于",
+      formatOptions: {
+        dateStyle: 'short',
+        timeStyle: 'medium'
+      }
+    },
+    langMenuLabel: "切换语言",
+    returnToTopLabel: "回到顶部",
+    sidebarMenuLabel: "菜单",
+    darkModeSwitchLabel: "主题",
+    lightModeSwitchTitle: "切换到浅色主题",
+    darkModeSwitchTitle: "切换到深色主题",
+    skipToContentLabel: "跳转到内容",
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: "搜索",
+                buttonAriaLabel: "搜索"
+              },
+              modal: {
+                noResultsText: "没有找到相关结果：",
+                resetButtonTitle: "清除搜索条件",
+                footer: {
+                  selectText: "选择",
+                  navigateText: "切换"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 });
