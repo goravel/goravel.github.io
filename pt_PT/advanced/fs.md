@@ -273,106 +273,106 @@ as the file name and extension may be tampered with by a malicious user. Por est
 os métodos `HashName` e `Extension` para obter um nome e uma extensão para o upload de determinado arquivo:
 
 ```go
-file, err := ctx.Request().File("avatar")
+arquivo, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+name := file.HashName() // Gerar um nome único, aleatório ...
+extensão, err := file.Extension() // Determinar a extensão do arquivo com base no tipo MIME do arquivo...
 ```
 
-## Deleting Files
+## Excluindo arquivos
 
-The `Delete` method accepts a single filename or an array of files to delete:
+O método `Deletar` aceita um único nome de arquivo ou uma matriz de arquivos para apagar:
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+Se necessário, você pode especificar o disco que o arquivo deve ser excluído:
 
 ```go
-err := facades.Storage().Disk("s3").Delete("file.jpg")
+err := facades.Armazenamento().Disk("s3").Delete("arquivo.jpg")
 ```
 
-## Directories
+## Diretórios
 
-### Get All Files Within A Directory
+### Obter todos os arquivos em um diretório
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
+O método `Arquivos` retorna uma fatia de todos os arquivos em um determinado diretório. Se você deseja recuperar uma lista de todos os arquivos
+dentro de um determinado diretório, incluindo todos os subdiretórios, você pode usar o método `AllFiles`:
 
 ```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
+arquivos, err := facades.Storage().Disk("s3").Files("diretório")
+arquivos, err := facades.Storage().Disk("s3").AllFiles("diretório")
 ```
 
-### Get All Directories Within A Directory
+### Obter todos os diretórios dentro de um diretório
 
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+O método `Directories` retorna uma fatia de todos os diretórios dentro de um determinado diretório. Além disso, você pode usar o método
+`AllDirectories` para obter uma lista de todos os diretórios dentro de um determinado diretório e de todos os seus subdiretórios:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+diretórios, err := facades.Storage().Disk("s3").Directories("diretório")
+diretórios, err := facades.Storage().Disk("s3").AllDirectories("diretório")
 ```
 
-### Create A Directory
+### Criar um diretório
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+O método `MakeDirectory` criará o diretório dado, incluindo quaisquer subdiretórios necessários:
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+err := facades.Storage().MakeDirectory(diretório)
 ```
 
-### Delete A Directory
+### Excluir um diretório
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+Finalmente, o método `DeleteDirectory` pode ser usado para remover um diretório e todos os seus arquivos:
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+err := facades.Storage().DeleteDirectory(diretório)
 ```
 
-## Custom Filesystems
+## Sistemas de arquivos personalizados
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+Você pode definir o driver `personalizado` no arquivo `config/filesystems.go`.
 
 ```go
-"custom": map[string]any{
+"custom": mapa[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+Você precisa implementar a interface `github.com/goravel/framework/contracts/filesystem/Driver` no item de configuração `via`
+.
 
 ```go
-type Driver interface {
+type interface do driver {
   AllDirectories(path string) ([]string, error)
-  AllFiles(path string) ([]string, error)
-  Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
-  Directories(path string) ([]string, error)
-  Exists(file string) bool
-  Files(path string) ([]string, error)
-  Get(file string) (string, error)
-  GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
-  MimeType(file string) (string, error)
-  Missing(file string) bool
-  Move(oldFile, newFile string) error
-  Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
-  Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
+  AllFiles(path string) ([]string, erro)
+  Copy(oldFile, newFile string) erro
+  Deletar(arquivo ... erro ao tentar
+  DeleteDirectory(string de diretório) erro
+  Directories(path string) ([]string, erro)
+  existe(string do arquivo) bool
+  Arquivos(string do caminho) ([]string, erro)
+  Get(string do arquivo) (string, erro)
+  GetBytes(string do arquivo) ([]byte, erro)
+  LastModified(string do arquivo) (tempo. ime, erro)
+  erro MakeDirectory(diretório)
+  MimeType(file string) (string, string) erro)
+  Falta (string de arquivo) bool
+  Move(oldFile, newFile string) erro
+  String Path(string de arquivo)
+  Put(arquivo, erro
+  PutFile(string de caminho, arquivo fonte) (string, erro)
+  PutFileAs(string de caminho, arquivo de origem, name string) (string, error)
+  Size(string do arquivo) (int64, error)
+  TemporárioUrl(string do arquivo, horário. ime) (string, erro)
   WithContext(ctx context.Context) Driver
-  Url(file string) string
+  Url(string de arquivo)
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> Nota: Como a configuração não foi carregada quando o driver personalizado está registrado, por favor use
+> `facades. onfig().Env` para obter a configuração no driver personalizado.
