@@ -1,163 +1,163 @@
-# Grpc
+# عشب
 
-Grpc module can be operated by `facades.Grpc()`.
+يمكن تشغيل وحدة Grpc بواسطة `facades.Grpc()`.
 
-## Controllers
+## المتحكمون
 
-Controllers can be defined in the `/app/grpc/controllers` directory.
+يمكن تعريف المتحكمين في دليل `/app/grpc/controlllers`.
 
 ```go
-// app/grpc/controllers
-package controllers
+استيراد // app/grpc/controlllers
+حزم التحكم
 
-import (
-  "context"
+(
+  "سياق"
   "net/http"
 
-  "github.com/goravel/grpc/protos"
-)
+  "github. om/goravel/grpc/protos"
+
 
 type UserController struct {
-}
+
 
 func NewUserController() *UserController {
-  return &UserController{}
-}
+  Re&UserController{}
 
-func (r *UserController) Show(ctx context.Context, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
+
+func (r *UserController) Show(tx). ontext, req *protos.Userrequest) (protoBook *protos.UserResponse, err خطأ) {
   return &protos.UserResponse{
     Code: http.StatusOK,
-  }, nil
+  }, nl
 }
 ```
 
-## Define routing
+## تحديد المسار
 
-All routing files can be defined in the `/routes` directory, such as `/routes/grpc.go`. Then bind routes in the
-`app/providers/grpc_service_provider.go` file.
+يمكن تعريف جميع ملفات المسارات في دليل `/routes'، مثل `/routes/grpc.go`. ثم ربط المسارات في ملف
+`app/providers/grpc_service_provider.go'.
 
 ```go
-// routes/grpc.go
-package routes
+/routes/grpc.go
+طرق الحزمة
 
-import (
+الاستيراد (
   "github.com/goravel/grpc/protos"
   "github.com/goravel/framework/facades"
 
   "goravel/app/grpc/controllers"
-)
+
 
 func Grpc() {
-  protos.RegisterUserServer(facades.Grpc().Server(), controllers.NewUserController())
+  protos.RegisterUserserver(facades.Grpc().Server.Server.NewUserController())
 }
 ```
 
-### Register routing
+### تسجيل مسار
 
-Register routing in the `app/providers/grpc_service_provider.go` file after routing was defined.
+تسجيل مسار في ملف 'app/providers/grpc_service_provider.go' بعد تحديد المسار.
 
 ```go
-// app/providers/grpc_service_provider.go
-package providers
+// app/providers/grpc_service_provider. o
+موفري الحزمة
 
-import (
+استيراد (
   "goravel/routes"
-)
 
-type GrpcServiceProvider struct {
+
+من النوع GrpcServiceProمزود البنية {
 }
 
-func (router *GrpcServiceProvider) Register() {
+Fc (توجيه * GrpcServiceproviders ) Register() {
 
-}
 
-func (router *GrpcServiceProvider) Boot() {
-  routes.Grpc()
+
+Fc (توجيه * GrpcServiceprovider) Boot() {
+  طرق rpc()
 }
 ```
 
-## Start Grpc Server
+## بدء خادم Grpc
 
-Start Grpc in the `main.go` file.
+بدء تشغيل Grpc في ملف 'main.go'.
 
 ```go
-go func() {
-  if err := facades.Grpc().Run(facades.Config().GetString("grpc.host")); err != nil {
+انتقل إلى وظيفة () {
+  if err := facades.Grpc().Run(facades.Config().GetString("grpc.host"))); err != nl {
     facades.Log().Errorf("Grpc run error: %v", err)
-  }
+
 }()
 ```
 
-## Interceptor
+## اعتراض
 
-The interceptor can be defined in the `app/grpc/inteceptors` folder, and then registered to `app/grpc/kernel.go`.
+يمكن تعريف الاعتراض في مجلد "app/grpc/inteceptors"، ثم يتم تسجيله في "app/grpc/kernel.go\`.
 
-**Server Interceptor**
+**اعتراض الخادم**
 
-You can set the server interceptors in the `app/grpc/kernel.go:UnaryServerInterceptors` method. For example:
+يمكنك تعيين طريقة "app/grpc/kernel.go:UnaryServerInterceptors" في طريقة "app/grpc/kernel.go:UnaryServerInterceptors". وعلى سبيل المثال:
 
 ```go
 // app/grpc/kernel.go
-import (
+الاستيراد (
   "goravel/app/grpc/interceptors"
 
   "google.golang.org/grpc"
-)
 
-func (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
-  return []grpc.UnaryServerInterceptor{
+
+Fc (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
+  العودة []grpc.unaryServerInterceptor{
     interceptors.Server,
   }
 }
 ```
 
-**Client Interceptor**
+**اعتراض العميل**
 
-You can set the client interceptor in the `app/grpc/kernel.go:UnaryClientInterceptorGroups` method, the method can group
-interceptors. For example, `interceptors.Client` is included under the `trace` group.
+يمكنك تعيين طريقة اعتراض العميل في طريقة \`app/grpc/kernel.go:UnaryClientInterceptorGroups'، يمكن للطريقة تجميع
+اعتراض. على سبيل المثال، "interceptors.Client" مدرج ضمن مجموعة "trace".
 
 ```go
-// app/grpc/kernel.go
-import (
+//app/grpc/kernel.go
+الاستيراد (
   "goravel/app/grpc/interceptors"
 
   "google.golang.org/grpc"
-)
 
-func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClientInterceptor {
-  return map[string][]grpc.UnaryClientInterceptor{
-    "trace": {
+
+Fc (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc. NaryClientInterceptor {
+  map[string][]grpc.unaryClientInterceptor{
+    "تتبع": {
       interceptors.Client,
     },
   }
 }
 ```
 
-the `trace` group can be applied to the configuration item `grpc.clients.interceptors`, in this way, the Client will be
-applied to all interceptors under the group. For example:
+يمكن تطبيق مجموعة "تعقب" على عنصر التكوين \`grpc.clits. المعترضين، بهذه الطريقة، سيكون العميل
+يطبق على جميع المعترضين تحت المجموعة. وعلى سبيل المثال:
 
 ```go
-package config
+تكوين الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/facades"
-)
 
-func init() {
+
+init() func /7/Add.
   config := facades.Config
-  config.Add("grpc", map[string]interface{}{
-    // Grpc Configuration
+  config. dd(“grpc”, خريطة[string]واجهة{}{
+    // Gpc تكوين
     //
-    // Configure your server host
-    "host": config.Env("GRPC_HOST", ""),
+    // تكوين مضيف الخادم
+    "المضيف": تكوين. nv("GRPC_HOST", ""),
 
-    // Configure your client host and interceptors.
-    // Interceptors can be the group name of UnaryClientInterceptorGroups in app/grpc/kernel.go.
-    "clients": map[string]any{
+    // تكوين مضيف العميل الخاص بك واعتراضه.
+    /// يمكن أن يكون اسم المجموعة لـ UnaryClientInterceptorGroups في app/grpc/kernel.go.
+    "العملاء": الخريطة[string]any{
       "user": map[string]any{
-        "host":         config.Env("GRPC_USER_HOST", ""),
-        "port":         config.Env("GRPC_USER_PORT", ""),
-        "interceptors": []string{"trace"},
+        "host": config. nv("GRPC_USER_HOST", ""),
+        "port": config. nv("GRPC_USER_PORT", ""),
+        "interceptors": []string{"Trace"},
       },
     },
   })
