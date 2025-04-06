@@ -1,4 +1,4 @@
-# Seeding
+# 填充
 
 Goravel 包含使用种子结构填充数据库的功能。 所有种子结构都存储在 `database/seeders` 目录中。 默认情况下，为您定义了一个 `DatabaseSeeder` 结构。
 
