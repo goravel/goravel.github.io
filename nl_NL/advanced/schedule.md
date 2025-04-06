@@ -1,18 +1,18 @@
-# Task Scheduling
+# Taak Plannen
 
-In the past, you might need to create a cron configuration entry for each task that needed scheduling on your server.
-However, this approach can quickly become a pain as your task schedule is not in source control, and you have to SSH
-into your server to view or add/edit cron entries.
+In het verleden moet u misschien een cron configuratie invoer maken voor elke taak die gepland moest worden op uw server.
+Deze aanpak kan echter snel pijn gaan doen omdat uw taakschema niet in bronbeheer is. en je moet SSH
+in je server gebruiken om cron items te bekijken of te bewerken.
 
-Goravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. With the scheduler, you
-can easily and clearly define your command schedule within your Goravel application. Using the scheduler, you only need
-to create a single cron entry on your server.
+Goravel's opdrachtplanner biedt een frisse aanpak voor het beheren van geplande taken op uw server. Met de planner kunt u
+eenvoudig en duidelijk uw opdrachtschema definiëren binnen uw Goravel applicatie. Met behulp van de planner hoeft u alleen
+een cron-invoer op uw server te maken.
 
-## Defining Schedules
+## Schedules definiëren
 
-To schedule tasks for your application, you can define them in the `Schedule` method in `app\console\kernel.go`. Let's
-consider an example to understand this better. In this case, we want to schedule a closure that will run every day at
-midnight. Inside this closure, we will execute a database query to clear a table:
+Om taken te plannen voor uw applicatie, kunt u ze definiëren in de `Schedule` methode in `app\console\kernel.go`. Laten we
+een voorbeeld overwegen om dit beter te begrijpen. In dit geval willen we een sluiting plannen die elke dag om
+middernacht wordt uitgevoerd. Binnen deze sluiting zullen we een databasequery uitvoeren om een tabel te wissen:
 
 ```go
 package console
@@ -20,7 +20,7 @@ package console
 import (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/models"
 )
@@ -28,19 +28,19 @@ import (
 type Kernel struct {
 }
 
-func (kernel Kernel) Schedule() []schedule.Event {
-  return []schedule.Event{
+func (kernel Kernel) Schedule() []schedule. vent {
+  geeft []schedule.Event{
     facades.Schedule().Call(func() {
-      facades.Orm().Query().Where("1 = 1").Delete(&models.User{})
+      facades. rm().Query().here("1 = 1").Delete(&models.User{})
     }).Daily(),
   }
 }
 ```
 
-### Scheduling Artisan Commands
+### Plannen van Artistisch Commando's
 
-In addition to scheduling closures, you can also schedule [Artisan commands](./artisan). For example, you may
-use the `Command` method to schedule an Artisan command using either the command's name or class.
+Naast het plannen van sluitingen, kan je ook [Artisan commands](./artisan). Je kan bijvoorbeeld
+de 'Command' methode gebruiken om een Artisan commando te plannen met behulp van de naam of de klas.
 
 ```go
 package console
@@ -48,82 +48,81 @@ package console
 import (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
 type Kernel struct {
 }
 
-func (kernel *Kernel) Schedule() []schedule.Event {
-  return []schedule.Event{
-    facades.Schedule().Command("send:emails name").Daily(),
+func (kernel *Kernel) Schedule() []schedule. vent {
+  retourneer []schedule.Event{
+    facades.Schedule().Command("send:emails naam").Daily(),
   }
 }
 ```
 
-### Logging Level
+### Logging niveau
 
-When `app.debug` is `true`, the console will print all logs. Otherwise, only `error` level logs will be printed.
+Wanneer `app.debug` `true` is, zal de console alle logs afdrukken. Anders worden alleen `error` level logs afgedrukt.
 
-### Schedule Frequency Options
+### Schedule Frequentie Opties
 
-We've already seen a few examples of how you may configure a task to run at specified intervals. However, there are many
-more task schedule frequencies avaibable to assign to tasks:
+We hebben al een paar voorbeelden gezien van hoe je een taak kunt configureren die uitgevoerd moet worden op de opgegeven intervals. Er zijn echter veel
+meer taakschema frequenties beschikbaar om taken toe te kennen:
 
-| 方法                       | 描述                                                  |
-| ------------------------ | --------------------------------------------------- |
-| `.Cron("* * * * *")`     | Run the task on a custom cron schedule              |
-| `.EveryMinute()`         | Run the task every minute                           |
-| `.EveryTwoMinutes()`     | Run the task every two minutes                      |
-| `.EveryThreeMinutes()`   | Run the task every three minutes                    |
-| `.EveryFourMinutes()`    | Run the task every four minutes                     |
-| `.EveryFiveMinutes()`    | Run the task every five minutes                     |
-| `.EveryTenMinutes()`     | Run the task every ten minutes                      |
-| `.EveryFifteenMinutes()` | Run the task every fifteen minutes                  |
-| `.EveryThirtyMinutes()`  | Run the task every thirty minutes                   |
-| `.Hourly()`              | Run the task every hour                             |
-| `.HourlyAt(17)`          | Run the task every hour at 17 minutes past the hour |
-| `.EveryTwoHours()`       | Run the task every two hours                        |
-| `.EveryThreeHours()`     | Run the task every three hours                      |
-| `.EveryFourHours()`      | Run the task every four hours                       |
-| `.EverySixHours()`       | Run the task every six hours                        |
-| `.Daily()`               | Run the task every day at midnight                  |
-| `.DailyAt("13:00")`      | Run the task every day at 13:00     |
+| 方法                       | 描述                                                 |
+| ------------------------ | -------------------------------------------------- |
+| `.Cron("* * * * *")`     | Taak uitvoeren op een aangepast cron schema        |
+| `.EveryMinute()`         | Taak elke minuut uitvoeren                         |
+| `.EveryTwoMinutes()`     | Taak om de twee minuten uitvoeren                  |
+| `.EveryThreeMinutes()`   | Voer de taak elke drie minuten uit                 |
+| `.EveryFourMinutes()`    | Taak elke vier minuten uitvoeren                   |
+| `.EveryFiveMinutes()`    | Taak elke vijf minuten uitvoeren                   |
+| `.EveryTenMinutes()`     | Taak om de tien minuten uitvoeren                  |
+| `.EveryFifteenMinutes()` | Voer de taak elke vijftien minuten uit             |
+| `.EveryThirtyMinutes()`  | Voer de taak elke dertig minuten uit               |
+| `.Uur()`                 | Taak elk uur uitvoeren                             |
+| `.HourlyAt(17)`          | Voer de taak elk uur uit om 17 minuten na het uur  |
+| `.EveryTwoHours()`       | Taak om de twee uur uitvoeren                      |
+| `.EveryThreeHours()`     | Voer de taak om de drie uur uit                    |
+| `.EveryFourHours()`      | Taak om de vier uur uitvoeren                      |
+| `.EverySixHours()`       | Voer de taak om de zes uur uit                     |
+| `.Daily()`               | Voer de taak elke dag om middernacht uit           |
+| `.DailyAt("13:00")`      | Voer de taak elke dag uit om 13:00 |
 
-### Preventing Task Overlaps
+### Taak overlappingen voorkomen
 
-By default, scheduled tasks will continue to run even if a previous instance is still running. To prevent this, use the
-following methods:
+Standaard blijven geplande taken draaien, zelfs als een vorige instantie nog actief is. Om dit te voorkomen, gebruik de volgende methoden
 
-| 方法                       | 描述                     |
-| ------------------------ | ---------------------- |
-| `.SkipIfStillRunning()`  | Skip if still running  |
-| `.DelayIfStillRunning()` | Delay if still running |
+| 方法                       | 描述                             |
+| ------------------------ | ------------------------------ |
+| `.SkipIfStillRunning()`  | Overslaan als het nog bezig is |
+| `.DelayIfStillRunning()` | Vertraging als nog bezig is    |
 
 ```go
-facades.Schedule().Command("send:emails name").EveryMinute().SkipIfStillRunning()
-facades.Schedule().Command("send:emails name").EveryMinute().DelayIfStillRunning()
+facades.Schedule().Command("send:emails naam").EveryMinuute().SkipIfStillRunning()
+facades.Schedule().Command("send:emails name").EveryMinuuute().DelayIfRunning()
 ```
 
-### Running Tasks On One Server
+### Taken uitvoeren op één server
 
-> To utilize this feature, your application must be using the memcached, dynamodb, or redis cache driver as the default
-> cache driver. In addition, all servers must be communicating with the same central cache server.
+> Om deze functie te gebruiken, moet uw applicatie de memcache, dynamodb of redis cache driver als standaard
+> cache driver gebruiken. Bovendien moeten alle servers communiceren met dezelfde centrale cache server.
 
-If your application's scheduler runs on multiple servers, you can ensure that a scheduled job is executed on only one of
-them. For example, let's say you have a scheduled task that generates a new report every Friday night. If the task
-scheduler runs on three worker servers, the scheduled task will run on all three servers and create the report three
-times. This is not ideal!
+Als de taakplanner van je applicatie op meerdere servers draait, kan je ervoor zorgen dat een geplande taak wordt uitgevoerd op slechts één van
+de plannen. Laten we bijvoorbeeld zeggen dat u een geplande taak hebt die elke vrijdagavond een nieuw verslag opstelt. Als de taak
+planner draait op drie worker servers, de geplande taak wordt uitgevoerd op alle drie de servers en maakt het rapport drie
+keer. Dat is niet ideaal!
 
-To prevent this, use the `OnOneServer` method when defining the scheduled task, which will make sure that the task runs
-on only one server. The first server to receive the task will secure an atomic lock on the job, preventing other servers
-from executing the same task at the same time:
+Om dit te voorkomen, gebruik de `OnOneServer` methode bij het definiëren van de geplande taak, die ervoor zal zorgen dat de taak
+op slechts één server wordt uitgevoerd. De eerste server die deze taak ontvangt zal een atoomslot op de baan beveiligen. voorkomen dat andere servers
+dezelfde taak tegelijkertijd uitvoeren:
 
 ```go
 facades.Schedule().Command("report:generate").Daily().OnOneServer()
 ```
 
-Scheduled closures must be assigned a name if they are intended to be run on one server:
+Geplande sluitingen moeten een naam krijgen als ze op één server uitgevoerd moeten worden:
 
 ```go
 facades.Schedule().Call(func() {
@@ -131,23 +130,23 @@ facades.Schedule().Call(func() {
 }).Daily().OnOneServer().Name("goravel")
 ```
 
-## Running The Scheduler
+## De Taakplanner wordt uitgevoerd
 
-Now that we have learned how to define scheduled tasks, let's discuss how to actually run them on our server.
+Nu we hebben geleerd hoe we geplande taken moeten definiëren, moeten we bespreken hoe we ze daadwerkelijk op onze server kunnen uitvoeren.
 
-Add `go facades.Schedule().Run()` to the root `main.go` file.
+Voeg `go facades.Schedule().Run()` toe aan het root `main.go` bestand.
 
 ```go
-package main
+Pakket main
 
 import (
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Dit bootstraps het framework en maakt het klaar voor gebruik.
   bootstrap.Boot()
 
   // Start schedule by facades.Schedule
@@ -157,31 +156,31 @@ func main() {
 }
 ```
 
-## Stopping The Scheduler
+## De Taakplanner stoppen
 
-You can call the `Shutdown` method to gracefully shut down the scheduler. This method will wait for all tasks to
-complete before shutting down.
+Je kunt de `Shutdown` methode aanroepen om de planner af te sluiten. Deze methode zal wachten tot alle taken
+voltooid zijn voordat u afsluit.
 
 ```go
 // main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
+// Creëer een kanaal om te luisteren naar OS-signalen
 quit := make(chan os.Signal)
-signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+signaal. otify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-// Start schedule by facades.Schedule
-go facades.Schedule().Run()
+// Start schema door facades.Schedule
+go facades.Schedule(). un()
 
-// Listen for the OS signal
-go func() {
+// Luister naar het OS signaal
+ga func() {
   <-quit
-  if err := facades.Schedule().Shutdown(); err != nil {
-    facades.Log().Errorf("Schedule Shutdown error: %v", err)
+  if err := facades. chedule().Shutdown(); err != nil {
+    facades. og().Errorf("Schedule Shutdown error: %v", err)
   }
 
   os.Exit(0)
 }()
 
-select {}
+selecteer {}
 ```
