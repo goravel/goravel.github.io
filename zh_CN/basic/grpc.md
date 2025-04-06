@@ -1,40 +1,40 @@
-# Grpc
+# 格尔普克
 
-Grpc module can be operated by `facades.Grpc()`.
+Grpc 模块可以由“facades.Grpc()”操作。
 
-## Controllers
+## 控制器
 
-Controllers can be defined in the `/app/grpc/controllers` directory.
+控制器可以在 `/app/grpc/controllers` 目录中定义。
 
 ```go
-// app/grpc/controllers
-package controllers
+// 应用/grpc/controllers
+包控制器
 
-import (
+导入(
   "context"
   "net/http"
 
-  "github.com/goravel/grpc/protos"
+  "github. om/goravel/grpc/protos"
 )
 
-type UserController struct {
+类型 UserController struct v.
 }
 
-func NewUserController() *UserController {
+func NewUserController() *UserController
   return &UserController{}
 }
 
-func (r *UserController) Show(ctx context.Context, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
+func (r *UserController) Show(ctx contexer)。 ontext, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) 电子邮件：
   return &protos.UserResponse{
     Code: http.StatusOK,
   }, nil
 }
 ```
 
-## Define routing
+## 定义路由
 
-All routing files can be defined in the `/routes` directory, such as `/routes/grpc.go`. Then bind routes in the
-`app/providers/grpc_service_provider.go` file.
+所有路由文件都可以在 "/routes" 目录中定义，如"/routes/grpc.go"。 然后将路由绑定到
+`app/providers/grpc_service_provider.go` 文件。
 
 ```go
 // routes/grpc.go
@@ -52,9 +52,9 @@ func Grpc() {
 }
 ```
 
-### Register routing
+### 注册路由
 
-Register routing in the `app/providers/grpc_service_provider.go` file after routing was defined.
+定义路由后在 `app/providers/grpc_service_provider.go` 文件中注册路由。
 
 ```go
 // app/providers/grpc_service_provider.go
@@ -76,65 +76,63 @@ func (router *GrpcServiceProvider) Boot() {
 }
 ```
 
-## Start Grpc Server
+## 启动 Grpc 服务器
 
-Start Grpc in the `main.go` file.
+在 `main.go` 文件中启动 Grpc 。
 
 ```go
-go func() {
-  if err := facades.Grpc().Run(facades.Config().GetString("grpc.host")); err != nil {
+go func() v.
+  if err := facades.Grpc().Run(facades.Config().GetString("grpc.host")); err != nil w
     facades.Log().Errorf("Grpc run error: %v", err)
   }
 }()
 ```
 
-## Interceptor
+## 拦截器
 
-The interceptor can be defined in the `app/grpc/inteceptors` folder, and then registered to `app/grpc/kernel.go`.
+拦截器可以在 `app/grpc/intestors` 文件夹中定义，然后注册到 \`app/grpc/kernel.go'。
 
-**Server Interceptor**
+**服务器拦截器**
 
-You can set the server interceptors in the `app/grpc/kernel.go:UnaryServerInterceptors` method. For example:
+您可以在“app/grpc/kernel.go:UnaryServerInterceptors”方法中设置服务器拦截器。 例如：
 
 ```go
 // app/grpc/kernel.go
 import (
-  "goravel/app/grpc/interceptors"
+  "goravel/app/grpc/拦截器"
 
   "google.golang.org/grpc"
 )
 
-func (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
+func (kernel *Kernel) UnaryServerIntercetors() []grpc.UnaryServerInterceptor v.
   return []grpc.UnaryServerInterceptor{
     interceptors.Server,
   }
 }
 ```
 
-**Client Interceptor**
+**客户端拦截器**
 
-You can set the client interceptor in the `app/grpc/kernel.go:UnaryClientInterceptorGroups` method, the method can group
-interceptors. For example, `interceptors.Client` is included under the `trace` group.
+您可以在 `app/grpc/kernel.go:UnaryClientInterceptorGroups` 方法中设置客户端拦截器，该方法可以对拦截器进行分组。 例如，`拦截器.Client`包含在“追踪”组内。
 
 ```go
 // app/grpc/kernel.go
 import (
-  "goravel/app/grpc/interceptors"
+  "goravel/app/grpc/stamptors"
 
   "google.golang.org/grpc"
-)
 
-func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClientInterceptor {
-  return map[string][]grpc.UnaryClientInterceptor{
-    "trace": {
+
+func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc. naryClientIntercestor v.
+  return map[string][]grpc.UnaryClientInterceptorp
+    "Trace": {
       interceptors.Client,
     },
   }
 }
 ```
 
-the `trace` group can be applied to the configuration item `grpc.clients.interceptors`, in this way, the Client will be
-applied to all interceptors under the group. For example:
+可以将 `trace` 组应用于配置项 `grpc.clients.interceptors`，这样，客户端将应用该组下的所有拦截器。 例如：
 
 ```go
 package config
@@ -146,13 +144,13 @@ import (
 func init() {
   config := facades.Config
   config.Add("grpc", map[string]interface{}{
-    // Grpc Configuration
+    // Grpc 配置
     //
-    // Configure your server host
+    // 配置您的服务器主机
     "host": config.Env("GRPC_HOST", ""),
 
-    // Configure your client host and interceptors.
-    // Interceptors can be the group name of UnaryClientInterceptorGroups in app/grpc/kernel.go.
+    // 配置您的客户端主机和拦截器。
+    // 拦截器可以是 app/grpc/kernel.go 中 UnaryClientInterceptorGroups 的组名。
     "clients": map[string]any{
       "user": map[string]any{
         "host":         config.Env("GRPC_USER_HOST", ""),
