@@ -1,54 +1,54 @@
-# Authentication
+# Autentificare
 
-Authentication is an indispensable feature in Web Applications, the `facades.Auth()` module of Goravel provides support
-for JWT.
+Autentificarea este o caracteristică indispensabilă în Aplicațiile web, modulul `facades.Auth()` al Goravel oferă suport
+pentru JWT.
 
 ## Configurare
 
-You can configure `defaults` guard and multiple `guards` in the `config/auth.go` file to switch different user
-identities in the application.
+Puteți configura paza `defaults` și mai multe `guards` în fișierul `config/auth.go` pentru a schimba identitatea utilizatorului
+din aplicație.
 
-You can configure the parameters of JWT in the `config/jwt.go` file, such as `secret`, `ttl`, `refresh_ttl`.
+Puteți configura parametrii JWT în fișierul `config/jwt.go`, cum ar fi `secret`, `ttl`, `refresh_ttl`.
 
-### Configure TTL for different Guards
+### Configurați TTL pentru diferite Gardieni
 
-You can set TTL for each Guard separately in the `config/auth.go` file, if not set, the `jwt.ttl` configuration is used
-by default.
+Puteți seta TTL pentru fiecare Gardian separat în fișierul `config/auth.go`, dacă nu este setat, configurația `jwt.ttl` este folosită
+în mod implicit.
 
 ```go
 // config/auth.go
-"guards": map[string]any{
-  "user": map[string]any{
+"guards": harta[string]any{
+  "user": harta[string]orice {
     "driver": "jwt",
-++  "ttl": 60,
+++ "ttl": 60,
   },
 },
 ```
 
-## Generate JWT Token
+## Generează JWT Token
 
 ```shell
-go run . artisan jwt:secret
+mergi să alergi . artizan jwt:secret
 ```
 
-## Generate Token Using User
+## Generează Token Folosind Utilizator
 
-You can generate a token by Model, there is no extra configuration if the model uses `orm.Model`, otherwise, you need to
-configure Tag on the model primary key field, for example:
+Puteți genera un token prin model, nu există nici o configurație suplimentară dacă modelul folosește \`orm. odel", în caz contrar, trebuie să configurați
+eticheta pe modelul câmpului principal de cheie, de exemplu:
 
 ```go
 type User struct {
   ID uint `gorm:"primaryKey"`
-  Name string
+  Numele
 }
 
-var user models.User
-user.ID = 1
+modele var de utilizator. ser
+utilizator.ID = 1
 
-token, err := facades.Auth(ctx).Login(&user)
+token, err := facades.Auth(ctx).Login(&utilizator)
 ```
 
-## Generate Token Using ID
+## Generează Token Folosind ID-ul
 
 ```go
 token, err := facades.Auth(ctx).LoginUsingID(1)
@@ -60,16 +60,16 @@ token, err := facades.Auth(ctx).LoginUsingID(1)
 payload, err := facades.Auth(ctx).Parse(token)
 ```
 
-Through `payload` you can get:
+Prin `payload` puteţi obţine:
 
-1. `Guard`: Current Guard;
-2. `Key`: User flag;
-3. `ExpireAt`: Expire time;
-4. `IssuedAt`: Issued time;
+1. `Guard`: Garda curentă;
+2. `Cheie`: Steagul utilizatorului;
+3. `ExpireAt`: Timp de expirare;
+4. `EmedAt`: Timp eliberat;
 
-> If `err` isn't nil other than `ErrorTokenExpired`, the payload should be nil.
+> Dacă `err` nu este nil altul decât `ErrorTokenExpired`, payload ar trebui să fie nil.
 
-You can judge whether the Token is expired by err:
+Puteți judeca dacă Token-ul a expirat de eroare:
 
 ```go
 "errors"
@@ -78,33 +78,33 @@ You can judge whether the Token is expired by err:
 errors.Is(err, auth.ErrorTokenExpired)
 ```
 
-> The token can be parsed normally with or without the Bearer prefix.
+> Tokenul poate fi analizat în mod normal, cu sau fără prefixul purtătorului.
 
-## Get User
+## Obține utilizator
 
-You need to generate a Token by `Parse` before getting a user, the process can be handled in HTTP middleware.
+Trebuie să generați un Token de către `Parse` înainte de a obține un utilizator, procesul poate fi manipulat în HTTP middleware.
 
 ```go
-var user models.User
-err := facades.Auth(ctx).User(&user) // Must point
+var modele de utilizator.Utilizator
+err := facades.Auth(ctx).User(&user) // Trebuie punctul
 id, err := facades.Auth(ctx).ID()
 ```
 
-## Refresh Token
+## Reîmprospătare jeton
 
-You need to generate a Token by `Parse` before refreshing the user.
+Trebuie să generați un Token de către `Parse` înainte de a reîmprospăta utilizatorul.
 
 ```go
 token, err := facades.Auth(ctx).Refresh()
 ```
 
-## Logout
+## Deconectare
 
 ```go
-err := facades.Auth(ctx).Logout()
+err := faades.Auth(ctx).Deconectare ()
 ```
 
-## Multiple Guards
+## Garanții multiple
 
 ```go
 token, err := facades.Auth(ctx).Guard("admin").LoginUsingID(1)
@@ -112,4 +112,4 @@ err := facades.Auth(ctx).Guard("admin").Parse(token)
 token, err := facades.Auth(ctx).Guard("admin").User(&user)
 ```
 
-> When the default guard is not used, the `Guard` method must be called before calling the above methods.
+> Când garda implicită nu este folosită, metoda `Gardian` trebuie apelată înainte de a apela metodele de mai sus.
