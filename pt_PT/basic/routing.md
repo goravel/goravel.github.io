@@ -1,60 +1,60 @@
-# Routing
+# Roteamento
 
-The Goravel routing module can be operated by `facades.Route()`.
+O módulo de roteamento de Goravel pode ser operado por `facades.Route()`.
 
-## HTTP Driver
+## Driver HTTP
 
-Goravel uses [gin](https://github.com/gin-gonic/gin) as its default HTTP driver. To use other drivers, configure them in
-the `config/http.go` file. The official default supports [gin](https://github.com/gin-gonic/gin)
-and [fiber](https://github.com/gofiber/fiber).
+Goravel usa [gin](https://github.com/gin-gonic/gin) como seu driver HTTP padrão. Para usar outros drivers, configure-os em
+o arquivo `config/http.go`. O padrão oficial suporta [gin](https://github.com/gin-gonic/gin)
+e [fiber](https://github.com/gofiber/fiber).
 
 | Motorista | Vincular                                                                                             |
 | --------- | ---------------------------------------------------------------------------------------------------- |
 | Gin       | [https://github.com/goravel/gin](https://github.com/goravel/gin)     |
-| Fiber     | [https://github.com/goravel/fiber](https://github.com/goravel/fiber) |
+| Fibra     | [https://github.com/goravel/fiber](https://github.com/goravel/fiber) |
 
-## Default Routing File
+## Arquivo de roteamento padrão
 
-To define routing files, simply navigate to the `/routes` directory. By default, the framework utilizes a sample route
-located in `/routes/web.go`. To establish routing binding, the `func Web()` method is registered in the
-`app/providers/route_service_provider.go` file.
+Para definir arquivos de roteamento, basta navegar para o diretório `/routes`. Por padrão, a estrutura utiliza uma rota amostra
+localizada em `/routes/web.go`. Para estabelecer a vinculação de roteamento, o método `func Web()` é registrado no arquivo
+`app/providers/route_service_provider.go`.
 
-If you require more precise management, you can add routing files to the `/routes` directory and register them in the
-`app/providers/route_service_provider.go` file.
+Se você precisar de uma gestão mais precisa, você pode adicionar arquivos de roteamento ao diretório `/routes` e registrá-los no arquivo
+`app/providers/route_service_provider.go`.
 
-## Start HTTP Server
+## Iniciar servidor HTTP
 
-Start the HTTP server in `main.go` in the root directory by calling `facades.Route().Run()`. This will automatically
-fetch the `route.host` configuration.
+Inicie o servidor HTTP em `main.go` no diretório raiz chamando `facades.Route().Run()`. Isto irá automaticamente
+buscar a configuração `route.host` .
 
 ```go
-package main
+pacote
 
-import (
-  "github.com/goravel/framework/facades"
+import main (
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
-  bootstrap.Boot()
+  // Isso inicializa o framework e o deixa pronto para uso. Inicialização
+  . oot()
 
-  // Start http server by facades.Route().
+  // Iniciar servidor http por facades.Route().
   go func() {
-    if err := facades.Route().Run(); err != nil {
-      facades.Log().Errorf("Route run error: %v", err)
+    se err := facades. oute().Run(); err != nil {
+      facades. og().Errorf("erro de execução da rota: %v", err)
     }
   }()
 
-  select {}
+  selecione {}
 }
 ```
 
-## Start HTTPS Server
+## Iniciar servidor HTTPS
 
-Please complete the configuration of `http.tls` in `config/http.go` before using HTTPS, the `facades.Route().RunTLS()`
-method will start the HTTPS server according to the relevant configuration:
+Por favor, complete a configuração de `http.tls` em `config/http.go` antes de usar HTTPS, o método `facades.Route().RunTLS()`
+iniciará o servidor HTTPS de acordo com a configuração relevante:
 
 ```go
 // main.go
@@ -63,7 +63,7 @@ if err := facades.Route().RunTLS(); err != nil {
 }
 ```
 
-You can also use `facades.Route().RunTLSWithCert()` method to customize the host and certificate.
+Você também pode usar o método `facades.Route().RunTLSWithCert()` para personalizar o host e o certificado.
 
 ```go
 // main.go
@@ -72,116 +72,116 @@ if err := facades.Route().RunTLSWithCert("127.0.0.1:3000", "ca.pem", "ca.key"); 
 }
 ```
 
-## Close HTTP/HTTPS Server
+## Fechar Servidor HTTP/HTTPS
 
-You can gracefully close the HTTP/HTTPS server by calling the `Shutdown` method, which will wait for all requests to be
-processed before closing.
+Você pode fechar graciosamente o servidor HTTP/HTTPS chamando o método `Shutdown`, que esperará que todas as solicitações sejam
+processadas antes de fechar.
 
 ```go
 // main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
-quit := make(chan os.Signal)
-signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+// Cria um canal para ouvir sinais
+sair := make(chan os.Signal)
+signal.Notify(Sair, syscall. IGINT, syscall.SIGTERM)
 
-// Start http server by facades.Route().
+// Iniciar servidor http por facades.Route().
 go func() {
   if err := facades.Route().Run(); err != nil {
-    facades.Log().Errorf("Route run error: %v", err)
+    facades.Log(). rrorf("Erro ao executar rota: %v", err)
   }
 }()
 
-// Listen for the OS signal
+// Ouça o sinal de SO
 go func() {
-  <-quit
-  if err := facades.Route().Shutdown(); err != nil {
-    facades.Log().Errorf("Route shutdown error: %v", err)
+  <-sair
+  se err := facades. oute().Shutdown(); err != nil {
+    facades.Log(). rrorf("erro de desligamento da rota: %v", err)
   }
 
   os.Exit(0)
 }()
 
-select {}
+selecione {}
 ```
 
-### Routing Methods
+### Métodos de roteamento
 
-| Methods    | Action                                |
-| ---------- | ------------------------------------- |
-| Group      | [Group Routing](#group-routing)       |
-| Prefix     | [Routing Prefix](#routing-prefix)     |
-| ServeHTTP  | [Testing Routing](#testing-routing)   |
-| Get        | [Basic Routing](#basic-routing)       |
-| Post       | [Basic Routing](#basic-routing)       |
-| Put        | [Basic Routing](#basic-routing)       |
-| Delete     | [Basic Routing](#basic-routing)       |
-| Patch      | [Basic Routing](#basic-routing)       |
-| Opções     | [Basic Routing](#basic-routing)       |
-| Any        | [Basic Routing](#basic-routing)       |
-| Resource   | [Resource Routing](#resource-routing) |
-| Static     | [File Routing](#file-routing)         |
-| StaticFile | [File Routing](#file-routing)         |
-| StaticFS   | [File Routing](#file-routing)         |
-| Middleware | [Middleware](#middleware)             |
+| Métodos     | Acão                                        |
+| ----------- | ------------------------------------------- |
+| grupo       | [Grupo de Routing](#group-routing)          |
+| Prefixo     | [Prefixo de roteamento](#routing-prefix)    |
+| ServeHTTP   | [Avaliação de teste](#testing-routing)      |
+| Receber     | [Routing básico](#basic-routing)            |
+| Publicar    | [Routing básico](#basic-routing)            |
+| Colocar     | [Routing básico](#basic-routing)            |
+| excluir     | [Routing básico](#basic-routing)            |
+| Atualização | [Routing básico](#basic-routing)            |
+| Opções      | [Routing básico](#basic-routing)            |
+| Qualquer    | [Routing básico](#basic-routing)            |
+| Recurso     | [Roteamento de recursos](#resource-routing) |
+| Estático    | [Roteamento de arquivos](#file-routing)     |
+| StaticFile  | [Roteamento de arquivos](#file-routing)     |
+| StaticFS    | [Roteamento de arquivos](#file-routing)     |
+| Mediador    | [Middleware](#middleware)                   |
 
-## Basic Routing
+## Roteamento básico
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
-  return ctx.Response().Json(http.StatusOK, http.Json{
+  return ctx.Response().Json(http.StatusOK, http. son{
     "Hello": "Goravel",
   })
 })
 facades.Route().Post("/", userController.Show)
-facades.Route().Put("/", userController.Show)
+facades. oute().Put("/", userController.Show)
 facades.Route().Delete("/", userController.Show)
 facades.Route().Patch("/", userController.Show)
 facades.Route().Options("/", userController.Show)
 facades.Route().Any("/", userController.Show)
 ```
 
-## Resource Routing
+## Roteamento de Recursos
 
 ```go
 import "github.com/goravel/framework/contracts/http"
 
 resourceController := NewResourceController()
-facades.Route().Resource("/resource", resourceController)
+facades.Route(). esource("/resource", resourceController)
 
 type ResourceController struct{}
 func NewResourceController () *ResourceController {
   return &ResourceController{}
 }
-// GET /resource
-func (c *ResourceController) Index(ctx http.Context) {}
+// função GET /resource
+(c *ResourceController) Index(ctx http. ontext) {}
 // GET /resource/{id}
 func (c *ResourceController) Show(ctx http.Context) {}
 // POST /resource
-func (c *ResourceController) Store(ctx http.Context) {}
+func (c *ResourceController) Store(ctx http. ontext) {}
 // PUT /resource/{id}
-func (c *ResourceController) Update(ctx http.Context) {}
+func (c *ResourceController) Update(ctx http. ontext) {}
 // DELETE /resource/{id}
-func (c *ResourceController) Destroy(ctx http.Context) {}
+função(c *ResourceController) Destroy(ctx http.Context) {}
 ```
 
-## Group Routing
+## Roteamento do Grupo
 
 ```go
-facades.Route().Group(func(router route.Router) {
+facades.Rote().Group(func(router route.Router) {
   router.Get("group/{id}", func(ctx http.Context) http.Response {
     return ctx.Response().Success().String(ctx.Request().Query("id", "1"))
   })
 })
 ```
 
-## Routing Prefix
+## Prefixo de roteamento
 
 ```go
-facades.Route().Prefix("users").Get("/", userController.Show)
+facades.Route().Prefix("usuários").Get("/", userController.Show)
 ```
 
-## File Routing
+## Roteamento de arquivos
 
 ```go
 import "net/http"
@@ -191,7 +191,7 @@ facades.Route().StaticFile("static-file", "./public/logo.png")
 facades.Route().StaticFS("static-fs", http.Dir("./public"))
 ```
 
-## Routing Parameters
+## Parâmetros de roteamento
 
 ```go
 facades.Route().Get("/input/{id}", func(ctx http.Context) http.Response {
@@ -201,9 +201,9 @@ facades.Route().Get("/input/{id}", func(ctx http.Context) http.Response {
 })
 ```
 
-Detail [Request](./requests)
+Detalhe [Request](./requests)
 
-## Middleware
+## Mediador
 
 ```go
 import "github.com/goravel/framework/http/middleware"
@@ -211,49 +211,49 @@ import "github.com/goravel/framework/http/middleware"
 facades.Route().Middleware(middleware.Cors()).Get("users", userController.Show)
 ```
 
-Detail [Middleware](./middlewares)
+Detalhe [Middleware](./middlewares)
 
-## Fallback Routes
+## Rotas de Retorno
 
-Using the `Fallback` method, you may define a route that will be executed when no other route matches the incoming
-request.
+Usando o método `Fallback`, você pode definir uma rota que será executada quando nenhum outro caminho estiver de acordo com a solicitação
+recebida.
 
 ```go
 facades.Route().Fallback(func(ctx http.Context) http.Response {
-  return ctx.Response().String(404, "not found")
+  return ctx.Response().String(404, "não encontrado")
 })
 ```
 
-## Rate Limiting
+## Taxa Limitada
 
-### Defining Rate Limiters
+### Definindo limites de taxa
 
-Goravel includes powerful and customizable rate-limiting services that you may utilize to restrict the amount of traffic
-for a given route or group of routes. To get started, you should define rate limiter configurations that meet your
+Goravel inclui serviços de taxa-limitador poderosos e personalizáveis que você pode utilizar para restringir a quantidade de tráfego
+para uma determinada rota ou grupo de rotas. To get started, you should define rate limiter configurations that meet your
 application's needs. Typically, this should be done within the `configureRateLimiting` method of your application's
 `app/providers/route_service_provider.go` class.
 
-Rate limiters are defined using the `facades.RateLimiter()`'s `For` method. The `For` method accepts a rate limiter name
-and a closure that returns the limit configuration that should apply to routes that are assigned to the rate limiter.
-The rate limiter name may be any string you wish:
+Limitadores de taxa são definidos usando o método `facades.RateLimiter()` do `For`. O método `For` aceita um nome de limitador de taxa
+e um fechamento que retorna a configuração de limite que deve ser aplicada às rotas atribuídas ao limitador de taxa.
+O nome do limitador de tarifa pode ser qualquer string que você desejar:
 
 ```go
 import (
   contractshttp "github.com/goravel/framework/contracts/http"
   "github.com/goravel/framework/facades"
-  "github.com/goravel/framework/http/limit"
+  "github. om/goravel/framework/http/limit"
 )
 
 func (receiver *RouteServiceProvider) configureRateLimiting() {
-  facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
+  facades. ateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
     return limit.PerMinute(1000)
   })
 }
 ```
 
-If the incoming request exceeds the specified rate limit, a response with a 429 HTTP status code will automatically be
-returned by Goravel. If you would like to define your own response that should be returned by a rate limit, you may use
-the response method:
+Se a solicitação de entrada exceder o limite de taxa especificada, uma resposta com um código de estado HTTP de 429 será automaticamente
+retornado pelo Goravel. Se você quiser definir sua própria resposta que deve ser retornada por um limite de tarifa, você pode usar
+o método de resposta:
 
 ```go
 facades.RateLimiter().For("global", func(ctx http.Context) http.Limit {
@@ -263,13 +263,13 @@ facades.RateLimiter().For("global", func(ctx http.Context) http.Limit {
 })
 ```
 
-Since rate limiter callbacks receive the incoming HTTP request instance, you may build the appropriate rate limit
-dynamically based on the incoming request or authenticated user:
+Como callbacks limitador de taxa recebem a instância de solicitação HTTP recebida, você pode criar o limite de taxa apropriada
+dinamicamente com base na solicitação de entrada ou usuário autenticado:
 
 ```go
 facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
-  // Suppose
-  if is_vip() {
+  // Suponha
+  se is_vip() {
     return limit.PerMinute(100)
   }
 
@@ -277,11 +277,11 @@ facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshtt
 })
 ```
 
-#### Segmenting Rate Limits
+#### Taxa de segmentação Limites
 
-Sometimes you may wish to segment rate limits by some arbitrary value. For example, you may wish to allow users to
-access a given route 100 times per minute per IP address. To accomplish this, you may use the `By` method when building
-your rate limit:
+Às vezes você pode querer limitar a taxa de segmento por algum valor arbitrário. For example, you may wish to allow users to
+access a given route 100 times per minute per IP address. Para fazer isso, você pode usar o método `Por` ao construir
+seu limite de câmbio:
 
 ```go
 facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
@@ -293,8 +293,8 @@ facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshtt
 })
 ```
 
-To illustrate this feature using another example, we can limit access to the route to 100 times per minute per
-authenticated user ID or 10 times per minute per IP address for guests:
+Para ilustrar esse recurso usando outro exemplo, podemos limitar o acesso à rota para 100 vezes por minuto por
+autenticado usuário ID ou 10 vezes por minuto por endereço IP para os convidados:
 
 ```go
 facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
@@ -306,10 +306,10 @@ facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshtt
 })
 ```
 
-#### Multiple Rate Limits
+#### Limites de Taxa Múltipla
 
-If needed, you may return an array of rate limits for a given rate limiter configuration. Each rate limit will be
-evaluated for the route based on the order they are placed within the array:
+Se necessário, você pode retornar um array de limites de taxa para uma determinada configuração de limitador de taxa. Cada limite de taxa será
+avaliado para a rota com base na ordem que eles estão posicionados dentro da matriz:
 
 ```go
 facades.RateLimiter().ForWithLimits("login", func(ctx contractshttp.Context) []contractshttp.Limit {
@@ -320,24 +320,24 @@ facades.RateLimiter().ForWithLimits("login", func(ctx contractshttp.Context) []c
 })
 ```
 
-### Attaching Rate Limiters To Routes
+### Anexando Limitadores de Taxa de Rotas
 
-Rate limiters may be attached to routes or route groups using the throttle middleware. The throttle middleware accepts
-the name of the rate limiter you wish to assign to the route:
+Limitadores de taxa podem ser anexados a rotas ou grupos de rota usando o intermediário de aceleração. O middleware de acelerador aceita
+o nome do limitador de taxa que você deseja atribuir ao roteamento:
 
 ```go
 import github.com/goravel/framework/http/middleware
 
-facades.Route().Middleware(middleware.Throttle("global")).Get("/", func(ctx http.Context) http.Response {
+facades.Route().Middleware(middleware.Throttle("global")).Get("/", function (ctx http.Context) http.Response {
   return ctx.Response().Json(200, http.Json{
     "Hello": "Goravel",
   })
-})
+ }) })
 ```
 
-## Cross-Origin Resource Sharing (CORS)
+## Compartilhamento de recursos entre origens (CORS)
 
-Goravel has CORS enabled by default, the configuration can be modified in `config/cors.go`.
+Goravel tem CORS habilitado por padrão, a configuração pode ser modificada em `config/cors.go`.
 
-> For more information on CORS and CORS headers, please consult
-> the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
+> Para mais informações nos cabeçalhos CORS e CORS, consulte
+> a [documentação da web MDN no CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
