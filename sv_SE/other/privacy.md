@@ -1,37 +1,37 @@
-# Privacy Policy
+# Integritetspolicy
 
-## Collection of Information
+## Insamling av information
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+Vi samlar in viss information om dig när du besöker goravel.dev. Denna information kan vara:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- Information om vilka sidor du besöker på vår hemsida
+- All annan information som du lämnar frivilligt
 
-## Use of Information
+## Användning av information
 
-We may use the collected information for various purposes, including:
+Vi kan använda den insamlade informationen för olika ändamål, inklusive:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- Personalisera din upplevelse på vår hemsida
+- Förbättra vår hemsida och tjänster
+- Kontakta dig angående dina förfrågningar eller förfrågningar
 
-## Data Security
+## Datasäkerhet
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
-your information from unauthorized access, disclosure, alteration, or destruction.
+Vi tar säkerheten för dina uppgifter på allvar. Vi genomför lämpliga tekniska och organisatoriska åtgärder för att skydda
+din information från obehörig åtkomst, utlämnande, ändring eller förstörelse.
 
-## Third-Party Disclosure
+## Avslöjande från tredje part
 
-We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+Vi kan dela din information med betrodda tredje parter som hjälper oss att driva vår webbplats eller tillhandahålla tjänster till
+dig. Dessa tredje parter är kontraktsenligt skyldiga att hålla din information konfidentiell och säker.
 
 ## Cookies
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+Vår webbplats kan använda cookies för att förbättra din webbupplevelse. Cookies är små filer lagrade på din enhet som
+möjliggör vissa funktioner och funktionalitet. Du kan välja att inaktivera cookies i din webbläsares inställningar, men observera
+att vissa delar av vår webbplats kanske inte fungerar som de ska.
 
-## Changes to this Policy
+## Ändringar i denna policy
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+Vi kan uppdatera denna sekretesspolicy från tid till annan. Eventuella ändringar kommer att publiceras på denna sida, och den reviderade policyn
+kommer att träda i kraft omedelbart vid publicering.
