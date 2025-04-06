@@ -1,37 +1,37 @@
-# Privacy Policy
+# سياسة الخصوصية
 
-## Collection of Information
+## جمع المعلومات
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+نقوم بجمع معلومات معينة عنك عندما تقوم بزيارة goravel.dev. ويمكن أن تشمل هذه المعلومات:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- معلومات حول الصفحات التي تزورها على موقعنا
+- أي معلومات أخرى تقدمها طواعية
 
-## Use of Information
+## باء - استخدام المعلومات
 
-We may use the collected information for various purposes, including:
+ويمكن أن نستخدم المعلومات المجمعة لأغراض مختلفة، بما في ذلك:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- تخصيص تجربتك على موقعنا على الإنترنت
+- تحسين موقعنا على الإنترنت وخدماتنا
+- الاتصال بك فيما يتعلق بالاستفسارات أو الطلبات الخاصة بك
 
-## Data Security
+## أمن البيانات
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
+نحن نأخذ أمن بياناتك مأخذ الجد. We implement appropriate technical and organizational measures to protect
 your information from unauthorized access, disclosure, alteration, or destruction.
 
-## Third-Party Disclosure
+## كشف الطرف الثالث
 
 We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+you. وهذه الأطراف الثالثة ملزمة تعاقديا بالمحافظة على سرية معلوماتكم وأمانها.
 
-## Cookies
+## الكعكات
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+قد يستخدم موقعنا الإلكتروني ملفات تعريف الارتباط لتعزيز تجربة التصفح الخاصة بك. ملفات تعريف الارتباط هي ملفات صغيرة مخزنة على جهازك
+تمكين بعض الميزات والوظائف. قد تختار تعطيل ملفات تعريف الارتباط في إعدادات المتصفح الخاص بك، ولكن يرجى ملاحظة
+أن بعض أجزاء موقعنا قد لا تعمل بشكل صحيح.
 
-## Changes to this Policy
+## تغييرات في هذه السياسة
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة، وستصبح السياسة المنقحة
+سارية المفعول فور النشر.
