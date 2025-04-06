@@ -1,9 +1,9 @@
 # Facades
 
-`facades` provide a "static" interface for the core functionality of the application and provide a more flexible, more
-elegant, and easy-to-test syntax.
+`facades` biedt een "statische" interface voor de kernfunctionaliteit van de applicatie en biedt een flexibeler, meer
+elegant en eenvoudig te testen syntax.
 
-All `facades` of Goravel are defined under `github.com/goravel/framework/facades`. We can easily use `facades`:
+Alle `facades` van Goravel zijn gedefinieerd onder `github.com/goravel/framework/facades`. We kunnen makkelijk `facades` gebruiken:
 
 ```go
 import "github.com/goravel/framework/facades"
@@ -11,9 +11,9 @@ import "github.com/goravel/framework/facades"
 facades.Route().Run(facades.Config().GetString("app.host"))
 ```
 
-## How Facades Work
+## Hoe Facades werken
 
-`facades` are generally instantiated in the `Register` or `Boot` stage of each module `ServerProvider`.
+`facades` zijn meestal geïnstantieerd in de `Register` of `Boot` fase van elke module `ServerProvider`.
 
 ```go
 func (config *ServiceProvider) Register() {
@@ -22,7 +22,7 @@ func (config *ServiceProvider) Register() {
 }
 ```
 
-If the `facades` use other `facades`, then instantiate them in the `Boot` phase of the `ServerProvider`:
+Als de `facades` gebruik maakt van andere `facades`, instantieer ze dan in de `Boot` fase van de `ServerProvider`:
 
 ```go
 func (database *ServiceProvider) Boot() {
@@ -31,28 +31,28 @@ func (database *ServiceProvider) Boot() {
 }
 ```
 
-## Facade Class Reference
+## Facadeles Referentie
 
-| Facade        | Document                                     |
-| ------------- | -------------------------------------------- |
-| App           | [Container](../foundation/container)         |
-| Artisan       | [Command Console](../advanced/artisan)       |
-| Auth          | [Authentication](../security/authentication) |
-| Cachegeheugen | [Cache](../advanced/cache)                   |
-| Config        | [Configuration](../quickstart/configuration) |
-| Crypt         | [Encryption](../security/encryption)         |
-| Event         | [Event](../advanced/events)                  |
-| Gate          | [Authorization](../security/authorization)   |
-| Grpc          | [Grpc](../basic/grpc)                        |
-| Hash          | [Hashing](../security/hashing)               |
-| Log           | [Log](../basic/logging)                      |
-| Mail          | [Mail](../advanced/mail)                     |
-| Orm           | [ORM](../orm/quickstart)                     |
-| Queue         | [Queue](../advanced/queues)                  |
-| RateLimiter   | [RateLimiter](../basic/routing)              |
-| Route         | [Route](../basic/routing)                    |
-| Seeder        | [Seeder](../orm/seeding)                     |
-| Schedule      | [Schedule](../advanced/schedule)             |
-| Storage       | [Storage](../advanced/schedule)              |
-| Testing       | [Testing](../testing/quickstart)             |
-| Validation    | [Validation](../advanced/schedule)           |
+| Gevlochten      | Document                                     |
+| --------------- | -------------------------------------------- |
+| App             | [Container](../foundation/container)         |
+| Artisan         | [Commando Console](../advanced/artisan)      |
+| Authenticatie   | [Authentication](../security/authentication) |
+| Cachegeheugen   | [Cache](../advanced/cache)                   |
+| Configuratie    | [Configuration](../quickstart/configuration) |
+| Grafiek         | [Encryption](../security/encryption)         |
+| Gebeurtenis     | [Event](../advanced/events)                  |
+| Poort           | [Authorization](../security/authorization)   |
+| Grpc            | [Grpc](../basic/grpc)                        |
+| Toegangssleutel | [Hashing](../security/hashing)               |
+| Logboek         | [Log](../basic/logging)                      |
+| E-mailen        | [Mail](../advanced/mail)                     |
+| Orm             | [ORM](../orm/quickstart)                     |
+| Wachtrij        | [Queue](../advanced/queues)                  |
+| RateLimiter     | [RateLimiter](../basic/routing)              |
+| Route           | [Route](../basic/routing)                    |
+| Seeder          | [Seeder](../orm/seeding)                     |
+| Planning        | [Schedule](../advanced/schedule)             |
+| Opslagruimte    | [Storage](../advanced/schedule)              |
+| Testen          | [Testing](../testing/quickstart)             |
+| Validatie       | [Validation](../advanced/schedule)           |
