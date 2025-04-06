@@ -91,9 +91,9 @@ go func() {
 
 拦截器可以在 `app/grpc/inteceptors` 文件夹中定义，然后注册到 `app/grpc/kernel.go` 中。
 
-**服务器拦截器**
+**服务端拦截器**
 
-你可以在 `app/grpc/kernel.go:UnaryServerInterceptors` 方法中设置服务器拦截器。 例如：
+你可以在 `app/grpc/kernel.go:UnaryServerInterceptors` 方法中设置服务端拦截器。 例如：
 
 ```go
 // app/grpc/kernel.go
