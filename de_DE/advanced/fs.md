@@ -275,104 +275,104 @@ die `HashName` und `Extension` Methoden bevorzugen, um einen Namen und eine Erwe
 ```go
 file, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+name := file.HashName() // Generiere einen eindeutigen, zufälligen Namen...
+Erweiterung, err := file.Extension() // Ermitteln der Dateiendung basierend auf dem MIME Typ der Datei...
 ```
 
-## Deleting Files
+## Lösche Dateien
 
-The `Delete` method accepts a single filename or an array of files to delete:
+Die `Delete` Methode akzeptiert einen einzigen Dateinamen oder ein Array von Dateien zum Löschen:
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+Falls erforderlich, können Sie die Festplatte angeben, von der die Datei gelöscht werden soll:
 
 ```go
 err := facades.Storage().Disk("s3").Delete("file.jpg")
 ```
 
-## Directories
+## Verzeichnisse
 
-### Get All Files Within A Directory
+### Alle Dateien in einem Verzeichnis abrufen
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
-
-```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
-```
-
-### Get All Directories Within A Directory
-
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+Die Methode `Files` gibt ein Stück aller Dateien in einem gegebenen Verzeichnis zurück. Wenn du eine Liste aller
+Dateien in einem angegebenen Verzeichnis inklusive aller Unterverzeichnisse abrufen möchtest, kannst du die `AllFiles` Methode verwenden:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+Dateien, err := facades.Storage().Disk("s3").Dateien("Verzeichnis")
+Dateien, err := facades.Storage().Disk("s3").AllFiles("Verzeichnis")
 ```
 
-### Create A Directory
+### Alle Verzeichnisse in einem Verzeichnis abrufen
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+Die Methode `Directories` gibt ein Slice aller Verzeichnisse in einem gegebenen Verzeichnis zurück. Zusätzlich kannst du die
+`AllDirectories` Methode verwenden, um eine Liste aller Verzeichnisse in einem gegebenen Verzeichnis und allen Unterverzeichnissen zu erhalten:
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+Verzeichnisse, err := facades.Storage().Disk("s3").Directories("Verzeichnis")
+Verzeichnisse, err := facades.Storage().Disk("s3").AllDirectories("Verzeichnis")
 ```
 
-### Delete A Directory
+### Ein Verzeichnis erstellen
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+Die `MakeDirectory` Methode erstellt das angegebene Verzeichnis, einschließlich aller benötigten Unterverzeichnisse:
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+err := facades.Storage().MakeDirectory(Verzeichnis)
 ```
 
-## Custom Filesystems
+### Verzeichnis löschen
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+Schließlich kann die Methode "DeleteDirectory" verwendet werden, um ein Verzeichnis und alle seine Dateien zu löschen:
+
+```go
+err := facades.Storage().DeleteDirectory(Verzeichnis)
+```
+
+## Benutzerdefinierte Dateisysteme
+
+Du kannst den `custom` Treiber in der `config/filesystems.go` Datei setzen.
 
 ```go
 "custom": map[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+Du musst das `github.com/goravel/framework/contracts/filesystem/Driver` Interface in das `via`
+Konfigurationselement implementieren.
 
 ```go
 type Driver interface {
   AllDirectories(path string) ([]string, error)
-  AllFiles(path string) ([]string, error)
-  Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
+  AllFiles(path string) ([]string, string, error)
+  Copy(oldFile, newFile string) Fehler
+  Delete(file ... tring) Fehler
+  DeleteDirectory(directory string) Fehler
   Directories(path string) ([]string, error)
-  Exists(file string) bool
-  Files(path string) ([]string, error)
+  Bestehen(file string) bool
+  Dateien(path string) ([]string, error)
   Get(file string) (string, error)
   GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
-  MimeType(file string) (string, error)
+  LastModified(file string) (time). ime, error)
+  MakeDirectory(directory string) Fehler
+  MimeType(file string) (string, string, error)
   Missing(file string) bool
-  Move(oldFile, newFile string) error
+  Move(old File, newFile string) error
   Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
+  Put(file, Inhaltsstring-Fehler
+  PutFile(Pfad-String, Quelldatei) (String, Fehler)
+  PutFileAs(Pfad-String, Quelldatei, name string) (string, error)
   Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
-  WithContext(ctx context.Context) Driver
+  TemporaryUrl(file string, time time). ime) (String, Fehler)
+  WithContext(ctx context.Context) Treiber
   Url(file string) string
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> Notiz: Da die Konfiguration nicht geladen wurde, wenn der benutzerdefinierte Treiber registriert ist, verwenden Sie bitte
+> `Fassaden. onfig().Env` um die Konfiguration im benutzerdefinierten Treiber zu erhalten.
