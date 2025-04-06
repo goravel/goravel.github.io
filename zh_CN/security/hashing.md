@@ -1,39 +1,35 @@
-# Hashing
+# 哈希
 
-The Goravel `facades.Hash()` provides secure Argon2id and Bcrypt hashing for storing user passwords. If you are using
-one of the Goravel application starter kits, Argon2id will be used for registration and authentication by default.
+Goravel 的 `facades.Hash()` 提供安全的 Argon2id 和 Bcrypt 哈希算法，用于存储用户密码。 如果您正在使用
+Goravel 应用程序启动套件之一，默认情况下将使用 Argon2id 进行注册和身份验证。
 
-## Configuration
+## 配置
 
-The default hashing driver for your application is configured in your application's `config/hashing.go` configuration
-file. There are currently several supported drivers: Argon2id and Bcrypt.
+应用程序的默认哈希驱动程序在应用程序的 `config/hashing.go` 配置文件中配置。 目前支持几种驱动程序：Argon2id 和 Bcrypt。
 
-## Basic Usage
+## 基本用法
 
-### Hashing Passwords
+### 哈希密码
 
-You may hash a password by calling the `Make` method on the `facades.Hash()`:
+您可以通过调用 `facades.Hash()` 的 `Make` 方法来哈希密码：
 
 ```go
 password, err := facades.Hash().Make(password)
 ```
 
-### Verifying That A Password Matches A Hash
+### 验证密码是否匹配哈希值
 
-The `Check` method provided by the Hash facade allows you to verify that a given plain-text string corresponds to a
-given hash:
+Hash facade 提供的 `Check` 方法允许您验证给定的明文字符串是否与给定的哈希值相对应：
 
 ```go
 if facades.Hash().Check('plain-text', hashedPassword) {
-    // The passwords match...
+    // 密码匹配...
 }
 ```
 
-### Determining If A Password Needs To Be Rehashed
+### 确定密码是否需要重新哈希
 
-The `NeedsRehash` method provided by the Hash facade allows you to determine if the work factor used by the hasher has
-changed since the password was hashed. Some applications choose to perform this check during the application's
-authentication process:
+Hash facade 提供的 `NeedsRehash` 方法允许你确定自密码被哈希后，哈希器使用的工作因子是否已经改变。 一些应用程序选择在应用程序的认证过程中执行此检查：
 
 ```go
 if facades.Hash().NeedsRehash(hashed) {
