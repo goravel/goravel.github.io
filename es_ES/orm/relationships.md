@@ -1,153 +1,153 @@
-# Relationships
+# Relaciones
 
-It's common for database tables to be interconnected. For instance, a blog post may have many comments, or an order may
-be linked to the user who placed it. `Orm` simplifies managing and dealing with such relationships, and it can handle
+Es común que las tablas de base de datos estén interconectadas. Por ejemplo, una entrada en un blog puede tener muchos comentarios, o un pedido puede
+estar vinculado al usuario que la realizó. `Orm` simplifies managing and dealing with such relationships, and it can handle
 various common relationships:
 
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-- [Many To Many](#Many-To-Many)
+- [Uno a Uno](#one-to-one)
+- [Uno a muchos](#one-to-many)
+- [Mucho a muchos] (#Many-To-Many)
 - [Polymorphic](#polymorphic)
 
-## Defining Relationships
+## Definiendo relaciones
 
-### One To One
+### Uno a Uno
 
-A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated
-with one `Phone` model.
+Una relación uno a uno es un tipo muy básico de relación de base de datos. Por ejemplo, un modelo `User` podría estar asociado
+con un modelo `Phone`.
+
+```go
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Teléfono *Teléfono
+}
+
+escribe Teléfono {
+  orm. odel
+  uint UserID
+  Cadena de nombre
+}
+```
+
+Cuando se usa `Orm`, automáticamente asigna la clave foránea a la relación basada en el nombre del modelo padre. Para la instancia
+, se asume que el modelo `Phone` tiene una clave foránea `UserID` por defecto. Sin embargo, si deseas cambiar esta convención
+, puedes añadir una etiqueta `foreignKey` al campo `Teléfono` en el modelo `User`. (Esto también se aplica a otras relaciones
+.)
+
+```go
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Teléfono *`gorm:"foreignKey:UserName"`
+}
+
+type Phone struct {
+  orm. odel
+  Cadena UserName
+  Cadena de nombre
+}
+```
+
+Además, cuando se usa `Orm`, se asume que la clave foránea debe coincidir con la columna de clave primaria del padre.
+Esto significa que `Orm` buscará el valor de la columna `ID` del usuario en la columna `UserId` del registro `Phone`. Si usted
+desea utilizar un valor de clave principal distinto de `ID`, puedes añadir una referencia "Etiqueta" al campo `Teléfono` en el modelo `User`. To
+do this, simply pass a third argument to the `hasOne` method. (Otras configuraciones de relaciones son similares)
+
+```go
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Teléfono *Teléfono `gorm:"foreignKey:UserName; eferences:name"`
+}
+
+type Phone struct {
+  orm. odel
+  Cadena UserName
+  Cadena de nombre
+}
+```
+
+#### Definir lo inverso de la relación
+
+Podemos acceder al modelo `Phone` desde nuestro modelo `User`. Ahora, necesitamos establecer una relación en el modelo `Phone` que
+nos permita acceder al propietario del teléfono. Para hacer esto, podemos definir un campo `User` en el modelo `Phone`.
 
 ```go
 type User struct {
   orm.Model
-  Name  string
-  Phone   *Phone
+  Name string
 }
 
 type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
+  orm. odel
+  UserID uint
+  Nombre cadena
+  Usuario *Usuario
 }
 ```
 
-When using `Orm`, it automatically assigns the foreign key to the relationship based on the parent model name. For
-instance, the `Phone` model is assumed to have a `UserID` foreign key by default. However, if you wish to change this
-convention, you can add a `foreignKey` tag to the `Phone` field in `User` model. (This also applies to other
-relationships.)
+### Uno a Muchos
 
-```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName"`
-}
-
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
-}
-```
-
-Additionally, when using `Orm`, it is assumed that the foreign key should match the primary key column of the parent.
-This means that `Orm` will search for the user's `ID` column value in the `UserId` column of the `Phone` record. If you
-wish to use a primary key value other than `ID`, you can add a "Tag" reference to the `Phone` field in `User` model. To
-do this, simply pass a third argument to the `hasOne` method. (Other relationship setups are similar.)
-
-```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName;references:name"`
-}
-
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
-}
-```
-
-#### Defining The Inverse Of The Relationship
-
-We can access the `Phone` model from our `User` model. Now, we need to establish a relationship on `Phone` model that
-allows us to access the phone's owner. To do this, we can define a `User` field in `Phone` model.
-
-```go
-type User struct {
-  orm.Model
-  Name  string
-}
-
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
-  User   *User
-}
-```
-
-### One To Many
-
-A one-to-many relationship is used to define relationships where a single model is the parent to one or more child
-models. For example, a blog post may have an infinite number of comments. Like all other `Orm` relationships,
-one-to-many relationships are defined by defining a field on your `Orm` model:
+Una relación de uno a muchos se utiliza para definir relaciones donde un modelo individual es el padre de uno o más modelos hijos
+. Por ejemplo, una entrada en un blog puede tener un número infinito de comentarios. Como todas las demás relaciones `Orm`,
+relaciones uno-a-muchos se definen definiendo un campo en tu modelo `Orm`:
 
 ```go
 type Post struct {
-  orm.Model
-  Name   string
-  Comments []*Comment
+  orm. odel
+  Nombre cadena
+  Comentarios []*Comentario
 }
 
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
+tipo Comentario {
+  orm. odel
+  uint de PostID
+  cadena de nombre
 }
 ```
 
-Remember, `Orm` will automatically determine the proper foreign key column for the `Comment` model. By convention, Orm
-will take the "hump case" name of the parent model and suffix it with `ID`. So, in this example, Orm will assume the
-foreign key column on the `Comment` model is `PostID`.
+Recuerda, `Orm` determinará automáticamente la columna de clave foránea apropiada para el modelo `Comentario`. Por convención, Orm
+tomará el nombre del "caso molesto" del modelo padre y lo sufijo con `ID`. Así que, en este ejemplo, Orm asumirá que la columna
+clave foránea en el modelo `Comentario` es `PostID`.
 
-### One To Many (Inverse) / Belongs To
+### Uno a Muchos (Inverse) / Below A
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent
-post. To define the inverse of a `One To Many` relationship, define a relationship method on the child model which calls
-the `belongsTo` method:
+Ahora que podemos acceder a todos los comentarios de una publicación, vamos a definir una relación para permitir que un comentario acceda a su publicación
+padre. Para definir el inverso de una relación `Uno a muchos`, define un método de relación en el modelo secundario que llama
+el método `belongsTo`:
 
 ```go
 type Post struct {
-  orm.Model
-  Name   string
-  Comments []*Comment
+  orm. odel
+  Nombre cadena
+  Comentarios []*Comentario
 }
 
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
-  Post   *Post
+tipo Comentario {
+  orm. odel
+  uint PostID
+  Nombre cadena
+  Post *Post
 }
 ```
 
-## Many To Many Relationships
+## Relaciones entre muchos y muchos
 
-Many-to-many relations are slightly more complicated than `One To One` and `One To Many` relationships. An example of a
-many-to-many relationship is a user that has many roles and those roles are also shared by other users in the
-application. For example, a user may be assigned the role of "Author" and "Editor"; however, those roles may also be
-assigned to other users as well. So, a user has many roles and a role has many users.
+Las relaciones muchos-a-muchos son ligeramente más complicadas que las relaciones `One To One` y `One To Muy`. Un ejemplo de una relación
+muchos-a-muchos es un usuario que tiene muchos roles y esos roles también son compartidos por otros usuarios en la aplicación
+. Por ejemplo, un usuario puede ser asignado el rol de "Author" y "Editor"; sin embargo, esos roles también pueden estar asignados
+a otros usuarios. Por lo tanto, un usuario tiene muchos roles y un rol tiene muchos usuarios.
 
-### Table Structure
+### Estructura de tabla
 
-To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table
-naming can be customized and it contains `user_id` and `role_id` columns. This table is used as an intermediate table
-linking users and roles.
+Para definir esta relación, se necesitan tres tablas de base de datos: `users`, `roles`, y `role_user`. La tabla `role_user` nomenclatura
+puede ser personalizada y contiene columnas `user_id` y `role_id`. Esta tabla se utiliza como una tabla intermedia
+vinculando usuarios y roles.
 
-Remember, since a role can belong to many users, we cannot simply place a `user_id` column on the `roles` table. This
-would mean that a role could only belong to a single user. In order to provide support for roles being assigned to
-multiple users, the `role_user` table is needed. We can summarize the relationship's table structure like so:
+Recuerda, dado que un rol puede pertenecer a muchos usuarios, no podemos simplemente colocar una columna `user_id` en la tabla `roles`. Esta
+significaría que un rol solo podría pertenecer a un solo usuario. Para proporcionar soporte para roles asignados a
+múltiples usuarios, se necesita la tabla `role_user`. Podemos resumir la estructura de la tabla de la relación así:
 
 ```
 users
@@ -160,63 +160,63 @@ roles
 
 role_user
   user_id - integer
-  role_id - integer
+  role_id - integer - entero
 ```
 
-### Model Structure
+### Estructura del modelo
 
-We can define a `Roles` field on `User` model:
+Podemos definir un campo `Roles` en el modelo `User`:
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Rol []*Role `gorm:"many2many:role_user"`
 }
 
 type Role struct {
-  orm.Model
-  Name   string
+  orm. odel
+  Nombre cadena
 }
 ```
 
-### Defining The Inverse Of The Relationship
+### Definir lo inverso de la relación
 
-To define the inverse of the relationship, just define a `Users` field in `Role` model and append a Tag.
+Para definir el reverso de la relación, simplemente define un campo `Users` en el modelo `Role` y añade un Tag.
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Rol []*Role `gorm:"many2many:role_user"`
 }
 
 type Role struct {
-  orm.Model
-  Name   string
-  Users  []*User `gorm:"many2many:role_user"`
+  orm. odel
+  Nombre cadena
+  Usuarios []*Usuario `gorm:"many2many:role_user"`
 }
 ```
 
-### Custom intermediate table
+### Tabla intermedia personalizada
 
-In general, the intermediate table foreign key is named by the "snake case" of the parent model name, you can override
-them by `joinForeignKey`, `joinReferences`:
+En general, la clave foránea de la tabla intermedia es nombrada por el "snake case" del nombre del modelo padre, puedes sobrescribir
+ellos por `joinForeignKey`, `joinReferences`:
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user;joinForeignKey:UserName;joinReferences:RoleName"`
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Rol []*Rol `gorm:"many2many:role_user; oinForeignKey:UserName;joinReferences:RoleName"`
 }
 
 type Role struct {
-  orm.Model
-  Name   string
+  orm. odel
+  Nombre cadena
 }
 ```
 
-Table structure:
+Estructura de tabla:
 
 ```
 users
@@ -232,18 +232,18 @@ role_user
   role_name - integer
 ```
 
-## Polymorphic
+## Polimórfico
 
-A polymorphic relationship allows the child model to belong to more than one type of model using a single association.
-For example, imagine you are building an application that allows users to share blog posts and videos. In such an
-application, a `Comment` model might belong to both the `Post` and `Video` models.
+Una relación polimórfica permite al modelo hijo pertenecer a más de un tipo de modelo utilizando una sola asociación.
+Por ejemplo, imagina que estás construyendo una aplicación que permite a los usuarios compartir entradas y videos de blog. En una aplicación
+, un modelo `Comentario` podría pertenecer tanto a los modelos `Post` como `Video`.
 
-### Table structure
+### Estructura de tabla
 
-A polymorphic relation is similar to a normal relation; however, the child model can belong to more than one type of
-model using a single association. For example, a blog `Post` and a `User` may share a polymorphic relation to an `Image`
-model. Using a polymorphic relation allows you to have a single table of unique images that may be associated with posts
-and users. First, let's examine the table structure:
+Una relación polimórfica es similar a una relación normal; sin embargo, el modelo hijo puede pertenecer a más de un tipo de modelo
+usando una sola asociación. Por ejemplo, un blog `Post` y un `User` pueden compartir una relación polimórfica con un modelo `Image`
+. Usar una relación polimórfica le permite tener una sola tabla de imágenes únicas que pueden estar asociadas con las publicaciones
+y usuarios. Primero, examinemos la estructura de la tabla:
 
 ```
 posts
@@ -267,112 +267,112 @@ comments
   commentable_type - string
 ```
 
-Note the `imageable_id` and `imageable_type` columns on the `images` table. The `imageable_id` column will contain the
-ID value of the post or user, while the `imageable_type` column will contain the class name of the parent model. The
-`imageable_type` column is used by Orm to determine which "type" of parent model to return when accessing the
-`imageable` relation. The `comments` table is similar.
+Ten en cuenta las columnas `imageable_id` y `imageable_type` en la tabla `images`. La columna `imageable_id` contendrá el valor
+ID del post o usuario, mientras que la columna `imageable_type` contendrá el nombre de clase del modelo padre. La columna
+`imageable_type` es utilizada por Orm para determinar qué "tipo" del modelo padre retornar al acceder a la relación
+`imageable`. La tabla `comentarios` es similar.
 
-### Model Structure
+### Estructura del modelo
 
-Next, let's examine the model definitions needed to build this relationship:
+A continuación, vamos a examinar las definiciones de modelo necesarias para construir esta relación:
 
 ```go
 type Post struct {
-  orm.Model
-  Name     string
-  Image    *Image `gorm:"polymorphic:Imageable"`
-  Comments []*Comment `gorm:"polymorphic:Commentable"`
+  orm. odel
+  Nombre cadena
+  Imagen *Imagen `gorm:"polymorphic:Imageable"`
+  Comentarios []*Comentario `gorm:"polymorphic:Commentable"`
 }
 
 type Video struct {
-  orm.Model
-  Name     string
-  Image    *Image `gorm:"polymorphic:Imageable"`
-  Comments []*Comment `gorm:"polymorphic:Commentable"`
+  orm. odel
+  Nombre cadena
+  Imagen *Imagen `gorm:"polymorphic:Imageable"`
+  Comentarios []*Comentario `gorm:"polymorphic:Commentable"`
 }
 
 type Image struct {
-  orm.Model
-  Name          string
-  ImageableID   uint
+  orm. odel
+  Name string
+  ImageableID uint
   ImageableType string
 }
 
 type Comment struct {
-  orm.Model
-  Name            string
-  CommentableID   uint
+  orm. odel
+  Name string
+  CommentableID uint
   CommentableType string
 }
 ```
 
-You can change the polymorphic value by `polymorphicValue` Tag, such as:
+Puedes cambiar el valor polimórfico por la etiqueta `polymorphicValue`, como:
 
 ```go
 type Post struct {
   orm.Model
-  Name  string
-  Image   *Image `gorm:"polymorphic:Imageable;polymorphicValue:master"`
+  Name string
+  Image *Image `gorm:"polymorphic:Imageable;polymorphicValue:master"`
 }
 ```
 
-## Querying Associations
+## Consultando Asociaciones
 
-For example, imagine a blog application in which a `User` model has many associated `Post` models:
+Por ejemplo, imagina una aplicación de blog en la que un modelo `User` tiene muchos modelos `Post` asociados:
 
 ```go
-type User struct {
-  orm.Model
-  Name   string
-  Posts  []*Post
+tipo Estructura de usuario {
+  orm. odel
+  Nombre cadena
+  Mensajes []*Post
 }
 
 type Post struct {
-  orm.Model
-  UserID   uint
-  Name     string
+  orm. odel
+  uint UserID
+  Cadena de nombre
 }
 ```
 
-### Create or Update Associations
+### Crear o actualizar asociaciones
 
-You can use the `Select`, `Omit` methods to to control the create and update of associations. These two method cannot be
+Puede utilizar los métodos `Select`, `Omit` para controlar la creación y actualización de asociaciones. These two method cannot be
 used at the same time and the associated control functions are only applicable to `Create`, `Update`, `Save`:
 
 ```go
 user := models.User{Name: "user", Posts: []*models.Post{{Name: "post"}}}
 
-// Create all child associations while creating User
-facades.Orm().Query().Select(orm.Associations).Create(&user)
+// Crear todas las asociaciones secundarias mientras se crea el usuario
+facades. rm().Query().Select(orm.Associations).Create(&user)
 
-// Only create Post while creating User. Note: If you don't use `orm.Associations`, but customize specific child associations separately, all fields in the parent model should also be listed at this time.
-facades.Orm().Query().Select("Name", "Posts").Create(&user)
+// Sólo crear Post al crear Usuario. Nota: Si no utiliza `orm.Associations`, pero personaliza las asociaciones de niños específicas por separado, todos los campos del modelo padre también deberían estar listados en este momento.
+facades.Orm().Query().Select("Nombre", "Posts"). reate(&user)
 
-// When creating a User, ignore the Post, but create all other child associations
-facades.Orm().Query().Omit("Posts").Create(&user)
+// Al crear un usuario, ignora el Post, pero crea todas las otras asociaciones secundarias
+facades.Orm().Query(). mit("Posts").Create(&user)
 
-// When creating User, ignore Name field, but create all child associations
-facades.Orm().Query().Omit("Name").Create(&user)
+// Al crear Usuario, ignora el campo Nombre, pero crea todas las asociaciones secundarias facades
+. rm().Query().Omit("Nombre").Create(&user)
 
-// When creating User, ignore Name field and all child associations
-facades.Orm().Query().Omit("Name", orm.Associations).Create(&user)
+// Al crear Usuario, ignorar el campo Nombre y todas las asociaciones secundarias
+facades.Orm().Query().Omit("Nombre", orm.Associations).Create(&user)
 ```
 
-### Find Associations
+### Buscar Asociaciones
 
 ```go
-// Find all matching related records
+// Encuentra todos los registros relacionados que coincidan
 var posts []models.Post
 facades.Orm().Query().Model(&user).Association("Posts").Find(&posts)
 
-// Find associations with conditions
+// Encuentra asociaciones con las condiciones
 facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Order("id desc").Association("Posts").Find(&posts)
 ```
 
-### Append Associations
+### Añadir asociaciones
 
-Append new associations for `Many To Many`, `One To Many`, replace current association for `One To One`,
-`One To One(revers)`:
+Añadir nuevas asociaciones para `Muchos a muchos`, `Uno a muchos`, reemplazar la asociación actual para `Uno a One`,
+`Uno a One(revers)`:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Post1, Post2})
@@ -380,9 +380,9 @@ facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Po
 facades.Orm().Query().Model(&user).Association("Posts").Append(&models.Post{Name: "goravel"})
 ```
 
-### Replace Associations
+### Reemplazar asociaciones
 
-Replace current associations with new ones:
+Reemplaza las asociaciones actuales con las nuevas:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2})
@@ -390,10 +390,10 @@ facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{P
 facades.Orm().Query().Model(&user).Association("Posts").Replace(models.Post{Name: "goravel"}, Post2)
 ```
 
-### Delete Associations
+### Eliminar Asociaciones
 
-Remove the relationship between source & arguments if exists, only delete the reference, won’t delete those objects from
-DB, the foreign key must be NULL:
+Eliminar la relación entre el origen y los argumentos si existe, sólo eliminar la referencia, no eliminará esos objetos de
+DB, la clave foránea debe ser NULL:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Post1, Post2})
@@ -401,67 +401,67 @@ facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Po
 facades.Orm().Query().Model(&user).Association("Posts").Delete(Post1, Post2)
 ```
 
-### Clear Associations
+### Limpiar asociaciones
 
-Remove all reference between source & association, won’t delete those associations:
+Eliminar toda referencia entre origen y asociación, no eliminará esas asociaciones:
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Clear()
+facades.Orm().Query().Model(&usuario).Association("Posts").Clear()
 ```
 
-### Count Associations
+### Contar Asociaciones
 
-Return the count of current associations:
+Devolver el recuento de las asociaciones actuales:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Count()
 
-// Count with conditions
+// Cuenta con condiciones
 facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Association("Posts").Count()
 ```
 
-### Batch Data
+### Datos de Lote
 
 ```go
-// Find all roles for all users
+// Encuentra todos los roles para todos los usuarios
 facades.Orm().Query().Model(&users).Association("Posts").Find(&posts)
 
-// Delete User A from all user's Posts
-facades.Orm().Query().Model(&users).Association("Posts").Delete(&userA)
+// Elimina el usuario A de todas las fachadas
+de los posts. rm().Query().Model(&users).Association("Posts").Delete(&userA)
 
-// Get distinct count of all users' Posts
-facades.Orm().Query().Model(&users).Association("Posts").Count()
+// Obtener un conteo distinto de las fachadas
+de los mensajes de todos los usuarios. rm().Query().Model(&users).Association("Posts"). ount()
 
-// For `Append`, `Replace` with batch data, the length of the arguments needs to be equal to the data's length or else it will return an error
-var users = []models.User{user1, user2, user3}
+// Para `Append`, `Replace` con datos por lotes, la longitud de los argumentos debe ser igual a la longitud de los datos o devolverá un error
+var users = []modelos. ser{user1, user2, user3}
 
-// We have 3 users, Append userA to user1's team, append userB to user2's team, append userA, userB and userC to user3's team
-facades.Orm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models.User{userA, userB, userC})
+// Tenemos 3 usuarios, añadir userA al equipo del usuario1, añadir userB al equipo de user2, añadir userA, userB y userC a las facades
+del equipo de user3. rm().Query().Model(&users).Association("Equipo").Append(&userA, &userB, &[]modelos. ser{userA, userB, userC})
 
-// Reset user1's team to userA，reset user2's team to userB, reset user3's team to userA, userB and userC
-facades.Orm().Query().Model(&users).Association("Team").Replace(&userA, &userB, &[]models.User{userA, userB, userC})
+// Restablecer el equipo del usuario 1 a userA,restablecer el equipo del usuario 2 a userB, restablecer el equipo del usuario 3 a las fachadas userA, userB y userC
+. rm().Query().Model(&users).Association("Equipo").Replace(&userA, &userB, &[]models.User{userA, userB, userC})
 ```
 
-## Eager Loading
+## Carga temprana
 
-Eager loading conveniences for querying multiple models, and alleviates the "N + 1" query problem. To illustrate the N +
-1 query problem, consider a `Book` model that "belongs to" an `Author` model:
+Facilidades de carga para la consulta de múltiples modelos, y para el problema de la consulta "N + 1". Para ilustrar el problema N +
+1, considere un modelo `Book` que "pertenece a" un modelo `Author`:
 
 ```go
 type Author struct {
   orm.Model
-  Name  string
+  Name string
 }
 
 type Book struct {
-  orm.Model
-  AuthorID   uint
-  Name       string
-  Author     *Author
+  orm. odel
+  AuthorID uint
+  Name string
+  Author *Author
 }
 ```
 
-Now, let's retrieve all books and their authors:
+Ahora, recuperemos todos los libros y sus autores:
 
 ```go
 var books models.Book
@@ -473,12 +473,12 @@ for _, book := range books {
 }
 ```
 
-To retrieve all the books in the database table along with their authors, the loop code executes a query for each book.
-This means that for a collection of 25 books, the loop would run 26 queries - one for the collection of books and 25
-more to get the author of each book.
+Para recuperar todos los libros de la tabla de base de datos junto con sus autores, el código del bucle ejecuta una consulta para cada libro.
+Esto significa que para una colección de 25 libros, el bucle ejecutaría 26 consultas: una para la colección de libros y 25
+más para obtener el autor de cada libro.
 
-However, we can simplify this process using eager loading. By using the `With` method, we can specify which
-relationships need to be eagerly loaded and reduce the number of queries to just two.
+Sin embargo, podemos simplificar este proceso utilizando una carga ansiosa. Al usar el método `With`, podemos especificar las relaciones
+que necesitan ser cargadas con entusiasmo y reducir el número de consultas a solo dos.
 
 ```go
 var books models.Book
@@ -493,79 +493,79 @@ For this operation, only two queries will be executed - one query to retrieve al
 authors for all of the books:
 
 ```sql
-select * from `books`;
+select * from `libros`;
 
 select * from `authors` where `id` in (1, 2, 3, 4, 5, ...);
 ```
 
-### Eager Loading Multiple Relationships
+### Carga Previa de Relaciones Múltiples
 
-Sometimes you may need to eager load several different relationships. To do so, just call the `With` method multiple
-times:
+A veces puede que necesites cargar con ansia varias relaciones diferentes. Para hacerlo, simplemente llama al método `With` múltiples
+veces:
 
 ```go
 var book models.Book
 facades.Orm().Query().With("Author").With("Publisher").Find(&book)
 ```
 
-### Nested Eager Loading
+### Carga Anidada
 
-To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's
-authors and all of the author's personal contacts:
+Para cargar con ansia las relaciones de una relación, se puede utilizar la sintaxis de "punto". Por ejemplo, cargemos con impaciencia todos los autores
+del libro y todos los contactos personales del autor:
 
 ```go
 var book models.Book
 facades.Orm().Query().With("Author.Contacts").Find(&book)
 ```
 
-### Constraining Eager Loads
+### Restringiendo Cargas Antiguas
 
-Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading
-query. You can accomplish this as below:
+A veces puede desear cargar una relación con impaciencia, pero también especificar condiciones de consulta adicionales para la carga ansiosa
+consulta. Puedes conseguir esto a continuación:
 
 ```go
 import "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().With("Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().With("Author", "name = ?", "author"). ind(&book)
 
 facades.Orm().Query().With("Author", func(query orm.Query) orm.Query {
   return query.Where("name = ?", "author")
 }).Find(&book)
 ```
 
-In this example, Orm will only eager load posts where the post's `name` column equals the word `author`.
+En este ejemplo, Orm sólo cargará publicaciones ansiosas donde la columna `name` del post sea igual a la palabra `author`.
 
-### Lazy Eager Loading
+### Carga perezosa
 
-Sometimes you may need to eager load a relationship after the parent model has already been retrieved. For example, this
-may be useful if you need to dynamically decide whether to load related models:
+A veces puede que necesite cargar una relación ansiosa después de que el modelo padre ya ha sido recuperado. Por ejemplo, esta
+puede ser útil si necesitas decidir dinámicamente si cargar modelos relacionados:
 
 ```go
 var books models.Book
-facades.Orm().Query().Find(&books)
+facades.Orm().Query(). ind(&books)
 
 for _, book := range books {
   if someCondition {
-    err := facades.Orm().Query().Load(&book, "Author")
+    err := facades. rm().Query().Load(&book, "Autor")
   }
 }
 ```
 
-If you need to set additional query constraints on the eager loading query, you can use the code below:
+Si necesita establecer restricciones de consulta adicionales en la consulta de carga ansiosa, puede utilizar el código siguiente:
 
 ```go
 import "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().Load(&book, "Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().Load(&book, "Author", "name = ?", "author"). ind(&book)
 
 facades.Orm().Query().Load(&book, "Author", func(query orm.Query) orm.Query {
   return query.Where("name = ?", "author")
 }).Find(&book)
 ```
 
-To load a relationship only when it has not already been loaded, use the `LoadMissing` method:
+Para cargar una relación sólo cuando no ha sido cargada, utiliza el método `LoadMissing`:
 
 ```go
 facades.Orm().Query().LoadMissing(&book, "Author")
