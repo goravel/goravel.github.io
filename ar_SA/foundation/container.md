@@ -1,109 +1,109 @@
-# Service Container
+# حاوية الخدمة
 
-The Goravel service container is a powerful tool for managing class dependencies and performing dependency injection. It
-contains all the modules of Goravel, and allows you to bind your own services to container and resolve them when needed.
-The service container provides powerful support for third-party packages around Goravel.
+وحاوية خدمات غورافيل هي أداة قوية لإدارة حالات التبعية الطبقية وأداء حقن التبعية. إنها
+تحتوي على جميع وحدات Goravel، وتسمح لك بربط خدماتك الخاصة بالحاوية وحلها عند الحاجة.
+وتوفر حاوية الخدمات دعماً قوياً لحزم أطراف ثالثة حول غورافل.
 
-## Binding
+## ربط
 
-### Simple Bindings
+### ربطات بسيطة
 
-Almost all of your service container bindings will be registered within [service providers](./providers).
-Within a service provider, you always have access to the container via the `app` parameter, then register a binding
-using the `Bind` method, passing the `key` that we wish to register along with a closure that returns an instance of the
-class:
+سيتم تسجيل جميع ارتباطات حاويات الخدمة الخاصة بك تقريبا داخل [مزودي الخدمات](./providers).
+في إطار موفر خدمة، لديك دائماً حق الوصول إلى الحاوية عن طريق معلمة "التطبيق"، ثم قم بتسجيل الربط
+باستخدام طريقة "بيند"، اجتياز \`المفتاح' الذي نود تسجيله مع إغلاق يعيد حالة من الفئة
+:
 
 ```go
-package route
+مسار الحزمة
 
-import (
+الاستيراد (
  "github.com/goravel/framework/contracts/foundation"
-)
 
-const Binding = "goravel.route"
 
-type ServiceProvider struct {
-}
+Bbinding = "goravel. انطلاق"
 
-func (route *ServiceProvider) Register(app foundation.Application) {
- app.Bind(Binding, func(app foundation.Application) (any, error) {
-  return NewRoute(app.MakeConfig()), nil
+نوع بنية خدمة المزود {
+
+
+func (الطريق *Serviceمقدمي الخدمة) (مؤسسة التطبيق). التكرار) {
+ app.Bind(Binding, function(Foundation.Application) (أي خطأ) {
+  RewNewRoute(التطبيق. akeConfig())، صفر
  })
-}
 
-func (route *ServiceProvider) Boot(app foundation.Application) {
+
+func (الطريق *Serviceproviders ) Boot(app Foundation.Application) {
 
 }
 ```
 
-As mentioned, you will typically be interacting with the container within service providers; however, if you would like
-to interact with the container outside of a service provider, you may do so via the `App` facade:
+وكما ذُكر آنفاً، فإنك عادة ما تتفاعل مع الحاوية داخل مقدمي الخدمات؛ مع ذلك، إذا كنت ترغب في أن يتفاعل
+مع الحاوية خارج موفر الخدمات، فيمكنك القيام بذلك عبر واجهة `التطبيق`:
 
 ```go
-facades.App().Bind("key", func(app foundation.Application) (any, error) {
+facades.App().Bind("key", function(Foundation.Application) (أي خطأ) {
     ...
 })
 ```
 
-### Binding A Singleton
+### ربط A Singleton
 
-The `Singleton` method binds a class or interface into the container that should only be resolved one time. Once a
-singleton binding is resolved, the same object instance will be returned on subsequent calls into the container:
+والأسلوب "Singleton" يربط فئة أو واجهة في الحاوية لا ينبغي حلها إلا مرة واحدة. حالما يتم حل الربط من نوع
+singleton ، سيتم إرجاع نفس مثيل الكائن في المكالمات اللاحقة إلى الحاوية:
 
 ```go
-app.Singleton(key, func(app foundation.Application) (any, error) {
-    return NewGin(app.MakeConfig()), nil
+app.Singleton(key, function(app Foundation.Application) (أي خطأ) {
+    العودة NewGin(app.MakeConfig()), nl
 })
 ```
 
-### Binding Instances
+### حالات الربط
 
-You may also bind an existing object instance into the container using the `Instance` method. The given instance will
-always be returned on subsequent calls into the container:
+يمكنك أيضا ربط مثيل كائن موجود في الحاوية باستخدام طريقة "Instance". المثيل المعطى سيكون
+دائماً في المكالمات اللاحقة إلى الحاوية:
 
 ```go
-app.Instance(key, instance)
+app.Instance(المفتاح، مثال)
 ```
 
-### Binding With Parameter
+### ربط مع المعلمة
 
-If you need some extra parameters to construct the service provider, you can use the `BindWith` method to pass
-parameters to the closure:
+إذا كنت بحاجة إلى بعض المعلمات الإضافية لبناء موفر الخدمة، فيمكنك استخدام طريقة "بينداب" لتمرير معلمات
+إلى الإغلاق:
 
 ```go
-app.BindWith(Binding, func(app foundation.Application, parameters map[string]any) (any, error) {
-    return NewRoute(app.MakeConfig()), nil
+app.Bindwith(Binding, func(app Foundation.Application, parameters map[string]any) (أي خطأ) {
+    العودة NewRoute(app.MakeConfig(), nl
 })
 ```
 
-## Resolving
+## حل
 
-### The `Make` Method
+### طريقة "ماكي"
 
-You may use the `Make` method to resolve a class instance from the container. The `Make` method accepts the `key` you
+يمكنك استخدام طريقة "Make" لحل نموذج درجة من الحاوية. The `Make` method accepts the `key` you
 wish to resolve:
 
 ```go
-instance, err := app.Make(key)
+مثال خطأ:= app.Make(المفتاح)
 ```
 
 If you are outside of a service provider in a location of your code that does not have access to the `app` variable, you
 may use the `App` facade to resolve a class instance from the container:
 
 ```go
-instance, err := facades.App().Make(key)
+مثال: خطأ:= facades.App().Make(key)
 ```
 
-### The `MakeWith` Method
+### طريقة "ماكيفيو"
 
 If some of your class's dependencies are not resolvable via the container, you may inject them by passing them as an
 associative array into the `MakeWith` method, corresponding to the `BindWith` binding method:
 
 ```go
-instance, err := app.MakeWith(key, map[string]any{"id": 1})
+مثال خطأ:= app.MakeWith(key, map[string]any{"id": 1})
 ```
 
-### Other Methods
+### أساليب أخرى
 
 The framework provides some convenient methods to quickly resolve various facades: `MakeArtisan`, `MakeAuth`,
 `MakeCache`, `MakeConfig`, `MakeCrypt`, `MakeEvent`, `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
