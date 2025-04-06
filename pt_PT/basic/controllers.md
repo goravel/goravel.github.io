@@ -1,38 +1,38 @@
-# Controllers
+# Controles
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+Em vez de definir toda a lógica de processamento de solicitações na forma de um fechamento em uma rota separada, um controlador pode ser usado
+para integração. Os controladores são armazenados no diretório `app/http/controller`.
 
-## Define Controllers
+## Definir controladores
 
-The following is an example of a basic controller:
+O seguinte exemplo é de um controlador básico:
 
 ```go
 package controllers
 
 import (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
 type UserController struct {
   // Dependent services
 }
 
-func NewUserController() *UserController {
+func NewUserController() *UserController{
   return &UserController{
     // Inject services
   }
 }
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+func (r *UserController) Show(ctx http. ontext) http.Response {
   return ctx.Response().Success().Json(http.Json{
     "Hello": "Goravel",
   })
 }
 ```
 
-The route define:
+A rota definida
 
 ```go
 package routes
@@ -44,44 +44,44 @@ import (
 )
 
 func Api() {
-  userController := controllers.NewUserController()
+  userController := controllers. ewUserController()
   facades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### Criar Controlador
 
 ```shell
 go run . artisan make:controller UserController
 go run . artisan make:controller user/UserController
 ```
 
-## Resource Controllers
+## Controles de Recursos
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+Se você pensar em cada modelo Eloquent em sua aplicação como um "recurso", é típico executar os mesmos conjuntos de
+ações contra cada recurso em sua aplicação. Por exemplo, imagine que sua aplicação contém um modelo `Photo` e um modelo
+`Movie`. É provável que os usuários possam criar, ler, atualizar ou excluir esses recursos.
 
-Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
+Por causa desse caso comum de uso, o roteamento de recurso de Goravel atribui o típico criado, leia, atualiza e exclui ("CRUD")
+rotas para um controle com uma única linha de código. To get started, we can use the `make:controller` Artisan command's
 `--resource` option to quickly create a controller to handle these actions:
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+ir rodar . artísan make:controller --resource PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
-controller:
+Este comando irá gerar um controlador em `app/http/controllers/photo_controller.go`. O controlador conterá um método
+para cada uma das operações de recursos disponíveis. Em seguida, você pode registrar uma rota de recurso que aponte para o controlador
+:
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+facades.Rote().Resource("fotos", controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| Verbo        | URI              | Acão        |
+| ------------ | ---------------- | ----------- |
+| OBTER        | `/fotos`         | Indexação   |
+| POSTAR       | `/fotos`         | Armazém     |
+| OBTER        | `/fotos/{photo}` | Apresentar  |
+| BOTRO/PATCAR | `/fotos/{photo}` | Atualização |
+| EXCLUIR      | `/fotos/{photo}` | Destruir    |
