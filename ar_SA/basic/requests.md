@@ -1,214 +1,214 @@
-# HTTP Requests
+# طلبات HTTP
 
-The `contracts/http/Request` method of Goravel can interact with the current HTTP request processed by the application,
-and get the input and files submitted together.
+طريقة 'contracts/http/request' في Goravel يمكن أن تتفاعل مع طلب HTTP الحالي الذي يتم معالجته بواسطة التطبيق،
+والحصول على المدخلات والملفات معًا.
 
-## Interacting With The Request
+## التفاعل مع الطلب
 
-The `http.Context` instance is automatically injected into the controller:
+نموذج 'http.Context' يتم حقنه تلقائيا في وحدة التحكم:
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+استيراد "github.com/goravel/framework/contracts/http"
 
 facades.Route().Get("/", func(ctx http.Context) {
 
 })
 ```
 
-### Retrieving The Request Path
+### استرداد مسار الطلب
 
 ```go
-path := ctx.Request().Path() // /users
+المسار := ctx.request().Path() ///users
 ```
 
-### Retrieving The Request URL
+### استرداد عنوان URL للطلب
 
 ```go
-url := ctx.Request().Url() // /users?name=Goravel
+الرابط := ctx.request().Url() //users?name=Goravel
 ```
 
-### Retrieving The Request HOST
+### استرداد طلب HOST
 
 ```go
-url := ctx.Request().Host()
+الرابط := ctx.request().host()
 ```
 
-### Retrieving The Full Request URL
+### استرداد عنوان URL للطلب الكامل
 
 ```go
-url := ctx.Request().FullUrl() // http://**/users?name=Goravel
+الرابط := ctx.request().FullUrl() // http://**/users?name=Goravel
 ```
 
-### Retrieving The Request Method
+### استرداد طريقة الطلب
 
 ```go
-method := ctx.Request().Method()
+الطريقة: = ctx.request().Method()
 ```
 
-### Request Headers
+### ترويسات الطلب
 
 ```go
-header := ctx.Request().Header("X-Header-Name", "default")
-headers := ctx.Request().Headers()
+رأس := ctx.request().header("X-header-Name", "ault")
+ترويسات := ctx.request().headers()
 ```
 
-### Request IP Address
+### طلب عنوان IP
 
 ```go
-ip := ctx.Request().Ip()
+ip := ctx.request().Ip()
 ```
 
 ## Input
 
-### Retrieving All Input Data
+### استرداد جميع بيانات الإدخال
 
-You may retrieve all of the incoming request's input data as `map[string]any` using the `All` method, which is a
-collection of `json`, `form` and `query`(priority from front to back).
-
-```go
-data := ctx.Request().All()
-```
-
-### Retrieving a Route Value
+يمكنك استرداد جميع البيانات المدخلة للطلب الوارد كـ 'map[string]any' باستخدام طريقة 'الكل\`، والتي هي مجموعة
+من 'json' و 'form' و 'query' (أولوية من الواجهة إلى الخلف).
 
 ```go
-// /users/{id}
-id := ctx.Request().Route("id")
-id := ctx.Request().RouteInt("id")
-id := ctx.Request().RouteInt64("id")
+بيانات := ctx.request().All()
 ```
 
-### Retrieving Input From The Query String
+### استرداد قيمة الطريق
 
 ```go
-// /users?name=goravel
-name := ctx.Request().Query("name")
-name := ctx.Request().Query("name", "default")
-
-// /users?id=1
-name := ctx.Request().QueryInt("id")
-name := ctx.Request().QueryInt64("id")
-name := ctx.Request().QueryBool("id")
-
-// /users?names=goravel1&names=goravel2
-names := ctx.Request().QueryArray("names")
-
-// /users?names[a]=goravel1&names[b]=goravel2
-names := ctx.Request().QueryMap("names")
-
-queries := ctx.Request().Queries()
+///users/{id}
+معرف := ctx.request().Route("id")
+معرف := ctx.request().RouteInt("id")
+معرف := ctx.request().RouteInt64("معرف")
 ```
 
-> Note: Only one-dimensional Json data can be obtained, otherwise it will return empty.
+### استرداد الإدخال من سلسلة الاستعلام
 
-### Retrieving An Input Value
+```go
+//users?name=goravel
+اسم := ctx.request().Query("name")
+اسم := ctx.request().Query("name", "default")
 
-Access all of the user input without worrying about which HTTP verb was used for the request. Retrieve order: `json`,
+//users?id=1
+اسم := ctx. equest().QueryInt("معرف")
+اسم := ctx.request().QueryInt64("معرف")
+اسم := ctx.request. ueryBool("id")
+
+///users?names=goravel1&names=goravel2
+nam:= ctx.request().QueryArray("names")
+
+///users?names[a]=goravel1&name[b]=goravel2
+nam:= ctx.request().QueryMap("names")
+
+queries := ctx.request().Queries()
+```
+
+> ملاحظة: فقط يمكن الحصول على بيانات Json أحادية البعد، وإلا سوف تعود فارغة.
+
+### استرداد قيمة الإدخال
+
+الوصول إلى جميع مدخلات المستخدم دون القلق حول فعل HTTP الذي تم استخدامه للطلب. استرداد الطلب: `json`,
 `form`.
 
 ```go
-name := ctx.Request().Input("name")
-name := ctx.Request().Input("name", "goravel")
-name := ctx.Request().InputInt("name")
-name := ctx.Request().InputInt64("name")
-name := ctx.Request().InputBool("name")
-name := ctx.Request().InputArray("name")
-name := ctx.Request().InputMap("name")
+اسم := ctx.request().Input("name")
+اسم := ctx.request().Input("name", "goravel")
+اسم := ctx.request().InputInt("name")
+اسم := ctx.request). nputInt64("الاسم")
+اسم := ctx.request().InputBool("الاسم")
+اسم := ctx.request().InputArray("الاسم")
+اسم := ctx.request().InputMap("الاسم")
 ```
 
-### Bind Json/Form
+### ربط Json/Form
 
 ```go
-type User struct {
+اكتب بنية المستخدم {
   Name string `form:"code" json:"code"`
-}
 
-var user User
-err := ctx.Request().Bind(&user)
+
+var user
+err := ctx.request().Bind(&user)
 ```
 
 ```go
-var user map[string]any
-err := ctx.Request().Bind(&user)
+عرض خريطة المستخدم[string]أي
+خطأ:= ctx.request().Bind(&user)
 ```
 
-### Bind Query
+### اربط استعلام
 
-Only support bind Query to struct:
+دعم فقط ربط الاستعلام للبناء:
 
 ```go
-type Test struct {
+نوع اختبار تم تركيبه {
   ID string `form:"id"`
-}
-var test Test
-err := ctx.Request().BindQuery(&test)
+
+var test
+err := ctx.request().BindQuery(&test)
 ```
 
-## Cookie
+## كوكي
 
-### Retrieving a Cookie Value
+### استرداد قيمة ملف تعريف الارتباط
 
-Goravel provides a simple way to work with `cookie`. Use the `Cookie` method on the `Request` instance to retrieve a
-`cookie` value, will return an empty string if the `cookie` is not present. You can also define a default value in the
-second argument.
+يوفر Goravel طريقة بسيطة للعمل مع 'ملفات تعريف الارتباط\`. استخدم طريقة "ملفات تعريف الارتباط" في مثيل "طلب" لاسترداد قيمة
+"ملفات تعريف الارتباط"، سوف يعيد سلسلة فارغة إذا لم تكن "ملفات تعريف الارتباط" موجودة. يمكنك أيضا تعريف القيمة الافتراضية في حجة
+الثانية.
 
 ```go
-value := ctx.Request().Cookie("name")
-value := ctx.Request().Cookie("name", "default") 
+القيمة := ctx.request().cookie("name")
+القيمة := ctx.request().Cookie("الاسم"، "الافتراضي") 
 ```
 
-## File
+## ملف
 
-### Retrieving File
+### استرداد الملف
 
 ```go
-file, err := ctx.Request().File("file")
+ملف ، خطأ := ctx.request().File ("ملف")
 ```
 
-### Save File
+### حفظ الملف
 
 ```go
-file, err := ctx.Request().File("file")
+ملف ، خطأ := ctx.request().File("ملف")
 file.Store("./public")
 ```
 
-### Get Origin Request
+### الحصول على طلب الأصل
 
 ```go
-request := ctx.Request().Origin()
+طلب := ctx.request().Origin()
 ```
 
-### Attach Data
+### إرفاق البيانات
 
 ```go
-ctx.WithValue("user", "Goravel")
+ctx.WithValue("المستخدم"، "Goravel")
 ```
 
-### Get Data
+### الحصول على البيانات
 
 ```go
-user := ctx.Value("user")
+المستخدم := ctx.Value("المستخدم")
 ```
 
-### Get Context
+### الحصول على السياق
 
 ```go
 ctx := ctx.Context()
 ```
 
-## Custom Recovery
+## استرداد مخصص
 
-You can set a custom `recovery` by calling the `Recover` method in the `app/providers/route_service_provider.go` file.
+يمكنك تعيين "استرداد" مخصص من خلال الاتصال بطريقة "الاسترداد" في ملف "app/providers/route_service_provider.go".
 
 ```go
 // app/providers/route_service_provider.go
-func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
-  // Add HTTP middleware
-  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...)
-  facades.Route().Recover(func(ctx http.Context, err error) {
-    ctx.Request().Abort()
-    // or
-    // ctx.Response().String(500, "Internal Server Error").Abort()
+func (المتلقي *RouteServiceProvider) Boot(appation.Application) {
+  // إضافة HTTP medileware
+  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...
+  facades.Route().Recover(func(ctx http.Context, err خطأ) {
+    ctx.request. () bort()
+    / / أو
+    // ctx.Response(). ترينغ (500، "خطأ خادم داخلي").Abort()
   })
   ...
 }
