@@ -1,54 +1,54 @@
 # Configuración
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Todos los archivos de configuración del framework Goravel se almacenan en el directorio `config`. Puede ver instrucciones
+específicas y configurarlas flexiblemente según las necesidades del proyecto.
 
-## Environment Configuration
+## Configuración del entorno
 
-Running applications in different environments usually requires different configurations. For example, you may want to
+Ejecutar aplicaciones en diferentes entornos normalmente requiere configuraciones diferentes. For example, you may want to
 turn on the Debug mode locally but don't need it in the production environment.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Por lo tanto, el framework proporciona el archivo `.env.example` en el directorio raíz. Necesitas copiar este archivo, renombrarlo
+a `.env` antes de iniciar el desarrollo, y modificar los elementos de configuración en el `. archivo nv` de acuerdo a sus necesidades
+proyecto.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Tenga en cuenta que el `. el archivo nv` no debe ser añadido al control de versiones, porque cuando varias personas colaboran, diferentes
+desarrolladores pueden usar diferentes configuraciones, y diferentes configuraciones de entorno de despliegue son diferentes.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+Además, si un intruso obtiene acceso al repositorio de código, habrá un riesgo de exponer la configuración sensible
+. Si desea agregar un nuevo elemento de configuración, puede añadirlo al archivo `.env.example` para sincronizar la configuración
+de todos los desarrolladores.
 
-## Retrieve Environment Configuration
+## Recuperar configuración de entorno
 
-Use the following method to obtain the configuration items in the `.env` file:
+Usa el siguiente método para obtener los elementos de configuración en el archivo `.env`:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// El primer parámetro es la clave de configuración, y el segundo parámetro es el valor predeterminado
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## Acceder a Valores de Configuración
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+Puedes usar fácilmente la función global `facades.Config()` en cualquier lugar de la aplicación para acceder a los valores de configuración
+en el directorio `config`. El acceso al valor de configuración puede usar la sintaxis "." . También puede especificar un valor
+predeterminado, si la opción de configuración no existe, se devuelve el valor predeterminado:
 
 ```go
-// Get the configuration through assertion
+// Obtener la configuración a través de la aserción
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// Obtener la configuración del tipo de cadena
+facades.Config().GetString("app. ame", "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// Obtener la configuración del tipo int
+facades.Config().GetInt("app. nt", 1)
 
-// Get the configuration of the bool type
+// Obtener la configuración del tipo bool
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## Configurar
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,9 +56,9 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Obtener información del proyecto
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Puede utilizar el comando `artisan about` para ver la versión del framework, configuración, etc.
 
 ```bash
 go run . artisan about
