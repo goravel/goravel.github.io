@@ -1,110 +1,110 @@
-# Service Container
+# Service Behållare
 
-The Goravel service container is a powerful tool for managing class dependencies and performing dependency injection. It
-contains all the modules of Goravel, and allows you to bind your own services to container and resolve them when needed.
-The service container provides powerful support for third-party packages around Goravel.
+Goravel service container är ett kraftfullt verktyg för att hantera klassberoenden och utföra beroendeinjektion. Det
+innehåller alla moduler i Goravel, och låter dig binda dina egna tjänster till behållare och lösa dem när det behövs.
+Tjänsten container ger kraftfullt stöd för tredjepartspaket runt Goravel.
 
-## Binding
+## Bindning
 
-### Simple Bindings
+### Enkla bindningar
 
-Almost all of your service container bindings will be registered within [service providers](./providers).
-Within a service provider, you always have access to the container via the `app` parameter, then register a binding
-using the `Bind` method, passing the `key` that we wish to register along with a closure that returns an instance of the
-class:
+Nästan alla dina bindningar för behållare kommer att registreras inom [tjänsteleverantörer](./providers).
+Inom en tjänsteleverantör har du alltid tillgång till behållaren via `app`-parametern, registrera sedan en bindande
+med hjälp av `Bind`-metoden, passerar `key` som vi vill registrera tillsammans med en stängning som returnerar en instans av
+klassen:
 
 ```go
-package route
+paketväg
 
 import (
  "github.com/goravel/framework/contracts/foundation"
 )
 
-const Binding = "goravel.route"
+const Binding = "goravel. oute"
 
 type ServiceProvider struct {
 }
 
-func (route *ServiceProvider) Register(app foundation.Application) {
- app.Bind(Binding, func(app foundation.Application) (any, error) {
-  return NewRoute(app.MakeConfig()), nil
+func (route *ServiceProvider) Register(app foundation. pplication) {
+ app.Bind(Bindning, funktion (app foundation.Application) (några, fel) {
+  returnera NewRoute (app. akeConfig()), nil
  })
 }
 
-func (route *ServiceProvider) Boot(app foundation.Application) {
+func (route *Serviceleverantör) Boot(app foundation.Application) {
 
 }
 ```
 
-As mentioned, you will typically be interacting with the container within service providers; however, if you would like
-to interact with the container outside of a service provider, you may do so via the `App` facade:
+Som nämnts, kommer du vanligtvis att interagera med containern inom tjänsteleverantörer; Men om du vill att
+ska interagera med behållaren utanför en tjänsteleverantör kan du göra det via `App`-fasaden:
 
 ```go
-facades.App().Bind("key", func(app foundation.Application) (any, error) {
+fasades.App().Bind("key", funktion (app foundation.Application) (någon, fel) {
     ...
 })
 ```
 
-### Binding A Singleton
+### Bindning av en singel
 
-The `Singleton` method binds a class or interface into the container that should only be resolved one time. Once a
-singleton binding is resolved, the same object instance will be returned on subsequent calls into the container:
+`Singleton`-metoden binder en klass eller ett gränssnitt till behållaren som endast bör lösas en gång. När en
+singleton bindning är löst, samma objektinstans kommer att returneras på efterföljande samtal till behållaren:
 
 ```go
-app.Singleton(key, func(app foundation.Application) (any, error) {
-    return NewGin(app.MakeConfig()), nil
+app.Singleton(nyckel, funktion (app foundation.Application) (någon, fel) {
+    returnera NewGin(app.MakeConfig()), nil
 })
 ```
 
-### Binding Instances
+### Bindande instanser
 
-You may also bind an existing object instance into the container using the `Instance` method. The given instance will
-always be returned on subsequent calls into the container:
+Du kan också binda en befintlig objektinstans i behållaren med hjälp av `Instance`-metoden. Den givna instansen kommer
+alltid att returneras vid efterföljande samtal till behållaren:
 
 ```go
-app.Instance(key, instance)
+app.Instance(nyckel, instans)
 ```
 
-### Binding With Parameter
+### Bindning med parameter
 
-If you need some extra parameters to construct the service provider, you can use the `BindWith` method to pass
-parameters to the closure:
+Om du behöver några extra parametrar för att konstruera tjänsteleverantören kan du använda `BindWith`-metoden för att skicka
+parametrar till stängningen:
 
 ```go
-app.BindWith(Binding, func(app foundation.Application, parameters map[string]any) (any, error) {
-    return NewRoute(app.MakeConfig()), nil
+app.BindWith(Binding, func(app foundation.Application, parametrar karta[string]any) (någon, fel) {
+    returnera NewRoute(app.MakeConfig()), nil
 })
 ```
 
-## Resolving
+## Löser
 
-### The `Make` Method
+### `Make`-metoden
 
-You may use the `Make` method to resolve a class instance from the container. The `Make` method accepts the `key` you
-wish to resolve:
-
-```go
-instance, err := app.Make(key)
-```
-
-If you are outside of a service provider in a location of your code that does not have access to the `app` variable, you
-may use the `App` facade to resolve a class instance from the container:
+Du kan använda `Make`-metoden för att lösa en klassinstans från behållaren. `Make`-metoden accepterar `key` du
+vill lösa:
 
 ```go
-instance, err := facades.App().Make(key)
+exempel, err := app.Make(nyckel)
 ```
 
-### The `MakeWith` Method
-
-If some of your class's dependencies are not resolvable via the container, you may inject them by passing them as an
-associative array into the `MakeWith` method, corresponding to the `BindWith` binding method:
+Om du är utanför en tjänsteleverantör på en plats av din kod som inte har tillgång till `app`-variabeln, du
+kan använda fasaden `App` för att lösa en klass-instans från behållaren:
 
 ```go
-instance, err := app.MakeWith(key, map[string]any{"id": 1})
+exempel, err := fasader.App().Make(nyckel)
 ```
 
-### Other Methods
+### `MakeWith`-metoden
 
-The framework provides some convenient methods to quickly resolve various facades: `MakeArtisan`, `MakeAuth`,
+Om några av dina klassberoenden inte går att lösa via behållaren, du kan injicera dem genom att skicka dem som en
+associativ array till `MakeWith`-metoden, som motsvarar `BindWith`-bindningsmetoden:
+
+```go
+exempel, err := app.MakeWith(nyckel, karta[string]any{"id": 1})
+```
+
+### Andra metoder
+
+Ramverket ger några praktiska metoder för att snabbt lösa olika fasader: `MakeArtisan`, `MakeAuth`,
 `MakeCache`, `MakeConfig`, `MakeCrypt`, `MakeEvent`, `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
 `MakeOrm`, `MakeQueue`, `MakeRateLimiter`, `MakeRoute`, `MakeSchedule`, `MakeStorage`, `MakeValidation`.
