@@ -94,16 +94,16 @@ function nav(): DefaultTheme.NavItem[] {
 function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
   return [{
     text: "安装",
-    link: "安装"
+    link: 'installation'
   }, {
     text: "配置",
-    link: "配置"
+    link: 'configuration'
   }, {
     text: "目录结构",
-    link: "目录结构"
+    link: 'directory-structure'
   }, {
     text: "编译",
-    link: "编译"
+    link: 'compile'
   }];
 }
 function sidebarUpgrade(): DefaultTheme.SidebarItem[] {
@@ -115,40 +115,40 @@ function sidebarUpgrade(): DefaultTheme.SidebarItem[] {
     link: 'v1.14'
   }, {
     text: "历史",
-    link: "历史"
+    link: 'history'
   }];
 }
 function sidebarFoundation(): DefaultTheme.SidebarItem[] {
   return [{
     text: "生命周期",
-    link: "生命周期"
+    link: 'lifecycle'
   }, {
     text: "服务容器",
-    link: "容器"
+    link: 'container'
   }, {
     text: "服务提供者",
-    link: "服务提供者"
+    link: 'providers'
   }, {
     text: "门面",
-    link: "门面"
+    link: 'facades'
   }];
 }
 function sidebarBasic(): DefaultTheme.SidebarItem[] {
   return [{
     text: "路由",
-    link: "路由"
+    link: 'routing'
   }, {
     text: "中间件",
-    link: "中间件"
+    link: 'middlewares'
   }, {
     text: "控制器",
-    link: "控制器"
+    link: 'controllers'
   }, {
     text: "请求",
-    link: "请求"
+    link: 'requests'
   }, {
     text: "响应",
-    link: "响应"
+    link: 'responses'
   }, {
     text: "视图",
     link: "视图"
@@ -157,13 +157,13 @@ function sidebarBasic(): DefaultTheme.SidebarItem[] {
     link: 'grpc'
   }, {
     text: "会话",
-    link: "会话"
+    link: 'session'
   }, {
     text: "验证",
-    link: "验证"
+    link: 'validation'
   }, {
     text: "日志",
-    link: "日志"
+    link: 'logging'
   }];
 }
 function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
@@ -172,93 +172,93 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
     link: 'artisan'
   }, {
     text: "缓存",
-    link: "缓存"
+    link: 'cache'
   }, {
     text: "事件",
-    link: "事件"
+    link: 'events'
   }, {
     text: "文件存储",
-    link: "文件系统"
+    link: 'fs'
   }, {
     text: "邮件",
-    link: "邮件"
+    link: 'mail'
   }, {
     text: "队列",
-    link: "队列"
+    link: 'queues'
   }, {
     text: "任务调度",
-    link: "调度"
+    link: 'schedule'
   }, {
     text: "本地化",
-    link: "本地化"
+    link: 'localization'
   }, {
     text: "包开发",
-    link: "包"
+    link: 'package'
   }, {
     text: "彩色输出",
-    link: "颜色"
+    link: 'color'
   }, {
     text: "字符串",
-    link: "字符串"
+    link: 'strings'
   }, {
     text: "辅助函数",
-    link: "辅助函数"
+    link: 'helpers'
   }];
 }
 function sidebarSecurity(): DefaultTheme.SidebarItem[] {
   return [{
     text: "身份验证",
-    link: "身份验证"
+    link: 'authentication'
   }, {
     text: "授权",
-    link: "授权"
+    link: 'authorization'
   }, {
     text: "加密",
-    link: "加密"
+    link: 'encryption'
   }, {
     text: "哈希",
-    link: "哈希"
+    link: 'hashing'
   }];
 }
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
     text: "快速入门",
-    link: "快速入门"
+    link: 'quickstart'
   }, {
     text: "关系",
-    link: "关系"
+    link: 'relationships'
   }, {
     text: "迁移",
-    link: "迁移"
+    link: 'migrations'
   }, {
     text: "填充",
-    link: "数据填充"
+    link: 'seeding'
   }, {
     text: "工厂",
-    link: "工厂"
+    link: 'factories'
   }];
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
     text: "快速入门",
-    link: "快速入门"
+    link: 'quickstart'
   }, {
     text: "HTTP 测试",
     link: 'http'
   }, {
     text: "模拟",
-    link: "模拟"
+    link: 'mocks'
   }];
 }
 function sidebarOther(): DefaultTheme.SidebarItem[] {
   return [{
     text: "贡献",
-    link: "贡献"
+    link: 'contributing'
   }, {
-    text: "优秀的包",
-    link: "包"
+    text: "优秀拓展包",
+    link: 'packages'
   }, {
     text: "隐私政策",
-    link: "隐私"
+    link: 'privacy'
   }];
 }
