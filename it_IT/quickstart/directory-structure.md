@@ -1,43 +1,43 @@
-# Directory Structure
+# Struttura Cartella
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+La struttura predefinita del file può farti meglio iniziare l'avanzamento del progetto, e puoi anche aggiungere nuove cartelle liberamente, ma
+non modificare le cartelle predefinite.
 
-## Root Directory
+## Directory Radice
 
 ### `app` Directory
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` contiene il codice principale del programma. Quasi tutta la logica del programma sarà in questa cartella.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+La directory `bootstrap` contiene il file di avvio `app.go`.
 
 ### `config` Directory
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+La directory `config` contiene tutti i file di configurazione dell'applicazione. È meglio esplorare questi file e
+familiarizzare con tutte le opzioni disponibili.
 
 ### `database` Directory
 
-The `database` directory contains database migration files.
+La directory `database` contiene file di migrazione del database.
 
 ### `public` Directory
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+La directory `public` contiene alcune risorse statiche, come immagini, certificati, ecc.
 
 ### `resources` Directory
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+La directory `resources` contiene la tua [views](../basic/views) e le tue risorse grezze e non compilate come
+CSS o JavaScript.
 
 ### `routes` Directory
 
-The `routes` directory contains all the route definitions of the application.
+La directory `routes` contiene tutte le definizioni degli itinerari dell'applicazione.
 
 ### `storage` Directory
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+La directory `storage` contiene la directory `logs` e la directory `logs` contiene i file di log dell'applicazione.
 
 ### `tests` Directory
 
