@@ -1,32 +1,32 @@
-# Encryption
+# Criptare
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
-that their underlying value can not be modified or tampered with once encrypted.
+Serviciile de criptare Goravel oferă o interfață simplă, convenabilă pentru criptarea și decriptarea textului prin OpenSSL
+folosind criptarea AES-256. Toate valorile criptate ale Goravel sunt semnate folosind un cod de autentificare a mesajelor (GMAC) astfel încât
+valoarea lor de bază nu poate fi modificată sau falsificată odată criptată.
 
 ## Configurare
 
-Before using Goravel's encrypter, you must set the `key` configuration option in your `config/app.go` configuration
-file. This option is driven by the `APP_KEY` environment variable. Use the `go run . artisan key:generate` command to
-generate this variable's value since the `key:generate` command will utilize Golang's secure random bytes generator to
+Înainte de a folosi criptorul Goravel, trebuie să setați opțiunea de configurare `key` în fișierul de configurare
+`config/app.go`. Această opţiune este condusă de variabila de mediu `APP_KEY`. Foloseşte "mergi să alergi . artisan key:generate`command to
+generate this variable's value since the`key:generate\` command will utilize Golang's secure random bytes generator to
 create a secure cryptographic key for your application.
 
-## Using The Encrypter
+## Utilizarea Encrypterului
 
-### Encrypting A Value
+### Criptarea unei valori A
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+Pentru a cripta o valoare, puteți utiliza metoda `EncryptString` în `facades.Crypt()`. Această metodă criptează valorile folosind
+OpenSSL şi AES-256-GCM cipher. Suplimentar, toate valorile criptate sunt semnate cu un cod de autentificare a mesajelor (GMAC)
+pentru a preveni decriptarea de către utilizatorii răuvoitori care încearcă să manipuleze datele.
 
 ```go
 secret, err := facades.Crypt().EncryptString("goravel")
 ```
 
-### Decrypting A Value
+### Decriptarea unei valori A
 
-You can use the `DecryptString` method from `facades.Crypt()` to decrypt values. If the value can not be properly
-decrypted, such as when the message authentication code is invalid, an error will be returned.
+Puteți folosi metoda `DecryptString` din `facades.Crypt()` pentru a decripta valorile. Dacă valoarea nu poate fi corect
+decriptată, cum ar fi atunci când codul de autentificare al mesajului este invalid, o eroare va fi returnată.
 
 ```go
 str, err := facades.Crypt().DecryptString(secret)
