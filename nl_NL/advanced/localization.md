@@ -1,10 +1,10 @@
-# Localization
+# Lokalisatie
 
-Goravel's localization features provide a convenient way to retrieve strings in various languages, making it easy to
-support multiple languages in your application. Language strings are stored in files in the `lang` directory, and
-Goravel supports two ways to organize language files:
+Goravels lokalisatiemogelijkheden bieden een handige manier om tekenreeksen in verschillende talen op te halen, waardoor het gemakkelijk is om
+meerdere talen in uw applicatie te ondersteunen. Taal strings worden opgeslagen in bestanden in de `lang` map en
+Goravel ondersteunt twee manieren om taalbestanden te organiseren:
 
-Each language has its own file:
+Elke taal heeft zijn eigen bestand:
 
 ```
 /lang
@@ -12,7 +12,7 @@ Each language has its own file:
   cn.json
 ```
 
-Or, when there are too many translations, they can be categorized:
+Of, als er te veel vertalingen zijn, kunnen ze gecategoriseerd worden:
 
 ```
 /lang
@@ -22,144 +22,144 @@ Or, when there are too many translations, they can be categorized:
     user.json
 ```
 
-## Configuring the Locale
+## Lokalisatie configureren
 
-The default language of the application is stored in the `locale` configuration option in the `config/app.go`
-configuration file. You can modify this value as needed to suit your application's requirements.
+De standaard taal van de applicatie is opgeslagen in de `locale` configuratie optie in het `config/app.go`
+configuratiebestand. Je kunt deze waarde aanpassen naar gelang nodig om aan de vereisten van je applicatie te voldoen.
 
-You can also use the `SetLocale` method provided by the App Facade to modify the default language for a single `HTTP`
-request at runtime:
+Je kunt ook de 'SetLocale' methode gebruiken die door de App Facade wordt aangeboden om de standaardtaal voor een enkele 'HTTP'
+verzoek tijdens het runtime te wijzigen:
 
 ```
 facades.Route().Get("/", func(ctx http.Context) http.Response {
     facades.App().SetLocale(ctx, "en")
 
-    return ctx.Response()
+    retourneer ctx.Response()
 })
 ```
 
-You can configure a "fallback locale" that will be used when the current language does not contain the given translation
-string. Like the default language, the fallback language is also configured in the `config/app.go` configuration file.
+U kunt een "fallback locale" configureren die zal worden gebruikt wanneer de huidige taal de opgegeven vertaling
+string niet bevat. Net als de standaardtaal, is de fallback taal ook geconfigureerd in het `config/app.go` configuratiebestand.
 
 ```
 "fallback_locale": "en",
 ```
 
-### Determining the Current Locale
+### Bepaal de huidige lokalisatie
 
-You can use the `CurrentLocale` and `IsLocale` methods to determine the current `locale` or check if the `locale` is a
-given value.
+Je kunt de methoden `CurrentLocale` en `IsLocale` gebruiken om de huidige `locale` te bepalen of de `locale` een
+gegeven waarde is.
 
 ```
 locale := facades.App().CurrentLocale(ctx)
-if facades.App().IsLocale(ctx, "en") {}
+if facades.App().IsLocale(ctx, "nl") {}
 ```
 
-### Defining Translation Strings
+### Vertaaltekenreeksen definiëren
 
-In language files, you can define single-level or multi-level structures:
+In taalbestanden, kunt u structuren op enkel niveau of meerdere niveaus definiëren:
 
 ```
 // lang/en.json
 {
-  "name": "It's your name",
+  "name": "Het is je naam",
   "required": {
     "user_id": "UserID is required"
   }
 }
 ```
 
-### Retrieving Translation Strings
+### Ophalen Vertaalreeksen
 
-You can use the `facades.Lang(ctx).Get()` method to retrieve translation strings from language files. If the language
-file contains multiple levels, you can use `.` to connect them, and if the language file is in multiple levels of
-folders, you can use `/` to connect them.
+U kunt de `facades.Lang(ctx).Get()` methode gebruiken om vertaalstrings op te halen uit taalbestanden. Als het bestand
+meerdere levels bevat, kunt u `. om ze te verbinden, en als het taalbestand zich in meerdere levels van
+mappen bevindt, kun je `/\` gebruiken om ze te verbinden.
 
-For example:
+Bijvoorbeeld:
 
 ```
-// lang/en.json
+// lang/nl/nl zoon
 {
-  "name": "It's your name",
-  "required": {
-    "user_id": "UserID is required"
+  "name": "Het is jouw naam",
+  "vereist": {
+    "user_id": "UserID is vereist"
   }
 }
 
-facades.Lang(ctx).Get("name")
+facades. ang(ctx).Get("naam")
 facades.Lang(ctx).Get("required.user_id")
 
-// lang/en/role/user.json
+// lang/en/role/user. zoon
 {
-  "name": "It's your name",
-  "required": {
-    "user_id": "UserID is required"
+  "name": "Het is jouw naam",
+  "vereist": {
+    "user_id": "UserID is vereist"
   }
 }
 
-facades.Lang(ctx).Get("role/user.name")
+facades. ang(ctx).Get("role/user.name")
 facades.Lang(ctx).Get("role/user.required.user_id")
 ```
 
-#### Replacing Parameters in Translation Strings
+#### Parameters vervangen in vertaalreeksen
 
-You can define placeholders in translation strings. All placeholders have the prefix `:`. For example, you can use a
-placeholder to define a welcome message:
+U kunt tijdelijke aanduidingen definiëren in vertalingsstrings. Alle placeholders hebben de prefix `:`. U kunt bijvoorbeeld een
+aanduiding gebruiken om een welkomstbericht te definiëren:
 
 ```
 {
-  "welcome": "Welcome, :name"
+  "welkom": "Welkom, :name"
 }
 ```
 
-To replace placeholders when retrieving a translation string, you can pass a translation option with the replacement map
-as the second parameter to the `facades.Lang(ctx).Get()` method:
+Om placeholders te vervangen bij het ophalen van een vertaling tekenreeks, je kunt een vertalingsoptie met de vervangende kaart
+doorsturen als de tweede parameter naar de `facades. ang(ctx).Get()` methode:
 
 ```
-facades.Lang(ctx).Get("welcome", translation.Option{
-  Replace: map[string]string{
+facades.Lang(ctx).Get("welkom", translation.Option{
+  Vervang: kaart[string]string{
     "name": "Goravel",
   },
 })
 ```
 
-#### Pluralization
+#### Pluralisatie
 
-Pluralization is a complex problem because different languages have various pluralization rules. However, Goravel can
+Pluralisatie is een complex probleem omdat verschillende talen verschillende pluralisatieregels hebben. However, Goravel can
 help you translate strings based on the pluralization rules you define. By using the `|` character, you can
 differentiate between the singular and plural forms of a string:
 
 ```
 {
-  "apples": "There is one apple|There are many apples"
+  "appels": "Er is één apple\\quad Er zijn veel appels"
 }
 ```
 
-You can even create more complex pluralization rules by specifying translation strings for multiple value ranges:
+U kunt zelfs complexere pluralisatieregels maken door vertaaltekenreeksen voor meerdere waardebereiken te specificeren:
 
 ```
 {
-  "apples": "{0} There are none|[1,19] There are some|[20,*] There are many"
+  "appels": "{0} Er zijn geen appels en [1,19] Er zijn sommige, [20,*] Er zijn er veel
 }
 ```
 
-After defining a translation string with pluralization options, you can use the `facades.Lang(ctx).Choice()` method to
-retrieve the line for a given `count`. In this example, because the count is greater than 1, the plural form of the
-translation string is returned:
+Na het definiëren van een vertalingsreeks met pluralisatie-opties, kunt u de methode `facades.Lang(ctx).Choice()` naar
+ophalen voor een gegeven `count`. In dit voorbeeld, omdat het aantal groter dan 1 is, wordt de meervoudsvorm van de
+vertaalreeks geretourneerd:
 
 ```
 facades.Lang(ctx).Choice("messages.apples", 10)
 ```
 
-You can also define placeholder attributes in pluralization strings. By passing an array as the third parameter to the
-`facades.Lang(ctx).Choice()` method, you can replace these placeholders:
+U kunt ook tijdelijke aanduidingen in pluralisatienderen definiëren. Door het passeren van een array als derde parameter aan de
+`facades.Lang(ctx).Choice()` methode, kunt u deze placeholders vervangen:
 
 ```
-"minutes_ago": "{1} :value minute ago|[2,*] :value minutes ago",
+"minutes_ago": "{1} :value minute geleden,[2,*] :value minuten geleden",
 
 facades.Lang(ctx).Choice("time.minutes_ago", 5, translation.Option{
-  Replace: map[string]string{
-    "value": "5",
+  Vervanging: map[string]string{
+    "waarde": "5",
   },
 })
 ```
