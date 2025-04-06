@@ -1,21 +1,21 @@
-# Controllers
+# Controller
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+Anstatt alle Verarbeitungslogik in Form einer Sperrung auf einer separaten Route zu definieren, kann ein Controller für die Integration
+verwendet werden. Die Controller werden im `app/http/controllers` Verzeichnis gespeichert.
 
-## Define Controllers
+## Controller definieren
 
-The following is an example of a basic controller:
+Das folgende Beispiel ist ein Basis-Controller:
 
 ```go
-package controllers
+Paket Controller
 
-import (
+importieren (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
-type UserController struct {
+Type UserController struct {
   // Dependent services
 }
 
@@ -25,63 +25,63 @@ func NewUserController() *UserController {
   }
 }
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+func (r *UserController) Show(ctx http. ontext) http.Response {
   return ctx.Response().Success().Json(http.Json{
     "Hello": "Goravel",
   })
 }
 ```
 
-The route define:
+Die Route definiert:
 
 ```go
-package routes
+Paket Routen
 
-import (
+importieren (
   "github.com/goravel/framework/facades"
 
   "goravel/app/http/controllers"
 )
 
 func Api() {
-  userController := controllers.NewUserController()
+  userController := Controller. ewUserController()
   facades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### Controller erstellen
 
 ```shell
 go run . artisan make:controller UserController
 go run . artisan make:controller user/UserController
 ```
 
-## Resource Controllers
+## Ressourcen-Controller
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+Wenn Sie an jedes Eloquent Modell in Ihrer Anwendung als "Ressource" denken es ist typisch, die gleichen
+-Aktionen gegen jede Ressource in Ihrer Anwendung durchzuführen. Stellen Sie sich zum Beispiel vor, Ihre Anwendung enthält ein `Photo`-Modell und ein
+`Movie`-Modell. Es ist wahrscheinlich, dass Benutzer diese Ressourcen erstellen, lesen, aktualisieren oder löschen können.
 
-Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+Aufgrund dieses gemeinsamen Anwendungsfalls weist Goravel Ressourcen-Routing das typische Erstellungsmerkmal zu, lesen Sie, aktualisieren und löschen ("CRUD")
+führt zu einem Controller mit einer einzigen Zeile Code. Um loszulegen, können wir den `make:controller` Artisan Befehl
+`--resource` verwenden, um schnell einen Controller zu erstellen, um diese Aktionen zu erledigen:
 
 ```shell
 go run . artisan make:controller --resource PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
-controller:
+Dieser Befehl generiert einen Controller unter `app/http/controllers/photo_controller.go`. Der Controller wird eine
+-Methode für jede der verfügbaren Ressourcenoperationen enthalten. Als nächstes können Sie eine Ressourcenroute registrieren, die auf den
+Controller verweist:
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+facades.Route().Resource("Fotos", Controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| Verb      | URI               | Aktion        |
+| --------- | ----------------- | ------------- |
+| ERHALTEN  | `/Fotos`          | Index         |
+| POST      | `/Fotos`          | Shop          |
+| ERHALTEN  | `/photos/{photo}` | Zeigen        |
+| PUT/PATCH | `/photos/{photo}` | Aktualisieren |
+| LÖSCHEN   | `/photos/{photo}` | Zerstören     |
