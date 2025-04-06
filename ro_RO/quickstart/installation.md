@@ -1,68 +1,68 @@
-# Installation
+# Instalare
 
-## Server Requirements
+## Cerințele serverului
 
 - Golang >= 1.21
 
-## Installation
+## Instalare
 
-### Using Goravel Installer
+### Folosind Goravel Installer
 
-Initialize the installer according to the [documentation](https://github.com/goravel/installer), and then initialize a
-new Goravel project using the following command:
+Inițializați instalatorul în conformitate cu [documentation](https://github.com/goravel/installer) și apoi inițializați un nou proiect Goravel
+folosind următoarea comandă:
 
 ```shell
-// Enter the directory where you want to install the project
-goravel new blog
+// Introduceți directorul unde doriți să instalați blogul nou
+goravel
 ```
 
-### Manual Installation
+### Instalare manuală
 
 ```shell
-// Download framework
-git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/.git*
+// Descarcă framework
+git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/. it*
 
-// Install dependencies
-cd goravel && go mod tidy
+// Instalează dependențe
+cd goravel && mergi mod tidy
 
-// Create .env environment configuration file
+// Creează . fişierul de configurare de mediu
 cp .env.example .env
 
-// Generate application key
-go run . artisan key:generate
+// Generează aplicaţia cheie
+mergi să rulezi . artizan:generate
 ```
 
-## Start HTTP Service
+## Pornește serviciul HTTP
 
-### Start Service According To .env File In The Root Directory
+### Începe serviciul conform fișierului .env în directorul rădăcină
 
 ```shell
-go run .
+mergi să fugi .
 ```
 
-### Specify .env File To Start Service
+### Specificați fișierul .env pentru a porni serviciul
 
 ```shell
-go run . --env=./.env
+rulează . --env=./.env
 ```
 
-### Start Service Using Environment Variables
+### Începe serviciul folosind Variabile de Mediu
 
 ```shell
-APP_ENV=production APP_DEBUG=true go run .
+APP_ENV=production APP_DEBUG=true go go run .
 ```
 
 ### Live reload
 
-Install [cosmtrek/air](https://github.com/cosmtrek/air), Goravel has a built-in configuration file that can be used
-directly:
+Instalați [cosmtrek/air](https://github.com/cosmtrek/air), Goravel are un fișier de configurare încorporat, care poate fi folosit
+direct:
 
 ```
-air
+aer
 ```
 
-If you are using Windows system, you need to modify the `.air.toml` file in the root directory, and add the `.exe`
-suffix to the following two lines:
+Dacă folosiți sistemul Windows, trebuie să modificați ".air. oml`fișier în directorul rădăcină și adaugă sufixul`.exe\`
+la următoarele două linii:
 
 ```shell
 [build]
@@ -72,24 +72,24 @@ suffix to the following two lines:
 
 ## Configurare
 
-### Configuration files
+### Fișiere de configurare
 
-All configuration files of the Goravel framework are placed in the `config` directory. All configuration items have
-annotations, you can adjust them according to your needs.
+Toate fisierele de configurare din Goravel framework sunt plasate in folderul `config`. Toate elementele de configurare au adnotări
+, le poți ajusta în funcție de nevoile tale.
 
-### Generate Application key
+### Generare cheie aplicație
 
-You need to generate the application key after Goravel is installed locally. Running the command below, a 32-bit string
-will be generated on the `APP_KEY` key in the `.env` file. This key is mainly used for data encryption and decryption.
+Trebuie să generați cheia aplicației după ce Goravel este instalat local. Rulând comanda de mai jos, un şir de caractere de 32 biţi
+va fi generat pe tasta `APP_KEY` din fişierul `.env`. Această cheie este utilizată în principal pentru criptarea și decriptarea datelor.
 
 ```shell
-go run . artisan key:generate
+mergi să rulezi . cheie artizan:generate
 ```
 
-### Generate JWT Token
+### Generează JWT Token
 
-You need to generate JWT Token if you use [Authentication](../security/authentication).
+Trebuie să generați JWT Token dacă folosiți [Authentication](../security/authentication).
 
 ```shell
-go run . artisan jwt:secret
+mergi să alergi . artizan jwt:secret
 ```
