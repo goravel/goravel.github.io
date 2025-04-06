@@ -275,66 +275,66 @@ extension := file.GetClientExtension()
 ```go
 file, err := ctx.Request().File("avatar")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+name := file.HashName() // 生成一个独特的、随机名称...
+扩展，err := file.Extension() // 根据文件的 MIME 类型决定文件的扩展...
 ```
 
-## Deleting Files
+## 正在删除文件
 
-The `Delete` method accepts a single filename or an array of files to delete:
+`Delete`方法接受一个文件名或数组文件以删除：
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+如有必要，您可以指定该文件应从以下来源删除的磁盘：
 
 ```go
 err := facades.Storage().Disk("s3").Delete("file.jpg")
 ```
 
-## Directories
+## 目录
 
-### Get All Files Within A Directory
+### 获取目录内的所有文件
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
+`Files`方法返回给定目录中所有文件的分割。 如果您想要检索指定目录中所有的
+文件列表，包括所有子目录，您可以使用 `AllFiles` 方法：
 
 ```go
-files, err := facades.Storage().Disk("s3").Files("directory")
+files, err := facades.Storage().Disk("s3").Files("目录")
 files, err := facades.Storage().Disk("s3").AllFiles("directory")
 ```
 
-### Get All Directories Within A Directory
+### 获取目录中的所有目录
 
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
-
-```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
-```
-
-### Create A Directory
-
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+`Directories`方法返回给定目录中所有目录的分割。 此外，您可以使用
+`AllDirectories` 方法获取指定目录内所有目录及其所有子目录的列表：
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+目录，err := facades.Storage().Disk("s3").Directories("目录")
+目录，err := facades.Storage().Disk("s3").AllDirectories("directory")
 ```
 
-### Delete A Directory
+### 创建一个目录
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+`MakeDirectory`方法将创建指定的目录，包括任何需要的子目录：
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+err := facades.Storage().MakeDirectory(目录)
 ```
 
-## Custom Filesystems
+### 删除目录
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+最后，`DeleteDirectory`方法可以用来删除目录及其所有文件：
+
+```go
+err := facades.Storage().DeleteDirectory(目录)
+```
+
+## 自定义文件系统
+
+您可以在 `config/filesystems.go` 文件中设置 `custom` 驱动程序。
 
 ```go
 "custom": map[string]any{
@@ -343,8 +343,8 @@ You can set the `custom` driver in the `config/filesystems.go` file.
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+您需要在 `via`
+配置项中实现 `github.com/goravel/frameworks/filesystem/Driver` 接口。
 
 ```go
 type Driver interface {
@@ -374,5 +374,5 @@ type Driver interface {
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> 注意：由于当自定义驱动程序注册时配置尚未加载，所以请使用
+> "facades。 请在自定义驱动器中获取配置。
