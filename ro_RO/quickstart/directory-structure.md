@@ -1,71 +1,71 @@
-# Directory Structure
+# Structura Directoarelor
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+Structura implicită a fișierului vă poate face să începeți mai bine avansarea proiectului, și puteți adăuga dosare noi în mod liber, dar
+nu modifica dosarele implicite.
 
-## Root Directory
+## Director rădăcină
 
-### `app` Directory
+### Directorul `app`
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` conţine codul de bază al programului. Aproape toată logica din program va fi în acest dosar.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+Directorul `bootstrap` conţine fişierul de pornire framework `app.go`.
 
-### `config` Directory
+### `config` Director
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+Directorul `config` conţine toate fişierele de configurare ale aplicaţiei. Cel mai bine este să răsfoiţi prin aceste fişiere şi
+familiarizaţi-vă cu toate opţiunile disponibile.
 
-### `database` Directory
+### Directorul `bază de date`
 
-The `database` directory contains database migration files.
+Directorul `bază de date` conţine fişierele de migrare din baza de date.
 
-### `public` Directory
+### `public` Director
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+Directorul `public` conţine unele resurse statice, cum ar fi imagini, certificate etc.
 
-### `resources` Directory
+### `resources` Director
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+Directorul `resources` conține [views](../basic/views) precum și activele brute, neconcompilate, cum ar fi
+CSS sau JavaScript.
 
-### `routes` Directory
+### `routes` Director
 
-The `routes` directory contains all the route definitions of the application.
+Directorul `rute` conţine toate definiţiile rutelor aplicaţiei.
 
-### `storage` Directory
+### Directorul `storage`
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+Directorul `storage` conţine folderul `logs`, iar folderul `logs` conţine fişierele jurnal ale aplicaţiei.
 
-### `tests` Directory
+### Directorul `tests`
 
-The `tests` directory contains your automated tests.
+Directorul `tests` conţine testele automate.
 
-## `app` Directory
+## Directorul `app`
 
-### `console` Directory
+### Director `console`
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+Directorul `consolă` conţine toate comenzile personalizate `Artisan` ale aplicaţiei, şi fişierul de boot de consolă
+\`kernel. o", care poate fi înregistrat în acest fişier [Task Scheduling](../advanced/schedule)
 
-### `http` Directory
+### Directorul `http`
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+Directorul `http` conţine controleri, middleware, etc., şi aproape toate cererile care introduc aplicaţia prin intermediul
+Web sunt procesate aici.
 
-### `grpc` Directory
+### Directorul `grpc`
 
-The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Grpc are processed here.
+Directorul `grpc` conține controleri, middleware, etc., și aproape toate cererile care introduc aplicația prin intermediul
+Grpc sunt procesate aici.
 
-### `models` Directory
+### Director `models`
 
-The `models` directory contains all data models.
+Directorul `modele` conține toate modelele de date.
 
-### `providers` Directory
+### `providers` Director
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
-for events, or performing any other tasks.
+Directorul `furnizori` conţine toţi [furnizorii de servicii](../foundation/providers) în programul
+. Furnizorul de servicii ghidează aplicația pentru a răspunde la cererile primite de la servicii de asociere, înregistrând
+pentru evenimente sau efectuând orice alte sarcini.
