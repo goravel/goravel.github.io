@@ -137,14 +137,13 @@ path := facades.Storage().Path("file.jpg")
 
 ## 存储文件
 
-The `Put` method may be used to store file contents on a disk. Remember, all file paths should be specified relative to
-the "root" location configured for the disk:
+可以使用 `Put` 方法将文件内容存储在磁盘上。 请记住，所有文件路径都应相对于为磁盘配置的"根"位置指定：
 
 ```go
 err := facades.Storage().Put("file.jpg", contents)
 ```
 
-You can also use `PutFile` and `PutFileAs` to save files directly on disk:
+您还可以使用 `PutFile` 和 `PutFileAs` 直接将文件保存到磁盘上：
 
 ```go
 import "github.com/goravel/framework/filesystem"
@@ -158,15 +157,11 @@ file, err := filesystem.NewFile("./logo.png")
 path := facades.Storage().PutFileAs("photos", file, "photo.jpg")
 ```
 
-There are a few important things to note about the `PutFile` method. Note that we only specified a directory name and
-not a filename. By default, the `PutFile` method will generate a unique ID to serve as the filename. The file's
-extension will be determined by examining the file's MIME type. The path to the file will be returned by the `PutFile`
-method so you can store the path, including the generated filename, in your database.
+关于 `PutFile` 方法，有几点重要事项需要注意。 请注意，我们只指定了一个目录名，而没有指定文件名。 默认情况下，`PutFile` 方法将生成一个唯一的 ID 作为文件名。 文件的扩展名将通过检查文件的 MIME 类型来确定。 文件路径将由`PutFile`方法返回，这样您就可以将路径（包括生成的文件名）存储在数据库中。
 
-### Copying & Moving Files
+### 复制和移动文件
 
-The `Copy` method may be used to copy an existing file to a new location on the disk, while the `Move` method may be
-used to rename or move an existing file to a new location:
+`Copy` 方法可用于将现有文件复制到磁盘上的新位置，而 `Move` 方法可用于重命名或将现有文件移动到新位置：
 
 ```go
 err := facades.Storage().Copy("old/file.jpg", "new/file.jpg")
@@ -174,11 +169,10 @@ err := facades.Storage().Copy("old/file.jpg", "new/file.jpg")
 err := facades.Storage().Move("old/file.jpg", "new/file.jpg")
 ```
 
-### File Uploads
+### 文件上传
 
-In web applications, one of the most common use cases for storing files is storing user-uploaded files such as photos
-and documents. Goravel makes it very easy to store uploaded files using the `Store` method on an uploaded file instance.
-Call the `Store` method with the path at which you wish to store the uploaded file:
+在 Web 应用程序中，存储文件最常见的用例之一是存储用户上传的文件，如照片和文档。 Goravel 使用上传文件实例的 `Store` 方法可以非常轻松地存储上传的文件。
+使用您希望存储上传文件的路径调用 `Store` 方法：
 
 ```go
 func (r *UserController) Show(ctx http.Context) {
@@ -187,13 +181,9 @@ func (r *UserController) Show(ctx http.Context) {
 }
 ```
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a
-filename. By default, the `Store` method will generate a unique ID to serve as the filename. The file's extension will
-be determined by examining the file's MIME type. The path to the file will be returned by the `Store` method so you can
-store the path, including the generated filename, in your database.
+关于这个例子，有几点重要的事项需要注意。 注意，我们只指定了一个目录名，而不是文件名。 默认情况下，`Store` 方法将生成一个唯一的 ID 作为文件名。 文件的扩展名将通过检查文件的 MIME 类型来确定。 `Store` 方法将返回文件的路径，因此您可以将路径（包括生成的文件名）存储在数据库中。
 
-You may also call the `PutFile` method on the `Storage` facade to perform the same file storage operation as the example
-above:
+您也可以在 `Storage` 门面上调用 `PutFile` 方法来执行与上面示例相同的文件存储操作：
 
 ```go
 import "github.com/goravel/framework/filesystem"
@@ -202,18 +192,16 @@ file, err := filesystem.NewFile("./logo.png")
 path := facades.Storage().PutFile("photos", file)
 ```
 
-### Specifying A File Name
+### 指定文件名
 
-If you do not want a filename to be automatically assigned to your stored file, you may use the `StoreAs` method, which
-receives the path, the filename, and the (optional) disk as its arguments:
+如果您不希望自动为存储的文件分配文件名，可以使用 `StoreAs` 方法，该方法接收路径、文件名和（可选的）磁盘作为参数：
 
 ```go
 file, err := ctx.Request().File("avatar")
 path, err := file.StoreAs("avatars", "name")
 ```
 
-You may also use the `PutFileAs` method on the Storage facade, which will perform the same file storage operation as the
-example above:
+您也可以在 Storage 门面上使用 `PutFileAs` 方法，它将执行与上面示例相同的文件存储操作：
 
 ```go
 import "github.com/goravel/framework/filesystem"
@@ -222,13 +210,11 @@ file, err := filesystem.NewFile("./logo.png")
 path := facades.Storage().PutFileAs("photos", file, "name")
 ```
 
-> If the file name specified by `StoreAs` and `PutFileAs` doesn't have a suffix, the suffix is automatically added based
-> on the MIME of the file; otherwise, the specified file name is used directly.
+> 如果 `StoreAs` 和 `PutFileAs` 指定的文件名没有后缀，则会根据文件的 MIME 类型自动添加后缀；否则，将直接使用指定的文件名。
 
-### Specifying A Disk
+### 指定磁盘
 
-By default, this uploaded file's `Store` method will use your default disk. If you would like to specify another disk,
-please use the `Disk` method:
+默认情况下，上传文件的 `Store` 方法将使用您的默认磁盘。 如果您想指定另一个磁盘，请使用 `Disk` 方法：
 
 ```go
 func (r *UserController) Show(ctx http.Context) {
@@ -237,10 +223,9 @@ func (r *UserController) Show(ctx http.Context) {
 }
 ```
 
-### Other Uploaded File Information
+### 其他上传文件信息
 
-If you would like to get the original name and extension of the uploaded file, you may do so using the
-`GetClientOriginalName` and `GetClientOriginalExtension` methods:
+如果您想获取上传文件的原始名称和扩展名，可以使用 `GetClientOriginalName` 和 `GetClientOriginalExtension` 方法：
 
 ```go
 file, err := ctx.Request().File("avatar")
@@ -249,9 +234,7 @@ name := file.GetClientOriginalName()
 extension := file.GetClientOriginalExtension()
 ```
 
-However, keep in mind that the `GetClientOriginalName` and `GetClientOriginalExtension` methods are considered unsafe,
-as the file name and extension may be tampered with by a malicious user. For this reason, you should typically prefer
-the `HashName` and `Extension` methods to get a name and an extension for the given file upload:
+但是，请记住，`GetClientOriginalName` 和 `GetClientOriginalExtension` 方法被认为是不安全的，因为文件名和扩展名可能被恶意用户篡改。 因此，您通常应该优先使用 `HashName` 和 `Extension` 方法来获取给定文件上传的名称和扩展名：
 
 ```go
 file, err := ctx.Request().File("avatar")
@@ -260,62 +243,60 @@ name := file.HashName() // Generate a unique, random name...
 extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
 ```
 
-## Deleting Files
+## 删除文件
 
-The `Delete` method accepts a single filename or an array of files to delete:
+`Delete` 方法接受单个文件名或要删除的文件数组：
 
 ```go
 err := facades.Storage().Delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+如有必要，您可以指定应该从哪个磁盘删除文件：
 
 ```go
 err := facades.Storage().Disk("s3").Delete("file.jpg")
 ```
 
-## Directories
+## 目录
 
-### Get All Files Within A Directory
+### 获取目录内的所有文件
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
+`Files` 方法返回给定目录中所有文件的切片。 如果您想获取给定目录内包括所有子目录在内的所有文件列表，可以使用 `AllFiles` 方法：
 
 ```go
 files, err := facades.Storage().Disk("s3").Files("directory")
 files, err := facades.Storage().Disk("s3").AllFiles("directory")
 ```
 
-### Get All Directories Within A Directory
+### 获取目录内的所有目录
 
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+`Directories` 方法返回给定目录内所有目录的切片。 此外，您可以使用 `AllDirectories` 方法获取给定目录及其所有子目录内的所有目录列表：
 
 ```go
 directories, err := facades.Storage().Disk("s3").Directories("directory")
 directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
 ```
 
-### Create A Directory
+### 创建目录
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+`MakeDirectory` 方法将创建给定的目录，包括任何需要的子目录：
 
 ```go
 err := facades.Storage().MakeDirectory(directory)
 ```
 
-### Delete A Directory
+### 删除目录
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+最后，`DeleteDirectory` 方法可用于删除目录及其所有文件：
 
 ```go
 err := facades.Storage().DeleteDirectory(directory)
 ```
 
-## Custom Filesystems
+## 自定义文件系统
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+你可以在 `config/filesystems.go` 文件中设置 `custom` 驱动。
 
 ```go
 "custom": map[string]any{
@@ -324,8 +305,7 @@ You can set the `custom` driver in the `config/filesystems.go` file.
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+你需要在 `via` 配置项中实现 `github.com/goravel/framework/contracts/filesystem/Driver` 接口。
 
 ```go
 type Driver interface {
@@ -355,5 +335,4 @@ type Driver interface {
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> 注意：由于在注册自定义驱动时配置尚未加载，因此请在自定义驱动中使用 `facades.Config().Env` 获取配置。
