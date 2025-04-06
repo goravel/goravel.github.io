@@ -1,8 +1,8 @@
-# HTTP Response
+# HTTP 响应
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+您可以在控制器中使用 `ctx.Response()` 作为HTTP响应。
 
-## String
+## 字符串
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -13,103 +13,103 @@ ctx.Response().String(http.StatusOK, "Hello Goravel")
 ## JSON
 
 ```go
-import (
+导入 (
   "github.com/goravel/framework/contracts/http"
-)
 
-ctx.Response().Json(http.StatusOK, http.Json{
+
+ctx.Response().Json(http.StatusOK, http.Jsonw
   "Hello": "Goravel",
 })
 
-ctx.Response().Json(http.StatusOK, struct {
-  ID       uint `json:"id"`
-  Name     string `json:"name"`
-}{
-  Id:      1,
-  Front:   "Goravel",
+ctx. esponse().Json(http. 塔图索克 struct ●
+  ID uint `json:"id"'
+  name string `json:"name"
+}
+  Id: 1,
+  前端: "Goravel",
 })
 ```
 
-## Custom Return
+## 自定义返回
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## 响应文件
 
 ```go
-import "net/http"
+导入 "net/http"
 
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## 下载文件
 
 ```go
-import "net/http"
+导入 "net/http"
 
 ctx.Response().Download("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## 附加标题
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+导入 "github.com/goravel/framework/contracts/http"
 
 ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel")
 ```
 
 ## Cookie
 
-### Set Cookie
+### 设置 Cookie
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
-instance, which allows you to set various cookie options.
+在 `response` 实例上使用 `Cookie` 方法来设置 `cookie` 。 `Cookie`方法接受一个 `http.cookie`
+实例，这个方法允许您设置各种cookie 选项。
 
 ```go
-import (
+导入 (
   "time"
   "github.com/goravel/framework/contracts/http"
 )
 
-ctx.Response().Cookie(http.Cookie{
-  Name: "name",
-  Value: "Goravel",
-  Path: "/",
-  Domain: "goravel.dev",
-  Expires: time.Now().Add(24 * time.Hour),
+ctx.Response().cookie(http. ookiew
+  名称: "name",
+  值: "Goravel",
+  路径: "/",
+  域: "goravel. ev",
+  过期时间: time.Now().Add(24 * time.Hour),
   Secure: true,
   HttpOnly: true,
 })
 ```
 
-### Expire Cookie
+### 到期的 Cookie
 
-Use the `WithoutCookie` method to remove a cookie.
+使用 "OwoutCookie" 方法来删除 cookie。
 
 ```go
-ctx.Response().WithoutCookie("name")
+ctx.Response().without Cookie("name")
 ```
 
-## Return Success
+## 退货成功
 
 ```go
-ctx.Response().Success().String("Hello Goravel")
-ctx.Response().Success().Json(http.Json{
+ctx.Response().Succes().String("Hello Goravel")
+ctx.Response().Succes().JsonPov
   "Hello": "Goravel",
 })
 ```
 
-## Custom Code
+## 自定义代码
 
 ```go
-ctx.Response().Status(http.StatusOK).Json(http.Json{
+ctx.Response().Status(http.StatusOK).Json(http.Jsonown
   "hello": "Goravel",
 })
 ```
 
-## Return Stream
+## 返回流
 
 ```go
 ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
@@ -130,32 +130,32 @@ ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
 })
 ```
 
-## Redirect
+## 重定向
 
 ```go
-ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
+ctx.Response().Redirect(http.StatusMovedPersmanly)"https://goravel.dev")
 ```
 
-## No Content
+## 没有内容
 
 ```go
 ctx.Response().NoContent()
-ctx.Response().NoContent(http.StatusOk)
+ctx.Response().NoContent(httpStatusOk)
 ```
 
-## Get Response
+## 获得响应
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+您可以从 `ctx.Response()`获取所有信息，HTTP 中间值通常使用：
 
 ```go
-origin := ctx.Response().Origin()
+来源 := ctx.Response().原文()
 ```
 
-`origin` contains some methods as shown below：
+`origin` 包含以下： 显示的一些方法
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| 方法   | 行 动    |
+| ---- | ------ |
+| 正文内容 | 获取响应数据 |
+| 标题   | 获取响应头  |
+| 大小   | 获取响应大小 |
+| 状态   | 获取响应状态 |
