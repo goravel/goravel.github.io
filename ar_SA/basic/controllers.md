@@ -1,87 +1,88 @@
-# Controllers
+# المتحكمون
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+بدلاً من تحديد كل منطق معالجة الطلبات في شكل إغلاق في مسار منفصل، يمكن استخدام وحدة تحكم
+من أجل التكامل. يتم تخزين المتحكمين في دليل "app/http/controllers".
 
-## Define Controllers
+## تعريف المتحكمين
 
-The following is an example of a basic controller:
+وفيما يلي مثال على مراقب أساسي:
 
 ```go
-package controllers
+تحكم الطرد
 
-import (
+استيراد (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
-)
+  "github. om/goravel/framework/facades"
 
-type UserController struct {
-  // Dependent services
-}
+
+نوع المراقب المالي للمستخدمين الذي تم هيكله {
+  // / الخدمات التبعية
+
 
 func NewUserController() *UserController {
-  return &UserController{
-    // Inject services
-  }
-}
+  Re&UserController{
+    ///Inject Services
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+
+
+
+func (r *UserController) Show(ctx. ontext) http.Response {
   return ctx.Response().Success().Json(http.Json{
-    "Hello": "Goravel",
+    "مرحبا": "Goravel",
   })
 }
 ```
 
-The route define:
+تعريف الطريق:
 
 ```go
-package routes
+طرق الحزمة
 
-import (
+الاستيراد (
   "github.com/goravel/framework/facades"
 
   "goravel/app/http/controllers"
-)
+
 
 func Api() {
-  userController := controllers.NewUserController()
+  مستخدم مراقب := مسائل. ewUserController()
   facades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### إنشاء وحدة تحكم
 
 ```shell
-go run . artisan make:controller UserController
-go run . artisan make:controller user/UserController
+قم بتشغيل. تصنيع حرفي:controller UserController
+قم بتشغيله حرفيا:controller user/UserController
 ```
 
-## Resource Controllers
+## مراقبو الموارد
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+إذا كنت تفكر في كل نموذج Eloquent في تطبيقك كمورد من المعتاد تنفيذ نفس مجموعات الإجراءات
+ضد كل مورد في تطبيقك. على سبيل المثال، تخيل أن تطبيقك يحتوي على نموذج 'صورة' و نموذج
+'Movie'. من المحتمل أن يتمكن المستخدمون من إنشاء هذه الموارد أو قراءتها أو تحديثها أو حذفها.
 
-Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+بسبب حالة الاستخدام الشائعة هذه، يقوم توجيه مورد Goravel بتعيين الإنشاء النموذجي، القراءة، قم بتحديث وحذف ("CRUD")
+مسارات إلى وحدة تحكم ذات سطر واحد من الكود. للبدء، يمكننا استخدام خيار الأمر الفني 'make:controlller'
+\`--resource' لإنشاء وحدة تحكم بسرعة للتعامل مع هذه الإجراءات:
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+تشغيل . تصنيع حرفي:controller - مصور الموارد
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
-controller:
+سيؤدي هذا الأمر إلى إنشاء وحدة تحكم في `app/http/controllers/photo_controller.go`. سيحتوي المتحكم على طريقة
+لكل عملية من عمليات الموارد المتاحة. بعد ذلك، يمكنك تسجيل مسار مورد يشير إلى وحدة التحكم
+:
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+facades.Route().Resource("phototos", Controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| فعل       | URI               | اجراء  |
+| --------- | ----------------- | ------ |
+| احصل      | `/photos`         | الفهرس |
+| نقطة      | `/photos`         | المتجر |
+| احصل      | `/photos/{photo}` | إظهار  |
+| PUT/PATCH | `/photos/{photo}` | تحديث  |
+| حذف       | `/photos/{photo}` | تدمير  |
