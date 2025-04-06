@@ -1,55 +1,55 @@
-# Queues
+# Köer
 
-When building your web application, there may be tasks, like parsing and storing an uploaded CSV file, that take too
-long to complete during a web request. Fortunately, Goravel offers a solution by allowing you to create queued jobs that
-can run in the background. This way, by moving time-intensive tasks to a queue, your application can respond to web
-requests much faster and provide a better user experience for your customers. To implement this feature, we use
+När du bygger din webbapplikation kan det finnas uppgifter, som att parsa och lagra en uppladdad CSV-fil, som tar för
+lång tid att slutföra under en webbförfrågan. Lyckligtvis erbjuder Goravel en lösning genom att låta dig skapa köade jobb som
+kan köra i bakgrunden. På detta sätt genom att flytta tidskrävande uppgifter till en kö, din applikation kan svara på webb
+begär mycket snabbare och ger en bättre användarupplevelse för dina kunder. För att implementera denna funktion använder vi
 `facades.Queue()`.
 
-Goravel's queue configuration options are saved in your application's `config/queue.go` configuration file. Goravel
-supports two drivers: `redis` and `sync`.
+Goravels kökonfigurationsalternativ sparas i konfigurationsfilen för din applikation 'config/queue.go'. Goravel
+stöder två drivrutiner: `redis` och `sync`.
 
-### Connections Vs. Queues
+### Anslutningar Vs. Köer
 
-Before delving into Goravel queues, it's important to understand the difference between "connections" and "queues". In
-the configuration file, `config/queue.go`, you'll find an array for `connections` configuration. This option specifies
-the connections to backend queue services like Redis. However, every queue connection can have multiple "queues", which
-can be thought of as different stacks or piles of queued jobs.
+Innan du gräver i Goravel köer är det viktigt att förstå skillnaden mellan "anslutningar" och "köer". I
+konfigurationsfilen, `config/queue.go`, hittar du en matris för `connections` konfiguration. Det här alternativet anger
+anslutningarna till backend-kötjänster som Redis. Varje köanslutning kan dock ha flera "köer", vilket
+kan betraktas som olika stackar eller högar av köade jobb.
 
-It's essential to note that each connection configuration example in the queue configuration file includes a `queue`
-attribute. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
-connection. In simpler terms, if you dispatch a job without explicitly defining which queue it should be dispatched to,
-the job will be placed in the queue defined in the queue attribute of the connection configuration.
+Det är viktigt att notera att varje anslutningsexempel i kökonfigurationsfilen innehåller ett `queue`
+-attribut. Detta attribut är standardkön som jobb kommer att skickas till när de skickas till en given
+-anslutning. I enklare termer, om du skickar ett jobb utan att uttryckligen definiera vilken kö det ska skickas till,
+jobbet kommer att placeras i kön definierad i kö-attribut för anslutningskonfigurationen.
 
 ```go
-// This job is sent to the default connection's default queue
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
-}).Dispatch()
+// Detta jobb skickas till standardanslutningens standardkö
+err := facades.Queue().Jobb(&jobs.Test{}, []queue.Arg{
+  {Typ: "int", Värde: 1},
+}). ispatch()
 
-// This job is sent to the default connection's "emails" queue
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
-}).OnQueue("emails").Dispatch()
+// Detta jobb skickas till standardanslutningens "e-post"-kö
+err := facades.Queue(). ob(&jobs.Test{}, []queue.Arg{
+  {Type: "int", värde: 1},
+}).OnQueue("e-post").Dispatch()
 ```
 
-## Creating Jobs
+## Skapar jobb
 
-### Generating Job Classes
+### Genererar jobbklasser
 
-By default, all of the jobs for your application are stored in the `app/jobs` directory. If the `app/Jobs` directory
-doesn't exist, it will be created when you run the `make:job` Artisan command:
+Som standard lagras alla jobb för din applikation i katalogen 'app/job'. Om `app/Jobs`-katalogen
+inte existerar, skapas den när du kör `make:job` Artisan-kommandot:
 
 ```shell
-go run . artisan make:job ProcessPodcast
-go run . artisan make:job user/ProcessPodcast
+gå kör. hantverkare make:job ProcessPodcast
+gå att köra. hantverkare make:job user/ProcessPodcast
 ```
 
-### Class Structure
+### Klassens struktur
 
-Job classes are very simple, consisting of two methods: `Signature` and `Handle`. `Signature` serves as a task's
-distinct identifier, while `Handle` executes when the queue processes the task. Additionally, the `[]queue.Arg{}` passed
-when the task executes will be transmitted into `Handle`:
+Jobbklasser är mycket enkla, bestående av två metoder: `Signatur` och `Handle`. `Signatur` fungerar som en uppgifts
+distinkt identifierare, medan `Handle` körs när kön bearbetar uppgiften. Dessutom skickade `[]queue.Arg{}`
+när uppgiften körs överförs till `Handle`:
 
 ```go
 package jobs
@@ -57,21 +57,21 @@ package jobs
 type ProcessPodcast struct {
 }
 
-// Signature The name and signature of the job.
-func (receiver *ProcessPodcast) Signature() string {
-  return "process_podcast"
+// Signatur Jobbets namn och signatur.
+func (receiver *ProcessPodcast) Signatur() sträng {
+  returnera "process_podcast"
 }
 
-// Handle Execute the job.
-func (receiver *ProcessPodcast) Handle(args ...any) error {
+// Handle Utför jobbet.
+func (receiver *ProcessPodcast) Handtag(args ...any) fel {
   return nil
 }
 ```
 
-### Register Job
+### Registrera jobb
 
-After creating the job, you need to register it in `app/provides/queue_service_provider.go`, so that it can be called
-correctly.
+Efter att du skapat jobbet måste du registrera det i `app/provides/queue_service_provider.go`, så att det kan kallas
+korrekt.
 
 ```go
 func (receiver *QueueServiceProvider) Jobs() []queue.Job {
@@ -81,27 +81,27 @@ func (receiver *QueueServiceProvider) Jobs() []queue.Job {
 }
 ```
 
-## Start Queue Server
+## Starta köserver
 
-Start the queue server in `main.go` in the root directory.
+Starta köservern i `main.go` i rotkatalogen.
 
 ```go
-package main
+paket main
 
 import (
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/frameing/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Detta bootstraps ramverket och blir klart för användning.
   bootstrap.Boot()
 
-  // Start queue server by facades.Queue().
+  // Starta köserver av fasader. ueue().
   go func() {
-    if err := facades.Queue().Worker().Run(); err != nil {
-      facades.Log().Errorf("Queue run error: %v", err)
+    if err := fasader. ueue().Arbetare().Kör(); err != nil {
+      fasader. og().Errorf("Kökörning fel: %v", err)
     }
   }()
 
@@ -109,142 +109,142 @@ func main() {
 }
 ```
 
-Different parameters can be passed in the `facades.Queue().Worker` method, you can monitor multiple queues by starting
-multiple `facades.Queue().Worker`.
+Olika parametrar kan skickas i `facades.Queue().Arbetar`-metoden, du kan övervaka flera köer genom att starta
+flera `facades.Queue().Worker`.
 
 ```go
-// No parameters, default listens to the configuration in the `config/queue.go`, and the number of concurrency is 1
+// Inga parametrar, standard lyssnar på konfigurationen i `config/queue. o`, och antalet concurrency är 1
 go func() {
-  if err := facades.Queue().Worker().Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  om err := fasader. ueue().Arbetare().Kör(); err != nil {
+    fasader. og().Errorf("Kökörning fel: %v", err)
   }
 }()
 
-// Monitor processing queue for redis link, and the number of concurrency is 10
+// Övervaka bearbetning kö för redis länk, och antalet concurrency är 10
 go func() {
-  if err := facades.Queue().Worker(queue.Args{
-    Connection: "redis",
-    Queue: "processing",
-    Concurrent: 10,
-  }).Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  om err := fasader. ueue().Arbetare(kö. rgs{
+    Anslutning: "redis",
+    Kö: "bearbetning",
+    Samgående: 10,
+  }). un(); err != nil {
+    facades.Log().Errorf("Kökörning fel: %v", err)
   }
 }()
 ```
 
-## Dispatching Jobs
+## Skicka jobb
 
-Once you have written the job class, you can dispatch it using the `Dispatch` method on the job itself:
+När du har skrivit jobbklassen kan du skicka den med hjälp av metoden `Dispatch` på jobbet själv:
 
 ```go
-package controllers
+paketstyrningar
 
 import (
   "github.com/goravel/framework/contracts/queue"
-  "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github.com/goravel/frameing/contracts/http"
+  "github. om/goravel/frameing/facades"
 
-  "goravel/app/jobs"
+  "goravel/app/jobb"
 )
 
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Jobb(&jobs.Test{}, []queue.Arg{}). ispatch()
   if err != nil {
     // do something
   }
 }
 ```
 
-### Synchronous Dispatching
+### Synkron avsändning
 
-If you want to dispatch a job immediately (synchronously), you can use the `DispatchSync` method. When using this
-method, the job will not be queued and will be executed immediately within the current process:
+Om du vill skicka ett jobb omedelbart (synkroniserat) kan du använda `DispatchSync`-metoden. När du använder denna
+-metod kommer jobbet inte att köas och kommer att köras omedelbart inom den aktuella processen:
 
 ```go
-package controllers
+paketstyrningar
 
 import (
   "github.com/goravel/framework/contracts/queue"
-  "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github.com/goravel/frameing/contracts/http"
+  "github. om/goravel/frameing/facades"
 
-  "goravel/app/jobs"
+  "goravel/app/jobb"
 )
 
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).DispatchSync()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Jobb(&jobs.Test{}, []queue.Arg{}). ispatchSync()
   if err != nil {
     // do something
   }
 }
 ```
 
-### Job Chaining
+### Jobb Kedjning
 
-Job chaining allows you to specify a list of queued jobs to be executed in a specific order. If any job in the sequence
-fails, the rest of the jobs will not be executed. To run a queued job chain, you can use the `Chain` method provided by
-the `facades.Queue()`:
+Jobbkedjning gör att du kan ange en lista över köade jobb som ska utföras i en viss ordning. Om något jobb i sekvensen
+misslyckas, kommer resten av jobben inte att utföras. För att köra en köad jobbkedja kan du använda `Chain`-metoden som tillhandahålls av
+`facades.Queue()`:
 
 ```go
-err := facades.Queue().Chain([]queue.Jobs{
+err := facades.Queue().Chain([]queue.Jobb{
   {
-    Job: &jobs.Test{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 1},
+    Jobb: &jobs.Test{},
+    Arger: []queue. rg{
+      {Typ: "int", Värde: 1},
     },
   },
   {
-    Job: &jobs.Test1{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 2},
+    Jobb: &jobb. est1{},
+    Arger: []kö. rg{
+      {Typ: "int", Värde: 2},
     },
   },
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### Försenad avsändning
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
-seconds of dispatching:
-
-```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
-```
-
-### Customizing The Queue & Connection
-
-#### Dispatching To A Particular Queue
-
-By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
-assign to various queues.
+Om du vill specificera att ett jobb inte omedelbart ska behandlas av en köarbetare, du kan använda `fördröjning`
+-metoden under jobbsändning. Till exempel, låt oss ange att ett jobb inte ska vara tillgängligt för behandling efter 100
+sekunder efter avsändning:
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
+err := facades.Queue().Jobb (&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+### Anpassa kön & anslutning
 
-If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
-connection to which the task is pushed.
+#### Avsändande till en särskild kö
+
+Genom att skjuta jobb till olika köer kan du "kategorisera" dina köjobb och till och med prioritera hur många arbetare du
+tilldelar olika köer.
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
+err := facades.Queue().Jobb (&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+#### Skicka till en särskild anslutning
+
+Om ditt program interagerar med flera köanslutningar, kan du använda `OnConnection`-metoden för att ange
+-anslutningen som uppgiften trycks på.
 
 ```go
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
+err := facades.Queue().Jobb (&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+Du kan kedja metoderna `OnConnection` och `OnQueue` tillsammans för att ange anslutningen och kön för ett jobb:
+
+```go
+err := facades.Queue().Jobb (&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
+```
+
+## `queue.Arg.Type` Stöds typer
 
 ```go
 Bool
