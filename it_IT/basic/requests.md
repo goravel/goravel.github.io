@@ -1,11 +1,11 @@
-# HTTP Requests
+# Richieste HTTP
 
-The `contracts/http/Request` method of Goravel can interact with the current HTTP request processed by the application,
-and get the input and files submitted together.
+Il metodo `contracts/http/Request` di Goravel può interagire con l'attuale richiesta HTTP elaborata dall'applicazione,
+e ottenere l'input e i file inviati insieme.
 
-## Interacting With The Request
+## Interagire Con La Richiesta
 
-The `http.Context` instance is automatically injected into the controller:
+L'istanza `http.Context` viene iniettata automaticamente nel controller:
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -15,44 +15,44 @@ facades.Route().Get("/", func(ctx http.Context) {
 })
 ```
 
-### Retrieving The Request Path
+### Recupero Percorso Richiesta
 
 ```go
 path := ctx.Request().Path() // /users
 ```
 
-### Retrieving The Request URL
+### Recupero Url Della Richiesta
 
 ```go
 url := ctx.Request().Url() // /users?name=Goravel
 ```
 
-### Retrieving The Request HOST
+### Recupero Della Richiesta Host
 
 ```go
 url := ctx.Request().Host()
 ```
 
-### Retrieving The Full Request URL
+### Recuperare L'Url Della Richiesta Completa
 
 ```go
 url := ctx.Request().FullUrl() // http://**/users?name=Goravel
 ```
 
-### Retrieving The Request Method
+### Recupero Metodo Richiesta
 
 ```go
 method := ctx.Request().Method()
 ```
 
-### Request Headers
+### Richiedi Intestazioni
 
 ```go
 header := ctx.Request().Header("X-Header-Name", "default")
 headers := ctx.Request().Headers()
 ```
 
-### Request IP Address
+### Richiedi Indirizzo Ip
 
 ```go
 ip := ctx.Request().Ip()
@@ -60,16 +60,16 @@ ip := ctx.Request().Ip()
 
 ## Input
 
-### Retrieving All Input Data
+### Recupero Tutti I Dati In Ingresso
 
-You may retrieve all of the incoming request's input data as `map[string]any` using the `All` method, which is a
+È possibile recuperare tutti i dati di input della richiesta in arrivo come `map[string]any` utilizzando il metodo `All`, which is a
 collection of `json`, `form` and `query`(priority from front to back).
 
 ```go
 data := ctx.Request().All()
 ```
 
-### Retrieving a Route Value
+### Recupero di un Valore di Rotta
 
 ```go
 // /users/{id}
@@ -78,7 +78,7 @@ id := ctx.Request().RouteInt("id")
 id := ctx.Request().RouteInt64("id")
 ```
 
-### Retrieving Input From The Query String
+### Ricezione Input Dalla Stringa Di Query
 
 ```go
 // /users?name=goravel
@@ -86,37 +86,37 @@ name := ctx.Request().Query("name")
 name := ctx.Request().Query("name", "default")
 
 // /users?id=1
-name := ctx.Request().QueryInt("id")
-name := ctx.Request().QueryInt64("id")
-name := ctx.Request().QueryBool("id")
+name := ctx. equest().QueryInt("id")
+nome := ctx.Request().QueryInt64("id")
+nome := ctx.Request(). ueryBool("id")
 
 // /users?names=goravel1&names=goravel2
-names := ctx.Request().QueryArray("names")
+nomi := ctx.Request().QueryArray("names")
 
 // /users?names[a]=goravel1&names[b]=goravel2
-names := ctx.Request().QueryMap("names")
+nomi := ctx.Request().QueryMap("names")
 
 queries := ctx.Request().Queries()
 ```
 
-> Note: Only one-dimensional Json data can be obtained, otherwise it will return empty.
+> Nota: Solo i dati Json unidimensionali possono essere ottenuti, altrimenti torneranno vuoti.
 
-### Retrieving An Input Value
+### Recupero Di Un Valore In Ingresso
 
-Access all of the user input without worrying about which HTTP verb was used for the request. Retrieve order: `json`,
+Accedi a tutti gli input dell'utente senza preoccuparti di quale verbo HTTP è stato utilizzato per la richiesta. Recupera l'ordine: `json`,
 `form`.
 
 ```go
 name := ctx.Request().Input("name")
 name := ctx.Request().Input("name", "goravel")
 name := ctx.Request().InputInt("name")
-name := ctx.Request().InputInt64("name")
-name := ctx.Request().InputBool("name")
-name := ctx.Request().InputArray("name")
-name := ctx.Request().InputMap("name")
+name := ctx.Request(). nputInt64("nome")
+nome := ctx.Request().InputBool("nome")
+nome := ctx.Request().InputArray("nome")
+nome := ctx.Request().InputMap("nome")
 ```
 
-### Bind Json/Form
+### Associa Json/Form
 
 ```go
 type User struct {
@@ -134,7 +134,7 @@ err := ctx.Request().Bind(&user)
 
 ### Bind Query
 
-Only support bind Query to struct:
+Supporta solo il bind Query alla struttura:
 
 ```go
 type Test struct {
@@ -146,11 +146,11 @@ err := ctx.Request().BindQuery(&test)
 
 ## Cookie
 
-### Retrieving a Cookie Value
+### Recupero di un Valore Cookie
 
-Goravel provides a simple way to work with `cookie`. Use the `Cookie` method on the `Request` instance to retrieve a
-`cookie` value, will return an empty string if the `cookie` is not present. You can also define a default value in the
-second argument.
+Goravel fornisce un modo semplice per lavorare con `cookie`. Usa il metodo `Cookie` nell'istanza `Request` per recuperare un valore `cookie`
+, restituirà una stringa vuota se il `cookie` non è presente. Puoi anche definire un valore predefinito nel secondo argomento
+.
 
 ```go
 value := ctx.Request().Cookie("name")
@@ -159,56 +159,56 @@ value := ctx.Request().Cookie("name", "default")
 
 ## File
 
-### Retrieving File
+### Recupero File
 
 ```go
 file, err := ctx.Request().File("file")
 ```
 
-### Save File
+### Salva File
 
 ```go
 file, err := ctx.Request().File("file")
 file.Store("./public")
 ```
 
-### Get Origin Request
+### Ottieni Richiesta Di Origine
 
 ```go
 request := ctx.Request().Origin()
 ```
 
-### Attach Data
+### Allega Dati
 
 ```go
-ctx.WithValue("user", "Goravel")
+ctx.WithValue("utente", "Goravel")
 ```
 
-### Get Data
+### Ottieni Dati
 
 ```go
-user := ctx.Value("user")
+utente := ctx.Value("utente")
 ```
 
-### Get Context
+### Ottieni Contesto
 
 ```go
 ctx := ctx.Context()
 ```
 
-## Custom Recovery
+## Recupero Personalizzato
 
-You can set a custom `recovery` by calling the `Recover` method in the `app/providers/route_service_provider.go` file.
+Puoi impostare un `recovery` personalizzato chiamando il metodo `Recover` nel file `app/providers/route_service_provider.go`.
 
 ```go
 // app/providers/route_service_provider.go
 func (receiver *RouteServiceProvider) Boot(app foundation.Application) {
   // Add HTTP middleware
-  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...)
+  facades.Route().GlobalMiddleware(http.Kernel{}.Middleware()...
   facades.Route().Recover(func(ctx http.Context, err error) {
-    ctx.Request().Abort()
-    // or
-    // ctx.Response().String(500, "Internal Server Error").Abort()
+    ctx.Request(). bort()
+    // o
+    // ctx.Response(). tring(500, "Internal Server Error").Abort()
   })
   ...
 }
