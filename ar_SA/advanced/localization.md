@@ -1,10 +1,10 @@
-# Localization
+# التعريب
 
-Goravel's localization features provide a convenient way to retrieve strings in various languages, making it easy to
-support multiple languages in your application. Language strings are stored in files in the `lang` directory, and
-Goravel supports two ways to organize language files:
+توفر ميزات توطين Goravel's طريقة مناسبة لاسترداد السلاسل بلغات مختلفة، مما يجعل من السهل على
+دعم لغات متعددة في تطبيقك. يتم تخزين سلاسل اللغات في ملفات في دليل 'lang'، و
+Goravel يدعم طريقتين لتنظيم ملفات اللغة:
 
-Each language has its own file:
+لكل لغة ملفها الخاص:
 
 ```
 /lang
@@ -12,7 +12,7 @@ Each language has its own file:
   cn.json
 ```
 
-Or, when there are too many translations, they can be categorized:
+أو عندما يكون هناك الكثير من الترجمات، يمكن تصنيفها:
 
 ```
 /lang
@@ -22,60 +22,60 @@ Or, when there are too many translations, they can be categorized:
     user.json
 ```
 
-## Configuring the Locale
+## تكوين الإعدادات المحلية
 
-The default language of the application is stored in the `locale` configuration option in the `config/app.go`
-configuration file. You can modify this value as needed to suit your application's requirements.
+يتم تخزين اللغة الافتراضية للتطبيق في خيار التكوين 'locale' في ملف التكوين 'config/app.go'
+. يمكنك تعديل هذه القيمة حسب الحاجة لتتناسب مع متطلبات طلبك.
 
 You can also use the `SetLocale` method provided by the App Facade to modify the default language for a single `HTTP`
 request at runtime:
 
 ```
 facades.Route().Get("/", func(ctx http.Context) http.Response {
-    facades.App().SetLocale(ctx, "en")
+    facades.App().SetLocale(tx, "en")
 
     return ctx.Response()
 })
 ```
 
-You can configure a "fallback locale" that will be used when the current language does not contain the given translation
-string. Like the default language, the fallback language is also configured in the `config/app.go` configuration file.
+يمكنك تكوين "المحلية الاحتياطية" التي سيتم استخدامها عندما لا تحتوي اللغة الحالية على سلسلة الترجمة
+المحددة. مثل اللغة الافتراضية، يتم أيضا تكوين لغة الرجوع في ملف تكوين \`config/app.go'.
 
 ```
 "fallback_locale": "en",
 ```
 
-### Determining the Current Locale
+### تحديد اللغة الحالية
 
-You can use the `CurrentLocale` and `IsLocale` methods to determine the current `locale` or check if the `locale` is a
-given value.
+يمكنك استخدام طريقتي 'currentLocale' و 'IsLocale' لتحديد 'locale' الحالية أو التحقق مما إذا كانت 'locale' قيمة معطاة لـ
+.
 
 ```
-locale := facades.App().CurrentLocale(ctx)
+المحلية: = facades.App().currentLocale(ctx)
 if facades.App().IsLocale(ctx, "en") {}
 ```
 
-### Defining Translation Strings
+### تعريف مقاطع الترجمة
 
-In language files, you can define single-level or multi-level structures:
+في ملفات اللغة، يمكنك تحديد هياكل ذات مستوى واحد أو متعددة المستويات:
 
 ```
 // lang/en.json
 {
-  "name": "It's your name",
-  "required": {
-    "user_id": "UserID is required"
+  "الاسم": "إنه اسمك"،
+  "مطلوب": {
+    "user_id": "UserID مطلوب"
   }
 }
 ```
 
-### Retrieving Translation Strings
+### استرداد مقاطع الترجمة
 
-You can use the `facades.Lang(ctx).Get()` method to retrieve translation strings from language files. If the language
-file contains multiple levels, you can use `.` to connect them, and if the language file is in multiple levels of
-folders, you can use `/` to connect them.
+يمكنك استخدام طريقة 'facades.Lang(ctx).Get()' لاسترداد سلاسل الترجمة من الملفات اللغوية. إذا كان ملف اللغة
+يحتوي على مستويات متعددة، يمكنك استخدام `. لتوصيلهم، وإذا كان ملف اللغة في مستويات متعددة من المجلدات
+، فيمكنك استخدام `/\` لتوصيلهم.
 
-For example:
+وعلى سبيل المثال:
 
 ```
 // lang/en.json
@@ -101,19 +101,19 @@ facades.Lang(ctx).Get("role/user.name")
 facades.Lang(ctx).Get("role/user.required.user_id")
 ```
 
-#### Replacing Parameters in Translation Strings
+#### استبدال المعلمات في سلاسل الترجمة
 
-You can define placeholders in translation strings. All placeholders have the prefix `:`. For example, you can use a
-placeholder to define a welcome message:
+يمكنك تحديد العناصر النائبة في سلاسل الترجمة. جميع العناصر النائبة لديها البادئة `:`. على سبيل المثال، يمكنك استخدام نائب
+لتعريف رسالة الترحيب:
 
 ```
 {
-  "welcome": "Welcome, :name"
+  "مرحباً": "مرحباً، :name"
 }
 ```
 
-To replace placeholders when retrieving a translation string, you can pass a translation option with the replacement map
-as the second parameter to the `facades.Lang(ctx).Get()` method:
+لاستبدال العناصر النائبة عند استرداد سلسلة الترجمة، يمكنك تمرير خيار الترجمة مع الخريطة البديلة
+كالمعلمة الثانية إلى 'واجهات'. طريقة ang(ctx).Get()\`:
 
 ```
 facades.Lang(ctx).Get("welcome", translation.Option{
@@ -123,39 +123,39 @@ facades.Lang(ctx).Get("welcome", translation.Option{
 })
 ```
 
-#### Pluralization
+#### تكديس
 
-Pluralization is a complex problem because different languages have various pluralization rules. However, Goravel can
-help you translate strings based on the pluralization rules you define. By using the `|` character, you can
-differentiate between the singular and plural forms of a string:
-
-```
-{
-  "apples": "There is one apple|There are many apples"
-}
-```
-
-You can even create more complex pluralization rules by specifying translation strings for multiple value ranges:
+والتعددية مشكلة معقدة لأن اللغات المختلفة لديها قواعد مختلفة للتعددية. However, Goravel can
+help you translate strings based on the pluralization rules you define. باستخدام حرف '<unk> \`، يمكنك التمييز
+بين الأشكال الأحادية والمعدلية لسلسلة ما يلي:
 
 ```
 {
-  "apples": "{0} There are none|[1,19] There are some|[20,*] There are many"
+  "التفاح": "هناك تفاحة واحدة وهناك العديد من التفاحات"
 }
 ```
 
-After defining a translation string with pluralization options, you can use the `facades.Lang(ctx).Choice()` method to
-retrieve the line for a given `count`. In this example, because the count is greater than 1, the plural form of the
-translation string is returned:
+يمكنك حتى إنشاء قواعد تعددية أكثر تعقيداً عن طريق تحديد سلاسل الترجمة لنطاقات قيمة متعددة:
+
+```
+{
+  "التفاح": "{0} لا يوجد أي شيء<unk> [1,19] هناك بعض <unk> [20,*] هناك كثيراً"
+}
+```
+
+بعد تحديد سلسلة ترجمة مع خيارات التعددية، يمكنك استخدام طريقة 'facades.Lang(ctx).Choice()' إلى
+استرداد السطر لـ 'count\`. في هذا المثال ، لأن العد أكبر من 1 ، يتم إرجاع الشكل المعدود لسلسلة الترجمة
+:
 
 ```
 facades.Lang(ctx).Choice("messages.apples", 10)
 ```
 
-You can also define placeholder attributes in pluralization strings. By passing an array as the third parameter to the
+يمكنك أيضا تعريف سمات العنصر النائب في سلاسل التعددية. By passing an array as the third parameter to the
 `facades.Lang(ctx).Choice()` method, you can replace these placeholders:
 
 ```
-"minutes_ago": "{1} :value minute ago|[2,*] :value minutes ago",
+"minutes_ago": "{1} :value minute ago<unk> [2,*] :value minutes ago",
 
 facades.Lang(ctx).Choice("time.minutes_ago", 5, translation.Option{
   Replace: map[string]string{
