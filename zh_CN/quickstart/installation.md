@@ -1,95 +1,94 @@
-# Installation
+# 安装
 
-## Server Requirements
+## 服务器要求
 
 - Golang >= 1.21
 
-## Installation
+## 安装
 
-### Using Goravel Installer
+### 使用 Goravel 安装程序
 
-Initialize the installer according to the [documentation](https://github.com/goravel/installer), and then initialize a
-new Goravel project using the following command:
+根据 [documentation](https://github.com/goravel/installer初始化安装程序，然后通过以下命令初始化一个
+新的 Goravel 项目：
 
 ```shell
-// Enter the directory where you want to install the project
-goravel new blog
+// 输入要安装项目
+goravel新博客的目录
 ```
 
-### Manual Installation
+### 手动安装
 
 ```shell
-// Download framework
-git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/.git*
+// 下载框架
+git 克隆--depth=1 https://github.com/goravel/goravel.git &rm -rf goravel/. 它*
 
-// Install dependencies
+// 安装依赖关系
 cd goravel && go mod tidy
 
-// Create .env environment configuration file
+// 创建 . nv 环境配置文件
 cp .env.example .env
 
-// Generate application key
-go run . artisan key:generate
+// 生成应用程序密钥
+然后运行. technologan key:greater
 ```
 
-## Start HTTP Service
+## 启动 HTTP 服务
 
-### Start Service According To .env File In The Root Directory
+### 在 Root 目录中以 .env 文件启动服务
 
 ```shell
-go run .
+开始运行 。
 ```
 
-### Specify .env File To Start Service
+### 指定要开始服务的 .env 文件
 
 ```shell
-go run . --env=./.env
+开始运行。--env=./.env
 ```
 
-### Start Service Using Environment Variables
+### 使用环境变量启动服务
 
 ```shell
-APP_ENV=production APP_DEBUG=true go run .
+APP_ENV=production APP_DEBUG=true 运行.
 ```
 
 ### Live reload
 
-Install [cosmtrek/air](https://github.com/cosmtrek/air), Goravel has a built-in configuration file that can be used
-directly:
+安装 [cosmtrek/air] (https://github.com/cosmtrek/air), Goravel 有一个内置的配置文件，可以直接使用
 
 ```
-air
+空格
 ```
 
-If you are using Windows system, you need to modify the `.air.toml` file in the root directory, and add the `.exe`
-suffix to the following two lines:
+如果您正在使用 Windows 系统，您需要修改 `.air。 在根目录中的oml`文件，并将 `.exe`
+后缀添加到以下两行：
 
 ```shell
 [build]
   bin = "./storage/temp/main.exe"
-  cmd = "go build -o ./storage/temp/main.exe ."
+  cmd = "go build-o ./storage/temp/main.exe ."
 ```
 
 ## 配置
 
-### Configuration files
+### 配置文件
 
-All configuration files of the Goravel framework are placed in the `config` directory. All configuration items have
-annotations, you can adjust them according to your needs.
+Goravel框架的所有配置文件都放置在`config`目录中。 所有配置项目都有
+批注，您可以根据您的需要对它们进行调整。
 
-### Generate Application key
+### 生成应用程序密钥
 
-You need to generate the application key after Goravel is installed locally. Running the command below, a 32-bit string
-will be generated on the `APP_KEY` key in the `.env` file. This key is mainly used for data encryption and decryption.
+你需要在本地安装Goravel后生成应用程序密钥。 运行下面的命令，将在 `.env` 文件中的 `APP_KEY` 中生成一个 32 位字符串
+。 此密钥主要用于数据加密和解密。
 
 ```shell
-go run . artisan key:generate
+开始运行。手工键：生成
 ```
 
-### Generate JWT Token
+### 生成 JWT 令牌
 
-You need to generate JWT Token if you use [Authentication](../security/authentication).
+如果您使用 [Authentication](../security/authentication)，您需要生成 JWT 令牌。
 
 ```shell
-go run . artisan jwt:secret
+去运行.个工匠jwt:secret
 ```
