@@ -75,7 +75,7 @@ func (s *ExampleTestSuite) TestIndex() {
 
 ## 数据库测试
 
-Goravel模型工厂和种子可以轻松为应用程序的模型创建测试数据库记录。
+Goravel模型工厂和填充可以轻松为应用程序的模型创建测试数据库记录。
 
 ### 工厂
 
