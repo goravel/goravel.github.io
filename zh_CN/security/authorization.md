@@ -5,11 +5,11 @@ Goravel 提供内置的[身份验证](./authentication)服务和易于使用的�
 某些 Eloquent 模型或数据库记录。 Goravel 的授权功能提供了一种系统化的方式来管理
 这些授权检查。
 
-在 Goravel 中有两种授权操作的方式：[gates](#gates)和[policies](#policies)。 可以将 gates 和
-policies 想象为类似于路由和控制器。 Gates 基于闭包并提供了一种简单的授权方法，而 policies 则围绕特定资源组织逻辑，类似于控制器。 本文档将
-首先介绍 gates，然后深入探讨 policies。
+在 Goravel 中有两种授权操作的方式：[Gates](#gates) 和 [Policies](#policies)。 可以将 gates 和
+policies 想象为类似于路由和控制器。 Gates 基于闭包并提供了一种简单的授权方法，而 Policies 则围绕特定资源组织逻辑，类似于控制器。 本文档将
+首先介绍 Gates，然后深入探讨 Policies。
 
-在构建应用程序时，没有必要专门使用 gates 或 policies。 大多数应用程序将
+在构建应用程序时，没有必要专门使用 Gates 或 Policies。 大多数应用程序将
 同时使用两者的组合，这是完全可以接受的！
 
 ## Gates
