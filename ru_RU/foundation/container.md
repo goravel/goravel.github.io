@@ -1,33 +1,33 @@
-# Service Container
+# Сервисный контейнер
 
-The Goravel service container is a powerful tool for managing class dependencies and performing dependency injection. It
-contains all the modules of Goravel, and allows you to bind your own services to container and resolve them when needed.
-The service container provides powerful support for third-party packages around Goravel.
+Контейнер услуг Goravel является мощным инструментом для управления зависимостями класса и выполнения инъекций зависимостей. Она
+содержит все модули Goravel, и позволяет связать свои собственные сервисы с контейнерами и решать их при необходимости.
+Сервисный контейнер обеспечивает мощную поддержку сторонних пакетов вокруг Goravel.
 
-## Binding
+## Привязка
 
-### Simple Bindings
+### Простые привязки
 
-Almost all of your service container bindings will be registered within [service providers](./providers).
-Within a service provider, you always have access to the container via the `app` parameter, then register a binding
-using the `Bind` method, passing the `key` that we wish to register along with a closure that returns an instance of the
-class:
+Почти все привязки контейнеров вашего сервиса будут зарегистрированы в [сервис-провайдера](./providers).
+Внутри поставщика услуг вы всегда имеете доступ к контейнеру через параметр `app`, затем зарегистрируйте привязку
+с помощью метода `Bind`, передавая ключ `key`, который мы хотим зарегистрироваться, вместе с закрытием, который возвращает экземпляр класса
+:
 
 ```go
-package route
+маршрут пакета
 
-import (
+импорт (
  "github.com/goravel/framework/contracts/foundation"
 )
 
-const Binding = "goravel.route"
+const Binding = "goravel. oute"
 
 type ServiceProvider struct {
 }
 
-func (route *ServiceProvider) Register(app foundation.Application) {
+func (route *ServiceProvider) Register(app foundation. pplication) {
  app.Bind(Binding, func(app foundation.Application) (any, error) {
-  return NewRoute(app.MakeConfig()), nil
+  return NewRoute(app. akeConfig()), nil
  })
 }
 
@@ -36,19 +36,19 @@ func (route *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-As mentioned, you will typically be interacting with the container within service providers; however, if you would like
-to interact with the container outside of a service provider, you may do so via the `App` facade:
+Как уже упоминалось, вы обычно взаимодействуете с контейнером внутри поставщиков услуг; Однако, если вы хотите, чтобы
+взаимодействовал с контейнером вне поставщика услуг, вы можете сделать это через фасад `App`:
 
 ```go
-facades.App().Bind("key", func(app foundation.Application) (any, error) {
+facades.App().Bind("ключ", function (foundation.Application) (любой, ошибка) {
     ...
 })
 ```
 
-### Binding A Singleton
+### Привязка синглета
 
-The `Singleton` method binds a class or interface into the container that should only be resolved one time. Once a
-singleton binding is resolved, the same object instance will be returned on subsequent calls into the container:
+Метод `Singleton` связывает класс или интерфейс в контейнер, который должен быть разрешен только один раз. Как только
+разрешит привязку синглетта, тот же экземпляр будет возвращен при последующих вызовах в контейнер:
 
 ```go
 app.Singleton(key, func(app foundation.Application) (any, error) {
@@ -56,19 +56,19 @@ app.Singleton(key, func(app foundation.Application) (any, error) {
 })
 ```
 
-### Binding Instances
+### Привязка экземпляров
 
-You may also bind an existing object instance into the container using the `Instance` method. The given instance will
-always be returned on subsequent calls into the container:
+Вы также можете связать существующий объект с контейнером, используя метод `Instance`. Данный экземпляр
+всегда будет возвращен при последующих вызовах в контейнер:
 
 ```go
-app.Instance(key, instance)
+app.Instance(ключ, например)
 ```
 
-### Binding With Parameter
+### Привязка с параметром
 
-If you need some extra parameters to construct the service provider, you can use the `BindWith` method to pass
-parameters to the closure:
+Если вам нужны дополнительные параметры для построения провайдера услуг, вы можете использовать метод `BindWith` для передачи параметров
+замыкающему:
 
 ```go
 app.BindWith(Binding, func(app foundation.Application, parameters map[string]any) (any, error) {
@@ -76,35 +76,35 @@ app.BindWith(Binding, func(app foundation.Application, parameters map[string]any
 })
 ```
 
-## Resolving
+## Разрешение
 
-### The `Make` Method
+### Метод «Заделать марку»
 
-You may use the `Make` method to resolve a class instance from the container. The `Make` method accepts the `key` you
-wish to resolve:
+Вы можете использовать метод `Make` для разрешения экземпляра класса из контейнера. Метод `Make` принимает `key`, который вы
+хотите разрешить:
 
 ```go
-instance, err := app.Make(key)
+например, err := app.Make(ключ)
 ```
 
 If you are outside of a service provider in a location of your code that does not have access to the `app` variable, you
 may use the `App` facade to resolve a class instance from the container:
 
 ```go
-instance, err := facades.App().Make(key)
+например, err := facades.App().Make(key)
 ```
 
-### The `MakeWith` Method
+### Метод `MakeWith`
 
-If some of your class's dependencies are not resolvable via the container, you may inject them by passing them as an
-associative array into the `MakeWith` method, corresponding to the `BindWith` binding method:
+Если некоторые зависимости вашего класса не могут быть разрешены через контейнер, вы можете их внедрить, передав их в качестве ассоциативного массива
+в метод `MakeWith`, соответствующий методу привязки `BindWith`:
 
 ```go
-instance, err := app.MakeWith(key, map[string]any{"id": 1})
+например, err := app.MakeWith(ключ, карта[string]any{"id": 1})
 ```
 
-### Other Methods
+### Другие методы
 
-The framework provides some convenient methods to quickly resolve various facades: `MakeArtisan`, `MakeAuth`,
-`MakeCache`, `MakeConfig`, `MakeCrypt`, `MakeEvent`, `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
-`MakeOrm`, `MakeQueue`, `MakeRateLimiter`, `MakeRoute`, `MakeSchedule`, `MakeStorage`, `MakeValidation`.
+Фреймворк предоставляет несколько удобных методов для быстрого разрешения различных фасадов: `MakeArtisan`, `MakeAuth`,
+`MakeCache`, `MakeConfig`, `MakeCrypt`, `MakeEvent`, `, `MakeEvent`, `MakeGate`, `MakeGrpc`, `MakeHash`, `MakeLog`, `MakeMail`,
+`MakeOrm`, `MakeQueue`, `MakeRateLimiter`, `MakeRoute`, `MakeSchedule`, `MakeStorage`, `MakeValidation\`.
