@@ -1,10 +1,8 @@
-# Localization
+# 本地化
 
-Goravel's localization features provide a convenient way to retrieve strings in various languages, making it easy to
-support multiple languages in your application. Language strings are stored in files in the `lang` directory, and
-Goravel supports two ways to organize language files:
+Goravel的本地化功能提供了一种方便的方式来检索各种语言的字符串，使得在应用程序中支持多种语言变得容易。 语言字符串存储在`lang`目录的文件中，Goravel支持两种组织语言文件的方式：
 
-Each language has its own file:
+每种语言有自己的文件：
 
 ```
 /lang
@@ -12,7 +10,7 @@ Each language has its own file:
   cn.json
 ```
 
-Or, when there are too many translations, they can be categorized:
+或者，当有太多翻译时，可以进行分类：
 
 ```
 /lang
@@ -22,13 +20,11 @@ Or, when there are too many translations, they can be categorized:
     user.json
 ```
 
-## Configuring the Locale
+## 配置区域设置
 
-The default language of the application is stored in the `locale` configuration option in the `config/app.go`
-configuration file. You can modify this value as needed to suit your application's requirements.
+应用程序的默认语言存储在`config/app.go`配置文件中的`locale`配置选项中。 您可以根据需要修改此值以适应应用程序的要求。
 
-You can also use the `SetLocale` method provided by the App Facade to modify the default language for a single `HTTP`
-request at runtime:
+您还可以使用App Facade提供的`SetLocale`方法在运行时为单个`HTTP`请求修改默认语言：
 
 ```
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -38,51 +34,47 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-You can configure a "fallback locale" that will be used when the current language does not contain the given translation
-string. Like the default language, the fallback language is also configured in the `config/app.go` configuration file.
+您可以配置一个"回退语言环境"，当当前语言不包含给定的翻译字符串时，将使用该环境。 与默认语言一样，回退语言也在`config/app.go`配置文件中配置。
 
 ```
 "fallback_locale": "en",
 ```
 
-### Determining the Current Locale
+### 确定当前语言环境
 
-You can use the `CurrentLocale` and `IsLocale` methods to determine the current `locale` or check if the `locale` is a
-given value.
+您可以使用`CurrentLocale`和`IsLocale`方法来确定当前的`locale`或检查`locale`是否为给定值。
 
 ```
 locale := facades.App().CurrentLocale(ctx)
 if facades.App().IsLocale(ctx, "en") {}
 ```
 
-### Defining Translation Strings
+### 定义翻译字符串
 
-In language files, you can define single-level or multi-level structures:
+在语言文件中，您可以定义单级或多级结构：
 
 ```
 // lang/en.json
 {
-  "name": "It's your name",
+  "name": "这是你的名字",
   "required": {
-    "user_id": "UserID is required"
+    "user_id": "需要UserID"
   }
 }
 ```
 
-### Retrieving Translation Strings
+### 获取翻译字符串
 
-You can use the `facades.Lang(ctx).Get()` method to retrieve translation strings from language files. If the language
-file contains multiple levels, you can use `.` to connect them, and if the language file is in multiple levels of
-folders, you can use `/` to connect them.
+您可以使用 `facades.Lang(ctx).Get()` 方法从语言文件中获取翻译字符串。 如果语言文件包含多个层级，您可以使用 `.` 连接它们，如果语言文件在多层文件夹中，您可以使用 `/` 连接它们。
 
-For example:
+例如：
 
 ```
 // lang/en.json
 {
-  "name": "It's your name",
+  "name": "这是你的名字",
   "required": {
-    "user_id": "UserID is required"
+    "user_id": "需要UserID"
   }
 }
 
@@ -91,9 +83,9 @@ facades.Lang(ctx).Get("required.user_id")
 
 // lang/en/role/user.json
 {
-  "name": "It's your name",
+  "name": "这是你的名字",
   "required": {
-    "user_id": "UserID is required"
+    "user_id": "需要UserID"
   }
 }
 
@@ -101,19 +93,17 @@ facades.Lang(ctx).Get("role/user.name")
 facades.Lang(ctx).Get("role/user.required.user_id")
 ```
 
-#### Replacing Parameters in Translation Strings
+#### 替换翻译字符串中的参数
 
-You can define placeholders in translation strings. All placeholders have the prefix `:`. For example, you can use a
-placeholder to define a welcome message:
+您可以在翻译字符串中定义占位符。 所有占位符都以 `:` 为前缀。 例如，您可以使用占位符来定义欢迎消息：
 
 ```
 {
-  "welcome": "Welcome, :name"
+  "welcome": "欢迎，:name"
 }
 ```
 
-To replace placeholders when retrieving a translation string, you can pass a translation option with the replacement map
-as the second parameter to the `facades.Lang(ctx).Get()` method:
+要在检索翻译字符串时替换占位符，您可以将带有替换映射的翻译选项作为第二个参数传递给 `facades.Lang(ctx).Get()` 方法：
 
 ```
 facades.Lang(ctx).Get("welcome", translation.Option{
@@ -123,39 +113,35 @@ facades.Lang(ctx).Get("welcome", translation.Option{
 })
 ```
 
-#### Pluralization
+#### 复数化
 
-Pluralization is a complex problem because different languages have various pluralization rules. However, Goravel can
-help you translate strings based on the pluralization rules you define. By using the `|` character, you can
-differentiate between the singular and plural forms of a string:
+复数化是一个复杂的问题，因为不同的语言有不同的复数规则。 然而，Goravel 可以帮助您根据您定义的复数规则翻译字符串。 通过使用 `|` 字符，您可以区分字符串的单数和复数形式：
 
 ```
 {
-  "apples": "There is one apple|There are many apples"
+  "apples": "有一个苹果|有很多苹果"
 }
 ```
 
-You can even create more complex pluralization rules by specifying translation strings for multiple value ranges:
+您甚至可以通过为多个值范围指定翻译字符串来创建更复杂的复数规则：
 
 ```
 {
-  "apples": "{0} There are none|[1,19] There are some|[20,*] There are many"
+  "apples": "{0} 没有苹果|[1,19] 有一些苹果|[20,*] 有很多苹果"
 }
 ```
 
-After defining a translation string with pluralization options, you can use the `facades.Lang(ctx).Choice()` method to
-retrieve the line for a given `count`. In this example, because the count is greater than 1, the plural form of the
-translation string is returned:
+定义带有复数选项的翻译字符串后，您可以使用 `facades.Lang(ctx).Choice()` 方法来
+根据给定的 `count` 获取对应的行。 在这个例子中，因为计数大于1，所以返回了翻译字符串的复数形式：
 
 ```
 facades.Lang(ctx).Choice("messages.apples", 10)
 ```
 
-You can also define placeholder attributes in pluralization strings. By passing an array as the third parameter to the
-`facades.Lang(ctx).Choice()` method, you can replace these placeholders:
+您还可以在复数化字符串中定义占位符属性。 通过将数组作为第三个参数传递给 `facades.Lang(ctx).Choice()` 方法，您可以替换这些占位符：
 
 ```
-"minutes_ago": "{1} :value minute ago|[2,*] :value minutes ago",
+"minutes_ago": "{1} :value 分钟前|[2,*] :value 分钟前",
 
 facades.Lang(ctx).Choice("time.minutes_ago", 5, translation.Option{
   Replace: map[string]string{
