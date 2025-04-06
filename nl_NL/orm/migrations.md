@@ -1,134 +1,134 @@
-# Migrations
+# Migraties
 
-When multiple people collaborate to develop applications, it's crucial to have a standardized database structure for
-synchronization. Without this, there could be chaos as everyone's individual data won't match up. Database migration is
-the solution to this problem. The database structure is version-controlled to ensure its consistency within all
-developers.
+Wanneer meerdere mensen samenwerken om applicaties te ontwikkelen, is het cruciaal om een gestandaardiseerde databasestructuur voor
+synchronisatie te hebben. Zonder dit zou er chaos kunnen ontstaan aangezien ieders individuele gegevens niet overeenkomen. Database migratie is
+de oplossing voor dit probleem. De databasestructuur is versiongecontroleerd om de consistentie binnen alle
+ontwikkelaars te waarborgen.
 
 ## Configuratie
 
-The database migration files are stored in the `database/migrations` directory. You can configure the database
-connection information in the `config/database.go` file. Currently, there are two drivers available for migrations: Go
-language migration and SQL migration. However, the SQL migration will be removed in future versions.
+De database migratie bestanden worden opgeslagen in de `database/migrations` map. U kunt de database
+verbindingsinformatie configureren in het `config/database.go` bestand. Momenteel zijn er twee chauffeurs beschikbaar voor migraties: Go
+taalmigratie en SQL migratie. De SQL migratie zal in toekomstige versies echter worden verwijderd.
 
 ```go
-// Available Drivers: "default", "sql"
-"migrations": map[string]any{
+// Beschikbare Drivers: "default", "sql"
+"migraties": map[string]any{
   "driver": "default",
-  // You can cumstomize the table name of migrations
-  "table":  "migrations",
+  // U kunt de tabelnaam van de migraties
+  "tabel": "migraties",
 },
 ```
 
-## Create Migrations
+## Migraties aanmaken
 
-Use the `make:migration` command to create the migration:
+Gebruik het `make:migration` commando om de migratie te maken:
 
 ```shell
-go run . artisan make:migration create_users_table
+uitvoeren . artisan make:migratie create_users_table
 ```
 
-This command will generate migration files in the `database/migrations` directory. Each migration file will begin with a
-timestamp, which Goravel will use to determine the execution order of the migration files.
+Deze opdracht zal migratiebestanden genereren in de `database/migrations` map. Elk migratiebestand begint met een
+tijdstempel, die Goravel zal gebruiken om de uitvoeringsvolgorde van de migratiebestanden te bepalen.
 
-### Quickly Create
+### Snel Maken
 
-Use `create_users_table` to automatically generate a table containing the infrastructure of `users`:
+Gebruik `create_users_table` om automatisch een tabel te genereren met de infrastructuur van `gebruikers`:
 
 ```
 ^create_(\w+)_table$
 ^create_(\w+)$
 ```
 
-Use `add_avatar_to_users_table` to automatically generate a structure for adding fields to the `users` table:
+Gebruik `add_avatar_to_users_table` om automatisch een structuur te genereren om velden toe te voegen aan de `users` tabel:
 
 ```
-_(to|from|in)_(\w+)_table$
-_(to|from|in)_(\w+)$
+_(totaxes, van)_(\w+)_table$
+_(to₀ van)_(\w+)$
 ```
 
-If the above conditions are not matched, the framework will generate an empty migration file.
+Als de bovenstaande voorwaarden niet overeenkomen, zal het kader een leeg migratiebestand genereren.
 
-## Migration Structure
+## Migratie structuur
 
-### Go Language Migration
+### Ga taal migratie
 
-The migration struct contains two methods: `Up` and `Down`. The `Up` method is used to add new tables, columns, or
-indexes to the database, while the `Down` method is used to undo the operations performed by the `Up` method. In these
-two methods, you can use `facades.Schema()` to create and operate database tables. For available methods, see
-the [documentation](#tables). The following migration will create a `users` table:
+De migratiestruct bevat twee methoden: `Up` and `Down`. De 'Up' methode wordt gebruikt om nieuwe tabellen, kolommen, of
+indexen aan de database toe te voegen, terwijl de `Down` methode wordt gebruikt om de door de `Up` methode uitgevoerde bewerkingen ongedaan te maken. In deze
+twee methodes, kunt u `facades.Schema()` gebruiken om database tabellen te maken en te bedienen. Voor beschikbare methoden, zie
+de [documentation](#tables). De volgende migratie zal een `gebruikers` tabel maken:
 
 ```go
-package migrations
+pakket migraties
 
 import (
  "github.com/goravel/framework/contracts/database/schema"
- "github.com/goravel/framework/facades"
+ "github. om/goravel/framework/facades"
 )
 
 type M20241207095921CreateUsersTable struct {
 }
 
-// Signature The unique signature for the migration.
+// Handtekening de unieke handtekening voor de migratie.
 func (r *M20241207095921CreateUsersTable) Signature() string {
- return "20241207095921_create_users_table"
+ retourneert "20241207095921_create_users_table"
 }
 
-// Up Run the migrations.
-func (r *M20241207095921CreateUsersTable) Up() error {
- if !facades.Schema().HasTable("users") {
-  return facades.Schema().Create("users", func(table schema.Blueprint) {
-   table.ID()
+// Omhoog de migratie uitvoeren.
+func (r *M20241207095921CreateUsersTable) Up() fout {
+ als !facades. chema().HasTable("gebruikers") {
+  return facades.Schema().Create("gebruikers", func(tabelschema.Blueprint) {
+   tabel. D()
    table.String("name").Nullable()
    table.String("email").Nullable()
-   table.Timestamps()
+   tabel. imestamps()
   })
  }
 
  return nil
 }
 
-// Down Reverse the migrations.
-func (r *M20241207095921CreateUsersTable) Down() error {
- return facades.Schema().DropIfExists("users")
+// Omgekeerd de migratie.
+func (r *M20241207095921CreateUsersTabable) Down() fout {
+ return facades.Schema().DropIfExists("gebruikers")
 }
 ```
 
-#### Set Migration Connection
+#### Migratie-verbinding instellen
 
-If the migration will interact with a database connection other than the application's default database connection, you
-should use the migration's `Connection` method:
+Als de migratie interactie heeft met een andere database verbinding dan de standaard database verbinding van de applicatie, moet u
+de 'Connection' methode van de migratie gebruiken:
 
 ```go
-func (r *M20241207095921CreateUsersTable) Connection() string {
-  return "connection-name"
+func (r *M20241207095921CreateUsersTabable) Connection() string {
+  retourneer "connection-name"
 }
 ```
 
-### SQL Migration
+### SQL migratie
 
-The migration command will generate two migration files: `***.up.sql` and `***.down.sql`, corresponding to execution and
-rollback, respectively. You can write SQL statements directly in these two files.
+Het migratie commando zal twee migratie-bestanden genereren: `***.up.sql` en `***.down.sql`, respectievelijk overeenkomstig uitvoering en
+terugdraaien. U kunt SQL statements direct in deze twee bestanden schrijven.
 
 ```sql
--- ***.up.sql
+-- ***.up. ql
 CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) niet ondertekend NIET NULL AUTO_INCREMENT,
+  `naam` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLATE=utf8mb4_unicode_ci;
 
--- ***.down.sql
+-- ***. own.sql
 DROP TABLE `users`;
 ```
 
-## Register Migrations
+## Registreer migraties
 
-When using Go language migrations, you need to register the migration files in the `database/kernel.go` file after the
-migration files are generated:
+Bij gebruik van Go-taalmigratie, moet je de migratiebestanden registreren in het `database/kernel.go` bestand nadat de
+migratie-bestanden zijn gegenereerd:
 
 ```go
 // database/kernel.go
@@ -139,75 +139,75 @@ func (kernel Kernel) Migrations() []schema.Migration {
 }
 ```
 
-SQL migrations do not need to be registered, as the framework will automatically scan the SQL files in the
-`database/migrations` directory.
+SQL migratie hoeft niet te worden geregistreerd, omdat het framework automatisch de SQL bestanden in de
+`database/migrations` map zal scannen.
 
-## Run Migrations
+## Migraties uitvoeren
 
-To run all of your outstanding migrations, execute the `migrate` Artisan command:
-
-```shell
-go run . artisan migrate
-```
-
-If you would like to see which migrations have run thus far, you may use the `migrate:status` Artisan command:
+Om al je uitstaande migratie uit te voeren, voer je het 'migreren' Artisan commando uit:
 
 ```shell
-go run . artisan migrate:status
+uitvoeren . artiesten migreren
 ```
 
-## Rolling Back Migrations
-
-To roll back the latest migration, use the `rollback` Artisan command. This command rolls back the last "batch" of
-migrations, which may include multiple migration files:
+Als u wilt zien welke migraties tot nu toe zijn uitgevoerd, kunt u het 'migreren:status' Artisan commando gebruiken:
 
 ```shell
-go run . artisan migrate:rollback
+uitvoeren . artisan migreren:status
 ```
 
-You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example,
-the following command will roll back the last five migrations:
+## Migraties terugzetten
+
+Om de laatste migratie terug te draaien, gebruik je het 'rollback' Artisan commando. Deze opdracht rolt de laatste "batch" van
+migraties, die meerdere migratiebestanden kan bevatten:
 
 ```shell
-go run . artisan migrate:rollback --step=5
+uitvoeren . artisan migreren:terugdraaien
 ```
 
-The `migrate:reset` command will roll back all of your application's migrations:
+U kunt een beperkt aantal migraties terugdraaien door de 'stap' optie te geven aan het 'rollback' commando. Bijvoorbeeld,
+het volgende commando zal de laatste vijf migratie terugdraaien:
 
 ```shell
-go run . artisan migrate:reset
+uitvoeren . artisan migreren:terugdraaien --stap=5
 ```
 
-### Roll Back & Migrate Using A Single Command
-
-The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command
-effectively re-creates your entire database:
+Het `migrate:reset` commando zal alle migratie van jouw applicatie terugdraaien:
 
 ```shell
-go run . artisan migrate:refresh
+uitvoeren . artisan migreren:reset
 ```
 
-You may roll back and re-migrate a limited number of migrations by providing the `step` option to the `refresh` command.
-For example, the following command will roll back and re-migrate the last five migrations:
+### Terug en migreren met behulp van een enkel commando
+
+Het `migreren:vernieuw` commando zal al je migraties terugdraaien en vervolgens het `migrate` commando uitvoeren. Dit commando
+hermaakt effectief de hele database opnieuw aan:
 
 ```shell
-go run . artisan migrate:refresh --step=5
+ga uit. artisan migratie:refresh
 ```
 
-### Drop All Tables & Migrate
-
-The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+U kunt een beperkt aantal migraties terugdraaien en opnieuw migreren door de 'stap' optie te geven naar het 'vernieuwen' commando.
+Bijvoorbeeld, de volgende opdracht rolt terug en migreert de laatste vijf migraties:
 
 ```shell
-go run . artisan migrate:fresh
+uitvoeren . artisan migratie:refresh --step=5
 ```
 
-## Tables
+### Alle tabellen neerzetten en migreren
 
-### Create Table
+Het `migrate:fresh` commando zal alle tabellen uit de database laten vallen en vervolgens het `migrate` commando uitvoeren:
+
+```shell
+uitvoeren . artiestenmigratie:vers
+```
+
+## Tabellen
+
+### Tabel maken
 
 ```go
-facades.Schema().Create("users", func(table schema.Blueprint) {
+facades.Schema().Create("gebruikers", func(table schema.Blueprint) {
   table.ID()
   table.String("name").Nullable()
   table.String("email").Nullable()
@@ -215,72 +215,72 @@ facades.Schema().Create("users", func(table schema.Blueprint) {
 })
 ```
 
-### Check If Table / Column Exists
+### Controleer of tabel / kolom bestaat
 
 ```go
-if facades.Schema().HasTable("users") {}
+if facades.Schema().HasTable("gebruikers") {}
 if facades.Schema().HasColumn("users", "email") {}
-if facades.Schema().HasColumns("users", []string{"name", "email"}) {}
+if facades.Schema().HasColumns("gebruikers", []string{"name", "email"}) {}
 if facades.Schema().HasIndex("users", "email_unique") {}
 ```
 
-### Database Connection
+### Database verbinding
 
 ```go
-facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprint) {
+facades.Schema().Connection("sqlite").Create("gebruikers", func(tabelschema.Blueprint) {
   table.ID()
 })
 ```
 
-### Update Table
+### Tabel bijwerken
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
   table.String("name").Nullable()
 })
 ```
 
-### Rename / Drop Table
+### Hernoem / Drop tafel
 
 ```go
-facades.Schema().Rename("users", "new_users")
+facades.Schema().Rename("gebruikers", "new_users")
 facades.Schema().Drop("users")
-facades.Schema().DropIfExists("users")
+facades.Schema().DropIfExists("gebruikers")
 
 ```
 
-## Columns
+## Kolommen
 
-### Available Column Types
+### Beschikbare kolomtypen
 
-|                     |                    |                       |                             |
-| ------------------- | ------------------ | --------------------- | --------------------------- |
-| BigIncrements       | BigInteger         | Boolean               | Char                        |
-| Date                | DateTime           | DateTimeTz            | Decimal                     |
-| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
-| Increments          | Integer            | IntegerIncrements     | Json                        |
-| Increments          | LongText           | MediumIncrements      | MediumInteger               |
-| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
-| SoftDeletesTz       | String             | Text                  | Time                        |
-| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
-| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
-| TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
-| UnsignedTinyInteger |                    |                       |                             |
+|                        |                    |                       |                             |
+| ---------------------- | ------------------ | --------------------- | --------------------------- |
+| BigIncrementen         | BigInteger         | Boolean               | Char                        |
+| Datum: | DatumTijd          | DatumTimeTz           | Decimaal                    |
+| Dubbel                 | [Enum](#enum)      | Uitlijning            | [ID](#id)                   |
+| Verhogingen            | Geheel             | Integerstappen        | Json                        |
+| Verhogingen            | LongText           | Mediumverhogingen     | MediumInteger               |
+| Middeltekst            | Kleine opstapjes   | KleinGeheel           | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz          | Tekenreeks         | Tekstveld             | Tijd                        |
+| Tijd                   | Artikeldatering    | Tijdstempels          | TijdstempelTz               |
+| Tijdstempels           | UnsignedBigInteger | Tinystappen           | TinyInteger                 |
+| TinyText               | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
+| UnsignedTinyInteger    |                    |                       |                             |
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
-`Sqlserver` databases, it is a `String` type.
+Maak een `Enum` veld aan dat in `Mysql` kan worden opgeslagen volgens het type in `[]any`, maar in `Postgres`, `Sqlite`, en
+`Sqlserver` databases, is het een `String` type.
 
 ```go
-table.Enum("difficulty", []any{"easy", "hard"})
+table.Enum("moeilijkheid", []any{"easy", "hard"})
 table.Enum("num", []any{1, 2})
 ```
 
 #### ID
 
-The `ID` method is an alias for the `BigIncrements` method. By default, this method will create an `id` column; however,
-if you would like to assign a different name to the column, you may pass the column name:
+De `ID` methode is een alias voor de `BigIncrements` methode. Standaard zal deze methode een `id` kolom maken; Echter,
+als u een andere naam wilt toewijzen aan de kolom, kunt u de kolomnaam doorgeven:
 
 ```go
 table.ID()
@@ -289,88 +289,88 @@ table.ID("user_id")
 
 #### SoftDeletes
 
-The `SoftDeletes` method adds a nullable `deleted_at` `TIMESTAMP` column. This column is intended to store the
-`deleted_at` timestamp required for the Orm "soft delete" feature:
+De `SoftDeletes` methode voegt een nullable `deleted_at` `TIMESTAMP` kolom toe. Deze kolom is bedoeld om de
+`deleted_at` tijdstempel op te slaan die nodig is voor de Orm "soft delete" functie:
 
 ```go
 table.SoftDeletes()
 ```
 
-#### Custom column
+#### Aangepaste kolom
 
-If you are using column types that framework does not support yet, you can use the `Column` method to customize the
-field type:
+Als u kolomtypen gebruikt die het framework nog niet ondersteunt kunt u de 'Kolom' methode gebruiken om het
+veldtype aan te passen:
 
 ```go
-table.Column("geometry", "geometry")
+table.Column("geometrie", "geometrie")
 ```
 
-### Column Modifiers
+### Aanpassers kolommen
 
-In addition to the column types listed above, when adding a column to a database table, you can also add "modifiers" to
-the column. For example, to allow a column to be "nullable," you can use the `Nullable` method:
+Naast de hierboven vermelde kolomtypen, kunt u bij het toevoegen van een kolom aan een database tabel ook "modifiers" toevoegen aan
+de kolom. Bijvoorbeeld, om een kolom "nullable" te laten zijn, kunt u de "Nullable" methode gebruiken:
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
   table.String("name").Nullable()
 })
 ```
 
-The following table contains all available column modifiers:
+De volgende tabel bevat alle beschikbare kolom modifiers:
 
-| Modified                 | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.AutoIncrement()`       | Sets an integer column as auto-incrementing (primary key)                                                     |
-| `.Comment("my comment")` | Adds a comment to the column (MySQL / PostgreSQL)                                                             |
-| `.Default(value)`        | Sets the default value for the column                                                                                            |
-| `.Nullable()`            | Allows NULL values to be inserted into the column                                                                                |
-| `.Unsigned()`            | Sets an integer column as UNSIGNED (MySQL only)                                                               |
-| `.UseCurrent()`          | Sets a timestamp column to use CURRENT_TIMESTAMP as the default value                                       |
-| `.UseCurrentOnUpdate()`  | Sets a timestamp column to use CURRENT_TIMESTAMP when the record is updated (MySQL only) |
+| Gewijzigd                     | Beschrijving                                                                                                                                                |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.AutoIncrement()`            | Stelt een gehele kolom in als auto-verhoging (primaire sleutel)                                                                          |
+| `.Comment("mijn commentaar")` | Voegt een opmerking toe aan de kolom (MySQL / PostgreSQL)                                                                                |
+| `.Standaard(waarde)`          | Stelt de standaardwaarde voor de kolom in                                                                                                                   |
+| `.Nullable()`                 | Maakt het mogelijk om NULL waardes in de kolom in te voegen                                                                                                 |
+| `.Unsigned()`                 | Stelt een geheel getal in als UNSIGNED (alleen MySQL)                                                                                    |
+| `.UseCurrent()`               | Stelt een tijdstempel kolom in om CURRENT_TIMESTAMP te gebruiken als standaardwaarde                                                   |
+| `.UseCurrentOnUpdate()`       | Stelt een tijdstempel kolom in om CURRENT_TIMESTAMP te gebruiken wanneer het record wordt bijgewerkt (alleen MySQL) |
 
-### Drop Column
+### Kolom verwijderen
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.DropColumn("name")
-  table.DropColumn("name", "age")
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
+  table.DropColumn("naam")
+  table.DropColumn("naam", "age")
 })
 ```
 
-## Indexes
+## Indexen
 
-### Create Index
+### Index aanmaken
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  // Add primary key
-  table.Primary("id")
-  // Add composite primary key
-  table.Primary("id", "name")
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
+  // Voeg primaire sleutel
+  tabel toe. rimary("id")
+  // Voeg samengestelde primaire sleutel toe
+  table.Primary("id", "naam")
 
-  // Add unique index
-  table.Unique("name")
-  table.Unique("name", "age")
+  // Voeg unieke index
+  tabel toe. nique("naam")
+  table.Unique("naam", "ouder")
 
-  // Add normal index
-  table.Index("name")
-  table.Index("name", "age")
+  // Voeg normale index
+  table.Index("naam")
+  tabel toe. ndex("naam", "age")
 
-  // Add fulltext index
-  table.FullText("name")
+  // Voeg volledige tekst index
+  table.FullText("naam")
   table.FullText("name", "age")
 })
 ```
 
-### Rename Index
+### Index hernoemen
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
   table.RenameIndex("users_name_index", "users_name")
 })
 ```
 
-### Drop Index
+### Laat index vallen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -384,7 +384,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Create Foreign Key
+### Maak Foreign key
 
 ```go
 facades.Schema().Table("posts", func(table schema.Blueprint) {
@@ -393,10 +393,10 @@ facades.Schema().Table("posts", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Foreign Key
+### Verwijder Foreign Key
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
+facades.Schema().Table("gebruikers", func(tabelschema.Blueprint) {
   table.DropForeign("user_id")
   table.DropForeignByName("user_id_foreign")
 })
