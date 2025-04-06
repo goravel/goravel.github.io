@@ -1,37 +1,37 @@
-# Privacy Policy
+# Privacy Beleid
 
-## Collection of Information
+## Verzamelen van informatie
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+We verzamelen bepaalde informatie over jou wanneer je goravel.dev bezoekt. Deze informatie kan omvatten:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- Informatie over de pagina's die u op onze website bezoekt
+- Alle andere informatie die je vrijwillig verstrekt
 
-## Use of Information
+## Gebruik van informatie
 
-We may use the collected information for various purposes, including:
+We kunnen de verzamelde informatie voor verschillende doeleinden gebruiken, waaronder:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- Personaliseren van uw ervaring op onze website
+- Verbetering van onze website en diensten
+- Neem contact met je op over je vragen of verzoeken
 
-## Data Security
+## Gegevens beveiliging
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
-your information from unauthorized access, disclosure, alteration, or destruction.
+Wij nemen de veiligheid van uw gegevens serieus. We passen passende technische en organisatorische maatregelen toe om uw informatie
+te beschermen tegen onbevoegde toegang, openbaarheid, wijziging of vernietiging van
 
-## Third-Party Disclosure
+## Vrijmelding van derden
 
-We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+We kunnen je informatie delen met vertrouwde derde partijen die ons helpen bij het beheren van onze website of bij het aanbieden van diensten aan
+jou. Deze derden zijn contractueel verplicht om uw informatie vertrouwelijk en veilig te houden.
 
-## Cookies
+## Koekjes
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+Onze website kan cookies gebruiken om uw surfervaring te verbeteren. Cookies zijn kleine bestanden opgeslagen op uw apparaat die
+bepaalde functies en functies mogelijk maken. U kunt ervoor kiezen om cookies uit te schakelen in uw browserinstellingen, maar let op
+dat sommige delen van onze website mogelijk niet goed werken.
 
-## Changes to this Policy
+## Wijzigingen in dit beleid
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+We kunnen dit privacybeleid van tijd tot tijd bijwerken. Wijzigingen worden op deze pagina geplaatst en het herziene beleid
+zal onmiddellijk van kracht worden bij het plaatsen van berichten.
