@@ -1,10 +1,10 @@
 # Grpc
 
-Grpc module can be operated by `facades.Grpc()`.
+Il modulo Grpc può essere gestito da `facades.Grpc()`.
 
-## Controllers
+## Controllori
 
-Controllers can be defined in the `/app/grpc/controllers` directory.
+I controller possono essere definiti nella directory `/app/grpc/controllers`.
 
 ```go
 // app/grpc/controllers
@@ -14,7 +14,7 @@ import (
   "context"
   "net/http"
 
-  "github.com/goravel/grpc/protos"
+  "github. om/goravel/grpc/protos"
 )
 
 type UserController struct {
@@ -24,16 +24,16 @@ func NewUserController() *UserController {
   return &UserController{}
 }
 
-func (r *UserController) Show(ctx context.Context, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
+func (r *UserController) Show(ctx context). ontext, req *protos.UserRequest) (protoBook *protos.UserResponse, err error) {
   return &protos.UserResponse{
     Code: http.StatusOK,
   }, nil
 }
 ```
 
-## Define routing
+## Definire il routing
 
-All routing files can be defined in the `/routes` directory, such as `/routes/grpc.go`. Then bind routes in the
+Tutti i file di routing possono essere definiti nella directory `/routes`, come `/routes/grpc.go`. Then bind routes in the
 `app/providers/grpc_service_provider.go` file.
 
 ```go
@@ -52,13 +52,13 @@ func Grpc() {
 }
 ```
 
-### Register routing
+### Registro routing
 
-Register routing in the `app/providers/grpc_service_provider.go` file after routing was defined.
+Registra l'instradamento nel file `app/providers/grpc_service_provider.go` dopo che il routing è stato definito.
 
 ```go
-// app/providers/grpc_service_provider.go
-package providers
+// app/providers/grpc_service_provider. o
+package provider
 
 import (
   "goravel/routes"
@@ -72,13 +72,13 @@ func (router *GrpcServiceProvider) Register() {
 }
 
 func (router *GrpcServiceProvider) Boot() {
-  routes.Grpc()
+  routes. rpc()
 }
 ```
 
-## Start Grpc Server
+## Avvia Server Grpc
 
-Start Grpc in the `main.go` file.
+Avvia Grpc nel file `main.go`.
 
 ```go
 go func() {
@@ -88,13 +88,13 @@ go func() {
 }()
 ```
 
-## Interceptor
+## Intercettore
 
-The interceptor can be defined in the `app/grpc/inteceptors` folder, and then registered to `app/grpc/kernel.go`.
+L'intercettatore può essere definito nella cartella `app/grpc/inteceptors` e quindi registrato in `app/grpc/kernel.go`.
 
 **Server Interceptor**
 
-You can set the server interceptors in the `app/grpc/kernel.go:UnaryServerInterceptors` method. For example:
+Puoi impostare gli intercettori del server nel metodo `app/grpc/kernel.go:UnaryServerInterceptors`. Per esempio:
 
 ```go
 // app/grpc/kernel.go
@@ -113,8 +113,8 @@ func (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
 
 **Client Interceptor**
 
-You can set the client interceptor in the `app/grpc/kernel.go:UnaryClientInterceptorGroups` method, the method can group
-interceptors. For example, `interceptors.Client` is included under the `trace` group.
+È possibile impostare l'intercettatore client nel metodo `app/grpc/kernel.go:UnaryClientInterceptorGroups`, il metodo può raggruppare gli intercettori
+. Ad esempio, `interceptors.Client` è incluso nel gruppo `trace`.
 
 ```go
 // app/grpc/kernel.go
@@ -124,8 +124,8 @@ import (
   "google.golang.org/grpc"
 )
 
-func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClientInterceptor {
-  return map[string][]grpc.UnaryClientInterceptor{
+func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc. naryClientInterceptor {
+  mappa di ritorno[string][]grpc.UnaryClientInterceptor{
     "trace": {
       interceptors.Client,
     },
@@ -133,8 +133,8 @@ func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClie
 }
 ```
 
-the `trace` group can be applied to the configuration item `grpc.clients.interceptors`, in this way, the Client will be
-applied to all interceptors under the group. For example:
+il gruppo `trace` può essere applicato all'elemento di configurazione `grpc.clients. nterceptors`, in questo modo, il Cliente sarà
+applicato a tutti gli intercettatori del gruppo. Per esempio:
 
 ```go
 package config
@@ -145,19 +145,19 @@ import (
 
 func init() {
   config := facades.Config
-  config.Add("grpc", map[string]interface{}{
-    // Grpc Configuration
+  config. dd("grpc", map[string]interface{}{
+    // Configurazione Grpc
     //
-    // Configure your server host
-    "host": config.Env("GRPC_HOST", ""),
+    // Configura il tuo host server
+    "host": config. nv("GRPC_HOST", ""),
 
-    // Configure your client host and interceptors.
-    // Interceptors can be the group name of UnaryClientInterceptorGroups in app/grpc/kernel.go.
+    // Configura il tuo host client e intercettatori.
+    // Intercettori può essere il nome di gruppo di UnaryClientInterceptorGroups in app/grpc/kernel.go.
     "clients": map[string]any{
       "user": map[string]any{
-        "host":         config.Env("GRPC_USER_HOST", ""),
-        "port":         config.Env("GRPC_USER_PORT", ""),
-        "interceptors": []string{"trace"},
+        "host": config. nv("GRPC_USER_HOST", ""),
+        "porta": config. nv("GRPC_USER_PORT", ""),
+        "intercettatori": []string{"trace"},
       },
     },
   })
