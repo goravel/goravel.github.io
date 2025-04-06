@@ -1,26 +1,26 @@
-# Views
+# Visningar
 
-Of course, it's not practical to return entire HTML document strings directly from your routes and controllers.
-Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller /
-application logic from your presentation logic and are stored in the `resources/views` directory.
+Naturligtvis är det inte praktiskt att returnera hela HTML-dokumentsträngar direkt från dina rutter och styrenheter.
+Tack och lov, vyer ger ett bekvämt sätt att placera alla våra HTML i separata filer. Vyer separerar din styrenhet /
+applikationslogik från din presentation logik och lagras i `resources/views`-katalogen.
 
-## Creating & Rendering Views
+## Skapa & Rendera vyer
 
-When using the Goravel default template `html/template`, you can create views by adding a file with the `.tmpl`
-extension in the application `resources/views` directory.
+När du använder Goravels standardmall `html/template`, kan du skapa vyer genom att lägga till en fil med `.tmpl`
+tillägget i applikationens `resources/views`-katalog.
 
 ```
 // resources/views/welcome.tmpl
 {{ define "welcome.tmpl" }}
 <html>
   <body>
-  <h1>Hello, {{ .name }}</h1>
+  <h1>Hej, {{ .name }}</h1>
   </body>
 </html>
 {{ end }}
 ```
 
-After creating the view, you can use the `View` method to return the view from a route or controller in the application:
+Efter att du skapat vyn kan du använda `View`-metoden för att returnera vyn från en rutt eller styrenhet i applikationen:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -30,49 +30,49 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Nested View Directories
+### Inkapslade vykataloger
 
-Views may also be nested within subdirectories of the `resources/views` directory. For example, if your view is stored
-at `resources/views/admin/profile.tmpl`, you can return it from one of your application's routes or controllers, note
-that the view needs to be defined as `define "admin/profile.tmpl"` as shown below:
+Visningar kan också vara kapslade i underkataloger i katalogen `resources/views`. Till exempel, om din vy lagras
+på `resources/views/admin/profile. mpl`, du kan returnera den från en av applikationens rutter eller kontrollanter, notera
+att vyn måste definieras som `define "admin/profile. mpl"` som visas nedan:
 
 ```go
 // resources/views/admin/profile.tmpl
 {{ define "admin/profile.tmpl" }}
-<h1>Welcome to the Admin Panel</h1>
+<h1>Välkommen till Admin Panel</h1>
 {{ end }}
 
-ctx.Response().View().Make("admin/profile.tmpl", map[string]any{
+ctx. esponse().View().Make("admin/profile.tmpl", karta[string]any{
   "name": "Goravel",
 })
 ```
 
-### Creating The First Available View
+### Skapa den första tillgängliga vyn
 
-Using the `First` method, you can use the first view that exists in a given array of views. This may be useful if your
-application or package allows views to be customized or overwritten:
+Med hjälp av `First`-metoden kan du använda den första vyn som finns i en given samling vyer. Detta kan vara användbart om din
+applikation eller paket tillåter vyer att anpassas eller skrivas om:
 
 ```go
-ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[string]any{
+ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, karta[string]any{
   "name": "Goravel",
 })
 ```
 
-### Determining If A View Exists
+### Bestämma om en vy finns
 
-If you need to determine if a view exists, you can use the `facades.View()` method:
+Om du behöver bestämma om en vy finns, kan du använda `facades.View()` -metoden:
 
 ```go
-if facades.View().Exist("welcome.tmpl") {
+om fasader.View().Exist("welcome.tmpl") {
   // ...
 }
 ```
 
-## Passing Data To Views
+## Skicka data till visningar
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view.
-Please note, the format of the passed data needs to change according to the template driver used, in the following
-example, using the default `html/template` driver:
+Som du såg i de tidigare exemplen, kan du skicka en rad data till vyer för att göra dessa data tillgängliga för vyn.
+Vänligen notera, formatet på de passerade data måste ändras enligt mallen drivrutinen som används, i följande
+exempel, med standard-`html/template`-drivrutinen:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -82,25 +82,25 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Sharing Data With All Views
+### Dela data med alla vyer
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the
-`Share` method in `facades.View()`. Typically, you should place calls to the `Share` method within a service provider's
-`Boot` method. You are free to add them to the `app/providers/app_service_provider.go` class or generate a separate
-service provider to house them:
+Ibland kan du behöva dela data med alla vyer som återges av din applikation. Du kan göra det med hjälp av
+`Share`-metoden i `facades.View()`. Vanligtvis bör du placera samtal till `Share`-metoden inom en tjänsteleverantörs
+`Boot`-metod. Du kan lägga till dem till klassen `app/providers/app_service_provider.go` eller generera en separat
+tjänsteleverantör för att hysa dem:
 
 ```go
-package providers
+paketleverantörer
 
 import (
- "github.com/goravel/framework/contracts/foundation"
-    "github.com/goravel/framework/facades"
+ "github.com/goravel/frameing/contracts/foundation"
+    "github. om/goravel/frameing/facades"
 )
 
 type AppServiceProvider struct {
 }
 
-func (receiver *AppServiceProvider) Register(app foundation.Application) {
+func (receiver *AppServiceProvider) Register(app foundation. pplication) {
 }
 
 func (receiver *AppServiceProvider) Boot(app foundation.Application) {
