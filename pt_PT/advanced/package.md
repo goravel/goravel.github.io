@@ -1,42 +1,42 @@
-# Package Development
+# Desenvolvimento de pacotes
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
-Goravel-specific packages.
+As embalagens são a principal maneira de adicionar funcionalidade ao Goravel. Esses pacotes podem conter rotas, controladores e configurações
+que são especificamente projetadas para melhorar um aplicativo do Goravel. Este guia se concentra no desenvolvimento de pacotes específicos de
+Goravel.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+Aqui está um exemplo para a construção de um pacote
+terceiros: [goravel/exemplo-pacote](https://github.com/goravel/example-package)
 
-## Creating A Package
+## Criando um pacote
 
-You can use easily create a package template using the Artisan command:
-
-```shell
-go run . artisan make:package sms
-```
-
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+Você pode usar facilmente um template de pacote usando o comando Artisan:
 
 ```shell
-go run . artisan make:package --root=pkg sms
+ir executar . artisan fazer: pacote sms
 ```
 
-## Service Providers
+Os arquivos criados são salvos por padrão na pasta raiz `pacotes`, você pode usar a opção `--root` para personalizar:
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+```shell
+vá executar . artisan make:package --root=pkg sms
+```
 
-## Usage
+## Prestadores de serviços
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+[Service provider](../foundation/providers) atua como a ponte entre seu pacote e o Goravel.
+Eles normalmente estão localizados na raiz do pacote como um arquivo `service_provider.go`. Sua função principal é vincular itens
+ao contêiner de serviço de Goravel e guiar Goravel nos recursos do pacote de carregamento.
 
-## Resources
+## Utilização
+
+Registre o `ServiceProvider` do pacote em `config/app.go::providers`, depois exporte `facades` para a aplicação.
+Para passos detalhados, consulte [goravel/exemplo-pacote](https://github.com/goravel/example-package).
+
+## Recursos
 
 ### Configuração
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
+Normalmente, você precisará publicar o arquivo de configuração do seu pacote no diretório `config` da aplicação. This will
 allow users of your package to easily override your default configuration options. To allow your configuration files to
 be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
 package name, and the second parameter is the mapping between the current package file path and the project path:
@@ -49,21 +49,21 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-### Routes
+### Rotas
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+Se houver [routes](../basic/routing) no seu pacote, você pode usar `app.MakeRoute()` para resolver
+`facades.Route()`, depois adicionar as rotas ao projeto:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (receptor *ServiceProvider) Boot(app foundation.Application) {
  route := app.MakeRoute()
  route.Get("sms", ***)
 }
 ```
 
-### Migrations
+### Migrações
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+Se houver [migrations](../orm/migrations) no seu pacote, você pode publicá-los pelo método `Publicações`:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -73,10 +73,10 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Commands
+## Comandos
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+Você pode registrar o comando `Artisan` pelo método `Commands`, você pode executar os comandos
+usando [Artisan CLI](../advanced/artisan) depois de registrá-los.
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -86,10 +86,10 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Public Assets
+## Ativos Públicos
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+Seu pacote pode ter ativos como JavaScript, CSS e imagens. Para publicar estes conteúdos no diretório `public`
+do aplicativo, use o método `Publishes` do provedor de serviços:
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -99,38 +99,38 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Publishing File Groups
+## Publicando Grupos de Arquivos
 
 If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+`Publishes` method from the package's service provider. Isso permite que você dê aos usuários a opção de publicar certos arquivos
+, como arquivos de configuração, sem ter que publicar todos os arquivos do pacote. Para ilustrar, você pode definir dois
+publicar grupos para o pacote `sms` (`sms-config` and `sms-migrations`) usando tags no método `Boot` do provedor de serviços
+de pacote.
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
-  app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
-  }, "sms-migrations")
+  app.Publishes("github.com/goravel/exemplo-package", map[string]string{
+    "migrations": app. atabasePath("migrações"),
+  }, "sms-migrações")
 }
 ```
 
-## Publish Resources
+## Publicar Recursos
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+No projeto, Você pode publicar os recursos registrados em um pacote usando o comando `vendor:publish` Artisan:
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+ir executar . artisan vendor:publish --package={You package name}
 ```
 
-The command can use the following options:
+O comando pode usar as seguintes opções:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| Nome da Opção | Alias | Acão                                                                                                                                                                                                                                                                                            |
+| ------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --pacote      | -O    | O nome do pacote, pode ser um pacote remoto: `github.com/goravel/example-package`, e também pode ser um pacote local: `. pacotes/exemplo-pacote-exemplo`, note que quando estiver usando um nome de pacote local, ele precisa começar com `./`. |
+| Etiqueta      | -t    | Grupo de Recursos                                                                                                                                                                                                                                                                               |
+| --force       | -no   | Sobrescrever quaisquer arquivos existentes                                                                                                                                                                                                                                                      |
+| -existente    | -e    | Publicar e substituir apenas os arquivos que já foram publicados                                                                                                                                                                                                                                |
