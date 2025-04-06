@@ -1,49 +1,49 @@
-# Directory Structure
+# هيكل الدليل
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+هيكل الملف الافتراضي يمكن أن يجعلك تبدأ تقدم المشروع بشكل أفضل، ويمكنك أيضا إضافة مجلدات جديدة بحرية، ولكن
+لا تقم بتعديل المجلدات الافتراضية.
 
-## Root Directory
+## دليل الجذر
 
-### `app` Directory
+### دليل "تطبيق"
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+يحتوي "تطبيق" على التعليمة البرمجية الأساسية للبرنامج. تقريبا كل المنطق في البرنامج سيكون في هذا المجلد.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+يحتوي الدليل `bootstrap` على ملف startup الإطاري `app.go`.
 
-### `config` Directory
+### دليل `config`
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+يحتوي دليل `config` على جميع ملفات التكوين من التطبيق. من الأفضل التصفح من خلال هذه الملفات و
+اطلع على نفسك مع جميع الخيارات المتاحة.
 
-### `database` Directory
+### دليل "قاعدة البيانات"
 
-The `database` directory contains database migration files.
+ويحتوي دليل "قاعدة البيانات" على ملفات ترحيل قواعد البيانات.
 
-### `public` Directory
+### دليل 'عام\`
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+يحتوي الدليل "العام" على بعض الموارد الثابتة، مثل الصور والشهادات، إلخ.
 
-### `resources` Directory
+### دليل 'الموارد'
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+يحتوي دليل 'الموارد' على [views](../basic/views) فضلا عن أصولك الخام غير المجمعة مثل
+CSS أو JavaScript.
 
-### `routes` Directory
+### دليل "المسار"
 
-The `routes` directory contains all the route definitions of the application.
+ويتضمن دليل "المسار" جميع تعاريف المسار للتطبيق.
 
-### `storage` Directory
+### دليل `التخزين`
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+يحتوي دليل "التخزين" على دليل "السجلات"، والدليل "السجلات" يحتوي على ملفات سجل التطبيق.
 
-### `tests` Directory
+### دليل "الاختبارات"
 
 The `tests` directory contains your automated tests.
 
-## `app` Directory
+## دليل "تطبيق"
 
 ### `console` Directory
 
