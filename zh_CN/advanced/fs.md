@@ -1,11 +1,8 @@
-# File Storage
+# 文件存储
 
-The Goravel provides simple drivers for working with local filesystems, Amazon S3, Aliyun OSS, Tencent COS, Minio and
-Cloudinary. Even better, switching between these storage options between your local development machine and production
-server is amazingly simple as the API remains the same for each system. Goravel comes with a `local` driver, for other
-drivers, please check the corresponding independent extension package:
+Goravel 提供了简单的驱动程序，用于处理本地文件系统、Amazon S3、阿里云 OSS、腾讯云 COS、Minio 和 Cloudinary。 更好的是，在本地开发机器和生产服务器之间切换这些存储选项非常简单，因为每个系统的 API 保持一致。 Goravel 自带 `local` 驱动程序，对于其他驱动程序，请查看相应的独立扩展包：
 
-| Driver     | Link                                                                                                           |
+| 驱动程序       | 链接                                                                                                             |
 | ---------- | -------------------------------------------------------------------------------------------------------------- |
 | S3         | [https://github.com/goravel/s3](https://github.com/goravel/s3)                 |
 | OSS        | [https://github.com/goravel/oss](https://github.com/goravel/oss)               |
