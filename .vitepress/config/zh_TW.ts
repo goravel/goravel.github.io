@@ -4,44 +4,43 @@ export const config = defineConfig({
   description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
   themeConfig: {
     nav: nav(),
-    sidebar: {
-      '/quickstart/': {
-        base: '/quickstart/',
-        items: sidebarQuickstart()
-      },
-      '/upgrade/': {
-        base: '/upgrade/',
-        items: sidebarUpgrade()
-      },
-      '/foundation/': {
-        base: '/foundation/',
-        items: sidebarFoundation()
-      },
-      '/basic/': {
-        base: '/basic/',
-        items: sidebarBasic()
-      },
-      '/advanced/': {
-        base: '/advanced/',
-        items: sidebarAdvanced()
-      },
-      '/security/': {
-        base: '/security/',
-        items: sidebarSecurity()
-      },
-      '/orm/': {
-        base: '/orm/',
-        items: sidebarOrm()
-      },
-      '/testing/': {
-        base: '/testing/',
-        items: sidebarTesting()
-      },
-      '/other/': {
-        base: '/other/',
-        items: sidebarOther()
-      }
-    },
+    sidebar: [{
+      text: "Quickstart",
+      base: '/quickstart/',
+      items: sidebarQuickstart()
+    }, {
+      text: "Upgrade",
+      base: '/upgrade/',
+      items: sidebarUpgrade()
+    }, {
+      text: "Foundation",
+      base: '/foundation/',
+      items: sidebarFoundation()
+    }, {
+      text: "Basic",
+      base: '/basic/',
+      items: sidebarBasic()
+    }, {
+      text: "Advanced",
+      base: '/advanced/',
+      items: sidebarAdvanced()
+    }, {
+      text: "Security",
+      base: '/security/',
+      items: sidebarSecurity()
+    }, {
+      text: "ORM",
+      base: '/orm/',
+      items: sidebarOrm()
+    }, {
+      text: "Testing",
+      base: '/testing/',
+      items: sidebarTesting()
+    }, {
+      text: "Other",
+      base: '/other/',
+      items: sidebarOther()
+    }],
     editLink: {
       pattern: 'https://github.com/goravel/goravel.github.io/edit/main/:path',
       text: 'Edit this page on GitHub'
@@ -62,10 +61,6 @@ function nav(): DefaultTheme.NavItem[] {
     link: '/upgrade/v1.15',
     activeMatch: '/upgrade/'
   }, {
-    text: 'Foundation',
-    link: '/foundation/lifecycle',
-    activeMatch: '/foundation/'
-  }, {
     text: 'Basic',
     link: '/basic/routing',
     activeMatch: '/basic/'
@@ -74,17 +69,9 @@ function nav(): DefaultTheme.NavItem[] {
     link: '/advanced/artisan',
     activeMatch: '/advanced/'
   }, {
-    text: 'Security',
-    link: '/security/authentication',
-    activeMatch: '/security/'
-  }, {
     text: 'ORM',
     link: '/orm/quickstart',
     activeMatch: '/orm/'
-  }, {
-    text: 'Testing',
-    link: '/testing/quickstart',
-    activeMatch: '/testing/'
   }, {
     text: 'Other',
     link: '/other/contributing',
