@@ -1,54 +1,54 @@
-# Authentication
+# 认证
 
-Authentication is an indispensable feature in Web Applications, the `facades.Auth()` module of Goravel provides support
-for JWT.
+认证是WebApplications不可或缺的功能，Goravel的 `facades.Auth()` 模块为 JWT提供
+支持。
 
 ## 配置
 
-You can configure `defaults` guard and multiple `guards` in the `config/auth.go` file to switch different user
-identities in the application.
+您可以在`config/auth.go`文件中配置`defaults`和多个`guards`来切换应用程序中不同的用户
+身份。
 
-You can configure the parameters of JWT in the `config/jwt.go` file, such as `secret`, `ttl`, `refresh_ttl`.
+您可以在“config/jwt.go”文件中配置JWT的参数，如`secret`、`ttl`、`refresh_ttl`。
 
-### Configure TTL for different Guards
+### 配置不同护卫的 TTL
 
-You can set TTL for each Guard separately in the `config/auth.go` file, if not set, the `jwt.ttl` configuration is used
-by default.
+您可以在“config/auth.go”文件中单独设置每个护卫队的TTL，如果没有设置，默认情况下使用
+。
 
 ```go
 // config/auth.go
-"guards": map[string]any{
-  "user": map[string]any{
+"guards": map[string]anyo.
+  "user": map[string]anyow
     "driver": "jwt",
-++  "ttl": 60,
+++ "ttl": 60,
   },
 },
 ```
 
-## Generate JWT Token
+## 生成 JWT 令牌
 
 ```shell
-go run . artisan jwt:secret
+去运行.个工匠jwt:secret
 ```
 
-## Generate Token Using User
+## 使用用户生成令牌
 
 You can generate a token by Model, there is no extra configuration if the model uses `orm.Model`, otherwise, you need to
 configure Tag on the model primary key field, for example:
 
 ```go
-type User struct {
-  ID uint `gorm:"primaryKey"`
-  Name string
-}
+键入用户结构。\n
+  ID uint `gorm:"primararyKey""
+  名称字符串
 
-var user models.User
+
+var 用户模型。 ser
 user.ID = 1
 
 token, err := facades.Auth(ctx).Login(&user)
 ```
 
-## Generate Token Using ID
+## 使用ID生成令牌
 
 ```go
 token, err := facades.Auth(ctx).LoginUsingID(1)
@@ -60,51 +60,51 @@ token, err := facades.Auth(ctx).LoginUsingID(1)
 payload, err := facades.Auth(ctx).Parse(token)
 ```
 
-Through `payload` you can get:
+你可以通过 `payload` 获取：
 
-1. `Guard`: Current Guard;
-2. `Key`: User flag;
-3. `ExpireAt`: Expire time;
-4. `IssuedAt`: Issued time;
+1. “防护：现任卫队”；
+2. `Key`: 用户标志;
+3. “有效期”： 过期时间；
+4. “签发At”：签发时间；
 
-> If `err` isn't nil other than `ErrorTokenExpired`, the payload should be nil.
+> 如果`err` 不是 `ErrorTokenExpired`，那么payload 应该为 nil。
 
-You can judge whether the Token is expired by err:
+您可以判断令牌是否因错误过期：
 
 ```go
-"errors"
+"错误"
 "github.com/goravel/framework/auth"
 
-errors.Is(err, auth.ErrorTokenExpired)
+错误.Is(err, auth.ErrorTokenExpired)
 ```
 
-> The token can be parsed normally with or without the Bearer prefix.
+> 代币通常可以使用或不使用持卡人前缀进行解析。
 
-## Get User
+## 获取用户
 
-You need to generate a Token by `Parse` before getting a user, the process can be handled in HTTP middleware.
+您需要通过 `Parse` 生成一个令牌，然后才能获得用户，此过程可以在 HTTP middleware中处理。
 
 ```go
 var user models.User
-err := facades.Auth(ctx).User(&user) // Must point
+err := facades.Auth(ctx).User(&user) // 必须点
 id, err := facades.Auth(ctx).ID()
 ```
 
-## Refresh Token
+## 刷新令牌
 
-You need to generate a Token by `Parse` before refreshing the user.
+在刷新用户之前，您需要通过 "Parse" 生成一个令牌。
 
 ```go
-token, err := facades.Auth(ctx).Refresh()
+token, err := facades.Auth(ctx).刷新()
 ```
 
-## Logout
+## 注销
 
 ```go
 err := facades.Auth(ctx).Logout()
 ```
 
-## Multiple Guards
+## 多个卫士
 
 ```go
 token, err := facades.Auth(ctx).Guard("admin").LoginUsingID(1)
@@ -112,4 +112,4 @@ err := facades.Auth(ctx).Guard("admin").Parse(token)
 token, err := facades.Auth(ctx).Guard("admin").User(&user)
 ```
 
-> When the default guard is not used, the `Guard` method must be called before calling the above methods.
+> 当未使用默认护卫时，在调用上述方法之前，必须调用 `Guard` 方法。
