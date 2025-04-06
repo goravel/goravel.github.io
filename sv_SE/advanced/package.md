@@ -1,136 +1,136 @@
-# Package Development
+# Utveckling av paket
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
-Goravel-specific packages.
+Paket är det primära sättet att lägga till funktionalitet till Goravel. Dessa paket kan innehålla rutter, styrenheter och
+konfigurationer som är speciellt utformade för att förbättra en Goravel applikation. Denna guide fokuserar på att utveckla
+Goravel-specifika paket.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+Här är ett exempel för att bygga ett
+-paket från tredje part: [goravel/example-package](https://github.com/goravel/example-package)
 
-## Creating A Package
+## Skapar ett paket
 
-You can use easily create a package template using the Artisan command:
-
-```shell
-go run . artisan make:package sms
-```
-
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+Du kan enkelt skapa en paketmall med kommandot Artisan:
 
 ```shell
-go run . artisan make:package --root=pkg sms
+gå kör. hantverkare make:paket sms
 ```
 
-## Service Providers
+De skapade filerna sparas som standard i rot`packages`-mappen, du kan använda `--root` alternativet för att anpassa:
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+```shell
+gå springa . hantverkare make:package --root=pkg sms
+```
 
-## Usage
+## Tjänsteleverantörer
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+[Tjänsteleverantörer](../foundation/providers) fungerar som brygga mellan ditt paket och Goravel.
+De finns vanligtvis i roten av paketet som en `service_provider.go`-fil. Deras huvudsakliga funktion är att binda
+objekt till Gorfels servicebehållare och vägleda Goravel i inläsning av paketresurser.
 
-## Resources
+## Användning
+
+Registrera `ServiceProvider` i paketet till `config/app.go::providers`, exportera sedan `facades` till programmet.
+För detaljerade steg, se [goravel/example-package](https://github.com/goravel/example-package).
+
+## Resurser
 
 ### Konfiguration
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
-allow users of your package to easily override your default configuration options. To allow your configuration files to
-be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
-package name, and the second parameter is the mapping between the current package file path and the project path:
+Vanligtvis måste du publicera paketets konfigurationsfil till programmets `config`-katalog. Detta kommer
+tillåta användare av ditt paket att enkelt åsidosätta dina standardinställningar. För att tillåta dina konfigurationsfiler till
+ska publiceras, anropa `Publishes`-metoden från `Boot`-metoden för din tjänsteleverantör, den första parametern är paketnamnet
+och den andra parametern är mappningen mellan den aktuella paketfilens sökväg och projektvägen:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", karta[string]string{
     "config/sms.go": app.ConfigPath("sms.go"),
   })
 }
 ```
 
-### Routes
+### Rutter
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+Om det finns [routes](../basic/routing) i ditt paket kan du använda `app.MakeRoute()` för att lösa
+`facades.Route()`, lägg sedan till rutterna till projektet:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
  route := app.MakeRoute()
  route.Get("sms", ***)
 }
 ```
 
-### Migrations
+### Migreringar
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+Om det finns [migrations](../orm/migrations) i ditt paket kan du publicera dem med `Publishes`-metoden:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", karta[string]string{
+    "migrationer": app.DatabasePath("migrationer"),
   })
 }
 ```
 
-## Commands
+## Kommandon
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+Du kan registrera `Artisan`-kommandot med `Commands`-metoden, du kan köra kommandona
+med [Artisan CLI](../advanced/artisan) efter registrering av dem.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
  app.Commands([]console.Command{
-  commands.NewSmsCommand(),
+  kommandon.NewSmsCommand(),
  })
 }
 ```
 
-## Public Assets
+## Offentliga tillgångar
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+Ditt paket kan ha tillgångar som JavaScript, CSS och bilder. För att publicera dessa tillgångar till applikationens `public`
+-katalog, använd tjänsteleverantörens `Publicer`-metod:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
-    "public": app.PublicPath("vendor"),
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", karta[string]string{
+    "public": app.PublicPath("leverantör"),
   })
 }
 ```
 
-## Publishing File Groups
+## Publicerar filgrupper
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+Om du vill publicera specifika grupper av pakettillgångar och resurser separat, du kan använda taggar när du anropar
+`Publishes`-metoden från paketets tjänsteleverantör. Detta låter dig ge användare möjlighet att publicera vissa
+-filer, som konfigurationsfiler, utan att behöva publicera alla paketets tillgångar. För att illustrera, du kan definiera två
+publicera grupper för `sms`-paketet (`sms-config` och `sms-migrations`) med hjälp av taggar i `Boot`-metoden för
+-paketets tjänsteleverantör.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
-  app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+func (receiver *Serviceleverantör) Boot(app foundation.Application) {
+  app.Publishes("github.com/goravel/example-package", karta[string]string{
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
-  app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
-  }, "sms-migrations")
+  app.Publishes("github.com/goravel/example-package", karta[string]string{
+    "migrationer": app. atabasePath("migrationer"),
+  }, "sms-migrationer")
 }
 ```
 
-## Publish Resources
+## Publicera resurser
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+I projektet kan du publicera de resurser som registrerats i ett paket med hjälp av kommandot `vendor:publish` Artisan:
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+kör . hantverkare säljare: publicera --package={You package name}
 ```
 
-The command can use the following options:
+Kommandot kan använda följande alternativ:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| Alternativ namn | Alias | Åtgärd                                                                                                                                                                                                                                                                 |
+| --------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --paket         | -s    | Paketnamn, kan vara ett fjärrpaket: `github.com/goravel/example-package`, och kan även vara ett lokalt paket: `. packages/example-package`, notera att när man använder ett lokalt paketnamn måste det börja med `./`. |
+| --tagg          | -t    | Resursgrupp                                                                                                                                                                                                                                                            |
+| --kraft         | -f    | Skriv över befintliga filer                                                                                                                                                                                                                                            |
+| --befintlig     | -e    | Publicera och skriva över endast de filer som redan har publicerats                                                                                                                                                                                                    |
