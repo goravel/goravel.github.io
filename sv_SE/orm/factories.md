@@ -1,11 +1,11 @@
-# Factories
+# Fabriker
 
-When testing your application or seeding your database, it might be necessary to insert a few records into your database
-beforehand. Instead of manually inputting values for each column, Goravel allows you to define a set of default
-attributes for each of your models by creating model factories.
+När du testar din applikation eller skickar din databas, kan det vara nödvändigt att infoga några poster i din databas
+i förväg. Istället för att manuellt mata in värden för varje kolumn, Goravel låter dig definiera en uppsättning
+standardattribut för var och en av dina modeller genom att skapa modellfabriker.
 
-To see an example of how to write a factory, you can check out the `user_factory.go` file located in your application's
-`database/factories` directory.
+För att se ett exempel på hur man skriver en fabrik kan du kolla in filen `user_factory.go` som finns i applikationens
+`database/factories`-katalog.
 
 ```go
 package factories
@@ -13,47 +13,47 @@ package factories
 type UserFactory struct {
 }
 
-// Definition Define the model's default state.
-func (f *UserFactory) Definition() map[string]any {
-  return map[string]any{
-    "Name": "Goravel",
+// Definition Definiera modellens standardtillstånd.
+func (f *UserFactory) Definition() karta[string]någon {
+  returkarta[string]any{
+    "Namn": "Goravel",
   }
 }
 ```
 
-As you can see, in their most basic form, factories are structs that have a `Definition` method. The method returns the
-default set of attribute values that should be used when creating a model with the factory. To generate a range of
-random data, you can rely on [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
+Som ni kan se är fabriker i deras mest grundläggande form strukturer som har en `Definition`-metod. Metoden returnerar
+standarduppsättning attributvärden som ska användas när man skapar en modell med fabriken. För att generera ett utbud av
+slumpmässig data kan du lita på [brianvoe/gofakeit](https://github.com/brianvoe/gofakeit).
 
-## Generating Factories
+## Genererar fabriker
 
-To create a factory, run the `make:factory` Artisan command:
+För att skapa en fabrik, kör kommandot `make:factory` Artisan:
 
 ```
-go run . artisan make:factory PostFactory
+gå kör. hantverkare make:factory PostFactory
 ```
 
-The new factory `struct` will be placed in your `database/factories` directory.
+Den nya fabriken `struct` kommer att placeras i din `database/factories`-katalog.
 
-### Model & Factory Discovery Conventions
+### Model & Factory Discovery konventioner
 
-After defining a factory, you can use the `Factory()` method in the model to bind the factory to the model:
+Efter att ha definierat en fabrik kan du använda `Factory()` -metoden i modellen för att binda fabriken till modellen:
 
 ```go
-package models
+paketmodeller
 
 import (
   "github.com/goravel/framework/contracts/database/factory"
-  "github.com/goravel/framework/database/orm"
+  "github. om/goravel/framee/database/orm"
 
-  "goravel/database/factories"
+  "goravel/databas/factories"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+typ Användarstruktur {
+  orm. odel
+  Namnsträng
+  Avatar sträng
+  orm. oftTar bort
 }
 
 func (u *User) Factory() factory.Factory {
@@ -61,27 +61,27 @@ func (u *User) Factory() factory.Factory {
 }
 ```
 
-## Creating Models Using Factories
+## Skapa modeller med fabriker
 
-### Instantiating Models
+### Instantisera modeller
 
-We can use the `Make` method to create models without persisting them in the database:
+Vi kan använda `Make`-metoden för att skapa modeller utan att kvarstå dem i databasen:
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Make(&user)
+var användarmodeller.Användare
+err := fasader.Orm().Factory().Make(&user)
 ```
 
-You may create a collection of many models using the `Count` method:
+Du kan skapa en samling av många modeller med hjälp av `Count`-metoden:
 
 ```go
 var users []models.User
-err := facades.Orm().Factory().Count(2).Make(&users)
+err := fasader.Orm().Factory().Count(2).Make(&användare)
 ```
 
-If you would like to override some of the default values of your models, you may pass `map[string]any` to the `Make`
-method. Only the specified attributes will be replaced while the rest of the attributes remain set to their default
-values as specified by the factory:
+Om du vill åsidosätta några av standardvärdena för dina modeller, kan du skicka `map[string]any` till `Make`
+metoden. Endast de angivna attributen kommer att ersättas medan resten av attributen förblir inställda till sina standard
+-värden som anges av fabriken:
 
 ```go
 var user models.User
@@ -90,20 +90,20 @@ err := facades.Orm().Factory().Make(&user, map[string]any{
 })
 ```
 
-### Persisting Models
+### Bestående modeller
 
-The `Create` method creates and saves model instances to the database using Orm's `Save` method.
+`Create`-metoden skapar och sparar modellinstanser till databasen med Orms `Save`-metod.
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Create(&user)
+var användarmodeller.Användare
+err := fasader.Orm().Factory().Create(&user)
 
-var users []models.User
-err := facades.Orm().Factory().Count(2).Create(&users)
+var användare []models.User
+err := fasader.Orm().Factory().Count(2).Create(&users)
 ```
 
-You may override the factory's default model attributes by passing `map[string]any` of the attributes to the `Create`
-method:
+Du kan åsidosätta fabrikens standardmodellattribut genom att skicka `map[string]någon` av attributen till `Create`
+metoden:
 
 ```go
 var user models.User
@@ -112,12 +112,12 @@ err := facades.Orm().Factory().Create(&user, map[string]any{
 })
 ```
 
-### Ignore Model Event
+### Ignorera modellhändelse
 
-There may be [model event](../orm/quickstart#events) defined on the model, you can ignore those events with the
-`CreateQuietly` method:
+Det kan finnas [model event](../orm/quickstart#events) definierad på modellen, du kan ignorera dessa händelser med
+`CreateQuietly`-metoden:
 
 ```go
-var user models.User
-err := facades.Orm().Factory().CreateQuietly(&user)
+var användarmodeller.Användare
+err := fasader.Orm().Factory().CreateQuietly(&user)
 ```
