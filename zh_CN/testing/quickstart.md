@@ -150,7 +150,7 @@ database, err := facades.Testing().Docker().Database("postgres")
 | MySQL      | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)              | 最新  |
 | PostgreSQL | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)        | 最新  |
 | SQL Server | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | 最新  |
-| SQLite     | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | 最新版 |
+| SQlite     | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | 最新版 |
 
 你也可以使用`Image`方法来自定义镜像：
 
