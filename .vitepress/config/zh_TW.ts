@@ -56,6 +56,13 @@ export const config = defineConfig({
     outline: {
       label: 'On this page'
     },
+    lastUpdated: {
+      text: 'Last updated',
+      formatOptions: {
+        dateStyle: 'short',
+        timeStyle: 'medium'
+      }
+    },
     langMenuLabel: 'Change language',
     returnToTopLabel: 'Return to top',
     sidebarMenuLabel: 'Menu',
