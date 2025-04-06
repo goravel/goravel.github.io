@@ -1,39 +1,39 @@
-# Getting Started
+# بدء العمل
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+غورافيل تجعل من السهل على المطورين أن يتفاعلوا مع قواعد البيانات باستخدام 'facades.Orm()\`. وهو يقدم حاليا دعما رسميا
+لقواعد البيانات الأربع التالية:
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
-- SQL Server 2017+
+- خادم SQL 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+قبل البدء، تكوين قاعدة البيانات في `.env` وتأكيد تكوين `default` في `config/database.go`.
 
 # الإعدادات
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+لتكوين قواعد البيانات، انتقل إلى `config/database.go`. هذا هو المكان الذي يمكنك فيه تخصيص جميع اتصالات قاعدة البيانات و
+اختر اتصال 'افتراضي'. يعتمد التكوين في هذا الملف على المتغيرات البيئية للمشروع و
+يعرض مختلف تكوينات قاعدة البيانات التي تدعمها Goravel .
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+يمكنك أيضًا استخدام DSN للاتصال بقاعدة البيانات مباشرة، فقط تكوين الحقل 'dsn' في ملف الإعداد:
 
 ```go
 "postgres": map[string]any{
-  "driver":   "postgres",
-++  "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
+  "driver": "postgres",
+++ "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
   ...
 }
 ```
 
-### Read & Write Connections
+### قراءة وكتابة الاتصالات
 
 Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+`DELETE` statements. الغورافيل يجعل هذا نوعاً.
 
-To see how read/write connections should be configured, let's look at this example:
+لمعرفة كيف ينبغي تكوين اتصالات القراءة/الكتابة، دعونا ننظر إلى هذا المثال:
 
 ```go
 import "github.com/goravel/framework/contracts/database"
@@ -59,104 +59,104 @@ import "github.com/goravel/framework/contracts/database"
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+لقد قمنا بتحديث مصفوفة التكوين بمفتاح جديد - 'read`و 'الكتابة'. وسيستخدم الاتصال`read`
+`192.168.1.1' كمضيف، في حين أن الاتصال `الكتابي` سيستخدم `192.168.1.2`. كلا الاتصالين سيشاركان نفس بادئة قاعدة البيانات
+ومجموعة الأحرف والخيارات الأخرى المحددة في صفيفة Mysql الرئيسية. في حالة تعدد القيم في مجموعة إعدادات
+'host'، سيتم اختيار مضيف قاعدة البيانات عشوائيا لكل طلب.
 
-### Connection Pool
+### مخزن الاتصال
 
-You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
-can greatly improve concurrency performance:
+يمكنك تكوين مجمع اتصال في ملف الإعداد، التكوين المعقول لمعلمات مجمع الاتصال
+يمكن أن يحسن أداء التزامن بشكل كبير:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| المفتاح                                                                          | اجراء                           |
+| -------------------------------------------------------------------------------- | ------------------------------- |
+| pool.max_idle_conns    | الحد الأقصى لاتصالات الخمول     |
+| pool.max_open_conns    | الحد الأقصى للاتصالات المفتوحة  |
+| pool.conn_max_idletime | الحد الأقصى لوقت الخمول للروابط |
+| pool.conn_max_life     | الإتصالات الحد الأقصى لعمر      |
 
-### Schema
+### مخطط
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+دعم Botgres و Sqlserver لتكوين المخطط. يمكن للمشكلات تعيين المخطط مباشرة في ملف الإعداد، بينما يحتاج
+Sqlserver إلى تحديد المخطط من خلال طريقة 'TableName' في النموذج.
 
 #### Postgres
 
 ```go
-"connections": map[string]any{
-  "postgres": map[string]any{
-    "driver":   "postgres",
+"الاتصالات": خريطة[string]أيًّا،
+  "ما بعد": خريطة[string]أيًّا،
+    "السائق": "ما بعد"،
     ...
-    "schema": "goravel",
-  },
+    "مخطط": "goravel"،
+  }،
 }
 ```
 
 #### Sqlserver
 
 ```go
-func (r *User) TableName() string {
-  return "goravel.users"
+مربع (r *المستخدم) TableName() سلسلة {
+  إرجاع "goravel.users"
 }
 ```
 
-### Get Database Information
+### الحصول على معلومات قاعدة البيانات
 
-You can use the `db:show` command to view all tables in the database.
-
-```bash
-go run . artisan db:show
-```
-
-You can also use the `db:table` command to view the structure of a specific table.
+يمكنك استخدام الأمر `db:show` لعرض جميع الجداول في قاعدة البيانات.
 
 ```bash
-go run . artisan db:table
-go run . artisan db:table users
+اذهب للتشغيل. حرفي db:show
 ```
 
-## Model Definition
+يمكنك أيضًا استخدام الأمر 'db:table' لعرض بنية جدول محدد.
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+```bash
+قم بتشغيل. قم بتشغيل Db:table
+. مستخدمين حرفيين Db:table
+```
 
-### Model Convention
+## تعريف النموذج
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+لإنشاء نموذج مخصص، يرجى الرجوع إلى الملف النموذجي `app/models/user.go` المدرج في الإطار. يحتوي `struct`
+في `app/models/user.go` على إطارين مضمنين: `orm.Model` و`orm.SoftDeletes`. هذه الأطر تعرف الخصائص
+`id`, `created_at`, `updated_at`, and `deleted_at` على التوالي. مع \`orm.SoftDeletes'، يمكنك تمكين الحذف الناعم
+للنموذج.
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+### الاتفاقية النموذجية
 
-### Create Model
+1. اسم النموذج مع حبال كبيرة؛
+2. استخدام الشكل المعد للنموذج "اسم الثعابين" كإسم الجدول؛
 
-Use the `make:model` command to create a model:
+على سبيل المثال، اسم النموذج هو `UserOrder`، واسم الجدول هو `user_orders`.
+
+### إنشاء موديل
+
+استخدم الأمر \`make:model' لإنشاء نموذج:
 
 ```shell
-go run . artisan make:model User
-go run . artisan make:model user/User
+ابدأ بالتشغيل. ابدأ تشغيل المستخدم الحرفي: النموذج
+. حرفي: نموذجي المستخدم / المستخدم
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+يوجد ملف النموذج الذي تم إنشاؤه في ملف "app/models/user.go"، والمحتوى كما يلي:
 
 ```go
-package models
+نماذج الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/database/orm"
-)
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+
+من نوع المستخدم الذي تم تركيبه {
+  orm. Odel
+  سلسلة اسم
+  مقطع رمزي
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+إذا كنت ترغب في تعيين حقل النموذج إلى `أي`، تحتاج إلى إضافة علامة إضافية: `gorm:"type:text"`:
 
 ```go
 type User struct {
@@ -168,22 +168,22 @@ type User struct {
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+يمكن العثور على المزيد من تفاصيل استخدام العلامات في: <https://gorm.io/docs/models.html>.
 
-### Specify Table Name
+### تحديد اسم الجدول
 
 ```go
-package models
+نماذج الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/database/orm"
-)
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+
+من نوع المستخدم الذي تم تركيبه {
+  orm. Odel
+  سلسلة الاسم
+  سلسلة الصورة الرمزية
+  عوام. oftDeletes
 }
 
 func (r *User) TableName() string {
@@ -191,24 +191,24 @@ func (r *User) TableName() string {
 }
 ```
 
-### Database Connections
+### اتصالات قاعدة البيانات
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
-distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
-model.
+بشكل افتراضي، تستخدم جميع النماذج اتصال قاعدة البيانات الافتراضي الذي تم تكوينه لتطبيقك. إذا كنت ترغب في تحديد اتصال متميز
+لاستخدامه عند التفاعل مع نموذج معين، تحتاج إلى تعريف طريقة "الاتصال" على النموذج
+.
 
 ```go
-package models
+نماذج الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/database/orm"
-)
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+
+من نوع المستخدم الذي تم تركيبه {
+  orm. Odel
+  سلسلة الاسم
+  سلسلة الصورة الرمزية
+  عوام. متكرر حذف
 }
 
 func (r *User) Connection() string {
@@ -216,81 +216,81 @@ func (r *User) Connection() string {
 }
 ```
 
-## facades.Orm() available functions
+## واجهة المهام المتاحة
 
-| Name        | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| الاسم     | اجراء                                                                                    |
+| --------- | ---------------------------------------------------------------------------------------- |
+| اتصال     | [تحديد اتصال قاعدة البيانات](#specify-database-connection)                               |
+| DB        | [واجهة قاعدة البيانات العامة sql.DB](#generic-database-interface-sql-db) |
+| الاستعلام | [احصل على قاعدة البيانات](#get-database-instance)                                        |
+| معاملة    | [Transaction](#transaction)                                                              |
+| السياق    | [سياق الحقن](#inject-context)                                                            |
 
-## facades.Orm().Query() available functions
+## facades.Orm().Query() الوظائف المتاحة
 
-| Functions       | Action                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Delete          | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| سائق            | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Get             | [Query multiple lines](#query-multiple-lines)                                 |
-| Group           | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Update          | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| الدوال         | اجراء                                                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| ابدأ           | [بدء المعاملة](#transaction)                                                                                                               |
+| التزم          | [إجراء المعاملة](#transaction)                                                                                                             |
+| العد           | [Count](#count)                                                                                                                            |
+| إنشاء          | [Create](#create)                                                                                                                          |
+| Cursor         | [Cursor](#cursor)                                                                                                                          |
+| حذف            | [Delete](#delete)                                                                                                                          |
+| مميز           | [تصفية الالتماسات](#filter-repetition)                                                                                                     |
+| سائق           | [Get Driver](#get-driver)                                                                                                                  |
+| إكستاسي        | [تنفيذ التحديث الأصلي SQL](#execute-native-update-sql)                                                                                     |
+| موجود          | [Exists](#exists)                                                                                                                          |
+| البحث          | [استبيان سطر واحد أو أكثر بواسطة المعرف](#query-one-or-multiple-lines-by-id)                                                               |
+| FindOrFail     | [لم يتم العثور على خطأ إرجاع](#not-found-return-error)                                                                                     |
+| الأول          | [استعلام سطر واحد](#query-one-line)                                                                                                        |
+| أولاً أو       | [الاستعلام أو إرجاع البيانات من خلال رد المكالمة](#query-one-line)                                                                         |
+| أولاً إنشاء    | [استرجاع أو إنشاء نماذج](#retrieving-or-creating-models)                                                                                   |
+| أوستورنيو      | [استرجاع أو نماذج جديدة](#retrieving-or-creating-models)                                                                                   |
+| الفشل الأول    | [لم يتم العثور على خطأ](#not-found-error)                                                                                                  |
+| حذف القوة      | [الإجبار على حذف الحذف] (#delete)                                   |
+| احصل           | [الاستعلام خطوط متعددة](#query-multiple-lines)                                                                                             |
+| مجموعة         | [Group](#group-by--having)                                                                                                                 |
+| وجود           | [Having](#group-by-having)                                                                                                                 |
+| الانضمام       | [Join](#join)                                                                                                                              |
+| الحد           | [Limit](#limit)                                                                                                                            |
+| LockForUpdate  | [القفل المتشائم](#pessimistic-locking)                                                                                                     |
+| الموديل        | [حدد نموذج](#specify-table-query)                                                                                                          |
+| إزاحة          | [Offset](#offset)                                                                                                                          |
+| طلب            | [Order](#order)                                                                                                                            |
+| ترتيب          | [Order](#order)                                                                                                                            |
+| OrderByDesc    | [Order](#order)                                                                                                                            |
+| ترتيب عشوائي   | [Order](#order)                                                                                                                            |
+| أوراين         | [OrWhere](#where)                                                                                                                          |
+| أوروينوتين     | [OrWhereNotIn](#where)                                                                                                                     |
+| OrWhereNull    | [OrWhereNull](#where)                                                                                                                      |
+| أوروين         | [OrWhereIn](#where)                                                                                                                        |
+| صفحة           | [Paginate](#paginate)                                                                                                                      |
+| بلوك           | [عمود استعلام واحد](#query-single-column)                                                                                                  |
+| نيء            | [تنفيذ SQL](#execute-native-sql)                                                                                                           |
+| إستعادة        | [Restore](#restore)                                                                                                                        |
+| Rollback       | [المعاملة الاحتياطية](#transaction)                                                                                                        |
+| حفظ            | [تحديث نموذج موجود](#update-a-existing-model)                                                                                              |
+| حفظ بهدوء      | [حفظ نموذج واحد بدون أحداث] (#saving-a-single-model-without-events) |
+| فحص            | [المسح الضوئي] (#execute-native-sql)                                |
+| النطاقات       | [Scopes](#scopes)                                                                                                                          |
+| حدد            | [تحديد الحقول](#specify-fields)                                                                                                            |
+| قفل مشترك      | [القفل المتشائم](#pessimistic-locking)                                                                                                     |
+| Sum            | [Sum](#sum)                                                                                                                                |
+| الجدول         | [حدد جدول](#specify-table-query)                                                                                                           |
+| ToSql          | [Get SQL](#get-sql)                                                                                                                        |
+| ToRawSql       | [Get SQL](#get-sql)                                                                                                                        |
+| تحديث          | [تحديث عمود واحد](#update-a-single-column)                                                                                                 |
+| تحديث          | [تحديث أو إنشاء](#update-or-create)                                                                                                        |
+| أين            | [Where](#where)                                                                                                                            |
+| بين            | [WhereBetween](#where)                                                                                                                     |
+| حيث            | [WhereNotBetween](#where)                                                                                                                  |
+| أين نوتين      | [WhereNotIn](#where)                                                                                                                       |
+| حيث فارغ       | [WhereNull](#where)                                                                                                                        |
+| أين            | [WhereIn](#where)                                                                                                                          |
+| أحداث الانسحاب | [كتم الأحداث](#muting-events)                                                                                                              |
+| سحب            | [الاستعلام حذف البيانات الناعمة](#query-soft-delete-data)                                                                                  |
 
-## Query Builder
+## منشئ الاستعلام
 
 ### حقن السياق
 
@@ -298,19 +298,18 @@ func (r *User) Connection() string {
 facades.Orm().WithContext(ctx)
 ```
 
-### Specify Database Connection
+### تحديد اتصال قاعدة البيانات
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
-`config/database.go`:
+إذا تم تعريف اتصالات متعددة بقاعدة البيانات في 'config/database.go`، يمكنك استخدامها من خلال دالة 'Connection'
+من 'facades.Orm()`. يجب أن يكون اسم الاتصال الذي يتم تمريره إلى 'الاتصال`أحد الاتصالات المكونة في`config/database.go\`:
 
 ```go
 facades.Orm().Connection("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### واجهة قاعدة البيانات العامة sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+واجهة قاعدة البيانات العامة sql.DB، ثم استخدم الوظيفة التي توفرها:
 
 ```go
 db, err := facades.Orm().DB()
@@ -319,25 +318,25 @@ db, err := facades.Orm().Connection("mysql").DB()
 // Ping
 db.Ping()
 
-// Close
-db.Close()
+// إغلاق
+db. فقدان ()
 
-// Returns database statistics
+// إرجاع بيانات قاعدة البيانات
 db.Stats()
 
-// SetMaxIdleConns sets the maximum number of connections in the idle connection pool
-db.SetMaxIdleConns(10)
+// SetMaxIdleConns يحدد الحد الأقصى لعدد الإتصالات في مخزن الإتصال الخامل
+db. etMaxIdleConns(10)
 
-// SetMaxOpenConns sets the maximum number of open connections to the database
-db.SetMaxOpenConns(100)
+/ SetMaxOpenConns يحدد الحد الأقصى لعدد الاتصالات المفتوحة إلى قاعدة البيانات
+db. etMaxOpenConns(100)
 
-// SetConnMaxLifetime sets the maximum amount of time a connection may be reused
+// SetConnMaxLifetime يحدد الحد الأقصى من الوقت الذي يمكن فيه إعادة استخدام الاتصال
 db.SetConnMaxLifetime(time.Hour)
 ```
 
-### Get Database Instance
+### الحصول على مثيل قاعدة البيانات
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+وقبل كل عملية محددة من عمليات قاعدة البيانات، من الضروري الحصول على مثال على قاعدة البيانات.
 
 ```go
 facades.Orm().Query()
@@ -345,104 +344,104 @@ facades.Orm().Connection("mysql").Query()
 facades.Orm().WithContext(ctx).Query()
 ```
 
-### Select
+### حدد
 
-#### Query one line
+#### استعلام سطر واحد
 
 ```go
-var user models.User
+vuser models.user
 facades.Orm().Query().First(&user)
-// SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
+// SELECT * من `المستخدمين` أوردير من `users`.`id` LMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+في بعض الأحيان قد ترغب في تنفيذ بعض الإجراءات الأخرى إذا لم يتم العثور على نتائج. طريقة "أولاً" سوف ترجع نموذج
+واحد أو، إذا لم يتم العثور على نتائج، تنفيذ إغلاق معين. يمكنك تعيين القيم للنموذج في الإغلاق:
 
 ```go
-facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
+facades.Orm().Query().حيث ("name", "first_user").FirstOr(&user, func() خطأ {
   user.Name = "goravel"
 
-  return nil
+  Renl
 })
 ```
 
-#### Query one or multiple lines by ID
+#### استفسر عن سطر واحد أو أكثر بواسطة المعرف
 
 ```go
-var user models.User
+var user models.user
 facades.Orm().Query().Find(&user, 1)
-// SELECT * FROM `users` WHERE `users`.`id` = 1;
+// SELECT * من `users` WHERE `users`.`id` = 1;
 
-var users []models.User
-facades.Orm().Query().Find(&users, []int{1,2,3})
-// SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
+var users []models. انظر
+facades.Orm().Query().Find(&users, []int{1,2,3}
+// SELECT * من `المستخدمين` إلى `المستخدمين`.`id` في (1,2,3)؛
 ```
 
-#### Not found return error
+#### لم يتم العثور على خطأ الإرجاع
 
 ```go
-var user models.User
-err := facades.Orm().Query().FindOrFail(&user, 1)
+تطبيق نماذج المستخدم.المستخدم
+خطأ:= facades.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### عندما يكون المفتاح الأساسي لجدول المستخدم هو نوع "سلسلة"، تحتاج إلى تحديد المفتاح الأساسي عند الاتصال
 
-`Find` method
+طريقة 'العثور على\`
 
 ```go
-var user models.User
+var user models.user
 facades.Orm().Query().Find(&user, "uuid=?" ,"a")
-// SELECT * FROM `users` WHERE `users`.`uuid` = "a";
+// SELECT * من `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### استعلام سطور متعددة
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
-// SELECT * FROM `users` WHERE id in (1,2,3);
+المستخدمين []models.user
+facades.Orm().Query().حيث ("معرف في ?", []int{1,2,3}).Get(&users)
+// SELECT * من معرف `users` في (1,2,3)؛
 ```
 
-#### Retrieving Or Creating Models
+#### استرداد أو إنشاء نماذج
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
-found in the database, it creates a new record with the attributes from merging the first argument with the optional
-second argument.
+طريقة "FirstOrCreate" تبحث عن سجل قاعدة بيانات باستخدام العمود/أزواج القيمة المحددة. إذا كان الموديل لا يمكن أن يكون
+موجود في قاعدة البيانات، إنه ينشئ سجلاً جديداً مع السمات من دمج الحجة الأولى مع الحجة الثانية الاختيارية
+.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
+وبالمثل فإن طريقة "FirstOrNew" تحاول أيضاً تحديد مكان سجل في قاعدة البيانات استناداً إلى السمات المعطاة. However,
 if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
 saved to the database yet and you need to manually call the `Save` method to do so.
 
 ```go
-var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+var user models.user
+facades.Orm().Query().حيث ("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
+// SELECT * من `users` WHERE `gender` = 1 و `users`. اسم 'tom' ORDER BY 'users`.`id' LIMIT 1;
+/INSERT INTO 'users` ('created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32. 56','2023-09-18 12:51:32.556','tom');
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
+facades.Orm().Query().حيث ("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models. ser{Avatar: "avatar"})
+// SELECT * من `المستخدمين` إلى `gender` = 1 و`users`.`name` = `tom' ORDER BY `users`. id` LMIT 1;
+// INSERT INTO `المستخدمين` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
 
-var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+نماذج مستخدم var انظر
+facades.Orm().Query().حيث ("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
+// SELECT * من `المستخدمين` إلى `gender` = 1 و`المستخدمين`. الاسم = 'tom' ORDER BY `users`.`id' LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models. ser{Avatar: "avatar"})
+// SELECT * من `المستخدمين` حيث `gender` = 1 و`users`.`name` = `tom' ORDER BY `users`.`id` LIMIT 1؛
 ```
 
-#### Not Found Error
+#### لم يتم العثور على خطأ
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
-`FirstOrFail` method:
+عندما لا يتم العثور على العنصر المطلوب، فإن طريقة "أولاً" لا تنشئ خطأ. لإنشاء خطأ، استخدم طريقة
+\`FirstOrFail':
 
 ```go
-var user models.User
+vuser models.user
 err := facades.Orm().Query().FirstOrFail(&user)
-// err == orm.ErrRecordNotFound
+// err == orm.ErrRecordNotFوجد
 ```
 
-### Where
+### أين
 
 ```go
 facades.Orm().Query().Where("name", "tom")
@@ -460,43 +459,43 @@ facades.Orm().Query().OrWhereNull("name")
 facades.Orm().Query().OrWhereIn("name", []any{"a"})
 ```
 
-### Limit
+### الحد
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
+المستخدمون []models.user
+facades.Orm().Query().حيث ("الاسم = ?", "tom").Limit(3).Get(&users)
+// SELECT * من 'users` WHERE name = 'tom' LIMIT 3؛
 ```
 
-### Offset
+### إزاحة
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
+المستخدمين []models.user
+facades.Orm().Query().حيث ("الاسم = ?", "tom").Offset(5).Limit(3).Get(&users)
+// SELECT * من `المستخدمين' حيث الاسم = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### طلب
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
+مستخدمو var []models.user
+facades.Orm().Query().here("name = ?", "tom").Order("sort asc").Order("id desc"). et(&users)
+// حدد * من "المستخدمين" 'users' WHERE name = 'tom' ORDER BY varic,id desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
+faces. rm().Query().حيث ("الاسم = ?", "tom").OrderBy("sort").Get(&users)
+// SELECT * من "المستخدمين" حيث الاسم = 'tom' ORDER BY type asc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().here("الاسم = ?", "tom"). rderBy("sort", "desc").Get(&users)
+// حدد * من 'users` WhERE name = 'tom' ORDER PY desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().حيث ("الاسم = ?", "tom").OrderByDesc("sort"). et(&users)
+// حدد * من 'users' الاسم = 'tom' ORDER BY desc;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
+facades.Orm().Query. هنا ("name = ?", "tom").InRandomOrder().Get(&users)
+// SELECT * من 'مستخدمين 'users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### Paginate
+### صفحة
 
 ```go
 var users []models.User
@@ -506,54 +505,54 @@ facades.Orm().Query().Paginate(1, 10, &users, &total)
 // SELECT * FROM `users` LIMIT 10;
 ```
 
-### Query Single Column
+### استعلام العمود الفردي
 
 ```go
-var ages []int64
+عبر الأعمار []int64
 facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
 // SELECT `age` FROM `users`;
 ```
 
-### Specify Table Query
+### تحديد استعلام الجدول
 
-If you want to query some aggregate data, you need to specify a specific table.
+إذا كنت ترغب في الاستعلام عن بعض البيانات الإجمالية، تحتاج إلى تحديد جدول محدد.
 
-Specify a model
+تحديد نموذج
 
 ```go
 var count int64
 facades.Orm().Query().Model(&models.User{}).Count(&count)
-// SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
+// SELECT count(*) FROM `users' WHERE حذف_at IS NULL;
 ```
 
-Specify a table
+تحديد جدول
 
 ```go
-var count int
+قم بحساب int
 facades.Orm().Query().Table("users").Count(&count)
-// SELECT count(*) FROM `users`; // get all records, whether deleted or not
+// SELECT العد (*) من `users`; // احصل على جميع السجلات، سواء حذفت أو لم تحذف
 ```
 
 ### Get SQL
 
-Get SQL with placeholder:
+احصل على SQL مع العنصر النائب:
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
+// SELECT * من "المستخدمين" حيث "id" = $1 و"المستخدمين"."حذف_at" ISNULL
 ```
 
-Get SQL with value:
+الحصول على SQL مع القيمة:
 
 ```go
 facades.Orm().Query().ToRawSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
+// SELECT * من "المستخدمين" حيث "id" = 1 و "users"."deleted_at" IS NULL
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
-`Save`, `Sum`, `Update`.
+ويمكن تسمية الأساليب بعد `ToSql` و`ToRawSql`: `Count`، `Create`، `حذف`، `Find`، `أولاً`، `Get`، `Pluck`،
+`Save`، `Sum`، `تحديث`.
 
-### Count
+### العد
 
 ```go
 var count int64
@@ -561,9 +560,9 @@ facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
 // SELECT count(*) FROM `users` WHERE name = 'tom';
 ```
 
-### Specify Fields
+### تحديد الحقول
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+"Select" يسمح لك بتحديد الحقول التي سيتم استرجاعها من قاعدة البيانات، بشكل افتراضي تسترجع ORM جميع الحقول.
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
@@ -573,74 +572,76 @@ facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
 // SELECT `name`,`age` FROM `users`;
 ```
 
-### Group By & Having
+### مجموعة حسب و
 
 ```go
-type Result struct {
-  Name  string
+نوع النتيجة بنيت {
+  Name string
   Total int
 }
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
-// SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
+var نتيجة
+facades.Orm().Query().Model(&models.User{}). elect("الاسم، المجموع (العمر) كالمجموع").Group("الاسم").Having("name = ?", "tom").Get(&result)
+// SELECT name, sum(age) كمجموع 'users` GROUP BY `name` تحمل الاسم = "tom";
 ```
 
-### Join
+### الانضمام
 
 ```go
-type Result struct {
-  Name  string
-  Email string
-}
+نوع النتيجة بنيت {
+  اسم السلسلة
+  سلسلة البريد الإلكتروني
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
-// SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
+
+
+
+ نتيجة
+facades.Orm().Query().Model(&models.User{}).Select("المستخدمون". لعب, emails.email").Join("إنضم اليسار إلى رسائل البريد الإلكتروني على emails.user_id = users.id").Scan(&result)
+// SELECT users.name, emails.email FROM `users` LEFT JOIN Eails ON emails.user_id = users.id;
 ```
 
-### Create
+### إنشاء
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
-// INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
+المستخدم := models.User{Name: "tom", Age: 18}
+err := facades.Orm().Query. reate(&user)
+// INSERT INTO مستخدمين (الاسم، الأعمار، إنشاء_at, تحديث_at) VALUES ("tom", 18, "2022-09-27 22:00:00"، "2022-09-27 22:00")؛
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// عدم تشغيل أحداث النموذج
+الخطأ := الواجهة. rm().Query().Table("users").Create(map[string]any{
   "name": "Goravel",
 })
 
-// Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
+/// المنشط النموذجي
+err := facades. rm().Query().Model(&models.User{}).Create(map[string]any{
   "name": "Goravel",
 })
 ```
 
-### Multiple create
+### إنشاء متعدد
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+المستخدمون := []models.User{{name: "tom", Age: 18}, {name: "tim", Age: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("users"). reate(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm. uery().Model(&models.User{}).Create(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> سيتم ملء 'created_at' و 'updated_at' تلقائيا.
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
-use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
+يمكن استخدامه لتقليل استهلاك ذاكرة تطبيقك بشكل كبير عند التكرار من خلال عشرات الآلاف من سجلات الطراز
+Eloquent. لاحظ أن طريقة "المؤشر" يمكن استخدامها مع "with" في نفس الوقت، الرجاء
+استخدام [Lazy Eager loadading](./relationships#lazy-eager-loadingلتحميل العلاقة في منطق 'for'.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
@@ -656,261 +657,262 @@ for row := range cursor {
 }
 ```
 
-### Save Model
+### حفظ الموديل
 
-#### Update an existing model
+#### تحديث نموذج موجود
 
 ```go
-var user models.User
+Vuser models.user
 facades.Orm().Query().First(&user)
 
 user.Name = "tom"
-user.Age = 100
-facades.Orm().Query().Save(&user)
-// UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
+user.
+ user.Age = 100
+facades.Orm().Query. ave(&user)
+//UPDATE `users` مجموعة `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`=' WHERE `id` = 1؛
 ```
 
-#### Update columns
+#### تحديث الأعمدة
 
 ```go
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
-// UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
+facades.Orm().Query().Model(&models.User{}).حيث ("name", "tom").Update("name", "hello")
+// UPDATE `users` مجموعة `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
+facades.Orm().Query().Model(&models.User{}).Wherename", "tom").Update(models. ser{name: "hello", Age: 18})
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
-// UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
+/UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489`,`name`=',`age`=18 WHERE `name` = 'tom'؛
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
-> time.
+> عند التحديث مع 'هيكل`، سيقوم Orm فقط بتحديث حقول غير الصفر. قد ترغب في استخدام `map`لتحديث السمات أو
+> استخدم`Select`لتحديد الحقول للتحديث. لاحظ أن`struct`لا يمكن إلا أن يكون`Model`، إذا كنت ترغب في التحديث مع non
+> `Model`، تحتاج إلى استخدام `. غير أنه لا يمكن تحديث حقل "تحديث" تلقائياً في هذا الوقت
+> .
 
-#### Update or create
+#### تحديث أو إنشاء
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+الاستعلام بواسطة `name'، إذا لم يكن موجودا، إنشاء بواسطة `name'، `avatar'، إذا كان موجودا، تحديث `avatar' استنادًا إلى `name`:
 
 ```go
 facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
-// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
+// SELECT * حيث 'users`.'name' = 'name' = 'name' and 'users`.`حذف_at` NULL ORDER BY `users`. id` LIMIT 1;
+// INSERT INTO `المستخدمين` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:0869','08-08-08. 69',NULL,'name','avatar');
+//UPDATE 'users` مجموعة 'name'='name',avatar'='avatar',`updated_at'='2023-03-11 10:11:08.881' WHERE users`.`حذف_at` NULL و `id' = 1؛
 ```
 
-### Delete
+### حذف
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+حذف بنموذج ، يتم إرجاع عدد الصفوف المتأثرة بالبيان بالطريقة:
 
 ```go
-var user models.User
+vuser models.user
 facades.Orm().Query().Find(&user, 1)
-res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
-res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
-// DELETE FROM `users` WHERE `users`.`id` = 1;
+s، الخطأ := facades.Orm().Query().Delete(&user)
+res, err := facades.Orm().Query().Model(&models.User{}). هنا ("id", 1).delete()
+res, err := facades.Orm().Query().Table("users").Where("id", 1).delete()
+// DELETE FROM `users`.`id` = 1;
 
 num := res.RowsAffected
 ```
 
-Multiple delete
+حذف متعدد
 
 ```go
-facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
-// DELETE FROM `users` WHERE name = 'tom';
+facades.Orm().Query().حيث ("الاسم = ?", "tom").Delete(&models.User{})
+// DELETE من `المستخدمين' WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+تريد فرض حذف بيانات غير مألوفة.
 
 ```go
-facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
+v. facades.Orm().Query().here("name", "tom").ForceDelete(&models.User{})
 facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
-facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
+facades.Orm().Query().Table("users").Where("name", "tom").Forcedelete()
 ```
 
-You can delete records with model associations via `Select`:
+يمكنك حذف السجلات مع روابط النموذج عن طريق "اختيار":
 
 ```go
-// Delete Account of user when deleting user
-facades.Orm().Query().Select("Account").Delete(&user)
+// حذف حساب المستخدم عند حذف المستخدم
+facades.Orm().Query().Select("الحساب").Delete(&user)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// حذف الطلبات و creditCards للمستخدم عند حذف المستخدم
+facades.Orm().Query().Select("الطلبات"، "creditCards"). elete(&user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// حذف جميع الرابطات الفرعية للمستخدم عند حذف المستخدم
+facades.Orm().Query().Select(orm.Associations). elete(&user)
 
-// Delete all Account of users when deleting users
-facades.Orm().Query().Select("Account").Delete(&users)
+/ حذف جميع حسابات المستخدمين عند حذف المستخدمين
+facades.Orm().Query().Select("الحساب").حذف(&users)
 ```
 
-Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
-keys as conditions to delete associated records:
+ملاحظة: سيتم حذف الروابط فقط إذا لم يكن المفتاح الرئيسي للسجل فارغاً، ويستخدم Orm هذه المفاتيح الأساسية
+كشروط لحذف السجلات المرتبطة:
 
 ```go
-// Delete user that name='goravel', but don't delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{})
+// حذف المستخدم الذي اسم='goravel', ولكن لا تحذف حساب المستخدم
+facades.Orm().Query().Select("الحساب").حيث ("الاسم = ?", "goravel"). elete(&models.User{})
 
-// Delete user that name='goravel' and id = 1, and delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
+// حذف المستخدم الذي اسمه = 'goravel' و المعرف = 1، وحذف حساب واجهة المستخدم
+. rm().Query().Select("الحساب").حيث ("الاسم = ?", "goravel").Delete(&models.user{ID: 1}
 
-// Delete user that id = 1 and delete account of that user
-facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
+// حذف المستخدم المعرف = 1 وحذف حساب ذلك المستخدم
+facades.Orm().Query().Select("الحساب").حذف (&models.user{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
+إذا تم تنفيذ الحذف بدون أي شروط، فإن ORM لا يقوم بذلك ويعيد خطأ. So you have to add some
 conditions, or use native SQL.
 
-### Query Soft Delete Data
+### استعلام حذف البيانات الناعمة
 
 ```go
-var user models.User
+إختر نماذج المستخدم.المستخدم
 facades.Orm().Query().WithTrashed().First(&user)
 ```
 
-### Filter Repetition
+### تصفية التكرار
 
 ```go
-var users []models.User
+المستخدمين []models.user
 facades.Orm().Query().Distinct("name").Find(&users)
 ```
 
-### Get Driver
+### احصل على سائق
 
 ```go
-driver := facades.Orm().Query().Driver()
+السائق := facades.Orm().Query().Driver()
 
-// Judge driver
-if driver == orm.DriverMysql {}
+// قاضي السائق
+إذا كان السائق =orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### تنفيذ SQL الأصلية
 
 ```go
-type Result struct {
-  ID   int
-  Name string
-  Age  int
-}
+نوع النتيجة بنيت {
+  ID int
+  اسم السلسلة
+  Age int
 
-var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+
+var النتيجة
+. rm().Query().Raw(“SELECT id, name, age FROM users WHERE name = ?”, "tom").Scan(&result)
 ```
 
-### Execute Native Update SQL
+### تنفيذ التحديث الأصلي SQL
 
-The number of rows affected by the statement is returned by the method:
+يتم إرجاع عدد الصفوف التي تأثرت بالبيان بالطريقة:
 
 ```go
-res, err := facades.Orm().Query().Exec("DROP TABLE users")
-// DROP TABLE `users`;
+res, err := facades.Orm().Query().Exec("مستخدمو DROP TABLE")
+// DROP TABLE `مستخدمين`;
 
 num := res.RowsAffected
 ```
 
-### Exists
+### موجود
 
 ```go
-var exists bool
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
+يوجد var bool
+facades.Orm().Query().Model(&models.User{}).حيث ("name", "tom").Exists(&exists)
 ```
 
-### Restore
+### إستعادة
 
 ```go
-facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
-facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
-// UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
+facades.Orm().Query().WithTrashed().Restore(&models.user{ID: 1})
+facades.Orm().Query().Model(&models.user{ID: 1}).WithTrashed().Restore()
+//UPDATE `users` مجموعة `حذف_at`=NULL WHERE `id` = 1؛
 ```
 
-### Transaction
+### معاملة
 
-You can execute a transaction by `Transaction` function.
+يمكنك تنفيذ معاملة من خلال دالة "المعاملة".
 
 ```go
-import (
+استيراد (
   "github.com/goravel/framework/contracts/database/orm"
   "github.com/goravel/framework/facades"
 
   "goravel/app/models"
-)
 
-...
 
-return facades.Orm().Transaction(func(tx orm.Query) error {
+. .
+
+Refacades.Orm().Transaction(function(tx orm.Query) خطأ {
   var user models.User
 
-  return tx.Find(&user, user.ID)
+  Retx.Find(&user, user.ID)
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+يمكنك أيضًا التحكم يدويًا في تدفق المعاملة بنفسك:
 
 ```go
 tx, err := facades.Orm().Query().Begin()
-user := models.User{Name: "Goravel"}
-if err := tx.Create(&user); err != nil {
-  err := tx.Rollback()
-} else {
+المستخدم := models.User{Name: "Goravel"}
+إذا حدث خطأ := tx. reate(&user); خطأ!= nl {
+  خطأ:= tx.Rollback()
+} آخر{
   err := tx.Commit()
 }
 ```
 
-### Scopes
+### النطاقات
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+يسمح لك بتحديد الاستعلامات الشائعة الاستخدام التي يمكن الرجوع إليها عند تسمية الطريقة.
 
 ```go
-func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
-  return func(query orm.Query) orm.Query {
-    page, _ := strconv.Atoi(page)
-    limit, _ := strconv.Atoi(limit)
-    offset := (page - 1) * limit
+ممزق Paginator(سلسلة الصفحة، سلسلة محدودة) دالة (methodorm.Query) orm. استعلام {
+  إعادة دالة (الاستعلام orm.Query) orm.Query {
+    صفحة، _ := strconv. حد toi(صفحة)
+    ، _ := strconv. toi(limit)
+    إزاحة := (صفحة - 1) * حد
 
-    return query.Offset(offset).Limit(limit)
-  }
-}
+    إستعلام العودة. ffset(offset).Limit(limit)
 
-// scopes.Paginator is a custom function: func(ormcontract.Query) ormcontract.Query
+
+
+// scopes.Paginator هي وظيفة مخصصة: وظيفة (ormcontract.Query) ormcontract.Query
 facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### التعبيرات الخام
 
-You can use the `db.Raw` method to update fields:
+يمكنك استخدام طريقة 'db.Raw' لتحديث الحقول:
 
 ```go
-import "github.com/goravel/framework/database/db"
+استيراد "github.com/goravel/framework/database/db"
 
 facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
-// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
+//UPDATE `users` مجموعة `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`حذف_at` NULL و`id` = 1؛
 ```
 
-### Pessimistic Locking
+### قفل متشائم
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+يتضمن منشئ الاستعلامات أيضًا بعض الدوال لمساعدتك على تحقيق "القفل المتشائم" عند تنفيذ عبارات `select`
+الخاصة بك.
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+لتنفيذ بيان مع "قفل مشترك"، يمكنك أن تسمي طريقة `مشاركة`. القفل المشترك يمنع صفوف
+المحددة من التعديل حتى يتم تنفيذ المعاملة الخاصة بك:
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
+المستخدمين []models.user
+facades.Orm().Query().حيث ("صوت"، ">"، 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
-modified or from being selected with another shared lock:
+بدلاً من ذلك، يمكنك استخدام طريقة "LockForUpdate". قفل "للتحديث" يمنع السجلات المحددة من أن تكون
+معدلة أو من أن يتم اختيارها مع قفل مشترك آخر:
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
+المستخدمين []models.user
+facades.Orm().Query().حيث ("صوت"، ">"، 100).LockForUpdate().Get(&users)
 ```
 
 ### Sum
 
 ```go
-var sum int
-if err := facades.Orm().Query().Model(models.User{}).Sum("id", &sum); err != nil {
+قيمة المبلغ
+إذا حدث خطأ := facades.Orm().Query().Model(models.User{}).Sumr ("id", &sum); err != nl {
   return err
 }
 fmt.Println(sum)
@@ -922,15 +924,14 @@ Orm models dispatch several events, allowing you to hook into the following mome
 `Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
 `Restored`, `Restoring`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
-is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
-dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
-changes to the model are persisted.
+سيتم إرسال حدث "استرجاع" عندما يتم استرجاع نموذج موجود من قاعدة البيانات. عندما يتم حفظ موديل جديد ل
+المرة الأولى، سيتم إرسال الحدثين "إنشاء" و "إنشاء". أحداث "تحديث" / "تحديث" سوف ترسل عندما يتم تعديل النموذج
+ويتم تسمية طريقة "حفظ". أحداث "حفظ" / "حفظ" سوف ترسل عندما يتم إنشاء أو تحديث النموذج* حتى إذا لم يتم تغيير سمات النموذج. أسماء الأحداث التي تنتهي بـ \`-ing' هي
+ التي ترسل قبل أن تستمر أي تغييرات على النموذج، بينما الأحداث التي تنتهي بـ '-ed' ترسل بعد
+ تستمر التغييرات على النموذج.
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
-of the model's lifecycle to your own event classes.
+لبدء الإستماع إلى أحداث نموذجية، حدد طريقة "ارسال" على النموذج الخاص بك. هذه الخاصية تخطط نقاط مختلفة
+من دورة حياة النموذج لفصول الحدث الخاصة بك.
 
 ```go
 import (
@@ -988,15 +989,15 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> ملاحظة: فقط قم بتسجيل الأحداث التي تحتاجها. ولا ترسل أحداث نموذجية عند القيام بعمليات دفعة من خلال شركة Orm.
 
-### Observers
+### المراقبون
 
-#### Defining Observers
+#### تعريف المراقبين
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
+إذا كنت تستمع إلى العديد من الأحداث على نموذج معين، يمكنك استخدام المراقبين لتجميع جميع المستمعين في صف
+واحد. صفوف المراقبين لديها أسماء طرق تعكس أحداث Eloquent التي ترغب في الاستماع إليها. كل من هذه الطرق
+يتلقى النموذج المتضرر كحجتهم الوحيدة. The `make:observer` Artisan command is the easiest way to create a
 new observer class:
 
 ```shell
@@ -1004,101 +1005,102 @@ go run . artisan make:observer UserObserver
 go run . artisan make:observer user/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+هذا الأمر سوف يضع المراقب الجديد في دليل "app/Observers" الخاص بك. إذا كان هذا الدليل غير موجود، سيقوم Artisan
+بإنشائه لك. سيبدو مراقبك الجديد كما يلي:
 
 ```go
-package observers
+حزمة المراقبين
 
-import (
+استيراد (
  "fmt"
 
  "github.com/goravel/framework/contracts/database/orm"
-)
 
-type UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+نوع بنية المراقب UserObsert{}
+
+func (u *UserObserver) تم إنشاؤه (حدث العلم. الحدث) خطأ {
  return nil
 }
 
-func (u *UserObserver) Updated(event orm.Event) error {
+مربع (u *UserObserver) تم تحديثه (حدث orm.Event) خطأ {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) تم حذفه (حدث العلم. حدث) خطأ {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+مربع (u *UserObserver) Forcedeleted(الحدث orm.Event) خطأ {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+المراقب عن القالب يحتوي فقط على بعض الأحداث، يمكنك إضافة أحداث أخرى وفقا لاحتياجاتك.
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
-observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
+لتسجيل مراقب، تحتاج إلى الاتصال بطريقة "المراقبة" على النموذج الذي ترغب في ملاحظته. يمكنك تسجيل
+مراقبين بطريقة 'Boot' لمقدم خدمة 'app/providers/event_service_provider.go::Boot':
 
 ```go
-package providers
+موفري الحزمة
 
-import (
- "github.com/goravel/framework/facades"
+استيراد (
+ "github. om/goravel/framework/facades"
 
  "goravel/app/models"
  "goravel/app/observers"
-)
 
-type EventServiceProvider struct {
-}
 
-func (receiver *EventServiceProvider) Register(app foundation.Application) {
- facades.Event().Register(receiver.listen())
-}
 
-func (receiver *EventServiceProvider) Boot(app foundation.Application) {
- facades.Orm().Observe(models.User{}, &observers.UserObserver{})
-}
+نوع EventServiceProModer struct {
 
-func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener {
- return map[event.Event][]event.Listener{}
+
+func (المتلقي *EventServiceProvider) Register(مؤسسة التطبيق. التكرار) {
+ facades.Event().register(receiver. isten())
+
+
+func (المتلقي *EventServiceproviders er) Boot(app Foundation.Application) {
+ facades.Orm().Observe(models.User{}, &observers. سيرفير{})
+
+
+الفونك (المستلم *EventServiceprovider) يستمع إلى خريطة[event.Event][]event.Listener {
+ map[event.Event][]event.Listener{}
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> ملاحظة: إذا قمت بتعيين 'إرسال الأحداث' و 'المراقب' في نفس الوقت، سيتم تطبيق 'إرسال الأحداث' فقط.
 
-#### Parameter in Observer
+#### المعلمة في المراقب
 
-The `event` parameter will be passed to all observers:
+سيتم نقل معلمة "الحدث" إلى جميع المراقبين:
 
-| Method       | Action                                                                                                     |
+| الطريقة      | اجراء                                                                                                      |
 | ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| السياق       | احصل على السياق الذي مر بواسطة `facades.Orm().WithContext()`                                               |
+| GetAttribute | احصل على القيمة المعدلة، اذا لم يتم تعديلها، احصل على القيمة الأصلية، اذا لم تكن هناك قيمة أصلية، ارجع صفر |
+| Getالأصل     | احصل على القيمة الأصلية، إذا لم تكن هناك قيمة أصلية، أرجع صفر                                              |
+| أسديرتي      | تحديد ما إذا كان الحقل قد تم تعديله                                                                        |
+| IsClean      | إيسديرتي عكس                                                                                               |
+| الاستعلام    | احصل على استعلام جديد، والذي يمكن استخدامه مع المعاملة                                                     |
+| SetAttribute | تعيين قيمة جديدة لحقل                                                                                      |
 
-### Muting Events
+### كتم الأحداث
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+قد تحتاج أحياناً إلى "كتم" جميع الأحداث التي يطلقها نموذج مؤقتاً. يمكنك تحقيق هذا باستخدام طريقة
+`انسحابات الأحداث`:
 
 ```go
-var user models.User
+var user models.user
 facades.Orm().Query().WithoutEvents().Find(&user, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### حفظ نموذج واحد بدون أحداث
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
-`SaveQuietly` method:
+في بعض الأحيان قد ترغب في "حفظ" نموذج معين دون إرسال أي أحداث. يمكنك تحقيق هذا باستخدام طريقة
+'حفظ':
 
 ```go
-var user models.User
+vuser models.user
 err := facades.Orm().Query().FindOrFail(&user, 1)
 user.Name = "Goravel"
 err := facades.Orm().Query().SaveQuietly(&user)
