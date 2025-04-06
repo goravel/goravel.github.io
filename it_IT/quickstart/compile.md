@@ -1,14 +1,14 @@
-# Compile
+# Compila
 
-## Compile command
+## Comando di compilazione
 
-The Goravel project can be compiled with the following command:
+Il progetto Goravel può essere compilato con il seguente comando:
 
 ```
-// Select the system to compile
+// Seleziona il sistema per compilare
 go run . artisan build
 
-// Specify the system to compile
+// Specifica il sistema per compilare
 go run . artisan build --os=linux
 go run . artisan build -o=linux
 
@@ -16,25 +16,25 @@ go run . artisan build -o=linux
 go run . artisan build --static
 go run . artisan build -s
 
-// Specify the output file name
+// Specifica il nome del file di output
 go run . artisan build --name=goravel
 go run . artisan build -n=goravel
 ```
 
-## Manual compilation
+## Compilazione manuale
 
-### Regular compilation
+### Compilazione regolare
 
 ```shell
-go build .
+andare a costruire.
 ```
 
 #### Deploy Server
 
-The Following files and folders need to be uploaded to the server during deployment:
+I seguenti file e cartelle devono essere caricati sul server durante la distribuzione:
 
 ```
-./main // Compile the resulting binary file
+./main // Compila il file binario
 .env
 ./database
 ./public
@@ -42,51 +42,51 @@ The Following files and folders need to be uploaded to the server during deploym
 ./resources
 ```
 
-### Static compilation
+### Compilazione statica
 
-The package by regular compilation also needs to rely on the support of the deployment environment, the statically
-compiled files can be freely put to run on the specified platform without environment configuration.
+Il pacchetto mediante compilazione regolare deve anche basarsi sul sostegno dell'ambiente di spiegamento, i file compilati staticamente
+possono essere messi liberamente per essere eseguiti sulla piattaforma specificata senza configurazione di ambiente.
 
 ```shell
 go build --ldflags "-extldflags -static" -o main .
 ```
 
-### Cross compile
+### Compilazione incrociata
 
-Compilation is differentiated by platform, you need to select a matching compilation method according to the deployment
-situation.
+La compilazione è differenziata per piattaforma, è necessario selezionare un metodo di compilazione corrispondente in base alla situazione di distribuzione
+.
 
 ```shell
-// Compile Linux environment
+// Compila l'ambiente Linux
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
-// Compile Windows environment
+// Compila l'ambiente Windows
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build .
 
-// Compile Mac environment
+// Compila l'ambiente Mac
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build .
 ```
 
 ## Docker
 
-Goravel has a default `Dockerfile` and `docker-compose.yml` file, you can use it directly, note that `APP_HOST` should
-be `0.0.0.0` at this time.
+Goravel ha un file `Dockerfile` e `docker-compose.yml`, puoi usarlo direttamente, nota che `APP_HOST` dovrebbe
+essere `0.0.0` in questo momento.
 
 ```shell
 docker build .
 ```
 
-### Docker Compose
+### Composizione Docker
 
-You can also quickly start the service with the following command:
+È inoltre possibile avviare rapidamente il servizio con il seguente comando:
 
 ```shell
 docker-compose build
 docker-compose up
 ```
 
-> Note: If you need external access, you need to change APP_HOST to 0.0.0.0
+> Nota: Se hai bisogno di accesso esterno, devi cambiare APP_HOST a 0.0.0.0
 
-## Reduce package size
+## Riduci dimensione pacco
 
-Commenting out the unused `ServiceProvider` in `config/app.go::providers` will effectively reduce the packaging volume.
+Commentare il file `ServiceProvider` inutilizzato in `config/app.go::providers` ridurrà efficacemente il volume di imballaggio.
