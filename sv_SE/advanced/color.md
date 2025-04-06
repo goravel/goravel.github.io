@@ -19,32 +19,32 @@ utgång.
 - `color.Gray()`
 - `color.Default()`
 
-### Printer Methods
+### Skrivare metoder
 
-A `contracts/support.Printer` provides the following methods to print or format text with color:
+En `contracts/support.Printer` ger följande metoder för att skriva ut eller formatera text med färg:
 
-- `Print` - Print text
-- `Println` - Print text with a new line
-- `Printf` - Print formatted text
-- `Sprint` - Return colored text
-- `Sprintln` - Return colored text with a new line
-- `Sprintf` - Return formatted colored text
+- `Print` - Skriv ut text
+- `Println` - Skriv ut text med en ny rad
+- `Printf` - Skriv ut formaterad text
+- `Sprint` - Retur färgad text
+- `Sprintln` - Returfärgad text med en ny rad
+- `Sprintf` - Returformaterad färgad text
 
 ```go
 import "github.com/goravel/framework/support/color"
 
-color.Blue().Println("Hello, Goravel!")
-color.Green().Printf("Hello, %s!", "Goravel")
+color.Blue().Println("Hej, Goravel!")
+color.Green().Printf("Hej, %s!", "Goravel")
 ```
 
-## Custom Color
+## Anpassad färg
 
 ### `color.New`
 
-The `color.New` function creates a new color printer. You can use this object to colorize the output of the terminal.
+Funktionen `color.New` skapar en ny färgskrivare. Du kan använda detta objekt för att färga utgången av terminalen.
 
 ```go
-import "github.com/goravel/framework/support/color"
+import "github.com/goravel/framey/support/color"
 
-color.New(color.FgRed).Println("Hello, Goravel!")
+color.New(color.FgRed).Println("Hej, Goravel!")
 ```
