@@ -1,18 +1,18 @@
-# Task Scheduling
+# Планирование задач
 
-In the past, you might need to create a cron configuration entry for each task that needed scheduling on your server.
-However, this approach can quickly become a pain as your task schedule is not in source control, and you have to SSH
-into your server to view or add/edit cron entries.
+В прошлом вам может потребоваться создать запись о конфигурации cron для каждой задачи, которая нуждается в планировании на вашем сервере.
+Однако этот подход может быстро стать болью, поскольку ваш график задач не находится в исходном контроле, и вам нужно SSH
+на вашем сервере, чтобы просматривать или редактировать записи cron.
 
-Goravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. With the scheduler, you
-can easily and clearly define your command schedule within your Goravel application. Using the scheduler, you only need
-to create a single cron entry on your server.
+Командный планировщик Goravel'а предлагает новый подход к управлению запланированными задачами на вашем сервере. With the scheduler, you
+can easily and clearly define your command schedule within your Goravel application. Используя планировщик, вам нужно только
+для создания одной записи cron на вашем сервере.
 
-## Defining Schedules
+## Определение расписаний
 
-To schedule tasks for your application, you can define them in the `Schedule` method in `app\console\kernel.go`. Let's
-consider an example to understand this better. In this case, we want to schedule a closure that will run every day at
-midnight. Inside this closure, we will execute a database query to clear a table:
+Чтобы запланировать задачи вашего приложения, вы можете определить их методом `Schedule` в `app\console\kernel.go`. Давайте
+рассмотрим пример, чтобы лучше понять это. В этом случае мы хотим запланировать закрытие, которое будет запускаться каждый день в
+полночь. Внутри этого закрытия, мы выполним запрос к базе данных, чтобы очистить таблицу:
 
 ```go
 package console
@@ -20,7 +20,7 @@ package console
 import (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/models"
 )
@@ -28,18 +28,18 @@ import (
 type Kernel struct {
 }
 
-func (kernel Kernel) Schedule() []schedule.Event {
+func (kernel Kernel) Schedule() []schedule. vent {
   return []schedule.Event{
     facades.Schedule().Call(func() {
-      facades.Orm().Query().Where("1 = 1").Delete(&models.User{})
+      facades. rm().Query().В дальнейшем("1 = 1").Delete(&models.User{})
     }).Daily(),
   }
 }
 ```
 
-### Scheduling Artisan Commands
+### Планирование ремесленных команд
 
-In addition to scheduling closures, you can also schedule [Artisan commands](./artisan). For example, you may
+В дополнение к планированию замыканий, вы также можете запланировать [Artisan commands](./artisan). For example, you may
 use the `Command` method to schedule an Artisan command using either the command's name or class.
 
 ```go
@@ -48,82 +48,82 @@ package console
 import (
   "github.com/goravel/framework/contracts/console"
   "github.com/goravel/framework/contracts/schedule"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
-type Kernel struct {
+тип Kernel struct {
 }
 
-func (kernel *Kernel) Schedule() []schedule.Event {
+func (kernel *Kernel) Schedule() []schedule. vent {
   return []schedule.Event{
     facades.Schedule().Command("send:emails name").Daily(),
   }
 }
 ```
 
-### Logging Level
+### Уровень записи
 
-When `app.debug` is `true`, the console will print all logs. Otherwise, only `error` level logs will be printed.
+Когда `app.debug` находится `true`, консоль будет печатать все журналы. В противном случае будут выведены только журналы уровня error.
 
-### Schedule Frequency Options
+### Параметры расписания частоты
 
-We've already seen a few examples of how you may configure a task to run at specified intervals. However, there are many
-more task schedule frequencies avaibable to assign to tasks:
+Мы уже видели несколько примеров того, как вы можете настроить задачу для запуска с заданными интервалами. Тем не менее, существует много
+больше частот, доступных для назначения задач:
 
-| 方法                       | 描述                                                  |
-| ------------------------ | --------------------------------------------------- |
-| `.Cron("* * * * *")`     | Run the task on a custom cron schedule              |
-| `.EveryMinute()`         | Run the task every minute                           |
-| `.EveryTwoMinutes()`     | Run the task every two minutes                      |
-| `.EveryThreeMinutes()`   | Run the task every three minutes                    |
-| `.EveryFourMinutes()`    | Run the task every four minutes                     |
-| `.EveryFiveMinutes()`    | Run the task every five minutes                     |
-| `.EveryTenMinutes()`     | Run the task every ten minutes                      |
-| `.EveryFifteenMinutes()` | Run the task every fifteen minutes                  |
-| `.EveryThirtyMinutes()`  | Run the task every thirty minutes                   |
-| `.Hourly()`              | Run the task every hour                             |
-| `.HourlyAt(17)`          | Run the task every hour at 17 minutes past the hour |
-| `.EveryTwoHours()`       | Run the task every two hours                        |
-| `.EveryThreeHours()`     | Run the task every three hours                      |
-| `.EveryFourHours()`      | Run the task every four hours                       |
-| `.EverySixHours()`       | Run the task every six hours                        |
-| `.Daily()`               | Run the task every day at midnight                  |
-| `.DailyAt("13:00")`      | Run the task every day at 13:00     |
+| 方法                       | 描述                                                    |
+| ------------------------ | ----------------------------------------------------- |
+| `.Cron("* * * * *")`     | Выполнить задачу по пользовательскому расписанию cron |
+| `.EveryMinute()`         | Запускать задачу каждую минуту                        |
+| `.EveryTwoMinutes()`     | Запуск задачи каждые две минуты                       |
+| `.EveryThreeMinutes()`   | Запускать задачу каждые три минуты                    |
+| `.EveryFourMinutes()`    | Запуск задачи каждые четыре минуты                    |
+| `.EveryFiveMinutes()`    | Запуск задачи каждые пять минут                       |
+| `.EveryTenMinutes()`     | Запускать задачу каждые десять минут                  |
+| `.EveryFifteenMinutes()` | Запускать задачу каждые пятнадцать минут              |
+| `.EveryThirtyMinutes()`  | Запускать задачу каждые тридцать минут                |
+| `.Час()`                 | Запускать задачу каждый час                           |
+| `.ЧасыAt(17)`            | Запускать задачу каждый час за 17 минут после часа    |
+| `.EveryTwoHours()`       | Запуск задачи каждые два часа                         |
+| `.EveryThreeHours()`     | Запуск задачи каждые три часа                         |
+| `.EveryFourHours()`      | Запуск задачи каждые четыре часа                      |
+| `.EverySixHours()`       | Запуск задачи каждые шесть часов                      |
+| `.Daily()`               | Запускать задачу каждый день в полночь                |
+| `.DailyAt("13:00")`      | Выполнять задачу каждый день в 13:00  |
 
-### Preventing Task Overlaps
+### Предотвращение наложения задач
 
-By default, scheduled tasks will continue to run even if a previous instance is still running. To prevent this, use the
+По умолчанию запланированные задачи будут выполняться, даже если запущен предыдущий экземпляр. To prevent this, use the
 following methods:
 
-| 方法                       | 描述                     |
-| ------------------------ | ---------------------- |
-| `.SkipIfStillRunning()`  | Skip if still running  |
-| `.DelayIfStillRunning()` | Delay if still running |
+| 方法                       | 描述                                |
+| ------------------------ | --------------------------------- |
+| `.SkipIfStillRunning()`  | Пропустить, если всё ещё запущено |
+| `.DelayIfStillRunning()` | Задержка если всё ещё выполняется |
 
 ```go
 facades.Schedule().Command("send:emails name").EveryMinute().SkipIfStillRunning()
 facades.Schedule().Command("send:emails name").EveryMinute().DelayIfStillRunning()
 ```
 
-### Running Tasks On One Server
+### Запуск задач на одном сервере
 
-> To utilize this feature, your application must be using the memcached, dynamodb, or redis cache driver as the default
-> cache driver. In addition, all servers must be communicating with the same central cache server.
+> Для использования этой функции ваша программа должна использовать драйвер кэша memcached, dynamodb или redis в качестве стандартного драйвера кэша
+> . Кроме того, все серверы должны взаимодействовать с одним центральным сервером кэша.
 
-If your application's scheduler runs on multiple servers, you can ensure that a scheduled job is executed on only one of
-them. For example, let's say you have a scheduled task that generates a new report every Friday night. If the task
+Если планировщик вашего приложения работает на нескольких серверах, вы можете убедиться, что запланированная работа выполняется только на одном из
+них. Например, скажем, у вас есть запланированная задача, которая создает новый отчет каждую пятницу вечером. If the task
 scheduler runs on three worker servers, the scheduled task will run on all three servers and create the report three
-times. This is not ideal!
+times. Это не идеально!
 
 To prevent this, use the `OnOneServer` method when defining the scheduled task, which will make sure that the task runs
-on only one server. The first server to receive the task will secure an atomic lock on the job, preventing other servers
-from executing the same task at the same time:
+on only one server. Первый сервер, получивший задание, защитит атомарный замок от работы, предотвращение выполнения других серверов
+одной и той же задачи одновременно:
 
 ```go
 facades.Schedule().Command("report:generate").Daily().OnOneServer()
 ```
 
-Scheduled closures must be assigned a name if they are intended to be run on one server:
+Запланированные замыкания должны быть назначены имя, если они предназначены для запуска на одном сервере:
 
 ```go
 facades.Schedule().Call(func() {
@@ -131,57 +131,57 @@ facades.Schedule().Call(func() {
 }).Daily().OnOneServer().Name("goravel")
 ```
 
-## Running The Scheduler
+## Запуск планировщика
 
-Now that we have learned how to define scheduled tasks, let's discuss how to actually run them on our server.
+Теперь, когда мы научились определять запланированные задачи, давайте обсудим, как на самом деле запустить их на нашем сервере.
 
-Add `go facades.Schedule().Run()` to the root `main.go` file.
+Добавьте `go facades.Schedule().Run()` в файл `main.go`.
 
 ```go
-package main
+пакет main
 
 import (
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // This bootstraps the framework and make it ready for use.
   bootstrap.Boot()
 
-  // Start schedule by facades.Schedule
+  // Запуск расписания по facades.Schedule
   go facades.Schedule().Run()
 
   select {}
 }
 ```
 
-## Stopping The Scheduler
+## Остановка планировщика
 
-You can call the `Shutdown` method to gracefully shut down the scheduler. This method will wait for all tasks to
+Вы можете вызвать метод «Выключение», чтобы изящно выключить планировщик. This method will wait for all tasks to
 complete before shutting down.
 
 ```go
 // main.go
 bootstrap.Boot()
 
-// Create a channel to listen for OS signals
+// Создание канала для прослушивания сигналов ОС
 quit := make(chan os.Signal)
-signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+. otify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-// Start schedule by facades.Schedule
-go facades.Schedule().Run()
+// Начало расписания по facades.Schedule
+идти facades.Schedule(). un()
 
-// Listen for the OS signal
+// Слушаем сигнал ОС
 go func() {
   <-quit
-  if err := facades.Schedule().Shutdown(); err != nil {
-    facades.Log().Errorf("Schedule Shutdown error: %v", err)
+  if err := facades. chedule().Shutdown(); err != nil {
+    facades. og().Ошибка("Ошибка завершения планирования: %v", ошибка)
   }
 
   os.Exit(0)
 }()
 
-select {}
+выберите {}
 ```
