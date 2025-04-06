@@ -1,34 +1,32 @@
-# Cache
+# 缓存
 
-Goravel provides an expandable cache module that can be operated using `facades.Cache()`. Goravel comes with a `memory`
-driver, for other drivers, please check the corresponding independent extension packages:
+Goravel 提供了一个可扩展的缓存模块，可以使用 `facades.Cache()` 进行操作。 Goravel 自带 `memory` 驱动，对于其他驱动，请查看相应的独立扩展包：
 
-| Driver | Link                                                                                                 |
-| ------ | ---------------------------------------------------------------------------------------------------- |
-| Redis  | [https://github.com/goravel/redis](https://github.com/goravel/redis) |
+| 驱动    | 链接                                                                                                   |
+| ----- | ---------------------------------------------------------------------------------------------------- |
+| Redis | [https://github.com/goravel/redis](https://github.com/goravel/redis) |
 
-## Configuration
+## 配置
 
-Make all custom configurations in `config/cache.go`.
+在 `config/cache.go` 中进行所有自定义配置。
 
-## Cache Usage
+## 缓存使用
 
-### Inject Context
+### 注入上下文
 
 ```go
 facades.Cache().WithContext(ctx)
 ```
 
-### Accessing Multiple Cache Stores
+### 访问多个缓存存储
 
-You may access various cache stores via the `Store` method. The key passed to the `Store` method should correspond to
-one of the stores listed in the "stores" configuration array in your cache configuration file:
+您可以通过 `Store` 方法访问各种缓存存储。 传递给 `Store` 方法的键应该对应于缓存配置文件中"stores"配置数组中列出的存储之一：
 
 ```go
 value := facades.Cache().Store("redis").Get("foo")
 ```
 
-### Retrieving Items From The Cache
+### 从缓存中检索项目
 
 ```go
 value := facades.Cache().Get("goravel", "default")
@@ -37,9 +35,7 @@ value := facades.Cache().GetInt("goravel", 1)
 value := facades.Cache().GetString("goravel", "default")
 ```
 
-You can pass a `func` as the default value. If the specified data does not exist in the cache, the result of `func` will
-be returned. The transitive closure method allows you to obtain default values from the database or other external
-services. Note the closure structure `func() any`.
+您可以传递一个 `func` 作为默认值。 如果指定的数据在缓存中不存在，将返回 `func` 的结果。 传递闭包方法允许您从数据库或其他外部服务获取默认值。 注意闭包结构 `func() any`。
 
 ```go
 value := facades.Cache().Get("goravel", func() any {
@@ -47,16 +43,15 @@ value := facades.Cache().Get("goravel", func() any {
 })
 ```
 
-### Checking For Item Existence
+### 检查项目是否存在
 
 ```go
 bool := facades.Cache().Has("goravel")
 ```
 
-### Incrementing / Decrementing Values
+### 递增/递减值
 
-The `Increment` and `Decrement` methods may be used to adjust the value of integer items in the cache. Both methods
-accept an optional second argument indicating the amount by which to increment or decrement the item's value:
+`Increment`和`Decrement`方法可用于调整缓存中整数项的值。 这两个方法都接受一个可选的第二个参数，用于指定要增加或减少项目值的数量：
 
 ```go
 facades.Cache().Increment("key")
@@ -65,10 +60,9 @@ facades.Cache().Decrement("key")
 facades.Cache().Decrement("key", amount)
 ```
 
-### Retrieve & Store
+### 获取并存储
 
-Sometimes you may want to get data from the cache, and when the requested cache item does not exist, the program can
-store a default value for you.
+有时您可能想从缓存中获取数据，当请求的缓存项不存在时，程序可以为您存储一个默认值。
 
 ```go
 value, err := facades.Cache().Remember("goravel", 5*time.Second, func() (any, error) {
@@ -76,10 +70,9 @@ value, err := facades.Cache().Remember("goravel", 5*time.Second, func() (any, er
 })
 ```
 
-If the data you want does not exist in the cache, the closure passed to the `Remember` method will be executed, and then
-the result will be returned and placed in the cache.
+如果您想要的数据在缓存中不存在，传递给`Remember`方法的闭包将被执行，然后结果将被返回并放置在缓存中。
 
-You can use the `RememberForever` method to retrieve data from the cache or store it permanently:
+您可以使用 `RememberForever` 方法从缓存中检索数据或永久存储数据：
 
 ```go
 value, err := facades.Cache().RememberForever("goravel", func() (any, error) {
@@ -87,113 +80,107 @@ value, err := facades.Cache().RememberForever("goravel", func() (any, error) {
 })
 ```
 
-### Retrieve & Delete
+### 检索并删除
 
 ```go
 value := facades.Cache().Pull("goravel", "default")
 ```
 
-### Storing Items In The Cache
+### 在缓存中存储项目
 
 ```go
 err := facades.Cache().Put("goravel", "value", 5*time.Second)
 ```
 
-If the expiration time of the cache is set to `0`, the cache will be valid forever:
+如果缓存的过期时间设置为 `0`，缓存将永久有效：
 
 ```go
 err := facades.Cache().Put("goravel", "value", 0)
 ```
 
-### Store If Not Present
+### 仅在不存在时存储
 
-The `Add` method stores data only if it's not in the cache. It returns `true` if storage is successful and `false` if
-it's not.
+`Add` 方法仅在数据不在缓存中时才存储数据。 如果存储成功，它返回 `true`，否则返回 `false`。
 
 ```go
 bool := facades.Cache().Add("goravel", "value", 5*time.Second)
 ```
 
-### Storing Items Forever
+### 永久存储项目
 
-The `Forever` method can be used to store data persistently in the cache. Because these data will not expire, they must
-be manually deleted from the cache through the `Forget` method:
+`Forever` 方法可用于在缓存中永久存储数据。 由于这些数据不会过期，必须通过 `Forget` 方法手动从缓存中删除：
 
 ```go
 bool := facades.Cache().Forever("goravel", "value")
 ```
 
-### Removing Items From The Cache
+### 从缓存中删除项目
 
 ```go
 bool := facades.Cache().Forget("goravel")
 ```
 
-You can use the `Flush` method to clear all caches:
+您可以使用 `Flush` 方法清除所有缓存：
 
 ```go
 bool := facades.Cache().Flush()
 ```
 
-## Atomic Locks
+## 原子锁
 
-### Managing Locks
+### 管理锁
 
-Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. You may create and
-manage locks using the `Lock` method:
+原子锁允许操作分布式锁而无需担心竞态条件。 您可以使用 `Lock` 方法创建和管理锁：
 
 ```go
 lock := facades.Cache().Lock("foo", 10*time.Second)
 
 if (lock.Get()) {
-    // Lock acquired for 10 seconds...
+    // 获取锁10秒...
 
     lock.Release()
 }
 ```
 
-The `Get` method also accepts a closure. After the closure is executed, Goravel will automatically release the lock:
+`Get` 方法也接受一个闭包。 闭包执行后，Goravel 将自动释放锁：
 
 ```go
 facades.Cache().Lock("foo").Get(func () {
-    // Lock acquired for 10 seconds and automatically released...
-});
+    // 获取锁10秒并自动释放...
+})；
 ```
 
-If the lock is not available at the moment you request it, you may instruct Goravel to wait for a specified number of
-seconds. If the lock can not be acquired within the specified time limit, will return `false`:
+如果在您请求锁时锁不可用，您可以指示 Goravel 等待指定的秒数。 如果在指定的时间限制内无法获取锁，将返回 `false`：
 
 ```go
 lock := facades.Cache().Lock("foo", 10*time.Second)
-// Lock acquired after waiting a maximum of 5 seconds...
+// 最多等待5秒后获取锁...
 if (lock.Block(5*time.Second)) {
     lock.Release()
 }
 ```
 
-The example above may be simplified by passing a closure to the `Block` method. When a closure is passed to this method,
-Goravel will attempt to acquire the lock for the specified number of seconds and will automatically release the lock
-once the closure has been executed:
+上面的例子可以通过向 `Block` 方法传递一个闭包来简化。 当闭包传递给此方法时，
+Goravel 将尝试在指定的秒数内获取锁，并在闭包执行完毕后自动释放锁：
 
 ```go
 facades.Cache().Lock("foo", 10*time.Second).Block(5*time.Second, func () {
-    // Lock acquired after waiting a maximum of 5 seconds...
+    // 在等待最多5秒后获取锁...
 })
 ```
 
-If you would like to release a lock without respecting its current owner, you may use the `ForceRelease` method:
+如果您想在不考虑当前所有者的情况下释放锁，可以使用 `ForceRelease` 方法：
 
 ```go
 facades.Cache().Lock("processing").ForceRelease();
 ```
 
-## Adding Custom Cache Drivers
+## 添加自定义缓存驱动
 
-### Configuration
+### 配置
 
-If you want to define a completely custom driver, you can specify the `custom` driver type in the `config/cache.go`
-configuration file.
-Then include a `via` option to implement a `framework/contracts/cache/Driver` interface:
+如果您想定义一个完全自定义的驱动，可以在 `config/cache.go` 配置文件中指定 `custom` 驱动类型。
+然后包含一个 `via` 选项来实现 `framework/contracts/cache/Driver` 接口：
 
 ```go
 //config/cache.go
@@ -208,10 +195,10 @@ Then include a `via` option to implement a `framework/contracts/cache/Driver` in
 },
 ```
 
-### Implement Custom Driver
+### 实现自定义驱动
 
-Implement the `framework/contracts/cache/Driver` interface, files can be stored in the `app/extensions` folder (
-modifiable).
+实现 `framework/contracts/cache/Driver` 接口，文件可以存储在 `app/extensions` 文件夹中（
+可修改）。
 
 ```go
 // framework/contracts/cache/Driver
@@ -220,32 +207,32 @@ package cache
 import "time"
 
 type Driver interface {
-    // Add Driver an item in the cache if the key does not exist.
+    // Add Driver 如果键不存在，则在缓存中添加一个项目。
     Add(key string, value any, t time.Duration) bool
     Decrement(key string, value ...int) (int, error)
-    // Forever Driver an item in the cache indefinitely.
+    // Forever Driver 在缓存中永久存储一个项目。
     Forever(key string, value any) bool
-    // Forget Remove an item from the cache.
+    // Forget 从缓存中移除一个项目。
     Forget(key string) bool
-    // Flush Remove all items from the cache.
+    // Flush 从缓存中移除所有项目。
     Flush() bool
-    // Get Retrieve an item from the cache by key.
+    // Get 通过键从缓存中检索一个项目。
     Get(key string, def ...any) any
     GetBool(key string, def ...bool) bool
     GetInt(key string, def ...int) int
     GetInt64(key string, def ...int64) int64
     GetString(key string, def ...string) string
-    // Has Check an item exists in the cache.
+    // Has 检查一个项目是否存在于缓存中。
     Has(key string) bool
     Increment(key string, value ...int) (int, error)
     Lock(key string, t ...time.Duration) Lock
-    // Put Driver an item in the cache for a given time.
+    // Put Driver 在缓存中存储一个项目一段时间。
     Put(key string, value any, t time.Duration) error
-    // Pull Retrieve an item from the cache and delete it.
+    // Pull 从缓存中检索一个项目并删除它。
     Pull(key string, def ...any) any
-    // Remember Get an item from the cache, or execute the given Closure and store the result.
+    // Remember 从缓存中获取一个项目，或执行给定的闭包并存储结果。
     Remember(key string, ttl time.Duration, callback func() (any, error)) (any, error)
-    // RememberForever Get an item from the cache, or execute the given Closure and store the result forever.
+    // RememberForever 从缓存中获取一个项目，或执行给定的闭包并永久存储结果。
     RememberForever(key string, callback func() (any, error)) (any, error)
     WithContext(ctx context.Context) Driver
 }
