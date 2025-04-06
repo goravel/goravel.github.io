@@ -1,8 +1,8 @@
-# HTTP Response
+# Resposta HTTP
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+Você pode usar `ctx.Response()` para resposta HTTP no Controller.
 
-## String
+## Cordas
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -21,22 +21,22 @@ ctx.Response().Json(http.StatusOK, http.Json{
   "Hello": "Goravel",
 })
 
-ctx.Response().Json(http.StatusOK, struct {
-  ID       uint `json:"id"`
-  Name     string `json:"name"`
+ctx. esponse().Json(http. OK, struct {
+  ID uint `json:"id"`
+  Name string `json:"name"`
 }{
-  Id:      1,
-  Front:   "Goravel",
+  Id: 1,
+  Front: "Goravel",
 })
 ```
 
-## Custom Return
+## Retorno personalizado
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## Arquivo de resposta
 
 ```go
 import "net/http"
@@ -44,7 +44,7 @@ import "net/http"
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## Baixar Arquivo
 
 ```go
 import "net/http"
@@ -52,7 +52,7 @@ import "net/http"
 ctx.Response().Download("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## Anexar Cabeçalho
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -60,12 +60,12 @@ import "github.com/goravel/framework/contracts/http"
 ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel")
 ```
 
-## Cookie
+## Biscoito
 
-### Set Cookie
+### Definir Cookie
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
-instance, which allows you to set various cookie options.
+Use o método `Cookie` na instância `resposta` para definir um `cookie`. O método `Cookie` aceita uma instância `http.Cookie`
+, que permite que você defina várias opções de cookie.
 
 ```go
 import (
@@ -73,26 +73,26 @@ import (
   "github.com/goravel/framework/contracts/http"
 )
 
-ctx.Response().Cookie(http.Cookie{
-  Name: "name",
-  Value: "Goravel",
-  Path: "/",
-  Domain: "goravel.dev",
-  Expires: time.Now().Add(24 * time.Hour),
-  Secure: true,
+ctx.Response().Cookie(http. ookie{
+  Nome: "nome",
+  Valor: "Goravel",
+  Caminho: "/",
+  Domínio: "goravel. ev",
+  Expira: time.Now().Add(24 * time.Hour),
+  Seguro: true,
   HttpOnly: true,
 })
 ```
 
-### Expire Cookie
+### Expira Cookie
 
-Use the `WithoutCookie` method to remove a cookie.
+Use o método `WithoutCookie` para remover um cookie.
 
 ```go
-ctx.Response().WithoutCookie("name")
+ctx.Response().WithoutCookie("nome")
 ```
 
-## Return Success
+## Retorno com sucesso
 
 ```go
 ctx.Response().Success().String("Hello Goravel")
@@ -101,7 +101,7 @@ ctx.Response().Success().Json(http.Json{
 })
 ```
 
-## Custom Code
+## Código personalizado
 
 ```go
 ctx.Response().Status(http.StatusOK).Json(http.Json{
@@ -109,53 +109,53 @@ ctx.Response().Status(http.StatusOK).Json(http.Json{
 })
 ```
 
-## Return Stream
+## Transmissão de Retorno
 
 ```go
-ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
+ctx.Response().Stream(http.StatusCreated, function (w http. erro do treamWriter) {
   data := []string{"a", "b", "c"}
-  for _, item := range data {
-    if _, err := w.Write([]byte(item + "\n")); err != nil {
+  for _, item := intervalo de dados {
+    if _, err := w. rite([]byte(item + "\n")); err != nil {
       return err
     }
 
-    if err := w.Flush(); err != nil {
+    if err := w. lush(); err != nil {
       return err
     }
 
-    time.Sleep(1 * time.Second)
+    time.Sleep(1 * time. econd)
   }
 
   return nil
 })
 ```
 
-## Redirect
+## Redirecionamento
 
 ```go
-ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
+ctx.Response().Redirect(http.StatusMovedPermanentemente, "https://goravel.dev")
 ```
 
-## No Content
+## Nenhum Conteúdo
 
 ```go
 ctx.Response().NoContent()
 ctx.Response().NoContent(http.StatusOk)
 ```
 
-## Get Response
+## Obter Resposta
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+Você pode obter todas as informações de `ctx.Response()`, que é comumente usado no middleware HTTP:
 
 ```go
-origin := ctx.Response().Origin()
+origem := ctx.Response().Origin()
 ```
 
-`origin` contains some methods as shown below：
+`origem` contém alguns métodos como mostrado abaixo de：
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| Método    | Acão                        |
+| --------- | --------------------------- |
+| Conteúdo  | Obter dados de resposta     |
+| Cabeçalho | Obter cabeçalho de resposta |
+| Tamanho   | Obter tamanho da resposta   |
+| SItuação  | Obter status da resposta    |
