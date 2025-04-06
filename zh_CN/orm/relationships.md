@@ -1,58 +1,58 @@
-# Relationships
+# 关系
 
-It's common for database tables to be interconnected. For instance, a blog post may have many comments, or an order may
-be linked to the user who placed it. `Orm` simplifies managing and dealing with such relationships, and it can handle
-various common relationships:
+数据库表被互联是常见的。 例如，博客帖子可能有许多评论，或者订单可能为
+链接到放置它的用户。 `Orm`简化了这种关系的管理和处理，它可以处理
+各种共同关系：
 
 - [One To One](#one-to-one)
 - [One To Many](#one-to-many)
 - [Many To Many](#Many-To-Many)
 - [Polymorphic](#polymorphic)
 
-## Defining Relationships
+## 定义关系
 
-### One To One
+### 一对一的
 
-A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated
-with one `Phone` model.
+一对一的关系是非常基本的数据库关系。 例如，一个 `User` 模型可能与一个 `Phone` 模型相关联的
+。
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone
+请输入用户结构是否正确，
+  orm。 odel
+  名称字符串
+  电话 *Phone
 }
 
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
+类型 Phone struct v.
+  orm. odel
+  UserID uint
+  name string
 }
 ```
 
-When using `Orm`, it automatically assigns the foreign key to the relationship based on the parent model name. For
-instance, the `Phone` model is assumed to have a `UserID` foreign key by default. However, if you wish to change this
-convention, you can add a `foreignKey` tag to the `Phone` field in `User` model. (This also applies to other
-relationships.)
+当使用 "Orm" 时，它会自动将外键分配到基于父模型名称的关系。 为
+例如，`Phone` 模型默认有一个 `UserID` 外键。 然而，如果你想要更改此
+约定，你可以在 `User` 模式中添加 `foreignKey` 标签。 (这也适用于其他
+关系。)
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName"`
+请输入用户结构是否正确，
+  orm。 odel
+  命名字符串
+  Phone *Phone `gorm:"foreignKey:UserName"
 }
 
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
+类型 Phone struct 然后Power
+  orm. odel
+  用户名字符串
+  名称字符串
 }
 ```
 
-Additionally, when using `Orm`, it is assumed that the foreign key should match the primary key column of the parent.
-This means that `Orm` will search for the user's `ID` column value in the `UserId` column of the `Phone` record. If you
+此外，在使用 `Orm` 时，假定外键应该与父键列的主键相符。
+这意味着`Orm`将在`Phone`记录的`UserId`列中搜索用户的`ID`列。 If you
 wish to use a primary key value other than `ID`, you can add a "Tag" reference to the `Phone` field in `User` model. To
-do this, simply pass a third argument to the `hasOne` method. (Other relationship setups are similar.)
+do this, simply pass a third argument to the `hasOne` method. (其它关系设置类似。)
 
 ```go
 type User struct {
@@ -68,30 +68,30 @@ type Phone struct {
 }
 ```
 
-#### Defining The Inverse Of The Relationship
+#### 定义反向关系
 
-We can access the `Phone` model from our `User` model. Now, we need to establish a relationship on `Phone` model that
-allows us to access the phone's owner. To do this, we can define a `User` field in `Phone` model.
+我们可以从我们的 `User` 模型访问`Phone` 模型。 现在，我们需要在 `Phone` 模型上建立关系，
+允许我们访问手机的拥有者。 为此，我们可以在 `Phone` 模式中定义一个 `User` 字段。
 
 ```go
-type User struct {
+键入用户结构。
   orm.Model
-  Name  string
+  name string
 }
 
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
-  User   *User
+type Phone struct power
+  orm. odel
+  UserID uint
+  name
+  User *User
 }
 ```
 
-### One To Many
+### 一对多
 
 A one-to-many relationship is used to define relationships where a single model is the parent to one or more child
-models. For example, a blog post may have an infinite number of comments. Like all other `Orm` relationships,
-one-to-many relationships are defined by defining a field on your `Orm` model:
+models. 例如，博客文章可能有无限数量的评论。 像所有其他的`Orm`关系一样，
+一对多的关系是通过定义你的`Orm`模型上的一个字段来定义的：
 
 ```go
 type Post struct {
@@ -107,15 +107,15 @@ type Comment struct {
 }
 ```
 
-Remember, `Orm` will automatically determine the proper foreign key column for the `Comment` model. By convention, Orm
-will take the "hump case" name of the parent model and suffix it with `ID`. So, in this example, Orm will assume the
-foreign key column on the `Comment` model is `PostID`.
+记住，`Orm`会自动决定`Comment`模型的外键列. 根据惯例，Orm
+将使用父模型的“hump case”名称，并将其后缀为“ID”。 因此，在这个示例中，Orm将假定`Comment`模型上的
+外国密钥列是 \`PostID'。
 
-### One To Many (Inverse) / Belongs To
+### 一对多(反向) / 属于：
 
 Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent
-post. To define the inverse of a `One To Many` relationship, define a relationship method on the child model which calls
-the `belongsTo` method:
+post. 定义`One to Many`关系的反向，定义子模型上的关系方法，叫做
+\`归属'方法：
 
 ```go
 type Post struct {
@@ -132,40 +132,40 @@ type Comment struct {
 }
 ```
 
-## Many To Many Relationships
+## 许多和多个关系
 
-Many-to-many relations are slightly more complicated than `One To One` and `One To Many` relationships. An example of a
-many-to-many relationship is a user that has many roles and those roles are also shared by other users in the
-application. For example, a user may be assigned the role of "Author" and "Editor"; however, those roles may also be
-assigned to other users as well. So, a user has many roles and a role has many users.
+多对多的关系比`One to One`和`One to Many`的关系稍微复杂。 一个
+多对许多关系的一个例子是一个拥有许多角色的用户，这些角色也被其他用户在
+应用程序中共享。 例如，用户可以被分配为“作者”和“编辑”角色； 然而，这些角色也可能是
+分配给其他用户。 因此，一个用户有许多角色，一个角色有许多用户。
 
-### Table Structure
+### 表格结构
 
-To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table
-naming can be customized and it contains `user_id` and `role_id` columns. This table is used as an intermediate table
-linking users and roles.
+为了界定这种关系，需要三个数据库表：“用户”、“角色”和“role_user”。 "role_user" 表
+可以自定义，并包含 "user_id" 和 "role_id" 列。 此表被用作中间表
+连接用户和角色。
 
-Remember, since a role can belong to many users, we cannot simply place a `user_id` column on the `roles` table. This
-would mean that a role could only belong to a single user. In order to provide support for roles being assigned to
-multiple users, the `role_user` table is needed. We can summarize the relationship's table structure like so:
+记住，因为一个角色可能属于许多用户，我们不能简单地将“user_id”列在角色表中。 此
+将意味着角色只能属于一个用户。 为了支持分配给
+多个用户的角色，需要"role_user" 表。 我们可以总结这种关系的桌面结构：
 
 ```
-users
-  id - integer
-  name - string
+用户
+  id - 整数
+  名称 - 字符串
 
-roles
-  id - integer
-  name - string
+角色
+  id - 整数
+  名称 - 字符串
 
 role_user
-  user_id - integer
-  role_id - integer
+  user_id - 整数
+  role_id - 整数
 ```
 
-### Model Structure
+### 模型结构
 
-We can define a `Roles` field on `User` model:
+我们可以在 `User` 模型上定义一个 `Roles` 字段：
 
 ```go
 type User struct {
@@ -180,9 +180,9 @@ type Role struct {
 }
 ```
 
-### Defining The Inverse Of The Relationship
+### 定义反向关系
 
-To define the inverse of the relationship, just define a `Users` field in `Role` model and append a Tag.
+要定义关系的反向，只需在 `Role` 模型中定义一个 `Users` 字段，并附加一个标签。
 
 ```go
 type User struct {
@@ -198,7 +198,7 @@ type Role struct {
 }
 ```
 
-### Custom intermediate table
+### 自定义中间表
 
 In general, the intermediate table foreign key is named by the "snake case" of the parent model name, you can override
 them by `joinForeignKey`, `joinReferences`:
@@ -216,65 +216,65 @@ type Role struct {
 }
 ```
 
-Table structure:
+表格结构：
 
 ```
-users
-  id - integer
-  name - string
+用户
+  id - 整数
+  名称 - 字符串
 
-roles
-  id - integer
-  name - string
+角色
+  id - 整数
+  名称 - 字符串
 
 role_user
-  user_name - integer
-  role_name - integer
+  user_name - 整数
+  role_name - 整数
 ```
 
-## Polymorphic
+## 多变性
 
-A polymorphic relationship allows the child model to belong to more than one type of model using a single association.
-For example, imagine you are building an application that allows users to share blog posts and videos. In such an
-application, a `Comment` model might belong to both the `Post` and `Video` models.
+多变关系允许子模型使用单一关联属于多个类型的模型。
+例如，您正在构建一个允许用户共享博客文章和视频的应用程序。 在这样一个
+应用程序中，一个 `Comment` 模型可能同时属于`Post` 和 `Video` 模型。
 
-### Table structure
+### 表格结构
 
-A polymorphic relation is similar to a normal relation; however, the child model can belong to more than one type of
-model using a single association. For example, a blog `Post` and a `User` may share a polymorphic relation to an `Image`
-model. Using a polymorphic relation allows you to have a single table of unique images that may be associated with posts
-and users. First, let's examine the table structure:
+a. 多态关系与正常关系类似； 然而，子模型可以使用单个关联，属于多个类型的
+模型。 例如，博客`Post` 和 `User` 可以分享一个与`Image`
+模型的多发关系。 使用多发关系允许您有一个单一的独特图像表，可能与帖子
+和用户相关联。 首先，请检查表格结构：
 
 ```
-posts
-  id - integer
-  name - string
+帖子
+  id - 整数
+  名称 - 字符串
 
-videos
-  id - integer
-  name - string
+视频
+  id - 整数
+  名称 - 字符串
 
-images
-  id - integer
-  url - string
-  imageable_id - integer
+图像
+  id - 整数
+  url - 字符串
+  imageable_id - 整数
   imageable_type - string
 
 comments
-  id - integer
+  id - 整数
   body - text
-  commentable_id - integer
-  commentable_type - string
+  commentable_id - 整数
+  commentable_type - 字符串。
 ```
 
-Note the `imageable_id` and `imageable_type` columns on the `images` table. The `imageable_id` column will contain the
-ID value of the post or user, while the `imageable_type` column will contain the class name of the parent model. The
-`imageable_type` column is used by Orm to determine which "type" of parent model to return when accessing the
-`imageable` relation. The `comments` table is similar.
+注意`imageable_id`和`imageable_type`列在`images`表中。 `imageable_id`列将包含帖子或用户的
+ID值。 `imageable_type`列将包含父模型的类名。 Orm使用
+`imageable_type` 列来确定当访问
+`imageable` 关系时返回哪个“type”父模型。 `comments`表相似。
 
-### Model Structure
+### 模型结构
 
-Next, let's examine the model definitions needed to build this relationship:
+接下来，让我们检查构建这种关系所需的模型定义：
 
 ```go
 type Post struct {
@@ -306,38 +306,38 @@ type Comment struct {
 }
 ```
 
-You can change the polymorphic value by `polymorphicValue` Tag, such as:
+您可以使用 `polymorphicValue` 标签来更改多变值，例如：
 
 ```go
-type Post struct {
+输入邮政结构&
   orm.Model
-  Name  string
-  Image   *Image `gorm:"polymorphic:Imageable;polymorphicValue:master"`
+  Name
+  Image *image `gorm:"polymorphic:Imageable;polymorphicValue:master"
 }
 ```
 
-## Querying Associations
+## 查询关联
 
-For example, imagine a blog application in which a `User` model has many associated `Post` models:
+例如，想象一个 `User` 模型有许多关联的 `Post` 模型的博客应用程序：
 
 ```go
-type User struct {
-  orm.Model
-  Name   string
-  Posts  []*Post
+请输入用户结构是否正确，
+  orm。 odel
+  名称字符串
+  帖子 []*Post
 }
 
-type Post struct {
-  orm.Model
-  UserID   uint
-  Name     string
+type Posts struct v.
+  orm. odel
+  UserID uint
+  name string
 }
 ```
 
-### Create or Update Associations
+### 创建或更新关联
 
-You can use the `Select`, `Omit` methods to to control the create and update of associations. These two method cannot be
-used at the same time and the associated control functions are only applicable to `Create`, `Update`, `Save`:
+您可以使用 `Select`, `Omit` 方法来控制关联的创建和更新。 这两种方法不能同时使用
+，相关的控制函数只适用于`Create`、`Update`、`Save`：
 
 ```go
 user := models.User{Name: "user", Posts: []*models.Post{{Name: "post"}}}
@@ -358,170 +358,170 @@ facades.Orm().Query().Omit("Name").Create(&user)
 facades.Orm().Query().Omit("Name", orm.Associations).Create(&user)
 ```
 
-### Find Associations
+### 查找关联
 
 ```go
-// Find all matching related records
-var posts []models.Post
+// 查找所有匹配相关记录的
+var 帖子 []models.Post
 facades.Orm().Query().Model(&user).Association("Posts").Find(&posts)
 
-// Find associations with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Order("id desc").Association("Posts").Find(&posts)
+// 查找条件
+facades.Orm().Query().Model(&user).Where("name = ?"goravel").Order("id desc").Association("Posts").Find(&posts) &posts
 ```
 
-### Append Associations
+### 附加关联
 
-Append new associations for `Many To Many`, `One To Many`, replace current association for `One To One`,
-`One To One(revers)`:
+在“许多人到曼尼”、“一个人到曼尼”中添加新的协会，替换当前的`一对一'，
+`一对一(反向)'：
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Post1, Post2})
+.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Post1, Post2})
 
-facades.Orm().Query().Model(&user).Association("Posts").Append(&models.Post{Name: "goravel"})
+facades.Orm().Query().Model(&user).Association("Posts").Append(&models.Post{name: "goravel"})
 ```
 
-### Replace Associations
+### 替换关联
 
-Replace current associations with new ones:
+将当前关联替换为新关联：
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2})
+.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2})
 
-facades.Orm().Query().Model(&user).Association("Posts").Replace(models.Post{Name: "goravel"}, Post2)
+facades.Orm().Query().Model(&user).Association("Posts").Replace(models.{name: "goravel"}, Post2)
 ```
 
-### Delete Associations
+### 删除关联
 
-Remove the relationship between source & arguments if exists, only delete the reference, won’t delete those objects from
-DB, the foreign key must be NULL:
+删除源和参数之间的关系（如果存在的话），只删除该引用 将不会从
+数据库删除这些对象，外键必须是 NULL：
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Post1, Post2})
+.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Post1, Post2})
 
 facades.Orm().Query().Model(&user).Association("Posts").Delete(Post1, Post2)
 ```
 
-### Clear Associations
+### 清除关联
 
-Remove all reference between source & association, won’t delete those associations:
+删除源和关联之间的所有引用，不会删除这些关联：
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Clear()
+Facades.Orm().Query().Model(&user).Association("Posts").Clle()
 ```
 
-### Count Associations
+### 关联计数
 
-Return the count of current associations:
+返回当前关联的数量：
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Count()
+Facades.Orm().Query().Model(&user).Association("Posts").Count()
 
-// Count with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Association("Posts").Count()
+// 计数条件
+facades.Orm().Query().Model(&user).Where("name = ?"goravel").Association("Posts").Count.Count()
 ```
 
-### Batch Data
+### 批量数据
 
 ```go
-// Find all roles for all users
-facades.Orm().Query().Model(&users).Association("Posts").Find(&posts)
+// 查找所有用户的所有角色
+facades.Orm().Query().Model(&users).Association("Posts").Find(&ps)
 
-// Delete User A from all user's Posts
-facades.Orm().Query().Model(&users).Association("Posts").Delete(&userA)
+// 从所有用户的帖子中删除用户
+面板。 rm().Query().Model(&users).Association("Posts").Delete(&userA)
 
-// Get distinct count of all users' Posts
-facades.Orm().Query().Model(&users).Association("Posts").Count()
+// 获取所有用户帖子的不同计数
+面板。 rm().Query().Model(&users).Association("Posts"). ount()
 
-// For `Append`, `Replace` with batch data, the length of the arguments needs to be equal to the data's length or else it will return an error
-var users = []models.User{user1, user2, user3}
+// 包含批量数据的`Append`、`替换` 参数长度必须等于数据长度，否则它将返回一个错误
+var 用户 = []model。 ser{user1, user2, user3}
 
-// We have 3 users, Append userA to user1's team, append userB to user2's team, append userA, userB and userC to user3's team
-facades.Orm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models.User{userA, userB, userC})
+// 我们有3个用户，向用户1的团队追加用户A。 将 userB 附加到用户2的团队，将用户A、userB 和 userC 附加到用户3的团队
+面板。 rm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models. 服务器{userA, userB, userC}(
 
-// Reset user1's team to userA，reset user2's team to userB, reset user3's team to userA, userB and userC
-facades.Orm().Query().Model(&users).Association("Team").Replace(&userA, &userB, &[]models.User{userA, userB, userC})
+// 重置用户1的团队为用户A，重置用户2的团队为用户B，重置用户3的团队为用户A，用户B和用户C
+面板。 rm().Query().Model(&users).Association("Team").替换(&userA, &userB, &[]models.User{userA, userB, userC})
 ```
 
-## Eager Loading
+## 正在加载鹰座
 
-Eager loading conveniences for querying multiple models, and alleviates the "N + 1" query problem. To illustrate the N +
-1 query problem, consider a `Book` model that "belongs to" an `Author` model:
+方便加载查询多个模型的便利，并缓解“N + 1”查询问题。 为了说明 N +
+1 查询问题，请考虑一个 "属于" 一个 "Author" 模型的 "Book" 模型：
 
 ```go
-type Author struct {
-  orm.Model
-  Name  string
+键入作者建构的Pow.
+  orm. Model
+  name string
 }
 
-type Book struct {
-  orm.Model
-  AuthorID   uint
-  Name       string
-  Author     *Author
+type Book struct power
+  orm. odel
+  AuthorID uint
+  name
+  Author *Author
 }
 ```
 
-Now, let's retrieve all books and their authors:
+现在，让我们检索所有书籍及其作者：
 
 ```go
 var books models.Book
 facades.Orm().Query().Find(&books)
 
-for _, book := range books {
-  var author models.Author
+for _, book := range books own
+  var 作者 models.Author
   facades.Orm().Query().Find(&author, book.AuthorID)
 }
 ```
 
-To retrieve all the books in the database table along with their authors, the loop code executes a query for each book.
-This means that for a collection of 25 books, the loop would run 26 queries - one for the collection of books and 25
-more to get the author of each book.
+要与作者一起检索数据库表中的所有书籍，循环代码执行每一本书的查询。
+这意味着收藏了25本书籍。 循环将运行26个查询——一个用于收藏书籍，25个
+更多用于获取每个书的作者。
 
-However, we can simplify this process using eager loading. By using the `With` method, we can specify which
-relationships need to be eagerly loaded and reduce the number of queries to just two.
+然而，我们可以利用急切的负荷来简化这一进程。 通过使用 "Wif " 方法，我们可以指定哪些
+关系需要热切加载，并将查询次数减少到仅两个。
 
 ```go
 var books models.Book
-facades.Orm().Query().With("Author").Find(&books)
+facades.Orm().Query().Wiw("Author").Find(&books)
 
-for _, book := range books {
+for _, book := range books corps
   fmt.Println(book.Author)
 }
 ```
 
-For this operation, only two queries will be executed - one query to retrieve all books and one query to retrieve
-authors for all of the books:
+用于此操作。 只会执行两个查询——一个查询来检索所有书籍，一个查询来检索所有书籍的
+作者：
 
 ```sql
-select * from `books`;
+从 `books`;
 
-select * from `authors` where `id` in (1, 2, 3, 4, 5, ...);
+从`authors` 中选择*, 在 `id` 中 (1, 2, 3, 4, 5, ...);
 ```
 
-### Eager Loading Multiple Relationships
+### 渴望加载多个关系
 
-Sometimes you may need to eager load several different relationships. To do so, just call the `With` method multiple
-times:
+有时，你可能需要加载几种不同的关系。 要做到这一点，只需调用 "Wid" 方法多次
+：
 
 ```go
 var book models.Book
-facades.Orm().Query().With("Author").With("Publisher").Find(&book)
+facades.Orm().Query().with("Author").with("Publisher").Find(&book)
 ```
 
-### Nested Eager Loading
+### 嵌套探险家加载中
 
-To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's
-authors and all of the author's personal contacts:
+想要加载关系关系，您可以使用“dot”语法。 例如，让我们热衷于加载书的所有
+作者和作者的所有个人联系人：
 
 ```go
 var book models.Book
-facades.Orm().Query().With("Author.Contacts").Find(&book)
+facades.Orm().Query().Wid("Author.Contacts").Find(&book)
 ```
 
-### Constraining Eager Loads
+### 限制鹰装载物
 
 Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading
-query. You can accomplish this as below:
+query. 您可以完成以下任务：
 
 ```go
 import "github.com/goravel/framework/contracts/database/orm"
@@ -534,39 +534,39 @@ facades.Orm().Query().With("Author", func(query orm.Query) orm.Query {
 }).Find(&book)
 ```
 
-In this example, Orm will only eager load posts where the post's `name` column equals the word `author`.
+在此示例中，Orm只希望在帖子`name`列等于`author`的地方加载帖子。
 
-### Lazy Eager Loading
+### 延迟进料器加载
 
-Sometimes you may need to eager load a relationship after the parent model has already been retrieved. For example, this
-may be useful if you need to dynamically decide whether to load related models:
+有时您可能需要在已经检索到父模型后加载关系。 例如，如果您需要动态地决定是否加载相关的模型，
+可能是有用的：
 
 ```go
-var books models.Book
-facades.Orm().Query().Find(&books)
+var book models.Book
+facades.Orm().Query(). ind(&books)
 
-for _, book := range books {
-  if someCondition {
-    err := facades.Orm().Query().Load(&book, "Author")
+for _, book := range books power.
+  if some Conditione Power
+    err := facades. rm().Query().Load(&book, "作者")
   }
 }
 ```
 
-If you need to set additional query constraints on the eager loading query, you can use the code below:
+如果您需要对急需加载查询设置额外查询约束，您可以使用下面的代码：
 
 ```go
-import "github.com/goravel/framework/contracts/database/orm"
+导入 "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().Load(&book, "Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().Load(&book, "Author", "name = ?", "author"). ind(&book)
 
-facades.Orm().Query().Load(&book, "Author", func(query orm.Query) orm.Query {
-  return query.Where("name = ?", "author")
+facades.Orm().Query().Load(&book, "Author", function (query) orm.Query
+  return query.Where ("name = ?"author")
 }).Find(&book)
 ```
 
-To load a relationship only when it has not already been loaded, use the `LoadMissing` method:
+只在尚未加载时加载关系，请使用 `LoadMissing` 方法：
 
 ```go
-facades.Orm().Query().LoadMissing(&book, "Author")
+facades.Orm().Query().LoadMissing(&book, "作者")
 ```
