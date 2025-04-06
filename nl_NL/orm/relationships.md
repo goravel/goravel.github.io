@@ -1,260 +1,260 @@
-# Relationships
+# Relaties
 
-It's common for database tables to be interconnected. For instance, a blog post may have many comments, or an order may
-be linked to the user who placed it. `Orm` simplifies managing and dealing with such relationships, and it can handle
-various common relationships:
+Het is gebruikelijk dat databasetabellen onderling verbonden zijn. Een blogpost kan bijvoorbeeld veel opmerkingen hebben, of een bestelling
+kan worden gekoppeld aan de gebruiker die deze heeft geplaatst. 'Orm' vereenvoudigt het beheren en omgaan met dergelijke relaties, en het kan omgaan met
+verschillende gemeenschappelijke relaties:
 
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-- [Many To Many](#Many-To-Many)
+- [Één tot één](#one-to-one)
+- [Eén Aan Many](#one-to-many)
+- [Veel Aan Many](#Many-To-Many)
 - [Polymorphic](#polymorphic)
 
-## Defining Relationships
+## Relaties definiëren
 
-### One To One
+### Één op één
 
-A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated
-with one `Phone` model.
+Een één-op-een-één-relatie is een zeer fundamenteel type databankrelatie. Bijvoorbeeld, een `User` model kan worden geassocieerd
+met één `Phone` model.
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Telefoon *Phone
+}
+
+type Telefoon {
+  of m. odel
+  UserID uint
+  Name string
+}
+```
+
+Wanneer je `Orm` gebruikt, wordt de buitenlandse sleutel automatisch toegewezen aan de relatie gebaseerd op de parent modelnaam. Voor
+bijvoorbeeld: wordt verondersteld dat het `Phone` model standaard een `UserID` buitenlandse sleutel heeft. Als u deze
+conventie echter wilt wijzigen, kunt u een `foreignKey` tag toevoegen aan het `Phone` veld in `User` model. (Dit geldt ook voor andere
+relaties.)
+
+```go
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Telefoon *Phone `gorm:"foreignKey:UserName"`
+}
+
+type Telefoon {
+  orm. odel
+  Gebruikersnaam string
+  naam string
+}
+```
+
+Wanneer bovendien `Orm` wordt gebruikt, wordt ervan uitgegaan dat de buitenlandse sleutel moet overeenkomen met de primaire sleutelkolom van het ouder.
+Dit betekent dat `Orm` zal zoeken naar de gebruiker `ID` kolomwaarde in de `UserId` kolom van het `Phone` record. Als u
+een andere primaire sleutel waarde wil gebruiken dan `ID`, U kunt een "Tag" referentie naar het "Phone" veld toevoegen in het "Gebruiker" model. Om
+dit te doen, geef je gewoon een derde argument door aan de `hasOne` methode. (Andere relatieregelingen zijn vergelijkbaar.)
+
+```go
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Telefoon *Phone `gorm:"foreignKey:UserName; eferences:name"`
 }
 
 type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
+  of m. odel
+  Gebruikersnaam string
+  naam string
 }
 ```
 
-When using `Orm`, it automatically assigns the foreign key to the relationship based on the parent model name. For
-instance, the `Phone` model is assumed to have a `UserID` foreign key by default. However, if you wish to change this
-convention, you can add a `foreignKey` tag to the `Phone` field in `User` model. (This also applies to other
-relationships.)
+#### Het inverse van de Relatie definiëren
+
+We hebben toegang tot het `Telefoon` model van ons `Gebruiker`-model. Nu moeten we een relatie opbouwen op `Phone` model dat
+ons toegang geeft tot de eigenaar van de telefoon. Om dit te doen, kunnen we een `User` veld definiëren in `Phone` model.
 
 ```go
-type User struct {
+type gebruiker bouwt {
   orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName"`
+  Name string
 }
 
 type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
+  of m. odel
+  GebruikerID uint
+  tekenreeks
+  Gebruiker *Gebruiker
 }
 ```
 
-Additionally, when using `Orm`, it is assumed that the foreign key should match the primary key column of the parent.
-This means that `Orm` will search for the user's `ID` column value in the `UserId` column of the `Phone` record. If you
-wish to use a primary key value other than `ID`, you can add a "Tag" reference to the `Phone` field in `User` model. To
-do this, simply pass a third argument to the `hasOne` method. (Other relationship setups are similar.)
+### Eén op Vele
+
+Een één-op-veel relatie wordt gebruikt om relaties te definiëren waarbij een enkel model de ouder is van een of meer onderliggende
+modellen. Een blogpost kan bijvoorbeeld een oneindig aantal reacties hebben. Zoals alle andere `Orm` relaties,
+één-naar-veel relaties worden gedefinieerd door een veld te definiëren op jouw `Orm` model:
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName;references:name"`
+type Post bouwt {
+  orm. odel
+  Naam string
+  Commentaar []*Commentaar
 }
 
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
+type Opmerking bouwt {
+  orm. odel
+  PostID uint
+  Naam string
 }
 ```
 
-#### Defining The Inverse Of The Relationship
+Vergeet niet dat `Orm` automatisch de juiste vreemde sleutelkolom voor het `Comment` model zal bepalen. Orm
+gebruikt de "hump case" naam van het bovenliggende model en achtervoegsel met `ID`. Dus in dit voorbeeld gebruikt Orm de
+foreign key kolom op het `Commentaar` model `PostID`.
 
-We can access the `Phone` model from our `User` model. Now, we need to establish a relationship on `Phone` model that
-allows us to access the phone's owner. To do this, we can define a `User` field in `Phone` model.
+### Één Aan Veel (Inverse) / Langs naar
+
+Nu we toegang hebben tot alle commentaren van een bericht, kunnen we een relatie definiëren om een commentaar te geven op de hoofdpost
+Om het omgekeerde van een `One To Many` relatie te definiëren, definieer een relatie methode op het onderliggende model dat
+de `belongsTo` methode noemt:
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
+type Post bouwt {
+  orm. odel
+  Naam string
+  Commentaar []*Commentaar
 }
 
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
-  User   *User
-}
-```
-
-### One To Many
-
-A one-to-many relationship is used to define relationships where a single model is the parent to one or more child
-models. For example, a blog post may have an infinite number of comments. Like all other `Orm` relationships,
-one-to-many relationships are defined by defining a field on your `Orm` model:
-
-```go
-type Post struct {
-  orm.Model
-  Name   string
-  Comments []*Comment
-}
-
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
+type Opmerking bouwt {
+  orm. odel
+  PostID uint
+  Naam tekenreeks
+  Post *Post
 }
 ```
 
-Remember, `Orm` will automatically determine the proper foreign key column for the `Comment` model. By convention, Orm
-will take the "hump case" name of the parent model and suffix it with `ID`. So, in this example, Orm will assume the
-foreign key column on the `Comment` model is `PostID`.
+## Veel Tot Veel Relaties
 
-### One To Many (Inverse) / Belongs To
+Many-to-many relaties zijn iets ingewikkelder dan `One To One` en `One To Many` relaties. Een voorbeeld van een
+manto-many relatie is een gebruiker die veel rollen heeft en die rollen worden ook gedeeld door andere gebruikers in de
+applicatie. Bijvoorbeeld, een gebruiker kan de rol van "Auteur" en "Editor" worden toegewezen; Deze rollen kunnen echter ook
+aan andere gebruikers worden toegewezen. Een gebruiker heeft dus veel rollen en een rol heeft veel gebruikers.
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent
-post. To define the inverse of a `One To Many` relationship, define a relationship method on the child model which calls
-the `belongsTo` method:
+### Tabel structuur
 
-```go
-type Post struct {
-  orm.Model
-  Name   string
-  Comments []*Comment
-}
+Om deze relatie te definiëren, zijn drie databasetabellen nodig: `users`, `roles`, en `role_user`. De `role_user` tabel
+naamgeving kan aangepast worden en bevat `user_id` en `role_id` kolommen. Deze tabel wordt gebruikt als een tussenliggende tabel
+die gebruikers en rollen koppelt.
 
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
-  Post   *Post
-}
-```
-
-## Many To Many Relationships
-
-Many-to-many relations are slightly more complicated than `One To One` and `One To Many` relationships. An example of a
-many-to-many relationship is a user that has many roles and those roles are also shared by other users in the
-application. For example, a user may be assigned the role of "Author" and "Editor"; however, those roles may also be
-assigned to other users as well. So, a user has many roles and a role has many users.
-
-### Table Structure
-
-To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table
-naming can be customized and it contains `user_id` and `role_id` columns. This table is used as an intermediate table
-linking users and roles.
-
-Remember, since a role can belong to many users, we cannot simply place a `user_id` column on the `roles` table. This
-would mean that a role could only belong to a single user. In order to provide support for roles being assigned to
-multiple users, the `role_user` table is needed. We can summarize the relationship's table structure like so:
+Vergeet niet dat een rol tot veel gebruikers kan behoren, we kunnen niet simpelweg een `user_id` kolom plaatsen in de `rollen` tabel. Deze
+zou betekenen dat een rol slechts tot één enkele gebruiker zou kunnen behoren. Om ondersteuning te bieden voor rollen die worden toegewezen aan
+meerdere gebruikers, is de `role_user` tabel nodig. We kunnen de tabel structuur van de relatie als volgt samenvatten:
 
 ```
-users
+gebruikers
   id - integer
-  name - string
+  naam - string
 
-roles
+rollen
   id - integer
-  name - string
+  naam - string
 
 role_user
   user_id - integer
   role_id - integer
 ```
 
-### Model Structure
+### Model Structuur
 
-We can define a `Roles` field on `User` model:
-
-```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
-}
-
-type Role struct {
-  orm.Model
-  Name   string
-}
-```
-
-### Defining The Inverse Of The Relationship
-
-To define the inverse of the relationship, just define a `Users` field in `Role` model and append a Tag.
+We kunnen een `Rollen` veld definiëren in `User` model:
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Rollen []*Rol `gorm:"many2many:role_user"`
 }
 
-type Role struct {
-  orm.Model
-  Name   string
-  Users  []*User `gorm:"many2many:role_user"`
+type Rol struct {
+  orm. odel
+  tekenreeks van de naam
 }
 ```
 
-### Custom intermediate table
+### Het inverse van de Relatie definiëren
 
-In general, the intermediate table foreign key is named by the "snake case" of the parent model name, you can override
-them by `joinForeignKey`, `joinReferences`:
+Om het omgekeerde van de relatie te definiëren, definieer je een `Users` veld in `Role` model en voeg een Tag toe.
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user;joinForeignKey:UserName;joinReferences:RoleName"`
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Rollen []*Rol `gorm:"many2many:role_user"`
 }
 
-type Role struct {
-  orm.Model
-  Name   string
+type Rol struct {
+  orm. odel
+  Tekststring
+  Gebruikers []*Gebruiker `gorm:"many2many:role_user"`
 }
 ```
 
-Table structure:
+### Aangepaste tussenliggende tabel
+
+Over het algemeen is de tussenliggende tabel buitenlandse sleutel vernoemd met de "slang case" van de naam van het bovenliggend model. je kan
+overschrijven door `joinForeignKey`, `joinReferences`:
+
+```go
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Naam string
+  Rollen []*Rol `gorm:"many2many:role_user; oinForeignKey:UserName;joinReferences:RoleName"`
+}
+
+type rol constructie {
+  orm. odel
+  tekenreeks van de naam
+}
+```
+
+Tabel structuur:
 
 ```
-users
+gebruikers
   id - integer
-  name - string
+  naam - string
 
-roles
+rollen
   id - integer
-  name - string
+  naam - string
 
 role_user
   user_name - integer
   role_name - integer
 ```
 
-## Polymorphic
+## Polymorfe
 
-A polymorphic relationship allows the child model to belong to more than one type of model using a single association.
-For example, imagine you are building an application that allows users to share blog posts and videos. In such an
-application, a `Comment` model might belong to both the `Post` and `Video` models.
+Een polymorfe relatie laat toe dat het kind met behulp van één enkele vereniging tot meer dan één type model behoort.
+Stel je bijvoorbeeld voor dat je een toepassing bouwt waarmee gebruikers blogposts en video's kunnen delen. In een
+applicatie zou een `Commentaar` model tot zowel de `Post` als `Video` modellen kunnen behoren.
 
-### Table structure
+### Tabel structuur
 
-A polymorphic relation is similar to a normal relation; however, the child model can belong to more than one type of
-model using a single association. For example, a blog `Post` and a `User` may share a polymorphic relation to an `Image`
-model. Using a polymorphic relation allows you to have a single table of unique images that may be associated with posts
-and users. First, let's examine the table structure:
+Een polymorfe relatie lijkt op een normale relatie; Echter, het kindermodel kan met behulp van één enkele associatie tot meer dan één
+model behoren. Bijvoorbeeld, een blog `Post` en een `User` kan een polymorfe relatie met een `Image`
+model delen. Met een polymorfische relatie kun je een enkele tabel met unieke afbeeldingen hebben die gekoppeld kunnen worden aan posts
+en gebruikers. Laten we eerst de tabelstructuur bekijken:
 
 ```
-posts
-  id - integer
+berichten
+  -id - integer
   name - string
 
-videos
+video
   id - integer
-  name - string
+  naam - string
 
-images
+afbeeldingen
   id - integer
   url - string
   imageable_id - integer
@@ -262,19 +262,19 @@ images
 
 comments
   id - integer
-  body - text
+  body - tekst
   commentable_id - integer
   commentable_type - string
 ```
 
-Note the `imageable_id` and `imageable_type` columns on the `images` table. The `imageable_id` column will contain the
-ID value of the post or user, while the `imageable_type` column will contain the class name of the parent model. The
-`imageable_type` column is used by Orm to determine which "type" of parent model to return when accessing the
-`imageable` relation. The `comments` table is similar.
+Noteer de kolommen 'imageable_id' en 'imageable_type' in de 'afbeeldingen' tabel. De kolom `imageable_id` bevat de
+ID-waarde van het bericht of de gebruiker, terwijl de kolom `imageable_type` de klassenaam van het bovenliggende model zal bevatten. De
+`imageable_type` kolom wordt gebruikt door Orm om te bepalen welk "type" van het bovenliggende model om te retourneren bij de toegang tot de
+`imageable` relatie. De `comments` tabel is vergelijkbaar.
 
-### Model Structure
+### Model Structuur
 
-Next, let's examine the model definitions needed to build this relationship:
+Laten we vervolgens kijken naar de modeldefinities die nodig zijn om deze relatie op te bouwen:
 
 ```go
 type Post struct {
@@ -306,73 +306,73 @@ type Comment struct {
 }
 ```
 
-You can change the polymorphic value by `polymorphicValue` Tag, such as:
+U kunt de polymorfe waarde wijzigen met `polymorphicValue` Tag, zoals:
 
 ```go
+type Bericht heeft {
+  orm.Model
+  Name string
+  Afbeelding *Afbeelding `gorm:"polymorphic:Imageable;polymorphicValue:master"`
+}
+```
+
+## Querying associaties
+
+Stel je bijvoorbeeld een blog applicatie voor waarin een `User` model veel geassocieerde `Post` modellen heeft:
+
+```go
+type Gebruiker heeft {
+  orm gemaakt. odel
+  Name string
+  Posts []*Post
+}
+
 type Post struct {
-  orm.Model
-  Name  string
-  Image   *Image `gorm:"polymorphic:Imageable;polymorphicValue:master"`
+  of m. odel
+  UserID uint
+  Name string
 }
 ```
 
-## Querying Associations
+### Associaties aanmaken of bijwerken
 
-For example, imagine a blog application in which a `User` model has many associated `Post` models:
+Je kunt de `Select`, `Omit` methodes gebruiken om het maken en bijwerken van associaties te controleren. Deze twee methode kan niet
+worden gebruikt op hetzelfde moment en de bijbehorende controlefuncties zijn alleen van toepassing op `Create`, `Update`, `Opslaan`:
 
 ```go
-type User struct {
-  orm.Model
-  Name   string
-  Posts  []*Post
-}
+user := models.User{Name: "user", Berichten: []*models.Post{{Name: "post"}}}
 
-type Post struct {
-  orm.Model
-  UserID   uint
-  Name     string
-}
+// Creëer alle subkoppelingen tijdens het maken van Gebruiker
+facades. rm().Query().Select(orm.Associations).Create(&user)
+
+// Alleen Post aanmaken tijdens het maken van gebruiker. Opmerking: als u geen `orm.Associations` gebruikt, maar specifieke subassociaties afzonderlijk aanpassen, moeten alle velden in het bovenliggende model op dit moment ook worden vermeld.
+facades.Orm().Query().Select("Naam", "Posts"). reate(&user)
+
+// Wanneer je een gebruiker aanmaakt, negeer de Post, maar maak alle andere onderliggende associaties
+facades.Orm().Query(). mit("Posts").Create(&user)
+
+// Wanneer u een gebruiker aanmaakt, negeer naam veld, maar maak alle onderliggende associaties
+facades. rm().Query().Omit("Naam").Create(&user)
+
+// Wanneer u een gebruiker aanmaakt, negeer naamveld en alle onderliggende associaties
+facades.Orm().Query().Omit("Naam", orm.Associations).Create(&user)
 ```
 
-### Create or Update Associations
-
-You can use the `Select`, `Omit` methods to to control the create and update of associations. These two method cannot be
-used at the same time and the associated control functions are only applicable to `Create`, `Update`, `Save`:
+### Vind associaties
 
 ```go
-user := models.User{Name: "user", Posts: []*models.Post{{Name: "post"}}}
-
-// Create all child associations while creating User
-facades.Orm().Query().Select(orm.Associations).Create(&user)
-
-// Only create Post while creating User. Note: If you don't use `orm.Associations`, but customize specific child associations separately, all fields in the parent model should also be listed at this time.
-facades.Orm().Query().Select("Name", "Posts").Create(&user)
-
-// When creating a User, ignore the Post, but create all other child associations
-facades.Orm().Query().Omit("Posts").Create(&user)
-
-// When creating User, ignore Name field, but create all child associations
-facades.Orm().Query().Omit("Name").Create(&user)
-
-// When creating User, ignore Name field and all child associations
-facades.Orm().Query().Omit("Name", orm.Associations).Create(&user)
-```
-
-### Find Associations
-
-```go
-// Find all matching related records
-var posts []models.Post
+// Vind alle overeenkomende records
+var berichten []models.Post
 facades.Orm().Query().Model(&user).Association("Posts").Find(&posts)
 
-// Find associations with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Order("id desc").Association("Posts").Find(&posts)
+// Vind associaties met voorwaarden
+facades.Orm().Model(&user).Where("name = ?", "goravel").Order("id desc").Association("Posts").Find(&)
 ```
 
-### Append Associations
+### Voeg associaties toe
 
-Append new associations for `Many To Many`, `One To Many`, replace current association for `One To One`,
-`One To One(revers)`:
+Voeg nieuwe associaties toe voor `Veel To Many`, `One To Many`, vervang huidige associatie voor `One To One`,
+`One To One(rever)`:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Post1, Post2})
@@ -380,20 +380,20 @@ facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Po
 facades.Orm().Query().Model(&user).Association("Posts").Append(&models.Post{Name: "goravel"})
 ```
 
-### Replace Associations
+### Vervang associaties
 
-Replace current associations with new ones:
+Huidige associaties vervangen door nieuwe:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2})
 
-facades.Orm().Query().Model(&user).Association("Posts").Replace(models.Post{Name: "goravel"}, Post2)
+facades.Orm().Query().Model(&user).Association("Posts").Replace(models.Post{Naam: "goravel"}, Post2)
 ```
 
-### Delete Associations
+### Verwijder associaties
 
-Remove the relationship between source & arguments if exists, only delete the reference, won’t delete those objects from
-DB, the foreign key must be NULL:
+Verwijder de relatie tussen bron en argumenten indien aanwezig, alleen de verwijzing, deze objecten niet verwijderen uit
+DB, de buitenlandse sleutel moet NULL zijn:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Post1, Post2})
@@ -401,84 +401,84 @@ facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Po
 facades.Orm().Query().Model(&user).Association("Posts").Delete(Post1, Post2)
 ```
 
-### Clear Associations
+### Wis associaties
 
-Remove all reference between source & association, won’t delete those associations:
+Verwijder alle verwijzing tussen bron en associatie, zal deze associaties niet verwijderen:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Clear()
 ```
 
-### Count Associations
+### Aantal associaties
 
-Return the count of current associations:
+Retourneer het aantal huidige associaties:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Count()
 
-// Count with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Association("Posts").Count()
+// Aantal met voorwaarden
+facades.Orm().Query().Model(&user).Where("naam = ?", "goravel").Association("Posts").Count()
 ```
 
-### Batch Data
+### Batch gegevens
 
 ```go
-// Find all roles for all users
+// Vind alle rollen voor alle gebruikers
 facades.Orm().Query().Model(&users).Association("Posts").Find(&posts)
 
-// Delete User A from all user's Posts
-facades.Orm().Query().Model(&users).Association("Posts").Delete(&userA)
+// Verwijder Gebruiker A uit alle posts van gebruiker
+facades. rm().Query().Model(&users).Association("Posts").Delete(&userA)
 
-// Get distinct count of all users' Posts
-facades.Orm().Query().Model(&users).Association("Posts").Count()
+// Krijg een duidelijk aantal posts van alle gebruikers
+facades. rm()Query().Model(&users).Association("Posts"). ount()
 
-// For `Append`, `Replace` with batch data, the length of the arguments needs to be equal to the data's length or else it will return an error
-var users = []models.User{user1, user2, user3}
+// Voor `Append`, `Replace` met batch data, de lengte van de argumenten moet gelijk zijn aan de lengte van de data, anders geeft het een foutmelding
+var gebruikers = []modellen. ser{user1, user2, user3}
 
-// We have 3 users, Append userA to user1's team, append userB to user2's team, append userA, userB and userC to user3's team
-facades.Orm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models.User{userA, userB, userC})
+// Wij hebben 3 gebruikers, voeg userA toe aan user1's team, Voeg userB toe aan user2's team, voeg userA, userB en userC toe aan user3's team
+facades. rm().Query().Model(&users).Association("Team").Append(&userA, &[]modellen. ser{userA, userB, userC})
 
-// Reset user1's team to userA，reset user2's team to userB, reset user3's team to userA, userB and userC
-facades.Orm().Query().Model(&users).Association("Team").Replace(&userA, &userB, &[]models.User{userA, userB, userC})
+// Reset user1's team naar userA,reset het team van user2 naar userB, reset het team van gebruiker 3 naar userA, userB en userC
+facades. rm().Query().Model(&users).Association("Team").Replace(&userA, &[]models.User{userA, userB, userC})
 ```
 
-## Eager Loading
+## Eager laden
 
-Eager loading conveniences for querying multiple models, and alleviates the "N + 1" query problem. To illustrate the N +
-1 query problem, consider a `Book` model that "belongs to" an `Author` model:
+Eager belastingsgemakken voor het zoeken naar meerdere modellen en verzacht het "N + 1" queryprobleem. Ter illustratie van het N +
+1 query probleem, overweeg een `Book` model dat "hoort bij" een `Auteur` model:
 
 ```go
-type Author struct {
+typ auteur {
   orm.Model
-  Name  string
+  Name string
 }
 
-type Book struct {
-  orm.Model
-  AuthorID   uint
-  Name       string
-  Author     *Author
+type boek {
+  of m. odel
+  AuteurID uint
+  Naam tekenreeks
+  Auteur *Auteur
 }
 ```
 
-Now, let's retrieve all books and their authors:
+Laten we nu alle boeken en auteurs ophalen:
 
 ```go
 var books models.Book
 facades.Orm().Query().Find(&books)
 
 for _, book := range books {
-  var author models.Author
+  var auteurmodels.Author
   facades.Orm().Query().Find(&author, book.AuthorID)
 }
 ```
 
-To retrieve all the books in the database table along with their authors, the loop code executes a query for each book.
-This means that for a collection of 25 books, the loop would run 26 queries - one for the collection of books and 25
-more to get the author of each book.
+Om alle boeken samen met de auteurs op te halen uit de databasetabel voert de luscode een query uit voor elk boek.
+Dit betekent dat voor een verzameling van 25 boeken, de lus zou 26 vragen moeten krijgen - één voor de verzameling van boeken en 25
+meer om de auteur van elk boek te krijgen.
 
-However, we can simplify this process using eager loading. By using the `With` method, we can specify which
-relationships need to be eagerly loaded and reduce the number of queries to just two.
+We kunnen dit proces echter met veel belasting vereenvoudigen. Door gebruik te maken van de `With` methode, kunnen we aangeven welke
+relaties enthousiast geladen moeten worden en het aantal queries tot slechts twee reduceren.
 
 ```go
 var books models.Book
@@ -489,84 +489,85 @@ for _, book := range books {
 }
 ```
 
-For this operation, only two queries will be executed - one query to retrieve all books and one query to retrieve
-authors for all of the books:
+Voor deze operatie Er worden slechts twee query's uitgevoerd - één query om alle boeken op te halen en één query om
+auteurs op te halen voor alle boeken:
 
 ```sql
-select * from `books`;
+selecteer * uit `boeken`;
 
-select * from `authors` where `id` in (1, 2, 3, 4, 5, ...);
+selecteer * uit `auteurs` waar `id` in (1, 2, 3, 4, 5, ...);
 ```
 
-### Eager Loading Multiple Relationships
+### Eager Laden Meerdere Relaties
 
-Sometimes you may need to eager load several different relationships. To do so, just call the `With` method multiple
-times:
+Soms moet je meerdere verschillende relaties graag laden. Om dit te doen, roep de `With` methode meerdere
+keer op:
 
 ```go
 var book models.Book
 facades.Orm().Query().With("Author").With("Publisher").Find(&book)
 ```
 
-### Nested Eager Loading
+### Geneste ager laden
 
-To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's
-authors and all of the author's personal contacts:
+Om de relaties van een relatie te laden, kunt u "dot" syntaxis gebruiken. Bijvoorbeeld, laten we alle
+auteurs van het boek en alle persoonlijke contacten van de auteur laden:
 
 ```go
 var book models.Book
 facades.Orm().Query().With("Author.Contacts").Find(&book)
 ```
 
-### Constraining Eager Loads
+### Beperking ager lading
 
-Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading
-query. You can accomplish this as below:
+Soms kunt u graag een relatie laden, maar ook aanvullende queryvoorwaarden opgeven voor de eager loading
+query. Je kunt dit als hieronder volbrengen:
 
 ```go
-import "github.com/goravel/framework/contracts/database/orm"
+importeer "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().With("Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().With("Author", "name = ?", "author"). ind(&book)
 
-facades.Orm().Query().With("Author", func(query orm.Query) orm.Query {
-  return query.Where("name = ?", "author")
+facades.Orm().Query().With("Auteur", func(query orm.Query {
+  return query.here("naam = ?", "auteur")
 }).Find(&book)
 ```
 
-In this example, Orm will only eager load posts where the post's `name` column equals the word `author`.
+In dit voorbeeld zullen Orm alleen maar graag berichten laden waar de 'naam' kolom van de post gelijk is aan het woord 'auteur'.
 
-### Lazy Eager Loading
+### Lazy Eager laden
 
-Sometimes you may need to eager load a relationship after the parent model has already been retrieved. For example, this
-may be useful if you need to dynamically decide whether to load related models:
+Soms moet je graag een relatie laden nadat het bovenliggende model al is opgehaald. Bijvoorbeeld, deze
+kan handig zijn als je dynamisch moet beslissen of je gerelateerde modellen wilt laden:
 
 ```go
 var books models.Book
-facades.Orm().Query().Find(&books)
+facades.Orm().Query(). ind(&boeken)
 
-for _, book := range books {
+voor _, boek := range books {
   if someCondition {
-    err := facades.Orm().Query().Load(&book, "Author")
+    err := facades. rm().Query().Load(&book, "Author")
   }
 }
 ```
 
-If you need to set additional query constraints on the eager loading query, you can use the code below:
+Als u extra query beperkingen wilt instellen op de adjunct-zoekopdracht, kunt u de code hieronder gebruiken:
 
 ```go
-import "github.com/goravel/framework/contracts/database/orm"
+importeer "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().Load(&book, "Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().Load(&book, "Author", "name = ?", "author"). ind(&book)
 
 facades.Orm().Query().Load(&book, "Author", func(query orm.Query) orm.Query {
-  return query.Where("name = ?", "author")
+  return query.Query { 
+ return query.here("naam = ?", "auteur")
 }).Find(&book)
 ```
 
-To load a relationship only when it has not already been loaded, use the `LoadMissing` method:
+Om een relatie alleen te laden wanneer deze nog niet is geladen, gebruik de `LoadMissing` methode:
 
 ```go
-facades.Orm().Query().LoadMissing(&book, "Author")
+facades.Orm().Query().LoadMissing(&book, "Auteur")
 ```
