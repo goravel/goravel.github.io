@@ -1,94 +1,94 @@
-import { defineConfig, type DefaultTheme } from 'vitepress';
-export const en = defineConfig({
-  lang: 'en-US',
-  description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
+import { defineConfig, type DefaultTheme } from "pressevitepress";
+export const config = defineConfig({
+  lang: "fr-FR",
+  description: "Goravel est un framework d'application web avec des fonctions complètes et une excellente évolutivité. En tant qu'échafaudage de départ pour aider Gopher à construire rapidement ses propres applications.",
   themeConfig: {
     nav: nav(),
     sidebar: {
-      '/en/quickstart/': {
-        base: '/en/quickstart/',
+      '/quickstart/': {
+        base: "/fr/quickstart/",
         items: sidebarQuickstart()
       },
-      '/en/upgrade/': {
-        base: '/en/upgrade/',
+      '/upgrade/': {
+        base: "/fr/upgrade/",
         items: sidebarUpgrade()
       },
-      '/en/foundation/': {
-        base: '/en/foundation/',
+      '/foundation/': {
+        base: "/fondation/",
         items: sidebarFoundation()
       },
-      '/en/basic/': {
-        base: '/en/basic/',
+      '/basic/': {
+        base: "/fr/basique/",
         items: sidebarBasic()
       },
-      '/en/advanced/': {
-        base: '/en/advanced/',
+      '/advanced/': {
+        base: "/avancé/",
         items: sidebarAdvanced()
       },
-      '/en/security/': {
-        base: '/en/security/',
+      '/security/': {
+        base: "/fr/security/",
         items: sidebarSecurity()
       },
-      '/en/orm/': {
-        base: '/en/orm/',
+      '/orm/': {
+        base: '/orm/',
         items: sidebarOrm()
       },
-      '/en/testing/': {
-        base: '/en/testing/',
+      '/testing/': {
+        base: "/fr/testing/",
         items: sidebarTesting()
       },
-      '/en/other/': {
-        base: '/en/other/',
+      '/other/': {
+        base: "/autres/",
         items: sidebarOther()
       }
     },
     editLink: {
       pattern: 'https://github.com/goravel/goravel.github.io/edit/main/:path',
-      text: 'Edit this page on GitHub'
+      text: "Modifier cette page sur GitHub"
     },
     footer: {
-      message: 'Released under the MIT License',
-      copyright: `Copyright © 2021-${new Date().getFullYear()} Goravel`
+      message: "Publié sous licence MIT",
+      copyright: `Copyright ©️ 2021-${new Date().getFullYear()} Goravel`
     }
   }
 });
 function nav(): DefaultTheme.NavItem[] {
   return [{
-    text: 'Quickstart',
-    link: '/en/quickstart/installation',
-    activeMatch: '/en/quickstart/'
+    text: "Démarrage rapide",
+    link: '/quickstart/installation',
+    activeMatch: "/fr/quickstart/"
   }, {
-    text: 'Upgrade',
-    link: '/en/upgrade/v1.15',
-    activeMatch: '/en/upgrade/'
+    text: "Mise à jour",
+    link: "/fr/upgrade/v1.15",
+    activeMatch: "/fr/upgrade/"
   }, {
-    text: 'Foundation',
-    link: '/en/foundation/lifecycle',
-    activeMatch: '/en/foundation/'
+    text: "Fondation",
+    link: "/fondation/cycle de vie",
+    activeMatch: "/fondation/"
   }, {
-    text: 'Basic',
-    link: '/en/basic/routing',
-    activeMatch: '/en/basic/'
+    text: "Basique",
+    link: "/fr/basic/routing",
+    activeMatch: "/fr/basique/"
   }, {
-    text: 'Advanced',
-    link: '/en/advanced/artisan',
-    activeMatch: '/en/advanced/'
+    text: "Avancé",
+    link: '/advanced/artisan',
+    activeMatch: "/avancé/"
   }, {
-    text: 'Security',
-    link: '/en/security/authentication',
-    activeMatch: '/en/security/'
+    text: "Sécurité",
+    link: "/fr/security/authentification",
+    activeMatch: "/fr/security/"
   }, {
     text: 'ORM',
-    link: '/en/orm/quickstart',
+    link: '/orm/quickstart',
     activeMatch: '/orm/'
   }, {
     text: "Tests en cours",
-    link: '/en/testing/quickstart',
-    activeMatch: '/testing/'
+    link: "/fr/testing/quickstart",
+    activeMatch: "/fr/testing/"
   }, {
-    text: 'Other',
-    link: '/en/other/contributing',
-    activeMatch: '/other/'
+    text: "Autres",
+    link: "/autre/contribution",
+    activeMatch: "/autres/"
   }];
 }
 function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
@@ -97,61 +97,61 @@ function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
     link: 'installation'
   }, {
     text: 'Configuration',
-    link: 'configuration'
+    link: "paramétrage"
   }, {
-    text: 'Directory Structure',
-    link: 'directory-structure'
+    text: "Structure du répertoire",
+    link: "structure-répertoire-répertoire"
   }, {
-    text: 'Compile',
-    link: 'compile'
+    text: "Compiler",
+    link: "compiler"
   }];
 }
 function sidebarUpgrade(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Upgrade from v1.15',
+    text: "Mise à jour depuis la v1.15",
     link: 'v1.15'
   }, {
-    text: 'Upgrade from v1.14',
+    text: "Mise à jour depuis la v1.14",
     link: 'v1.14'
   }, {
-    text: 'History',
-    link: 'history'
+    text: "Historique",
+    link: "Historique"
   }];
 }
 function sidebarFoundation(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Lifecycle',
-    link: 'lifecycle'
+    text: "Cycle de vie",
+    link: "cycle de vie"
   }, {
     text: "Conteneur de service",
-    link: 'container'
+    link: "conteneur"
   }, {
     text: "Fournisseurs de services",
-    link: 'providers'
+    link: "fournisseurs"
   }, {
     text: "Façades",
-    link: 'facades'
+    link: "façades"
   }];
 }
 function sidebarBasic(): DefaultTheme.SidebarItem[] {
   return [{
     text: "Routage",
-    link: 'routing'
+    link: "routage"
   }, {
-    text: 'Middlewares',
-    link: 'middlewares'
+    text: "Moyens",
+    link: "marchandises intermédiaires"
   }, {
     text: "Contrôleurs",
-    link: 'controllers'
+    link: "contrôleurs"
   }, {
-    text: 'Requests',
-    link: 'requests'
+    text: "Requêtes",
+    link: "Requêtes"
   }, {
-    text: 'Responses',
-    link: 'responses'
+    text: "Réponses",
+    link: "réponses"
   }, {
     text: "Vues",
-    link: 'views'
+    link: "Vues"
   }, {
     text: 'Grpc',
     link: 'grpc'
@@ -160,10 +160,10 @@ function sidebarBasic(): DefaultTheme.SidebarItem[] {
     link: 'session'
   }, {
     text: 'Validation',
-    link: 'validation'
+    link: "Validation"
   }, {
     text: "Journalisation",
-    link: 'logging'
+    link: "journalisation"
   }];
 }
 function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
@@ -175,31 +175,31 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
     link: 'cache'
   }, {
     text: "Évènements",
-    link: 'events'
+    link: "Evénements"
   }, {
     text: "Stockage des fichiers",
     link: 'fs'
   }, {
     text: "Courrier",
-    link: 'mail'
+    link: "courrier électronique"
   }, {
     text: 'Queues',
-    link: 'queues'
+    link: "files d'attente"
   }, {
     text: "Planification des tâches",
-    link: 'schedule'
+    link: "Horaire"
   }, {
     text: "Traduction",
-    link: 'localization'
+    link: "Traduction"
   }, {
     text: "Développement du paquet",
-    link: 'package'
+    link: "Paquet"
   }, {
-    text: 'Color Output',
-    link: 'color'
+    text: "Sortie de couleur",
+    link: "couleur"
   }, {
     text: "Chaînes de caractères",
-    link: 'strings'
+    link: "chaînes de caractères"
   }, {
     text: 'Helpers',
     link: 'helpers'
@@ -207,58 +207,58 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
 }
 function sidebarSecurity(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Authentication',
-    link: 'authentication'
+    text: "Authentification",
+    link: "authentification"
   }, {
-    text: 'Authorization',
-    link: 'authorization'
+    text: "Autorisation",
+    link: "Autorisation"
   }, {
-    text: 'Encryption',
-    link: 'encryption'
+    text: "Chiffrement",
+    link: "cryptage"
   }, {
-    text: 'Hashing',
-    link: 'hashing'
+    text: "Hachage",
+    link: "hachage"
   }];
 }
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Quickstart',
-    link: 'quickstart'
+    text: "Démarrage rapide",
+    link: "démarrage rapide"
   }, {
-    text: 'Relationships',
-    link: 'relationships'
+    text: "Relations",
+    link: "relations"
   }, {
     text: 'Migrations',
     link: 'migrations'
   }, {
-    text: 'Seeding',
+    text: "Sources",
     link: 'seeding'
   }, {
     text: "Usines",
-    link: 'factories'
+    link: "usines"
   }];
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Quickstart',
-    link: 'quickstart'
+    text: "Démarrage rapide",
+    link: "démarrage rapide"
   }, {
-    text: 'HTTP Tests',
+    text: "Tests HTTP",
     link: 'http'
   }, {
-    text: 'Mocks',
-    link: 'mocks'
+    text: "Chopes",
+    link: "bouchon"
   }];
 }
 function sidebarOther(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Contributing',
-    link: 'contributing'
+    text: "Contribuer",
+    link: "contribuant"
   }, {
-    text: 'Excellent Packages',
-    link: 'packages'
+    text: "Paquets de qualité",
+    link: "paquets"
   }, {
-    text: 'Privacy Policy',
-    link: 'privacy'
+    text: "Politique de confidentialité",
+    link: "Confidentialité"
   }];
 }
