@@ -1,15 +1,15 @@
-# Getting Started
+# بدء العمل
 
-The testing function of Goravel relies on Golang's official test component, extending unit testing to support
-integration testing and improve application robustness.
+وتعتمد وظيفة الاختبار لغورافيل على عنصر الاختبار الرسمي للجولانغ، وتمديد وحدة الاختبار لدعم اختبار التكامل
+وتحسين قوة التطبيق.
 
-## Environment
+## البيئة
 
-### Custom Environment File
+### ملف بيئة مخصص
 
-By default, the `.env` file in the root directory is used to inject configuration information during testing. If you
-want to use different `.env` files for different packages, you can create a `.env` file in the package directory, and
-the test will read this file first.
+بشكل افتراضي، يتم استخدام ملف `.env` في الدليل الجذر لحقن معلومات التكوين أثناء الاختبار. إذا كنت
+تريد استخدام مختلف ملفات `.env` لحزم مختلفة، يمكنك إنشاء `. ملف nv` في دليل الحزمة، و
+الاختبار سوف يقرأ هذا الملف أولاً.
 
 ```
 - /app
@@ -22,32 +22,32 @@ the test will read this file first.
 - .env
 ```
 
-In addition, you may create a `.env.testing` file at the root of your project. This file will be used instead of the
-`.env` file when running `go test` with the `--env` option, note that this option needs to follow the test directory,
-for example:
+بالإضافة إلى ذلك، يمكنك إنشاء ملف `.env.testing' في جذر مشروعك. سيتم استخدام هذا الملف بدلاً من
+`. ملف nv`عند تشغيل الخيار`go test`مع الخيار`--env\`، لاحظ أن هذا الخيار يحتاج إلى اتباع دليل الاختبار،
+على سبيل المثال:
 
 ```shell
-go test ./... --env=.env.testing
-go test ./... -e=.env.testing
+اذهب إلى الاختبار ./... --env=.env.اختبار
+اذهب إلى الاختبار ./... -e=.env.testing
 ```
 
-### `TestCase` Struct
+### بنية \`TestCase'
 
-There is a `TestCase` Struct in Goravel, and the Struct will provide some convenient test methods in the future, in
-addition, there is an `init` method in the same file, this method guides the registration of the Goravel application
-before running the test. You may include any necessary logic in this method that needs to be executed before the test.
+هناك بنية "TestCase" في غورفل، وستوفر Struct بعض طرق الاختبار المناسبة في المستقبل، في
+إضافة هناك طريقة 'init' في الملف نفسه، وهذه الطريقة توجه تسجيل التطبيق Goravel
+قبل إجراء الاختبار. يمكنك تضمين أي منطق ضروري في هذه الطريقة يجب تنفيذه قبل الاختبار.
 
-## Creating Tests
+## إنشاء الاختبارات
 
-To create a new test case, use the `make:test` Artisan command:
+لإنشاء حالة اختبار جديدة، استخدم الأمر "make:test" Artisan:
 
 ```shell
-go run . artisan make:test feature/UserTest
+إذهب إلى تشغيل. ميزة حرفية:اختبار/اختبار المستخدم
 ```
 
-Our test cases are written using the suite function of the [stretchr/testify](https://github.com/stretchr/testify)
-package by default. This function enables us to configure pre-test, post-test, sub-test, and assertion, among other
-things, which results in more organized test cases. For further information, kindly refer to the official documentation.
+يتم كتابة حالاتنا الاختبارية باستخدام خاصية حزمة [stretchr/testify](https://github.com/stretchr/testify)
+بشكل افتراضي. This function enables us to configure pre-test, post-test, sub-test, and assertion, among other
+things, which results in more organized test cases. وللحصول على مزيد من المعلومات، يرجى الرجوع إلى الوثائق الرسمية.
 
 ```go
 package feature
@@ -82,145 +82,145 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-## Database Testing
+## اختبار قاعدة البيانات
 
-Goravel model factories and Seeders can easily create test database records for the application's model.
+وتستطيع مصانع نماذج غورافيل والبذور بسهولة إنشاء سجلات لقواعد البيانات لاختبار نموذج التطبيق.
 
-### Factories
+### المصانع
 
-If you're conducting tests, it might be necessary to add some records to your database before running the test. You
-don't have to manually input the values of each column for the test data creation. With Goravel, you can set default
-attributes for your models via [factories](../orm/factories).
+إذا كنت تجري الاختبارات، قد يكون من الضروري إضافة بعض السجلات إلى قاعدة البيانات الخاصة بك قبل تشغيل الاختبار. You
+don't have to manually input the values of each column for the test data creation. مع Goravel، يمكنك تعيين سمات افتراضية
+للنماذج الخاصة بك عبر [factories](../orm/factories).
 
 ```go
-var user models.User
-err := facades.Orm().Factory().Create(&user)
+تطبيق نماذج المستخدم.المستخدم
+: = facades.Orm().Factory().Create(&user)
 ```
 
-### Running Seeders
+### بذور قيد التشغيل
 
-If you would like to use [database seeders](../orm/seeding) to populate your database during a feature test, you may
-invoke the `Seed` method. By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of
-your other seeders. Alternatively, you can pass a specific seeder struct to the `Seed` method:
+إذا كنت ترغب في استخدام [بذور قاعدة البيانات](../orm/seeding) لتعبئة قاعدة البيانات الخاصة بك أثناء اختبار الميزة، يمكنك
+استدعاء طريقة 'Seed'. بشكل افتراضي، ستنفذ طريقة "البذرة" "DatabaseSeeder"، التي يجب أن تنفذ كل
+البذور الأخرى الخاصة بك. وبدلا من ذلك، يمكنك تمرير مستخرج محدد تم تركيبه إلى طريقة "البذرة":
 
 ```go
-package feature
+ميزة الحزمة
 
-import (
- "testing"
+استيراد (
+ "اختبار"
 
- "github.com/stretchr/testify/suite"
+ "github. om/stretchr/testify/suite"
 
  "goravel/database/seeders"
  "goravel/tests"
-)
 
-type ExampleTestSuite struct {
- suite.Suite
+
+نوع مثلTestSuite بنت {
+ جناح. uite
  tests.TestCase
+
+
+func TestexampleTestSuite(t *testing.T) {
+ suite. un(t, new(exampleTestSuite))
+
+
+// SetupTT الاختبار سيتم تشغيله قبل كل اختبار في المجموعة.
+تشويش (s *exampleTestSuite) إعداد اختبار () {
 }
 
-func TestExampleTestSuite(t *testing.T) {
- suite.Run(t, new(ExampleTestSuite))
+// TearDownTtest سيتم تشغيله بعد كل اختبار في المجموعة.
+مربع (s *exampleTestSuite) TearDownTestSuite) TearDownTtest() {
 }
 
-// SetupTest will run before each test in the suite.
-func (s *ExampleTestSuite) SetupTest() {
-}
+func (s *exampleTestSuite) TestIndex() {
+  // تشغيل Seeder. .
+ s.seed()
 
-// TearDownTest will run after each test in the suite.
-func (s *ExampleTestSuite) TearDownTest() {
-}
-
-func (s *ExampleTestSuite) TestIndex() {
-  // Run the DatabaseSeeder...
- s.Seed()
-
-  // Run multiple specific seeders...
+  // تشغيل بذور محددة متعددة...
  s.Seed(&seeders.UserSeeder{}, &seeders.PhotoSeeder{})
 }
 ```
 
-### Using Docker
+### استخدام Docker
 
-When using `go test`, multiple packages are tested in parallel. As a result, refreshing the database in a test case
-using a local database can potentially affect other parallel test cases. To address this, Goravel offers Docker-based
-testing. With Docker, a database image can be created and used independently across different packages.
+عند استخدام \`اذهب إلى الاختبار'، يتم اختبار حزم متعددة بالتوازي. ونتيجة لذلك، فإن تحديث قاعدة البيانات في حالة اختبار
+باستخدام قاعدة بيانات محلية يمكن أن يؤثر على حالات اختبار موازية أخرى. To address this, Goravel offers Docker-based
+testing. مع Docker، يمكن إنشاء صورة قاعدة بيانات واستخدامها بشكل مستقل عبر حزم مختلفة.
 
-> Due to the limited support of the Docker image for the windows system, currently, the Docker test can only be run in
-> non-windows environments.
+> بسبب الدعم المحدود لصورة Docker لنظام النوافذ، حاليا، لا يمكن تشغيل اختبار Docker إلا في البيئات
+> غير النوافذ.
 
-#### Initiate Docker
+#### بدء دوبر
 
-You can use the `Database` method to initiate a database image based on the default database connection, or you can pass
-the database connection name to this method to initiate other database images:
+يمكنك استخدام طريقة "قاعدة البيانات" لبدء صورة قاعدة البيانات استناداً إلى اتصال قاعدة البيانات الافتراضي، أو يمكنك تمرير إسم اتصال قاعدة البيانات
+إلى هذه الطريقة لبدء صور قاعدة بيانات أخرى:
 
 ```go
-database, err := facades.Testing().Docker().Database()
-database, err := facades.Testing().Docker().Database("postgres")
+قاعدة البيانات, err := facades.Testing().Docker().Database()
+قاعدة البيانات, err := facades.Testing().Docker().Database("postgres")
 ```
 
-The database images supported by default:
+صور قاعدة البيانات المدعومة بشكل افتراضي:
 
-| Database  | Image Link                                                                                                                                         | Version |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| Mysql     | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)              | latest  |
-| Postgres  | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)        | latest  |
-| Sqlserver | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | latest  |
-| Sqlite    | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | latest  |
+| قاعدة البيانات | رابط الصورة                                                                                                                                        | الإصدار |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| Mysql          | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)              | الأحدث  |
+| Postgres       | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)        | الأحدث  |
+| Sqlserver      | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | الأحدث  |
+| Sqlite         | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | الأحدث  |
 
-You can also use the `Image` method to customize the image:
+يمكنك أيضا استخدام طريقة "الصورة" لتخصيص الصورة:
 
 ```go
-import contractstesting "github.com/goravel/framework/contracts/testing"
+استيراد contractstesting "github.com/goravel/framework/contracts/testing"
 
 database.Image(contractstesting.Image{
   Repository: "mysql",
-  Tag:        "5.7",
+  taag: "5.7",
   Env: []string{
-    "MYSQL_ROOT_PASSWORD=123123",
+    "MYSQL_ROOT_PASSWORD=123",
     "MYSQL_DATABASE=goravel",
   },
   ExposedPorts: []string{"3306"},
 })
 ```
 
-#### Build Image
+#### بناء صورة
 
-After the image is initiated, you can use the `Build` method to build the image:
+بعد بدء تشغيل الصورة، يمكنك استخدام طريقة "البناء" لبناء الصورة:
 
 ```go
-err := database.Build()
+خطأ := قاعدة البيانات.Build()
 ```
 
 At this time, you can use the `docker ps` command to see that the image is already running on the system, and you can
 obtain the configuration information of the database through the `Config` method to facilitate connection debugging:
 
 ```go
-config := database.Config()
+تكوين := قاعدة البيانات.Config()
 ```
 
-#### Running Seeders
+#### بذور قيد التشغيل
 
-If you wish to use [seeder](../orm/seeding) to populate the database during testing, you can call the `Seed` method.
-By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of your other seeders.
-Alternatively, you can pass a specific seeder struct to the `Seed` method:
+إذا كنت ترغب في استخدام [seeder](../orm/seeding) لتعبئة قاعدة البيانات أثناء الاختبار، يمكنك الاتصال بطريقة "البذرة".
+بشكل افتراضي، ستنفذ طريقة "البذرة" "DatabaseSeeder"، التي يجب أن تنفذ جميع البذور الأخرى الخاصة بك.
+وبدلا من ذلك، يمكنك تمرير مستخرج محدد تم تركيبه إلى طريقة "البذرة":
 
 ```go
-err := database.Seed()
+err :=database.seed()
 err := database.Seed(&seeders.UserSeeder{})
 ```
 
-#### Refresh Database
+#### تحديث قاعدة البيانات
 
-Because the test cases in the same package are executed serially, refreshing the database after a single test case run
-will have no negative impact, we can use the `Fresh` method:
+لأن حالات الاختبار في نفس الطرد يتم تنفيذها بشكل متسلسل، تحديث قاعدة البيانات بعد تشغيل حالة اختبار واحدة
+لن يكون له تأثير سلبي، يمكننا استخدام طريقة "Fresh":
 
 ```go
-err := database.Fresh()
+خطر:= قاعدة البيانات.Fresh()
 ```
 
-You can also use the `RefreshDatabase` method:
+يمكنك أيضًا استخدام طريقة "تحديث قاعدة البيانات":
 
 ```go
 package feature
@@ -255,18 +255,18 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-#### Uninstall Image
+#### إلغاء تثبيت الصورة
 
-After the test cases in the sub-package are executed, the image will be uninstalled automatically in one hour, you can
-also use the `Shutdown` method to uninstall the image manually.
+بعد تنفيذ حالات الاختبار في الحزمة الفرعية، سيتم إلغاء تثبيت الصورة تلقائياً في ساعة واحدة، يمكنك
+استخدام طريقة "إيقاف التشغيل" لإلغاء تثبيت الصورة يدوياً.
 
 ```go
-err := database.Shutdown()
+err := قاعدة البيانات.Shutdown()
 ```
 
-#### Example
+#### مثال
 
-We can create a `TestMain` method in the sub-package and add the pre-logic of the test case:
+يمكننا إنشاء طريقة "TestMain" في الحزمة الفرعية وإضافة المنطق المسبق لحالة الاختبار:
 
 ```go
 // tests/feature/main_test.go
@@ -308,4 +308,4 @@ func TestMain(m *testing.M) {
 }
 ```
 
-> For more usage of the TestMain method, see [Official Documentation](https://pkg.go.dev/testing#hdr-Main).
+> لمزيد من استخدام طريقة TestMain ، انظر [الوثائق الرسمية](https://pkg.go.dev/testing#hdr-Main).
