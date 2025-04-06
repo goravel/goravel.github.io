@@ -78,8 +78,8 @@ can greatly improve concurrency performance:
 
 ### Schema
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres and SQL Server support configuring Schema. Postgres can directly set the Schema in the configuration file, while
+SQL Server needs to specify the Schema through the `TableName` method in the model.
 
 #### Postgres
 
@@ -93,7 +93,7 @@ Sqlserver needs to specify the Schema through the `TableName` method in the mode
 }
 ```
 
-#### Sqlserver
+#### SQL Server
 
 ```go
 func (r *User) TableName() string {

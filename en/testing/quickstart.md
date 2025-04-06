@@ -162,12 +162,12 @@ database, err := facades.Testing().Docker().Database("postgres")
 
 The database images supported by default:
 
-| Database  | Image Link                                                                                         | Version |
-| --------- | -------------------------------------------------------------------------------------------------- | ------- |
-| Mysql     | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)                                   | latest  |
-| Postgres  | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)                             | latest  |
-| Sqlserver | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | latest  |
-| Sqlite    | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | latest  |
+| Database   | Image Link                                                                                         | Version |
+|------------| -------------------------------------------------------------------------------------------------- | ------- |
+| Mysql      | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)                                   | latest  |
+| Postgres   | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)                             | latest  |
+| SQL Server | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | latest  |
+| SQlite     | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | latest  |
 
 You can also use the `Image` method to customize the image:
 
