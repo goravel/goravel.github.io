@@ -1,71 +1,71 @@
-# Directory Structure
+# Map structuur
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+De standaard bestandsstructuur kan ervoor zorgen dat je project sneller begint, en je kunt ook gratis nieuwe mappen toevoegen, maar
+wijzig de standaard mappen niet.
 
-## Root Directory
+## Root map
 
-### `app` Directory
+### `app` map
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` bevat de kerncode van het programma. Bijna alle logica in het programma zal in deze map staan.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+De `bootstrap` map bevat het startbestand `app.go`.
 
-### `config` Directory
+### `config` map
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
+De `config` folder bevat alle configuratiebestanden van de toepassing. It is best to browse through these files and
 familiarize yourself with all the available options.
 
-### `database` Directory
+### `database` map
 
-The `database` directory contains database migration files.
+De `database` map bevat database migratiebestanden.
 
-### `public` Directory
+### `publiek` map
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+De `public` map bevat statische bronnen, zoals afbeeldingen, certificaten, enz.
 
-### `resources` Directory
+### `resources` map
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+De `resources` map bevat je [views](../basic/views) en je rame, niet gecompileerde assets zoals
+CSS of JavaScript.
 
-### `routes` Directory
+### 'routes' map
 
-The `routes` directory contains all the route definitions of the application.
+De `routes` directory bevat alle route definities van de toepassing.
 
-### `storage` Directory
+### `opslag` map
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+De `storage` map bevat de `logs` map en de `logs` map bevat de logbestanden.
 
-### `tests` Directory
+### `tests` map
 
-The `tests` directory contains your automated tests.
+De `tests` map bevat uw geautomatiseerde tests.
 
-## `app` Directory
+## `app` map
 
-### `console` Directory
+### `console` map
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+De `console` map bevat alle aangepaste `Artisan` commando's van de applicatie en het console boot file
+`kernel. o`, die kan worden geregistreerd in dit bestand [Taak Planning](../advanced/schedule)
 
-### `http` Directory
+### `http` map
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+De `http` map bevat controllers, middleware, enz., en bijna alle verzoeken die de toepassing via de
+Web invoeren, worden hier verwerkt.
 
-### `grpc` Directory
+### `grpc` map
 
-The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Grpc are processed here.
+De `grpc` map bevat controllers, middleware, enz., en bijna alle verzoeken die de toepassing via de
+Grpc worden hier verwerkt.
 
-### `models` Directory
+### `models` map
 
-The `models` directory contains all data models.
+De `models` map bevat alle data modellen.
 
-### `providers` Directory
+### `providers` map
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
-for events, or performing any other tasks.
+De `providers` map bevat alle [Service Providers](../foundation/providers) in het
+-programma. De service provider leidt de applicatie om te reageren op inkomende verzoeken door bindende diensten,
+te registreren voor afspraken of andere taken.
