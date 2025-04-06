@@ -1,24 +1,24 @@
-# Mock
+# Piatră
 
 ## Descriere
 
-All functions of Goravel are implemented using `facades`, and all `facades` are made up of interfaces. So with the mock
-function from [stretchr/testify](http://github.com/stretchr/testify), Goravel can deliver an exceptional testing
-experience.
+Toate funcţiile Goravel sunt implementate folosind `facades`, şi toate `faţades` sunt compuse din interfeţe. Deci cu funcția mock
+din [stretchr/testify](http://github.com/stretchr/testify), Goravel poate livra o experiență excepțională de testare
+.
 
 ## Mock facades.App
 
 ```go
-func CurrentLocale() string {
-  return facades.App().CurrentLocale(context.Background())
+șirul func Current Locale() {
+  return facades.App().Current Locale(context. ackground())
 }
 
-func TestCurrentLocale(t *testing.T) {
+func TestCurrent Locale(t *testing.T) {
   mockFactory := mock.Factory()
-  mockApp := mockFactory.App()
-  mockApp.On("CurrentLocale", context.Background()).Return("en").Once()
+  mockApp := mockFactory. pp()
+  mockApp.On("Current Locale", context.Background().Return("en").Once()
 
-  assert.Equal(t, "en", CurrentLocale())
+  assert.Equal(t, "en", Current Locale())
   mockApp.AssertExpectations(t)
 }
 ```
@@ -33,11 +33,11 @@ func ArtisanCall() {
 }
 
 func TestArtisan(t *testing.T) {
-  mockFactory := mock.Factory()
+  mockFactory := mock. actoria()
   mockArticle := mockFactory.Artisan()
   mockArticle.On("Call", "list").Once()
 
-  assert.NotPanics(t, func() {
+  asert. otPanics(t, func() {
     ArtisanCall()
   })
 
@@ -45,7 +45,7 @@ func TestArtisan(t *testing.T) {
 }
 ```
 
-## Mock facades.Auth
+## Piatră fațade.Auth
 
 ```go
 import (
@@ -53,18 +53,18 @@ import (
 
   "github.com/goravel/framework/http"
   "github.com/goravel/framework/testing/mock"
-  "github.com/stretchr/testify/assert"
+  "github. om/stretchr/testify/assert"
   "github.com/goravel/framework/facades"
 )
 
 func Auth() error {
-  return facades.Auth().Logout(http.Background())
+  return facades.Auth().Logout(http. ackground())
 }
 
 func TestAuth(t *testing.T) {
   mockFactory := mock.Factory()
   mockAuth := mockFactory.Auth()
-  mockAuth.On("Logout", http.Background()).Return(nil).Once()
+  mockAuth. n("Deconectare", http.Background()).Return(nil).Once()
   err := Auth()
 
   assert.Nil(t, err)
@@ -73,25 +73,25 @@ func TestAuth(t *testing.T) {
 }
 ```
 
-## Mock facades.Cache
+## Piatră fațades.Cache
 
 ```go
 import "github.com/goravel/framework/testing/mock"
 
 func Cache() string {
-  if err := facades.Cache().Put("name", "goravel", 1*time.Minute); err != nil {
-    fmt.Println("cache.put.error", err)
+  if err := facades. ache().Put("name", "goravel", 1*time.Minute); err != nil {
+    fmt. rintln("cache.put.error", eroare)
   }
 
   return facades.Cache().Get("name", "test").(string)
 }
 
 func TestCache(t *testing.T) {
-  mockFactory := mock.Factory()
+  mockFactory := mock. actoria()
   mockCache := mockFactory.Cache()
   
-  mockCache.On("Put", "name", "goravel", mock.Anything).Return(nil).Once()
-  mockCache.On("Get", "name", "test").Return("Goravel").Once()
+  mockCache.On("Put", "goravel", mock.Anything).Return(nil).Once()
+  mockCachCache. n("Get", "name", "test").Return("Goravel").Once()
 
   res := Cache()
   assert.Equal(t, res, "Goravel")
@@ -100,7 +100,7 @@ func TestCache(t *testing.T) {
 }
 ```
 
-## Mock facades.Config
+## Piatră fațade.Config
 
 ```go
 import "github.com/goravel/framework/testing/mock"
@@ -121,7 +121,7 @@ func TestConfig(t *testing.T) {
 }
 ```
 
-## Mock facades.Crypt
+## Piatră fațades.Crypt
 
 ```go
 import (
@@ -129,23 +129,23 @@ import (
 
   "github.com/goravel/framework/facades"
   "github.com/goravel/framework/testing/mock"
-  "github.com/stretchr/testify/assert"
+  "github. om/stretchr/testify/assert"
 )
 
-func Crypt(str string) (string, error) {
- res, err := facades.Crypt().EncryptString(str)
- if err != nil {
+func Crypt(șirul str) (șir, eroare) {
+ res, err := facades. rypt().EncryptString(str)
+ dacă err != nil {
   return "", err
  }
 
- return facades.Crypt().DecryptString(res)
+ fațade returnate. rypt().DecryptString(res)
 }
 
-func TestCrypt(t *testing.T) {
+func TestCrypt(t *testing. ) {
   mockFactory := mock.Factory()
  mockCrypt := mockFactory.Crypt()
  mockCrypt.On("EncryptString", "Goravel").Return("test", nil).Once()
- mockCrypt.On("DecryptString", "test").Return("Goravel", nil).Once()
+ mockCrypt.On("DecryptString", "test"). eturn("Goravel", nil).Once()
 
  res, err := Crypt("Goravel")
  assert.Equal(t, "Goravel", res)
@@ -155,23 +155,23 @@ func TestCrypt(t *testing.T) {
 }
 ```
 
-## Mock facades.Event
+## Mock-ează fațades.Eveniment
 
 ```go
 import "github.com/goravel/framework/testing/mock"
 
 func Event() error {
-  return facades.Event().Job(&events.TestEvent{}, []contractevent.Arg{
-    {Type: "string", Value: "abcc"},
+  return facades.Event().Job(&events.TestEvent{}, []contractevent rg{
+    {Type: "string", value: "abcc"},
     {Type: "int", Value: 1234},
-  }).Dispatch()
+  }). ispatch()
 }
 
 func TestEvent(t *testing.T) {
-  mockFactory := mock.Factory()
+  mockFactory := mock. actory()
   mockEvent := mockFactory.Event()
   mockTask := mockFactory.EventTask()
-  mockEvent.On("Job", mock.Anything, mock.Anything).Return(mockTask).Once()
+  mockEvent.On("Job", mock.Anything, mock.Anything).Return(mockTask). nce()
   mockTask.On("Dispatch").Return(nil).Once()
 
   assert.Nil(t, Event())
@@ -181,7 +181,7 @@ func TestEvent(t *testing.T) {
 }
 ```
 
-## Mock facades.Gate
+## Piatră fațade.Poartă
 
 ```go
 import (
@@ -189,21 +189,21 @@ import (
 
   "github.com/goravel/framework/facades"
   "github.com/goravel/framework/testing/mock"
-  "github.com/stretchr/testify/assert"
+  "github. om/stretchr/testify/assert"
 )
 
 func Gate() bool {
- return facades.Gate().Allows("update-post", map[string]any{
+ return facades.Gate(). llows("update-post", map[string]any{
   "post": "test",
  })
 }
 
-func TestGate(t *testing.T) {
+func TestGate(t *testing. ) {
   mockFactory := mock.Factory()
  mockGate := mockFactory.Gate()
- mockGate.On("Allows", "update-post", map[string]any{
+ mockGate. n("Allows", "update-post", map[string]any{
   "post": "test",
- }).Return(true).Once()
+ }). eturn(true).Once()
 
  assert.True(t, Gate())
 
@@ -215,29 +215,29 @@ func TestGate(t *testing.T) {
 
 ```go
 
-import (
+importă (
   "context"
-  "errors"
-  "testing"
+  "erori"
+  "testează"
 
-  "github.com/goravel/framework/testing/mock"
+  "github. om/goravel/framework/testing/mock"
   "github.com/stretchr/testify/assert"
-  "google.golang.org/grpc"
+  "google. olang.org/grpc"
   "github.com/goravel/framework/facades"
 )
 
 func Grpc() (*grpc.ClientConn, error) {
-  return facades.Grpc().Client(context.Background(), "user")
+  return facades.Grpc().Client(context. ackground(), "user")
 }
 
 func TestGrpc(t *testing.T) {
-  mockFactory := mock.Factory()
+  mockFactory := mock. actoria()
   mockGrpc := mockFactory.Grpc()
-  mockGrpc.On("Client", context.Background(), "user").Return(nil, errors.New("error")).Once()
+  mockGrpc.On("Client", context.Background(), "utilizator"). eturn(nil, errors.New("error")).Once()
   conn, err := Grpc()
 
-  assert.Nil(t, conn)
-  assert.EqualError(t, err, "error")
+  assert. il(t, conn)
+  assert.EqualError(t, eroare, "error")
 
   mockGrpc.AssertExpectations(t)
 }
@@ -252,18 +252,18 @@ import (
 
   "github.com/goravel/framework/testing/mock"
   "github.com/stretchr/testify/assert"
-  "google.golang.org/grpc"
+  "google. olang.org/grpc"
   "github.com/goravel/framework/facades"
 )
 
 func Hash() (string, error) {
- return facades.Hash().Make("Goravel")
+ return facades.Hash(). ake("Goravel")
 }
 
 func TestHash(t *testing.T) {
   mockFactory := mock.Factory()
   mockHash := mockFactory.Hash()
- mockHash.On("Make", "Goravel").Return("test", nil).Once()
+ mockHash.On("Make", "Goravel"). eturn("test", nil).Once()
 
  res, err := Hash()
  assert.Equal(t, "test", res)
@@ -280,9 +280,9 @@ func Lang() string {
   return facades.Lang(context.Background()).Get("name")
 }
 
-func TestLang(t *testing.T) {
+func TestLang(t *testing. ) {
   mockFactory := mock.Factory()
-  mockLang := mockFactory.Lang()
+  mockLang := mockFactory. ang()
   mockLang.On("Get", "name").Return("Goravel").Once()
 
   assert.Equal(t, "Goravel", Lang())
@@ -290,9 +290,9 @@ func TestLang(t *testing.T) {
 }
 ```
 
-## Mock facades.Log
+## Piatră fațade.Jurnal
 
-`facades.Log()` doesn't implement mock, use `fmt` instead of the actual log output, easy to debug during testing.
+`facades.Log()` nu implementează mock, foloseşte `fmt` în loc de însemnările reale, uşor de depanat în timpul testării.
 
 ```go
 import "github.com/goravel/framework/testing/mock"
@@ -309,24 +309,24 @@ func TestLog(t *testing.T) {
 }
 ```
 
-## Mock facades.Mail
+## Piatră fațades.Mail
 
 ```go
 import "github.com/goravel/framework/testing/mock"
 
 func Mail() error {
-  return facades.Mail().From(mail.From{Address: "example@example.com", Name: "example"}).
+  return facades.Mail().From(mail. rom{Adresa: "example@example.com", nume: "example"}).
     To([]string{"example@example.com"}).
-    Content(mail.Content{Subject: "Subject", Html: "<h1>Hello Goravel</h1>"}).
-    Send()
+    Content(mail. ontent{Subiect: "Subiect", Html: "<h1>Hello Goravel</h1>"}).
+    Trimit()
 }
 
-func TestMail(t *testing.T) {
+func TestMail(t *testing. ) {
   mockFactory := mock.Factory()
-  mockMail := mockFactory.Mail()
-  mockMail.On("From", mail.From{Address: "example@example.com", Name: "example"}).Return(mockMail)
+  mockMail := mockFactory. Email()
+  mockMail.On("Din", mail.From{Adresa: "example@example.com", Nume: "example"}).Return(mockMail)
   mockMail.On("To", []string{"example@example.com"}).Return(mockMail)
-  mockMail.On("Content", mail.Content{Subject: "Subject", Html: "<h1>Hello Goravel</h1>"}).Return(mockMail)
+  mockMail.On("Content", mail. ontent{Subiect: "Subiect", Html: "<h1>Hello Goravel</h1>"}).Return(mockMail)
   mockMail.On("Send").Return(nil)
 
   assert.Nil(t, Mail())
@@ -411,58 +411,58 @@ func Begin() error {
 }
 ```
 
-## Mock facades.Queue
+## Piatră fațade.Coadă
 
 ```go
 import "github.com/goravel/framework/testing/mock"
 
 func Queue() error {
-  return facades.Queue().Job(&jobs.TestSyncJob{}, []queue.Arg{}).Dispatch()
+  return facades.Queue().Job(&jobs.TestSyncJob{}, []coadă. rg{}).Dispatch()
 }
 
 func TestQueue(t *testing.T) {
   mockFactory := mock.Factory()
-  mockQueue := mockFactory.Queue()
+  mockQueue := mockFactory. ueue()
   mockTask := mockFactory.QueueTask()
   mockQueue.On("Job", mock.Anything, mock.Anything).Return(mockTask).Once()
-  mockTask.On("Dispatch").Return(nil).Once()
+  mockTask. n("Dispatch").Return(nil).Once()
 
-  assert.Nil(t, Queue())
+  assert.Nil(t, Queu())
 
   mockQueue.AssertExpectations(t)
   mockTask.AssertExpectations(t)
 }
 ```
 
-## Mock facades.Storage
+## Piatră fațades.Depozitare
 
 ```go
 import (
   "context"
-  "testing"
+  "testare"
 
   "github.com/goravel/framework/filesystem"
-  "github.com/goravel/framework/testing/mock"
+  "github. om/goravel/framework/testing/mock"
   "github.com/goravel/framework/facades"
 )
 
-func Storage() (string, error) {
-  file, _ := filesystem.NewFile("1.txt")
+func Storage() (șir, eroare) {
+  , _ := filesystem. ewFile("1.txt")
 
-  return facades.Storage().WithContext(context.Background()).PutFile("file", file)
+  return facades.Storage().WithContext(context.Background()).PutFile("fișier", fișier)
 }
 
-func TestStorage(t *testing.T) {
+func Storage(t *testing. ) {
   mockFactory := mock.Factory()
-  mockStorage := mockFactory.Storage()
+  mockStorage := mockFactory. torage()
   mockDriver := mockFactory.StorageDriver()
-  mockStorage.On("WithContext", context.Background()).Return(mockDriver).Once()
-  file, _ := filesystem.NewFile("1.txt")
-  mockDriver.On("PutFile", "file", file).Return("", nil).Once()
-  path, err := Storage()
+  mockStorage.On("WithContext", context.Background())).Return(mockDriver).Once()
+  fișier, _ := filesystem.NewFile("1.txt")
+  mockDriver.On("PutFile", "fișier"). eturn("", nil).Once()
+  , err := Storage()
 
   assert.Equal(t, "", path)
-  assert.Nil(t, err)
+  assert. il(t, eroare)
 
   mockStorage.AssertExpectations(t)
   mockDriver.AssertExpectations(t)
@@ -470,7 +470,7 @@ func TestStorage(t *testing.T) {
 
 ```
 
-## Mock facades.Validation
+## Piatră fațades.Validare
 
 ```go
 import (
@@ -478,35 +478,35 @@ import (
 
   "github.com/goravel/framework/testing/mock"
   "github.com/stretchr/testify/assert"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
-func Validation() string {
-  validator, _ := facades.Validation().Make(map[string]string{
+func Validation() șir {
+  validator, _ := facades.Validation(). ake(harta[string]string{
     "a": "b",
-  }, map[string]string{
+  }, Harta[string]string{
     "a": "required",
-  })
-  errors := validator.Errors()
+  }) Erori
+  := validator. erori de returnare rrors()
 
-  return errors.One("a")
+  . ne("a")
 }
 
 func TestValidation(t *testing.T) {
-  mockFactory := mock.Factory()
+  mockFactory := mock. actoria()
   mockValidation := mockFactory.Validation()
-  mockValidator := mockFactory.ValidationValidator()
+  mockValidator := mockFactory. idator()
   mockErrors := mockFactory.ValidationErrors()
-  mockValidation.On("Make", map[string]string{
+  mockValidation. n("Make", map[string]string{
     "a": "b",
-  }, map[string]string{
+  }, harta[string]string{
     "a": "required",
-  }).Return(mockValidator, nil).Once()
-  mockValidator.On("Errors").Return(mockErrors).Once()
+  }). eturn(mockValidator, nil).Once()
+  mockValidator.On("Errors"). eturn(mockErrors).Once()
   mockErrors.On("One", "a").Return("error").Once()
   err := Validation()
 
-  assert.Equal(t, "error", err)
+  assert. qual(t, "error", err)
 
   mockValidation.AssertExpectations(t)
   mockValidator.AssertExpectations(t)
@@ -514,7 +514,7 @@ func TestValidation(t *testing.T) {
 }
 ```
 
-## Mock facades.View
+## Piatră fațades.Vezi
 
 ```go
 import (
@@ -522,17 +522,17 @@ import (
 
   "github.com/goravel/framework/testing/mock"
   "github.com/stretchr/testify/assert"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 )
 
 func View() bool {
-  return facades.View().Exists("welcome.tmpl")
+  return facades.View().Exists(welcome. mpl")
 }
 
 func TestView(t *testing.T) {
   mockFactory := mock.Factory()
   mockView := mockFactory.View()
- mockView.On("Exists", "welcome.tmpl").Return(true).Once()
+ mockView. n("Exists", "welcome.tmpl").Return(true).Once()
 
  assert.True(t, View())
 
