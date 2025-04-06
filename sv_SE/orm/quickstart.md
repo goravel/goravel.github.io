@@ -1,92 +1,92 @@
-# Getting Started
+# Kom igång
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+Goravel gör det enkelt för utvecklare att interagera med databaser med hjälp av `facades.Orm()`. För närvarande ger det officiellt
+stöd för följande fyra databaser:
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
 - SQL Server 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+Innan du startar konfigurerar du databasen i `.env` och bekräftar `default` -konfigurationen i `config/database.go`.
 
 # Konfiguration
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+För att konfigurera databaser, navigera till `config/database.go`. Det är här du kan anpassa alla databasanslutningar och
+välj en `default`-anslutning. Konfigurationen i denna fil bygger på projektets miljövariabler och
+visar upp olika databaskonfigurationer som Goravel stöder.
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+Du kan också använda DSN för att ansluta till databasen direkt, bara konfigurera `dsn`-fältet i konfigurationsfilen:
 
 ```go
-"postgres": map[string]any{
-  "driver":   "postgres",
-++  "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
+"postgres": karta[string]any{
+  "driver": "postgres",
+++ "dsn": "postgres://user:password@localhost:5432/dbname?sslmode=disable",
   ...
 }
 ```
 
-### Read & Write Connections
+### Läs och skriv anslutningar
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+Ibland kanske du vill använda en databasanslutning för `SELECT`-satser, och en annan för `INSERT`, `UPDATE`, och
+`DELETE`-satser. Goravel gör detta till en vind.
 
-To see how read/write connections should be configured, let's look at this example:
+För att se hur läs-/skriv-anslutningar ska konfigureras, titta på detta exempel:
 
 ```go
-import "github.com/goravel/framework/contracts/database"
+importera "github.com/goravel/framework/contracts/database"
 
-// config/database.go
-"connections": map[string]any{
-  "mysql": map[string]any{
+// config/database. o
+"connections": karta[string]any{
+  "mysql": karta[string]any{
     "driver": "mysql",
-    "read": []database.Config{
-      {Host: "192.168.1.1", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "read": []databas. onfig{
+      {Host: "192.168.1. ", Port: 3306, Databas: "forge", Användarnamn: "root", Lösenord: "123123"},
     },
-    "write": []database.Config{
-      {Host: "192.168.1.2", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "skriv": []databas. onfig{
+      {Host: "192.168.1. ", Port: 3306, Databas: "forge", Användarnamn: "root", Lösenord: "123123"},
     },
-    "host": config.Env("DB_HOST", "127.0.0.1"),
-    "port":     config.Env("DB_PORT", 3306),
-    "database": config.Env("DB_DATABASE", "forge"),
-    "username": config.Env("DB_USERNAME", ""),
-    "password": config.Env("DB_PASSWORD", ""),
-    "charset":  "utf8mb4",
-    "loc":      "Local",
+    "host": config. nv("DB_HOST", "127.0.0.1"),
+    "port": config.Env("DB_PORT", 3306),
+    "database": config. nv("DB_DATABASE", "forge"),
+    "användarnamn": config.Env("DB_USERNAME", ""),
+    "lösenord": config. nv("DB_PASSWORD", ""),
+    "charset": "utf8mb4",
+    "loc": "Local",
   },
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+Vi har uppdaterat konfigurationsmatrisen med två nya nycklar - `read` och `write`. `read`-anslutningen kommer att använda
+`192.168.1.1` som värd, medan `write`-anslutningen kommer att använda `192.168.1.2`. Båda anslutningarna kommer att dela samma
+databas prefix, teckenuppsättning, och andra alternativ som anges i den huvudsakliga mysql array. Vid multipla värden i
+`host`-konfigurationsmatrisen, kommer en databasvärd att väljas slumpmässigt för varje begäran.
 
-### Connection Pool
+### Anslutning frågebank
 
-You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
-can greatly improve concurrency performance:
+Du kan konfigurera en anslutningspool i konfigurationsfilen, rimlig konfiguration av anslutningspoolparametrar
+kan avsevärt förbättra prestanda för samvaluta:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| Nyckel                                                                           | Åtgärd                          |
+| -------------------------------------------------------------------------------- | ------------------------------- |
+| pool.max_idle_conns    | Max antal inaktiva anslutningar |
+| pool.max_öppning                            | Max öppna anslutningar          |
+| pool.conn_max_idletime | Anslutningar max inaktiv tid    |
+| pool.Anslutningstid                                              | Anslutningar max livslängd      |
 
 ### Schema
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres och Sqlserver stöder konfigurering av Schema. Postgres kan direkt ställa in Schema i konfigurationsfilen, medan
+Sqlserver måste ange Schema genom `TableName`-metoden i modellen.
 
 #### Postgres
 
 ```go
 "connections": map[string]any{
   "postgres": map[string]any{
-    "driver":   "postgres",
+    "driver": "postgres",
     ...
     "schema": "goravel",
   },
@@ -96,267 +96,267 @@ Sqlserver needs to specify the Schema through the `TableName` method in the mode
 #### Sqlserver
 
 ```go
-func (r *User) TableName() string {
-  return "goravel.users"
+func (r *användare) tabellName() sträng {
+  returnera "goravel.users"
 }
 ```
 
-### Get Database Information
+### Hämta databasinformation
 
-You can use the `db:show` command to view all tables in the database.
-
-```bash
-go run . artisan db:show
-```
-
-You can also use the `db:table` command to view the structure of a specific table.
+Du kan använda kommandot `db:show` för att visa alla tabeller i databasen.
 
 ```bash
-go run . artisan db:table
-go run . artisan db:table users
+gå kör. hantverkare db:show
 ```
 
-## Model Definition
+Du kan också använda kommandot `db:table` för att visa strukturen för en specifik tabell.
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+```bash
+gå kör. hantverkare db:table
+gå kör. hantverkare db:table användare
+```
 
-### Model Convention
+## Modell Definition
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+För att skapa en anpassad modell, se modellfilen `app/models/user.go` som ingår i ramverket. `struct`
+i `app/models/user.go` innehåller två inbäddade ramverk: `orm.Model` och `orm.SoftDeletes`. Dessa ramverk definierar
+`id`, `created_at`, `updated_at` respektive `deleted_at`-egenskaper. Med `orm.SoftDeletes` kan du aktivera mjuk
+radering för modellen.
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+### Modell konvention
 
-### Create Model
+1. Modellen heter med en stor knöl;
+2. Använd pluralformen av modellen "ormnamn" som bordsnamn;
 
-Use the `make:model` command to create a model:
+Till exempel är modellnamnet `UserOrder`, och tabellnamnet är `user_orders`.
+
+### Skapa modell
+
+Använd kommandot `make:model` för att skapa en modell:
 
 ```shell
-go run . artisan make:model User
-go run . artisan make:model user/User
+gå kör. hantverkare make:model User
+gå kör. hantverkare make:modell användare/användare
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+Skapad modellfil finns i `app/models/user.go`-filen, innehållet är enligt följande:
 
 ```go
-package models
+paketmodeller
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+typ User struct {
+  orm. odel
+  Namnsträng
+  Avatar sträng
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+Om du vill ställa in modellfältet till `any`, måste du lägga till ytterligare en Tag: `gorm:"type:text"`:
 
 ```go
-type User struct {
+typ User struct {
   orm.Model
-  Name   string
-  Avatar string
-  Detail any `gorm:"type:text"`
+  Namnsträng
+  Avatar sträng
+  Detalj alla `gorm:"type:text"`
   orm.SoftDeletes
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+Mer information om tagganvändning hittar du på: <https://gorm.io/docs/models.html>.
 
-### Specify Table Name
+### Ange tabellnamn
 
 ```go
-package models
+paketmodeller
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+typ User struct {
+  orm. odel
+  Namnsträng
+  Avatar sträng
+  orm. oftTar bort
 }
 
-func (r *User) TableName() string {
-  return "goravel_user"
+func (r *användare) tabellName() sträng {
+  returnera "goravel_user"
 }
 ```
 
-### Database Connections
+### Databasanslutningar
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
-distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
-model.
+Som standard använder alla modeller standardanslutningen som är konfigurerad för din applikation. Om du vill ange en
+distinkt anslutning som ska användas när du interagerar med en viss modell, du måste definiera en `Connection`-metod på
+-modellen.
 
 ```go
-package models
+paketmodeller
 
 import (
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+typ User struct {
+  orm. odel
+  Namnsträng
+  Avatar sträng
+  orm. oftTar bort
 }
 
-func (r *User) Connection() string {
-  return "postgres"
+func (r *User) Connection() sträng {
+  returnera "postgres"
 }
 ```
 
-## facades.Orm() available functions
+## facades.Orm() tillgängliga funktioner
 
-| Name        | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| Namn        | Åtgärd                                                                                 |
+| ----------- | -------------------------------------------------------------------------------------- |
+| Anslutning  | [Ange Databasanslutning](#specify-database-connection)                                 |
+| DB          | [Allmänt databasgränssnitt sql.DB](#generic-database-interface-sql-db) |
+| Fråga       | [Hämta databasinstans](#get-database-instance)                                         |
+| Transaktion | [Transaction](#transaction)                                                            |
+| Medkontext  | [Inject Context](#inject-context)                                                      |
 
-## facades.Orm().Query() available functions
+## facades.Orm().Query() tillgängliga funktioner
 
-| Functions       | Action                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Delete          | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| Förare          | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Get             | [Query multiple lines](#query-multiple-lines)                                 |
-| Group           | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Update          | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| Funktioner            | Åtgärd                                                                       |
+| --------------------- | ---------------------------------------------------------------------------- |
+| Börja                 | [Börja transaktionen](#transaction)                                          |
+| Inlämning             | [Commit Transaction](#transaction)                                           |
+| Antal                 | [Count](#count)                                                              |
+| Skapa                 | [Create](#create)                                                            |
+| Cursor                | [Cursor](#cursor)                                                            |
+| Radera                | [Delete](#delete)                                                            |
+| Unik                  | [Filter Repetition](#filter-repetition)                                      |
+| Förare                | [Get Driver](#get-driver)                                                    |
+| Exec                  | [Utför infödd uppdatering SQL](#execute-native-update-sql)                   |
+| Finns                 | [Exists](#exists)                                                            |
+| Sök                   | [Fråga en eller flera rader med ID](#query-one-or-multiple-lines-by-id)      |
+| FindOrMisslyckades    | [Hittade inte returfel](#not-found-return-error)                             |
+| Första                | [Fråga en rad](#query-one-line)                                              |
+| FörstaEller           | [Fråga eller returnera data via callback](#query-one-line)                   |
+| FirstOrCreate         | [Hämtar eller skapar modeller](#retrieving-or-creating-models)               |
+| FirstOrNew            | [Hämtar eller nya modeller](#retrieving-or-creating-models)                  |
+| Första OrMisslyckades | [Hittade inte fel](#not-found-error)                                         |
+| TvingaTa bort         | [Tvinga rader](#delete)                                                      |
+| Hämta                 | [Fråga flera rader](#query-multiple-lines)                                   |
+| Grupp                 | [Group](#group-by--having)                                                   |
+| Har                   | [Having](#group-by-having)                                                   |
+| Gå med                | [Join](#join)                                                                |
+| Gräns                 | [Limit](#limit)                                                              |
+| LockForUpdate         | [Pessimistisk låsning](#pessimistic-locking)                                 |
+| Modell                | [Ange en modell](#specify-table-query)                                       |
+| Förskjutning          | [Offset](#offset)                                                            |
+| Beställning           | [Order](#order)                                                              |
+| Beställning av        | [Order](#order)                                                              |
+| OrderByDesc           | [Order](#order)                                                              |
+| Slumpmässig ordning   | [Order](#order)                                                              |
+| EllerVar              | [OrWhere](#where)                                                            |
+| OrWhereNotIn          | [OrWhereNotIn](#where)                                                       |
+| OrWhereNull           | [OrWhereNull](#where)                                                        |
+| OrWhereIn             | [OrWhereIn](#where)                                                          |
+| Sidnr                 | [Paginate](#paginate)                                                        |
+| Pluck                 | [Query single column](#query-single-column)                                  |
+| Rå                    | [Utför infödda SQL](#execute-native-sql)                                     |
+| Återställ             | [Restore](#restore)                                                          |
+| Rollback              | [Återupptagningstransaktion](#transaction)                                   |
+| Spara                 | [Uppdatera en befintlig modell](#update-a-existing-model)                    |
+| SaveQuietly           | [Spara en enda modell utan händelser](#saving-a-single-model-without-events) |
+| Skanna                | [Skanna struktur](#execute-native-sql)                                       |
+| Omfattningar          | [Scopes](#scopes)                                                            |
+| Välj                  | [Ange fält](#specify-fields)                                                 |
+| SharedLock            | [Pessimistisk låsning](#pessimistic-locking)                                 |
+| Sum                   | [Sum](#sum)                                                                  |
+| Tabell                | [Ange en tabell](#specify-table-query)                                       |
+| ToSql                 | [Get SQL](#get-sql)                                                          |
+| ToRawSql              | [Get SQL](#get-sql)                                                          |
+| Uppdatera             | [Uppdatera en enda kolumn](#update-a-single-column)                          |
+| UpdateOrCreate        | [Uppdatera eller skapa](#update-or-create)                                   |
+| Var                   | [Where](#where)                                                              |
+| Mellan                | [WhereBetween](#where)                                                       |
+| Varmellanrum          | [WhereNotBetween](#where)                                                    |
+| WhereNotIn            | [WhereNotIn](#where)                                                         |
+| Varmt                 | [WhereNull](#where)                                                          |
+| Vari                  | [WhereIn](#where)                                                            |
+| UtomHändelser         | [Muting events](#muting-events)                                              |
+| Medkastad             | [Query soft delete data](#query-soft-delete-data)                            |
 
-## Query Builder
+## Frågebyggare
 
 ### Injektionskontext
 
 ```go
-facades.Orm().WithContext(ctx)
+fasader.Orm().WithContext(ctx)
 ```
 
-### Specify Database Connection
+### Ange databasanslutning
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
+Om flera databasanslutningar definieras i `config/database.go`, kan du använda dem genom `Connection`-funktionen
+av `facades.Orm()`. Anslutningsnamnet som skickades till `Connection` ska vara en av de anslutningar som konfigurerats i
 `config/database.go`:
 
 ```go
-facades.Orm().Connection("mysql")
+fasader.Orm().Anslutning ("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### Generisk databasgränssnitt sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+Generiskt databasgränssnitt sql.DB, sedan använda den funktionalitet som den erbjuder:
 
 ```go
-db, err := facades.Orm().DB()
-db, err := facades.Orm().Connection("mysql").DB()
+db, err := fasades.Orm().DB()
+db, err := fasades.Orm().Anslutning("mysql").DB()
 
 // Ping
 db.Ping()
 
-// Close
-db.Close()
+// Stäng
+db. lose()
 
-// Returns database statistics
+// Returnerar databasstatistik
 db.Stats()
 
-// SetMaxIdleConns sets the maximum number of connections in the idle connection pool
-db.SetMaxIdleConns(10)
+// SetMaxIdleConns sätter det maximala antalet anslutningar i inaktiv anslutningspool
+db. etMaxIdleConns(10)
 
-// SetMaxOpenConns sets the maximum number of open connections to the database
-db.SetMaxOpenConns(100)
+// SetMaxOpenConns sätter det maximala antalet öppna anslutningar till databasen
+db. etMaxOpenConns(100)
 
-// SetConnMaxLifetime sets the maximum amount of time a connection may be reused
-db.SetConnMaxLifetime(time.Hour)
+// SetConnMaxLivstids anger den maximala tiden en anslutning kan återanvändas
+db.SetConnMaxLifetime(time.Time)
 ```
 
-### Get Database Instance
+### Hämta databas instans
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+Innan varje specifik databas drift, är det nödvändigt att få en instans av databasen.
 
 ```go
 facades.Orm().Query()
-facades.Orm().Connection("mysql").Query()
-facades.Orm().WithContext(ctx).Query()
+fasades.Orm().Anslutning("mysql").Query()
+fasades.Orm().WithContext(ctx).Query()
 ```
 
-### Select
+### Välj
 
-#### Query one line
+#### Fråga en rad
 
 ```go
 var user models.User
 facades.Orm().Query().First(&user)
-// SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
+// SELECT * FRÅN `users` ORDER BY `users`.`id` LIMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+Ibland kan du vilja utföra någon annan åtgärd om inga resultat hittas. `FirstOr`-metoden kommer att returnera en enda
+modellinstans eller, om inga resultat hittas, exekvera den givna stängningen. Du kan ställa in värden till modell i förslutning:
 
 ```go
 facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
@@ -366,75 +366,75 @@ facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
 })
 ```
 
-#### Query one or multiple lines by ID
+#### Fråga en eller flera rader efter ID
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
-// SELECT * FROM `users` WHERE `users`.`id` = 1;
+// VÄLJ * FRÅN `users` WHERE `users`.`id` = 1;
 
-var users []models.User
-facades.Orm().Query().Find(&users, []int{1,2,3})
-// SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
+var användare []models. ser
+fasader.Orm().Query().Find(&users, []int{1,2,3})
+// SELECT * FRÅN `users` WHERE `users`.`id` i (1,2,3);
 ```
 
-#### Not found return error
+#### Kunde inte hitta returfel
 
 ```go
-var user models.User
-err := facades.Orm().Query().FindOrFail(&user, 1)
+var användarmodeller.Användare
+err := fasader.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### När den primära nyckeln för användartabellen är `string`-typ, måste du ange den primära nyckeln när du ringer
 
-`Find` method
+`Find` metod
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, "uuid=?" ,"a")
-// SELECT * FROM `users` WHERE `users`.`uuid` = "a";
+// VÄLJ * FRÅN `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### Fråga flera rader
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
-// SELECT * FROM `users` WHERE id in (1,2,3);
+facades.Orm().Query().Var("id i ?", []int{1,2,3}).Get(&användare)
+// VÄLJ * FRÅN `users` VAR id i (1,2,3);
 ```
 
-#### Retrieving Or Creating Models
+#### Hämtar eller skapar modeller
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
+Metoden `FirstOrCreate` söker efter en databaspost med hjälp av de angivna kolumn/värdeparen. If the model cannot be
 found in the database, it creates a new record with the attributes from merging the first argument with the optional
 second argument.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
-if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
-saved to the database yet and you need to manually call the `Save` method to do so.
+På samma sätt försöker `FirstOrNew`-metoden också hitta ett register i databasen baserat på de attribut som anges. Men
+om den inte hittas, returneras en ny instans av modellen. Det är viktigt att notera att denna nya modell inte har
+sparats i databasen ännu och du måste manuellt anropa `Save`-metoden för att göra det.
 
 ```go
 var user models.User
 facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+// VÄLJ * FRÅN `users` WHERE `gender` = 1 AND `users`. namn` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VÄRDEN ('2023-09-18 12:51:32. 56','2023-09-18 12:51:32.556','tom');
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+fasader.Orm().Query().Var("genus", 1).FirstOrCreate(&user, modeller.User{Namn: "tom"}, modeller. ser{Avatar: "avatar"})
+// VÄLJ * FRÅN `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`. id` LIMIT 1;
 // INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
 
-var user models.User
+var användarmodeller. ser
 facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// VÄLJ * FRÅN `users` WHERE `gender` = 1 AND `users`. namn` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Var("kön", 1).FirstOrNew(&user, models.User{Name: "tom"}, models. ser{Avatar: "avatar"})
+// VÄLJ * FRÅN `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 ```
 
-#### Not Found Error
+#### Hittade inte fel
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
-`FirstOrFail` method:
+När det begärda objektet inte hittas, genererar inte `First`-metoden ett fel. För att generera ett fel, använd
+`FirstOrFail`-metoden:
 
 ```go
 var user models.User
@@ -442,71 +442,71 @@ err := facades.Orm().Query().FirstOrFail(&user)
 // err == orm.ErrRecordNotFound
 ```
 
-### Where
+### Var
 
 ```go
-facades.Orm().Query().Where("name", "tom")
-facades.Orm().Query().Where("name = 'tom'")
-facades.Orm().Query().Where("name = ?", "tom")
+facades.Orm().Query().Var("namn", "tom")
+facades.Orm().Query().Var("namn = 'tom'")
+facades.Orm().Query().Var("namn = ?", "tom")
 facades.Orm().Query().WhereBetween("age", 1, 10)
-facades.Orm().Query().WhereNotBetween("age", 1, 10)
-facades.Orm().Query().WhereNotIn("name", []any{"a"})
-facades.Orm().Query().WhereNull("name")
-facades.Orm().Query().WhereIn("name", []any{"a"})
+fasader.Orm().Query().WhereNotBetween("age", 1, 10)
+facades.Orm().Query().WhereNotIn("namn", []any{"a"})
+fasader. rm().Query().WhereNull("namn")
+facades.Orm().Query().WhereIn("namn", []any{"a"})
 
-facades.Orm().Query().OrWhere("name = ?", "tom")
-facades.Orm().Query().OrWhereNotIn("name", []any{"a"})
-facades.Orm().Query().OrWhereNull("name")
-facades.Orm().Query().OrWhereIn("name", []any{"a"})
+facades.Orm().Query().OrWhere("namn = ?", "tom")
+facades.Orm().Query().OrWhereNotIn("namn", []any{"a"})
+facades.Orm().Query().OrWhereNull("namn")
+facades.Orm().Query().OrWhereIn("namn", []any{"a"})
 ```
 
-### Limit
+### Gräns
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
+// VÄLJ * FRÅN `users` WHERE name = 'tom' LIMIT 3;
 ```
 
-### Offset
+### Förskjutning
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
+// SELECT * FRÅN `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### Beställning
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
+facades.Orm().Query().Var("namn = ?", "tom").Order("sortera asc").Order("id desc"). et(&users)
+// SELECT * FRÅN `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
+fasader. rm().Query().Var("namn = ?", "tom").OrderBy("sort").Get(&users)
+// SELECT * FRÅN `users` WHERE name = 'tom' ORDER BY sort asc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().Var("namn = ?", "tom"). rderBy("sort", "desc").Get(&users)
+// SELECT * FRÅN `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().Where("namn = ?", "tom").OrderByDesc("sort"). et(&users)
+// SELECT * FRÅN `users` WHERE name = 'tom' ORDER BY sort desc;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
+facades.Orm().Query(). här("namn = ?", "tom").InRandomOrder().Get(&användare)
+// SELECT * FRÅN `users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### Paginate
+### Sidnr
 
 ```go
-var users []models.User
-var total int64
-facades.Orm().Query().Paginate(1, 10, &users, &total)
-// SELECT count(*) FROM `users`;
-// SELECT * FROM `users` LIMIT 10;
+var användare []modeller.Användare
+var totalt int64
+fasader.Orm().Query(). aginate(1, 10, &users, &totalt)
+// SELECT count(*) FRÅN `users`;
+// SELECT * FRÅN `users` LIMIT 10;
 ```
 
-### Query Single Column
+### Fråga en enda kolumn
 
 ```go
 var ages []int64
@@ -514,56 +514,56 @@ facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
 // SELECT `age` FROM `users`;
 ```
 
-### Specify Table Query
+### Ange tabellfråga
 
-If you want to query some aggregate data, you need to specify a specific table.
+Om du vill fråga några aggregatdata måste du ange en specifik tabell.
 
-Specify a model
+Ange en modell
 
 ```go
 var count int64
 facades.Orm().Query().Model(&models.User{}).Count(&count)
-// SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
+// SELECT count(*) FRÅN `users` WHERE deleted_at IS NULL;
 ```
 
-Specify a table
+Ange en tabell
 
 ```go
 var count int
-facades.Orm().Query().Table("users").Count(&count)
-// SELECT count(*) FROM `users`; // get all records, whether deleted or not
+facades.Orm().Query().Table("användare").Count(&count)
+// SELECT count(*) FRÅN `users`; // få alla poster, oavsett om de tas bort eller inte
 ```
 
 ### Get SQL
 
-Get SQL with placeholder:
+Skaffa SQL med platshållare:
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
+// VÄLJ * FRÅN "användare" VAR "id" = $1 OCH "användare"."deleted_at" ÄR NULL
 ```
 
-Get SQL with value:
+Få SQL med värde:
 
 ```go
 facades.Orm().Query().ToRawSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
+// VÄLJ * FRÅN "användare" VAR "id" = 1 OCH "användare"."deleted_at" ÄR NULL
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
+Metoderna kan anropas efter `ToSql` och` ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
 `Save`, `Sum`, `Update`.
 
-### Count
+### Antal
 
 ```go
 var count int64
-facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
-// SELECT count(*) FROM `users` WHERE name = 'tom';
+facades.Orm().Query().Tabell("användare").Var("namn = ?", "tom").Count(&count)
+// SELECT count(*) FRÅN `users` WHERE name = 'tom';
 ```
 
-### Specify Fields
+### Ange fält
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+`Select` låter dig ange vilka fält som ska hämtas från databasen, som standard hämtar ORM alla fält.
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
@@ -573,92 +573,92 @@ facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
 // SELECT `name`,`age` FROM `users`;
 ```
 
-### Group By & Having
+### Gruppera på & ha
 
 ```go
-type Result struct {
-  Name  string
+typ Resultat struct {
+  Namn sträng
   Total int
 }
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
-// SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
+var resultat
+fasader.Orm().Query().Model(&models.User{}). välj ("namn, summa(ålder) som totalt").Grupp("namn").Having("namn = ?", "tom").Get(&result)
+// SELECT namn, summa(ålder) som total FRÅN `användare` GROUP BY `name` HAVING name = "tom";
 ```
 
-### Join
+### Gå med
 
 ```go
-type Result struct {
-  Name  string
-  Email string
+typ Resultat struct {
+  Namn sträng
+  E-post sträng
 }
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").Join("left join emails on emails.user_id = users.id").Scan(&result)
-// SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
+var resultat Resultat
+fasader.Orm().Query().Model(&models.User{}).Select("användare. ame, emails.email").Gå med("lämnade gå med e-post på emails.user_id = users.id").Scan(&result)
+// SELECT users.name, emails.email FRÅN `användare` VÄNSTER GÅ MED e-post ON emails.user_id = users.id;
 ```
 
-### Create
+### Skapa
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
-// INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
+användare := modeller.Användare{Namn: "tom", Ålder: 18}
+err := fasader.Orm().Query(). reate(&user)
+// INSERT INTO-användare (namn, ålder, created_at, updated_at) VÄRDEN ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// Utlösa inte modellhändelser
+err := fasader. rm().Query().Tabell("användare").Create(karta[string]any{
   "name": "Goravel",
 })
 
-// Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
+// Utlösare modellhändelser
+err := fasader. rm().Query().Model(&models.User{}).Create(karta[string]any{
   "name": "Goravel",
 })
 ```
 
-### Multiple create
+### Skapa flera
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+användare := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("användare"). reate(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm(). uery().Model(&models.User{}).Create(&[]map[string]any{
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> `created_at` och `updated_at` kommer att fyllas automatiskt.
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
-use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
+Kan användas för att avsevärt minska din applikations minnesförbrukning när du itererar genom tiotusentals
+Eloquent modellposter. Notera, `Cursor`-metoden kan användas med `With` samtidigt, vänligen
+använd [Lazy Eager Loading](./relationships#lazy-eager-loading) för att ladda relationen i `for`-logiken.
 
 ```go
-cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
+markör, err := fasades.Orm().Query().Model(models.User{}).Cursor()
 if err != nil {
   return err
 }
-for row := range cursor {
-  var user models.User
-  if err := row.Scan(&user); err != nil {
+for rad := range cursor {
+  var user models. ser
+  om err := rad.Scan(&användare); err != nil {
     return err
   }
-  fmt.Println(user)
+  fmt.Println(användare)
 }
 ```
 
-### Save Model
+### Spara Modell
 
-#### Update an existing model
+#### Uppdatera en befintlig modell
 
 ```go
 var user models.User
@@ -666,244 +666,244 @@ facades.Orm().Query().First(&user)
 
 user.Name = "tom"
 user.Age = 100
-facades.Orm().Query().Save(&user)
+fasader.Orm().Query(). ave(&user)
 // UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
 ```
 
-#### Update columns
+#### Uppdatera kolumner
 
 ```go
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
+facades.Orm().Query().Model(&models.User{}).Var("namn", "tom").Update("namn", "hello")
 // UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
+facades.Orm().Query().Model(&models.User{}).Var("namn", "tom").Update(modeller. ser{Name: "hello", Age: 18})
+facades.Orm().Query().Model(&models.User{}).Var("namn", "tom").Update(karta[string]any{"name": "hello", "age": 18})
 // UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
+> Vid uppdatering med `struct`, kommer Orm endast uppdatera icke-nollfält. Du kanske vill använda `map` för att uppdatera attribut eller
+> använd `Select` för att ange fält att uppdatera. Note that `struct` can only be `Model`, if you want to update with non
 > `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
 > time.
 
-#### Update or create
+#### Uppdatera eller skapa
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+Fråga efter `name`, om det inte finns, skapa efter `name`, `avatar`, om det finns, uppdatera `avatar` baserat på `name`:
 
 ```go
-facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
-// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
+facades.Orm().Query().UpdateOrCreate(&användare, modeller.User{Name: "name"}, models.User{Avatar: "avatar"})
+// VÄLJ * FRÅN `users` WHERE `users`.`name` = "name" AND `users`.`deleted_at` IS NULL ORDER BY `users`. id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VÄRDER ('2023-03-11 10:11:08.869','2023-03-11 10:11:08. 69',NULL,'name','avatar');
+// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' VAR användare`.`deleted_at` ÄR NULL OCH `id` = 1;
 ```
 
-### Delete
+### Radera
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+Ta bort efter modell, antalet rader som påverkas av uttalandet returneras med metoden:
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
-res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
-res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
+res, err := facades.Orm().Query().Radera (&user)
+res, err := facades.Orm().Query().Model(&models.User{}). här("id", 1).Radera ()
+res, err := facades.Orm().Query().Tabell("användare").Var("id", 1).Radera ()
 // DELETE FROM `users` WHERE `users`.`id` = 1;
 
-num := res.RowsAffected
+num := res.RowsPåverkas
 ```
 
-Multiple delete
+Flera ta bort
 
 ```go
-facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
-// DELETE FROM `users` WHERE name = 'tom';
+facades.Orm().Query().Var("namn = ?", "tom").Ta bort (&models.User{})
+// DELETE FRÅN `users` WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+Vill tvinga bort en soft-delete data.
 
 ```go
-facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
-facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
+facades.Orm().Query().Var("namn", "tom").ForceDelete(&models.User{})
+facades.Orm().Query().Model(&models.User{}).Var("namn", "tom").ForceDelete()
+facades.Orm().Query().Table("användare").Var("namn", "tom").ForceDelete()
 ```
 
-You can delete records with model associations via `Select`:
+Du kan ta bort poster med modellassociationer via `Select`:
 
 ```go
-// Delete Account of user when deleting user
-facades.Orm().Query().Select("Account").Delete(&user)
+// Ta bort användarkonto när användaren tas bort
+facades.Orm().Query().Select("Konto").Ta bort (&användare)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// Ta bort beställningar och kreditkortKort av användaren när användaren tas bort
+fasader.Orm().Query().Select("Order", "Kreditkort"). elete(&user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// Ta bort alla underordnade associationer av användare när du tar bort användare
+fasader.Orm().Query().Select(orm.Associations). elete(&användare)
 
-// Delete all Account of users when deleting users
-facades.Orm().Query().Select("Account").Delete(&users)
+// Ta bort alla användare när användare tas bort
+fasader.Orm().Query().Select("Konto").Ta bort (&användare)
 ```
 
-Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
-keys as conditions to delete associated records:
+Obs: Kopplingarna kommer endast att tas bort om den primära nyckeln till posten inte är tom, och Orm använder dessa primära
+nycklar som villkor för att ta bort associerade poster:
 
 ```go
-// Delete user that name='goravel', but don't delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{})
+// Ta bort användare som namn='goravel', men ta inte bort konto för användare
+fasader.Orm().Query().Select("Konto").Var("namn = ?", "goravel"). elete(&models.User{})
 
-// Delete user that name='goravel' and id = 1, and delete account of user
-facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&models.User{ID: 1})
+// Ta bort användare som namn='goravel' och id = 1, och ta bort konto för användare
+fasader. rm().Query().Select("Konto").Var("namn = ?", "goravel").Ta bort (&modeller.Användare{ID: 1})
 
-// Delete user that id = 1 and delete account of that user
-facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
+// Ta bort användare som id = 1 och ta bort konto för den användaren
+fasader.Orm().Query().Select("Konto").Ta bort (&modeller.Användare{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
-conditions, or use native SQL.
+Om köra batch ta bort utan några villkor, ORM inte gör det och returnerar ett fel. Så du måste lägga till några
+villkor, eller använda infödda SQL.
 
 ### Query Soft Delete Data
 
 ```go
-var user models.User
-facades.Orm().Query().WithTrashed().First(&user)
+var användarmodeller.Användare
+fasader.Orm().Query().WithTrashed().First(&user)
 ```
 
-### Filter Repetition
+### Filtrera upprepning
 
 ```go
 var users []models.User
-facades.Orm().Query().Distinct("name").Find(&users)
+facades.Orm().Query().Distinct("namn").Find(&användare)
 ```
 
-### Get Driver
+### Hämta förare
 
 ```go
 driver := facades.Orm().Query().Driver()
 
-// Judge driver
-if driver == orm.DriverMysql {}
+// Domare driver
+om drivrutin == orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### Utför Native SQL
 
 ```go
-type Result struct {
-  ID   int
-  Name string
-  Age  int
+typ Resultat struct {
+  ID int
+  Namnsträng
+  Age int
 }
 
-var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+var resultat Resultat
+fasader. rm().Query().Raw("VÄLJ ID, namn, ålder FRÅN användare WHERE name = ?", "tom").Scan(&result)
 ```
 
-### Execute Native Update SQL
+### Utför Native Update SQL
 
-The number of rows affected by the statement is returned by the method:
+Antalet rader som påverkas av uttalandet returneras med metoden:
 
 ```go
-res, err := facades.Orm().Query().Exec("DROP TABLE users")
+res, err := fasader.Orm().Query().Exec("DROP TABLE användare")
 // DROP TABLE `users`;
 
-num := res.RowsAffected
+num := res.RowsPåverkad
 ```
 
-### Exists
+### Finns
 
 ```go
 var exists bool
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
+facades.Orm().Query().Model(&models.User{}).Var("namn", "tom").Exister(&existerar)
 ```
 
-### Restore
+### Återställ
 
 ```go
 facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
-facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
+fasader.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
 // UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
 ```
 
-### Transaction
+### Transaktion
 
-You can execute a transaction by `Transaction` function.
+Du kan utföra en transaktion med `Transaction`-funktionen.
 
 ```go
 import (
   "github.com/goravel/framework/contracts/database/orm"
-  "github.com/goravel/framework/facades"
+  "github.com/goravel/frameing/facades"
 
   "goravel/app/models"
 )
 
-...
+. .
 
-return facades.Orm().Transaction(func(tx orm.Query) error {
-  var user models.User
+returnera fasader.Orm().Transaktion (func(tx orm.Query) error {
+  var användarmodeller.Användare
 
-  return tx.Find(&user, user.ID)
+  returnera tx.Find(&användare, user.ID)
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+Du kan också manuellt styra flödet av transaktionen själv:
 
 ```go
-tx, err := facades.Orm().Query().Begin()
-user := models.User{Name: "Goravel"}
-if err := tx.Create(&user); err != nil {
+tx, err := fasades.Orm().Query().Begin()
+användare := modeller.Användarnamn{Namn: "Goravel"}
+om err := tx. reate(&user); err != nil {
   err := tx.Rollback()
 } else {
   err := tx.Commit()
 }
 ```
 
-### Scopes
+### Omfattningar
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+Låter dig ange vanliga frågor som kan refereras när metoden kallas.
 
 ```go
-func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
-  return func(query orm.Query) orm.Query {
-    page, _ := strconv.Atoi(page)
-    limit, _ := strconv.Atoi(limit)
-    offset := (page - 1) * limit
+func Paginator(sidsträng, begränsningssträng) funktion (metoder orm.Query) orm. uery {
+  retur funktion (fråga orm.Query) orm.Query {
+    sida, _ := strconv. toi(sida)
+    gräns, _ := strconv. toi(limit)
+    offset := (sida - 1) * gräns
 
-    return query.Offset(offset).Limit(limit)
+    returförfrågan. ffset(offset).Limit(limit)
   }
 }
 
-// scopes.Paginator is a custom function: func(ormcontract.Query) ormcontract.Query
+// scopes.Paginator är en anpassad funktion: func(ormcontract.Query) ormcontract.Query
 facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### Rå uttryck
 
-You can use the `db.Raw` method to update fields:
+Du kan använda `db.Raw`-metoden för att uppdatera fält:
 
 ```go
-import "github.com/goravel/framework/database/db"
+importera "github.com/goravel/frameing/database/db"
 
 facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
-// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
+// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` är NULL AND `id` = 1;
 ```
 
-### Pessimistic Locking
+### Pessimistisk låsning
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+Frågebyggaren innehåller också några funktioner som hjälper dig att uppnå "pessimistisk låsning" när du utför dina `select`
+satser.
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+För att utföra ett uttalande med ett "delat lås" kan du anropa `SharedLock`-metoden. Ett delat lås hindrar de valda
+raderna från att ändras tills din transaktion har lämnats in:
 
 ```go
 var users []models.User
 facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
+Alternativt kan du använda `LockForUpdate`-metoden. A "for update" lock prevents the selected records from being
 modified or from being selected with another shared lock:
 
 ```go
 var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
+facades.Orm().Query().Where("röster", ">", 100).LockForUpdate().Get(&användare)
 ```
 
 ### Sum
@@ -918,67 +918,65 @@ fmt.Println(sum)
 
 ## Händelser
 
-Orm models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `Retrieved`,
-`Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
-`Restored`, `Restoring`.
+Orm-modeller skickar flera händelser så att du kan ansluta dig till följande ögonblick i en modells livscykel: `Hämtad`,
+`Creating`, `Skapad`, `Uppdaterande`, `Uppdaterad`, `Sparande`, `Sparad`, `Raderande`, `Raderat`, `ForceDeleting`, `ForceDeleted`,
+`Återställande`, `Återställande`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
-is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
-dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
-changes to the model are persisted.
+Händelsen `Hämtad` kommer att skickas när en befintlig modell hämtas från databasen. När en ny modell sparas för
+första gången, kommer händelserna `Creating` och` Created` att skickas. Händelserna `Updating` / `Updated` kommer att skickas när
+en befintlig modell ändras och metoden `Save` kallas. Händelserna `Saving` / `Saved` kommer att skickas när en modell
+skapas eller uppdateras - även om modellens attribut inte har ändrats. Händelsenamn som slutar med `-ing` är
+skickas innan några ändringar till modellen är kvar, medan händelser som slutar med `-ed` skickas efter
+-ändringarna till modellen kvarstår.
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
-of the model's lifecycle to your own event classes.
+För att börja lyssna på modellhändelser, definiera en `DispatchesEvents`-metod på din modell. Den här egenskapen kartlägger olika punkter
+av modellens livscykel till dina egna evenemangsklasser.
 
 ```go
 import (
   contractsorm "github.com/goravel/framework/contracts/database/orm"
  "github.com/goravel/framework/database/orm"
-)
-
-type User struct {
- orm.Model
- Name    string
+) Typ Användare struct {
+ orm. odel
+ Namnsträng
 }
 
-func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.Event) error {
- return map[contractsorm.EventType]func(contractsorm.Event) error{
-  contractsorm.EventCreating: func(event contractsorm.Event) error {
+func (u *User) DispatchesEvents() karta[contractsorm.EventType]func(contractsorm. vent) fel {
+ returkarta[contractsorm.EventType]func(contractsorm.Event) error{
+  contractsorm. ventCreating: func(event contractsorm.Event) error {
    return nil
   },
   contractsorm.EventCreated: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventSaving: func(event contractsorm.Event) error {
+  contractsorm.EventSaving: func(event contractsorm. vent) fel {
    return nil
   },
-  contractsorm.EventSaved: func(event contractsorm.Event) error {
+  contractsorm.EventSaved: func(event contractsorm.Event) fel {
    return nil
   },
-  contractsorm.EventUpdating: func(event contractsorm.Event) error {
+  contractsorm.EventUpdating: func(event contractsorm. vent) fel {
    return nil
   },
-  contractsorm.EventUpdated: func(event contractsorm.Event) error {
+  contractsorm.EventUpdated: func(event contractsorm.Event) fel {
    return nil
   },
-  contractsorm.EventDeleting: func(event contractsorm.Event) error {
+  contractsorm. venteting: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventDeleted: func(event contractsorm.Event) error {
+  contractsorm. venteted: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventForceDeleting: func(event contractsorm.Event) error {
+  contractsorm.EventForceTa bort funktion(event contractsorm.Event) fel {
    return nil
   },
-  contractsorm.EventForceDeleted: func(event contractsorm.Event) error {
+  contractsorm. ventForceDeleted: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventRetrieved: func(event contractsorm.Event) error {
+  contractsorm.EventHämtat: func(event contractsorm.Event) error {
    return nil
   },
-  contractsorm.EventRestored: func(event contractsorm.Event) error {
+  contractsorm. ventRestored: func(event contractsorm.Event) error {
    return nil
   },
   contractsorm.EventRestoring: func(event contractsorm.Event) error {
@@ -988,27 +986,27 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> Obs: Registrera bara de händelser du behöver. Modellhändelser sänds inte ut vid batchoperationer genom Orm.
 
-### Observers
+### Observatörer
 
-#### Defining Observers
+#### Definierar observatörer
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
-new observer class:
+Om du lyssnar på många händelser på en viss modell, du kan använda observatörer för att gruppera alla dina lyssnare i en enda
+klass. Observatörsklasser har metodnamn som speglar de Eloquent händelser du vill lyssna på. Var och en av dessa metoder
+får den drabbade modellen som sitt enda argument. Kommandot `make:observer` Artisan är det enklaste sättet att skapa en
+ny observatörsklass:
 
 ```shell
-go run . artisan make:observer UserObserver
-go run . artisan make:observer user/UserObserver
+gå kör. hantverkare make:observatör UserObserver
+gå köra. hantverkare make:observatör användare/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+Detta kommando kommer att placera den nya observatören i din `app/observers`-katalog. Om denna katalog inte finns kommer Artisan
+att skapa den åt dig. Din färska observatör kommer att se ut så här:
 
 ```go
-package observers
+paketobservatörer
 
 import (
  "fmt"
@@ -1016,90 +1014,90 @@ import (
  "github.com/goravel/framework/contracts/database/orm"
 )
 
-type UserObserver struct{}
+typ UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+func (u *UserObserver) Skapad(event orm. vent) fel {
  return nil
 }
 
-func (u *UserObserver) Updated(event orm.Event) error {
+func (u *UserObserver) uppdaterad(händelse orm.Event) fel {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) raderad(händelse orm. vent) fel {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+func (u *UserObserver) ForceDeleted(event orm.Event) fel {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+Mallobservatören innehåller endast vissa händelser, du kan lägga till andra händelser enligt dina behov.
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
-observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
+För att registrera en observatör måste du anropa `Observe`-metoden på den modell du vill observera. Du kan registrera
+observatörer i `Boot`-metoden för din applikations `app/providers/event_serviceprovider.go::Boot` tjänsteleverantör:
 
 ```go
-package providers
+paketleverantörer
 
 import (
- "github.com/goravel/framework/facades"
+ "github. om/goravel/frameing/facades"
 
  "goravel/app/models"
  "goravel/app/observers"
 )
 
-type EventServiceProvider struct {
+typ EventServiceProvider struct {
 }
 
-func (receiver *EventServiceProvider) Register(app foundation.Application) {
- facades.Event().Register(receiver.listen())
+func (receiver *EventServiceProvider) Register(app foundation. pplication) {
+ fasader.Event().Register(mottagare. isten())
 }
 
-func (receiver *EventServiceProvider) Boot(app foundation.Application) {
- facades.Orm().Observe(models.User{}, &observers.UserObserver{})
+func (receiver *EventServiceLeverantör) Boot(app foundation.Application) {
+ facades.Orm().Observera(models.User{}, &observatörer. serObserver{})
 }
 
-func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener {
+func (receiver *EventServiceProvider) listen() karta[event.Event][]event.Listener {
  return map[event.Event][]event.Listener{}
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> Obs: Om du anger `DispatchesEvents` och `Observer` samtidigt, kommer endast `DispatchesEvents` att tillämpas.
 
-#### Parameter in Observer
+#### Parameter i Observer
 
-The `event` parameter will be passed to all observers:
+`event`-parametern kommer att skickas till alla observatörer:
 
-| Method       | Action                                                                                                     |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| Metod        | Åtgärd                                                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Kontext      | Få sammanhang som passerade av `facades.Orm().WithContext()`                                                                               |
+| GetAttribut  | Hämta det modifierade värdet, om det inte ändras, hämta det ursprungliga värdet, om det inte finns något ursprungligt värde, returnera nil |
+| GetOriginal  | Få det ursprungliga värdet, om det inte finns något ursprungligt värde, returnera nil                                                      |
+| IsDirty      | Bestäm om fältet är ändrat                                                                                                                 |
+| IsClean      | IsDirty omvänd                                                                                                                             |
+| Fråga        | Få en ny fråga, som kan användas med transaktion                                                                                           |
+| SetAttribute | Ange ett nytt värde för ett fält                                                                                                           |
 
-### Muting Events
+### Muting händelser
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+Ibland kan du behöva tillfälligt "tysta" alla händelser som sparats av en modell. Du kan uppnå detta med hjälp av
+`Utomhändertagande`-metoden:
 
 ```go
-var user models.User
-facades.Orm().Query().WithoutEvents().Find(&user, 1)
+var användarmodeller.Användare
+fasader.Orm().Query().UtanförHändelser().Sök(&användare, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### Spara en enda modell utan händelser
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
-`SaveQuietly` method:
+Ibland kanske du vill "spara" en given modell utan att skicka några händelser. Du kan åstadkomma detta med
+`SaveQuietly`-metoden:
 
 ```go
-var user models.User
-err := facades.Orm().Query().FindOrFail(&user, 1)
-user.Name = "Goravel"
-err := facades.Orm().Query().SaveQuietly(&user)
+var användarmodeller.Användare
+err := fasader.Orm().Query().FindOrFail(&user, 1)
+användare.Namn = "Goravel"
+err := fasader.Orm().Query().SaveQuietly(&user)
 ```
