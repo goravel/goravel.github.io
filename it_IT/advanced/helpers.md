@@ -1,15 +1,15 @@
 # Helpers
 
-## Available Methods
+## Metodi Disponibili
 
-### Paths
+### Percorsi
 
 |                                                                      |                                                                    |                                                                  |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | [path.App()](#path-app)           | [path.Base()](#path-base)       | [path.Config()](#path-config) |
 | [path.Database()](#path-database) | [path.Storage()](#path-storage) | [path.Public()](#path-public) |
 
-### Time
+### Tempo
 
 |                                                                                    |                                                                                  |                                                                              |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -24,7 +24,7 @@
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [debug.Dump()](#debug-dump) | [debug.SDump()](#debug-sdump) | [debug.FDump()](#debug-fdump) |
 
-### Maps
+### Mappe
 
 |                                                                |                                                                  |                                                                  |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -33,14 +33,14 @@
 | [maps.Only()](#maps-only)   | [maps.Pull()](#maps-pull)     | [maps.Set()](#maps-set)       |
 | [maps.Where()](#maps-where) |                                                                  |                                                                  |
 
-### Convert
+### Converti
 
 |                                                                          |                                                                          |                                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | [convert.Tap()](#convert-tap)         | [convert.With()](#convert-with)       | [convert.Transform()](#convert-transform) |
 | [convert.Default()](#convert-default) | [convert.Pointer()](#convert-pointer) |                                                                              |
 
-### Collect
+### Raccogli
 
 |                                                                        |                                                                          |                                                                          |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
@@ -51,12 +51,12 @@
 | [collect.Split()](#collect-split)   | [collect.Sum()](#collect-sum)         | [collect.Unique()](#collect-unique)   |
 | [collect.Values()](#collect-values) |                                                                          |                                                                          |
 
-## Paths
+## Percorsi
 
 ### `path.App()`
 
-The `path.App()` function returns the path to your application's app directory. You may also use the `path.App()`
-function to generate a path to a file relative to the application directory:
+La funzione `path.App()` restituisce il percorso alla directory dell'app della tua applicazione. Puoi anche usare la funzione `path.App()`
+per generare un percorso a un file relativo alla directory dell'applicazione:
 
 ```go
 import "github.com/goravel/framework/support/path"
@@ -67,8 +67,8 @@ path := path.App("http/controllers/controller.go")
 
 ### `path.Base()`
 
-The `path.Base()` function returns the path to your application's root directory. You may also use the `path.Base()`
-function to generate a path to a given file relative to the project root directory:
+La funzione `path.Base()` restituisce il percorso alla directory principale della tua applicazione. Puoi anche usare la funzione `path.Base()`
+per generare un percorso a un dato file relativo alla directory radice del progetto:
 
 ```go
 path := path.Base()
@@ -77,8 +77,8 @@ path := path.Base("vendor/bin")
 
 ### `path.Config()`
 
-The `path.Config()` function returns the path to your application's config directory. You may also use the
-`path.Config()` function to generate a path to a given file within the application's configuration directory:
+La funzione `path.Config()` restituisce il percorso alla cartella di configurazione della tua applicazione. Puoi anche usare la funzione `path.Config()`
+per generare un percorso a un dato file nella directory di configurazione dell'applicazione:
 
 ```go
 path := path.Config()
@@ -87,8 +87,8 @@ path := path.Config("app.go")
 
 ### `path.Database()`
 
-The `path.Database()` function returns the path to your application's database directory. You may also use the
-`path.Database()` function to generate a path to a given file within the `database` directory:
+La funzione `path.Database()` restituisce il percorso alla directory del database della tua applicazione. Puoi anche usare la funzione `path.Database()`
+per generare un percorso a un dato file nella directory `database`:
 
 ```go
 path := path.Database()
@@ -97,8 +97,8 @@ path := path.Database("factories/user_factory.go")
 
 ### `path.Storage()`
 
-The `path.Storage()` function returns the path to your application's storage directory. You may also use the
-`path.Storage()` function to generate a path to a given file within the `storage` directory:
+La funzione `path.Storage()` restituisce il percorso alla directory di archiviazione della tua applicazione. Puoi anche usare la funzione `path.Storage()`
+per generare un percorso a un dato file nella directory `storage`:
 
 ```go
 path := path.Storage()
@@ -107,8 +107,8 @@ path := path.Storage("app/file.txt")
 
 ### `path.Public()`
 
-The `path.Public()` function returns the path to your application's public directory. You may also use the
-`path.Public()` function to generate a path to a given file within the `public` directory:
+La funzione `path.Public()` restituisce il percorso alla directory pubblica della tua applicazione. Puoi anche usare la funzione `path.Public()`
+per generare un percorso a un dato file nella directory `public`:
 
 ```go
 path := path.Public()
@@ -117,7 +117,7 @@ path := path.Public("css/app.css")
 
 ### `path.Lang()`
 
-The `path.Lang()` function returns the path to the `lang` directory. You may also use the `path.Lang()` function to
+La funzione `path.Lang()` restituisce il percorso alla directory `lang`. You may also use the `path.Lang()` function to
 generate a path to a given file within the `lang` directory:
 
 ```go
@@ -125,14 +125,14 @@ path := path.Lang()
 path := path.Lang("en.json")
 ```
 
-## Time
+## Tempo
 
-The `carbon` module of Goravel is an expansion by [golang-module/carbon](https://github.com/golang-module/carbon), the
-main feature is the realization of time backtracking, please refer to the official documentation for details.
+Il modulo `carbon` di Goravel è un'espansione di [modulo golang/carbonio](https://github.com/golang-module/carbon), la caratteristica principale
+è la realizzazione del backtracking, si prega di fare riferimento alla documentazione ufficiale per i dettagli.
 
 ### `carbon.Now()`
 
-Get current time:
+Ottieni ora attuale:
 
 ```go
 import "github.com/goravel/framework/support/carbon"
@@ -142,7 +142,7 @@ carbon.Now()
 
 ### `carbon.SetTimezone()`
 
-Set timezone：
+Imposta fuso orario：
 
 ```go
 carbon.SetTimezone(carbon.UTC)
@@ -150,7 +150,7 @@ carbon.SetTimezone(carbon.UTC)
 
 ### `carbon.Parse()`
 
-Get `Carbon` object by String:
+Ottieni oggetto `Carbon` dalla Stringa:
 
 ```go
 carbon.Parse("2020-08-05 13:14:15")
@@ -158,15 +158,15 @@ carbon.Parse("2020-08-05 13:14:15")
 
 ### `carbon.FromTimestamp()`
 
-Get `Carbon` Object by timestamp:
+Ottieni oggetto `Carbon` per timestamp:
 
 ```go
-carbon.FromTimestamp(1577836800)
+carbon.DaTimestamp(1577836800)
 ```
 
 ### `carbon.FromDateTime()`
 
-Get `Carbon` Object by date time:
+Ottieni oggetto `Carbon` per data ora:
 
 ```go
 carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
@@ -174,7 +174,7 @@ carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
 
 ### `carbon.FromDate()`
 
-Get `Carbon` Object by date:
+Ottieni oggetto `Carbon` per data:
 
 ```go
 carbon.FromDate(2020, 1, 1)
@@ -182,7 +182,7 @@ carbon.FromDate(2020, 1, 1)
 
 ### `carbon.FromTime()`
 
-Get `Carbon` Object by time:
+Ottieni oggetto `Carbon` per tempo:
 
 ```go
 carbon.FromTime(0, 0, 0)
@@ -190,7 +190,7 @@ carbon.FromTime(0, 0, 0)
 
 ### `carbon.FromStdTime()`
 
-Get `Carbon` Object by `time.Time`:
+Ottieni oggetto `Carbon` da `time.Time`:
 
 ```go
 carbon.FromStdTime(time.Now())
@@ -198,7 +198,7 @@ carbon.FromStdTime(time.Now())
 
 ### `carbon.IsTestNow()`
 
-Determine whether the time is a test value:
+Determinare se il tempo è un valore di prova:
 
 ```go
 carbon.IsTestNow()
@@ -206,7 +206,7 @@ carbon.IsTestNow()
 
 ### `carbon.SetTestNow()`
 
-Set the time to a test value:
+Imposta l'ora a un valore di test:
 
 ```go
 carbon.SetTestNow(carbon.Now())
@@ -214,7 +214,7 @@ carbon.SetTestNow(carbon.Now())
 
 ### `carbon.UnsetTestNow()`
 
-Restore the time to a normal value:
+Ripristina il tempo a un valore normale:
 
 ```go
 carbon.UnsetTestNow()
@@ -224,7 +224,7 @@ carbon.UnsetTestNow()
 
 ### `debug.Dump()`
 
-`debug.Dump()` can print any variable:
+`debug.Dump()` può stampare qualsiasi variabile:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -234,7 +234,7 @@ debug.Dump(myVar1, myVar2, ...)
 
 ### `debug.FDump()`
 
-`debug.FDump()` can print any variable to `io.Writer`:
+`debug.FDump()` può stampare qualsiasi variabile su `io.Writer`:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -244,7 +244,7 @@ debug.FDump(someWriter, myVar1, myVar2, ...)
 
 ### `debug.SDump()`
 
-`debug.SDump()` can print any variable to `string`:
+`debug.SDump()` può stampare qualsiasi variabile in `string`:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -252,28 +252,28 @@ import "github.com/goravel/framework/support/debug"
 debug.SDump(myVar1, myVar2, ...)
 ```
 
-## Maps
+## Mappe
 
 ### `maps.Add()`
 
-The `maps.Add()` function adds a new key-value pair to the given map if the key does not already exist in the map:
+La funzione `maps.Add()` aggiunge una nuova coppia chiave-valore alla mappa data se la chiave non esiste già nella mappa:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Krishan"}
-maps.Add(mp, "age", 22)
+. dd(mp, "age", 22)
 // map[string]any{"name": "Krishan", "age": 22}
 
 mp2 := map[string]string{}
-maps.Add(mp2, "name", "Bowen")
+mappe. dd(mp2, "name", "Bowen")
 maps.Add(mp2, "name", "Krishan")
-// map[string]string{"name": "Bowen"}
+// mappa[string]stringa{"name": "Bowen"}
 ```
 
 ### `maps.Exists()`
 
-The `maps.Exists()` function determines if the given key exists in the provided map:
+La funzione `maps.Exists()` determina se la chiave specificata esiste nella mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -287,7 +287,7 @@ exists = maps.Exists(mp, "email") // false
 
 ### `maps.Forget()`
 
-The `maps.Forget()` function removes the given key(s) from the provided map:
+La funzione `maps.Forget()` rimuove i tasti specificati dalla mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -300,15 +300,15 @@ maps.Forget(mp, "name", "age")
 
 ### `maps.Get()`
 
-The `maps.Get()` function retrieves the value of the given key from the provided map. If the key does not exist, the
-default value will be returned:
+La funzione `maps.Get()` recupera il valore della chiave data dalla mappa fornita. Se la chiave non esiste, il valore predefinito
+sarà restituito:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Bowen"}
 
-value := maps.Get(mp, "name", "Krishan")
+value := maps. et(mp, "name", "Krishan")
 // Bowen
 
 value = maps.Get(mp, "age", 22)
@@ -317,14 +317,14 @@ value = maps.Get(mp, "age", 22)
 
 ### `maps.Has()`
 
-The `maps.Has()` function determines if the given key(s) exists in the provided map:
+La funzione `maps.Has()` determina se la chiave specificata esiste nella mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-exists := maps.Has(mp, "name", "language")
+esiste := maps. as(mp, "name", "language")
 // true
 
 exists = maps.Has(mp, "name", "age")
@@ -333,14 +333,14 @@ exists = maps.Has(mp, "name", "age")
 
 ### `maps.HasAny()`
 
-The `maps.HasAny()` function determines if any of the given key(s) exists in the provided map:
+La funzione `maps.HasAny()` determina se uno dei tasti specificati esiste nella mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-exists := maps.HasAny(mp, "name", "age")
+esiste := maps. asAny(mp, "name", "age")
 // true
 
 exists = maps.HasAny(mp, "age", "email")
@@ -349,14 +349,14 @@ exists = maps.HasAny(mp, "age", "email")
 
 ### `maps.Only()`
 
-The `maps.Only()` function retrieves only the given key(s) from the provided map:
+La funzione `maps.Only()` recupera solo i tasti dati dalla mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-newMap := maps.Only(mp, "name")
+newMap := maps. nly(mp, "name")
 // map[string]any{"name": "Goravel"}
 
 newMap = maps.Only(mp, "name", "age")
@@ -365,34 +365,34 @@ newMap = maps.Only(mp, "name", "age")
 
 ### `maps.Pull()`
 
-The `maps.Pull()` function retrieves and removes the given key from the provided map:
+La funzione `maps.Pull()` recupera e rimuove la chiave data dalla mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "name")
+name := maps. ull(mp, "name")
 // name = "Goravel"
 // mp = map[string]any{"language": "Go"}
 ```
 
-A default value can be provided as the third argument to the `maps.Pull()` function. This value will be returned if the
-key does not exist in the map:
+Un valore predefinito può essere fornito come terzo argomento alla funzione `maps.Pull()`. Questo valore verrà restituito se la chiave
+non esiste nella mappa:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "age", "default")
+name := maps. ull(mp, "age", "default")
 // name = "default"
 // mp = map[string]any{"name": "Goravel", "language": "Go"}
 ```
 
 ### `maps.Set()`
 
-The `maps.Set()` function sets the given key and value in the provided map:
+La funzione `maps.Set()` imposta la chiave e il valore indicati nella mappa fornita:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -405,35 +405,35 @@ maps.Set(mp, "language", "Go")
 
 ### `maps.Where()`
 
-The `maps.Where()` function filters the provided map using the given callback:
+La funzione `maps.Where()` filtra la mappa fornita utilizzando il callback specificato:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap := maps.Where(mp, func(key string, value string) bool {
+newMap := maps. here(mp, func(key string, value string) bool {
     return key == "name"
 })
 // map[string]string{"name": "Goravel"}
 ```
 
-## Convert
+## Converti
 
 ### `convert.Tap()`
 
-The `convert.Tap()` function passes the given value to the provided callback and returns the value:
+La funzione `convert.Tap()` passa il valore dato al callback fornito e restituisce il valore:
 
 ```go
 import "github.com/goravel/framework/support/convert"
 
 value := convert.Tap("Goravel", func(value string) {
-    fmt.Println(value + " Framework")
+    fmt. rintln(value + " Framework")
 })
 // Goravel
 
 mp := map[string]string{"name": "Goravel"}
-val := convert.Tap(mp, func(value map[string]string) {
+val := convert. ap(mp, func(value map[string]string) {
     mp["language"] = "Go"
 })
 // map[string]string{"name": "Goravel", "language": "Go"}
@@ -441,7 +441,7 @@ val := convert.Tap(mp, func(value map[string]string) {
 
 ### `convert.Transform()`
 
-The `convert.Transform()` transforms the given value using the provided callback and returns the result:
+Il `convert.Transform()` trasforma il valore dato usando il callback fornito e restituisce il risultato:
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -449,7 +449,7 @@ import "github.com/goravel/framework/support/convert"
 value := convert.Transform(1, strconv.Itoa)
 // "1"
 
-val := convert.Transform("foo", func(s string) *foo {
+val := convert. ransform("foo", func(s string) *foo {
       return &foo{Name: s}
 })
 // &foo{Name: "foo"}
@@ -457,7 +457,7 @@ val := convert.Transform("foo", func(s string) *foo {
 
 ### `convert.With()`
 
-The `convert.With()` executes the given callback with the provided value and returns the result of the callback:
+Il `convert.With()` esegue il callback dato con il valore fornito e restituisce il risultato del callback:
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -470,7 +470,7 @@ value := convert.With("Goravel", func(value string) string {
 
 ### `convert.Default()`
 
-The `convert.Default()` method returns first non-zero value. If all values are zero, it returns zero value.
+Il metodo `convert.Default()` restituisce il primo valore diverso da zero. Se tutti i valori sono zero, restituisce il valore zero.
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -478,7 +478,7 @@ import "github.com/goravel/framework/support/convert"
 value := convert.Default("", "foo")
 // foo
 
-value = convert.Default("bar", "foo")
+value = convert. efault("bar", "foo")
 // bar
 
 value = convert.Default(0, 1)
@@ -487,7 +487,7 @@ value = convert.Default(0, 1)
 
 ### `convert.Pointer()`
 
-The `convert.Pointer()` method returns the pointer of the given value.
+Il metodo `convert.Pointer()` restituisce il puntatore del valore dato.
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -497,11 +497,11 @@ convert.Pointer("foo") // *string("foo")
 convert.Pointer(1) // *int(1)
 ```
 
-## Collect
+## Raccogli
 
 ### `collect.Count()`
 
-The `collect.Count()` function returns the number of items in the given collection:
+La funzione `collect.Count()` restituisce il numero di elementi nella collezione specificata:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -512,7 +512,7 @@ collect.Count([]string{"Goravel", "Framework"})
 
 ### `collect.CountBy()`
 
-The `collect.CountBy()` function counts the occurrences for which the predicate is true:
+La funzione `collect.CountBy()` conta le occorrenze per le quali il predicato è vero:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -525,8 +525,8 @@ collect.CountBy([]string{"Goravel", "Framework"}, func(value string) bool {
 
 ### `collect.Each()`
 
-The `collect.Each()` function iterates over the items in the given collection and passes each item to the given
-callback:
+La funzione `collect.Each()` aleggia sugli elementi della collezione data e passa ogni elemento al callback
+dato:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -540,7 +540,7 @@ collect.Each([]string{"Goravel", "Framework"}, func(value string, index int) {
 
 ### `collect.Filter()`
 
-The `collect.Filter()` function filters the items in the collection using the given callback:
+La funzione `collect.Filter()` filtra gli elementi della collezione usando il callback specificato:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -554,13 +554,13 @@ newCollection := collect.Filter([]string{"Goravel", "Framework"}, func(value str
 
 ### `collect.GroupBy()`
 
-The `collect.GroupBy()` function groups the items in the collection by the result of the given callback:
+La funzione `collect.GroupBy()` raggruppa gli elementi della collezione in base al risultato del callback dato:
 
 ```go
 import "github.com/goravel/framework/support/collect"
 
 // use example of complex map slice (use different example)
-newCollection := collect.GroupBy([]map[string]string{
+newCollection := collect. roupBy([]map[string]string{
     {"class": "1", "Name": "Rohan"},
     {"class": "2", "Name": "Bowen"},
     {"class": "2", "Name": "Krishan"},
@@ -569,14 +569,14 @@ newCollection := collect.GroupBy([]map[string]string{
 })
 
 // map[string][]map[string]string{
-//     "1": []map[string]string{{"class": "1", "Name": "Rohan"}},
-//     "2": []map[string]string{{"class": "2", "Name": "Bowen"}, {"class": "2", "Name": "Krishan"}},
+// "1": []map[string]string{{"class": "1", "Name": "Rohan"}},
+// "2": []map[string]string{{"class": "2", "Name": "Bowen"}, {"class": "2", "Name": "Krishan"}},
 // }
 ```
 
 ### `collect.Keys()`
 
-The `collect.Keys()` function returns all the keys for the items in the collection:
+La funzione `collect.Keys()` restituisce tutte le chiavi per gli oggetti della collezione:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -587,12 +587,12 @@ keys := collect.Keys(map[string]string{"name": "Goravel", "language": "Go"})
 
 ### `collect.Map()`
 
-The `collect.Map()` function converts one type of collection into another using the given iteratee:
+La funzione `collect.Map()` converte un tipo di collezione in un altro usando l'iterato specificato:
 
 ```go
 import "github.com/goravel/framework/support/collect"
 
-newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string,  _ int) string {
+newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string, _ int) string {
     return strings.ToUpper(value)
 })
 
@@ -601,7 +601,7 @@ newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string
 
 ### `collect.Max()`
 
-The `collect.Max()` function returns the maximum value of the given collection:
+La funzione `collect.Max()` restituisce il valore massimo della collezione specificata:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -612,7 +612,7 @@ max := collect.Max([]int{1, 2, 3, 4, 5})
 
 ### `collect.Merge()`
 
-The `collect.Merge()` function merges the given maps into a single map:
+La funzione `collect.Merge()` unisce le mappe date in una singola mappa:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -620,13 +620,13 @@ import "github.com/goravel/framework/support/collect"
 newMap := collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"language": "Go"})
 // map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap = collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
+newMap = collect. erge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
 // map[string]string{"name": "Framework"}
 ```
 
 ### `collect.Min()`
 
-The `collect.Min()` function returns the minimum value of the given collection:
+La funzione `collect.Min()` restituisce il valore minimo della collezione specificata:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -637,7 +637,7 @@ min := collect.Min([]int{1, 2, 3, 4, 5})
 
 ### `collect.Reverse()`
 
-The `collect.Reverse()` function reverses the items in the collection:
+La funzione `collect.Reverse()` inverte gli elementi della collezione:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -649,7 +649,7 @@ newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
 ### `collect.Shuffle()`
 
-The `collect.Shuffle()` function shuffles the items in the collection:
+La funzione `collect.Shuffle()` mescola gli oggetti nella collezione:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -661,8 +661,8 @@ newCollection := collect.Shuffle([]int{1, 2, 3, 4, 5})
 
 ### `collect.Split()`
 
-The `collect.Split()` function splits a collection into the groups of the given length. If the collection can't be split
-evenly, the final chunk will contain the remaining items:
+La funzione `collect.Split()` divide una collezione nei gruppi della lunghezza indicata. Se la collezione non può essere divisa uniformemente
+, il pezzo finale conterrà gli elementi rimanenti:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -674,7 +674,7 @@ newCollection := collect.Split([]int{1, 2, 3, 4, 5}, 2)
 
 ### `collect.Sum()`
 
-The `collect.Sum()` function returns the sum of all items in the collection:
+La funzione `collect.Sum()` restituisce la somma di tutti gli elementi della collezione:
 
 ```go
 
@@ -687,8 +687,8 @@ sum := collect.Sum([]int{1, 2, 3, 4, 5})
 
 ### `collect.Unique()`
 
-The `collect.Unique()` method returns the duplicate-free collection where in case of duplicate values, only the first
-occurrence will be kept:
+Il metodo `collect.Unique()` restituisce la collezione duplicata-free dove in caso di valori duplicati verrà conservata solo la prima occorrenza
+:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -698,9 +698,9 @@ newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 // []string{"Goravel", "Framework"}
 ```
 
-### `collect.Values()`
+### `collect.Valori()`
 
-The `collect.Values()` function returns all the values of the given collection:
+La funzione `collect.Values()` restituisce tutti i valori della collezione specificata:
 
 ```go
 import "github.com/goravel/framework/support/collect"
