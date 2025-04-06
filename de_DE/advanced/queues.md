@@ -1,107 +1,107 @@
-# Queues
+# Warteschlangen
 
 When building your web application, there may be tasks, like parsing and storing an uploaded CSV file, that take too
-long to complete during a web request. Fortunately, Goravel offers a solution by allowing you to create queued jobs that
-can run in the background. This way, by moving time-intensive tasks to a queue, your application can respond to web
-requests much faster and provide a better user experience for your customers. To implement this feature, we use
+long to complete during a web request. Glücklicherweise bietet Goravel eine Lösung an, indem es dir erlaubt, Warteschlangen zu erstellen, die
+im Hintergrund ausführen kann. Auf diese Weise werden zeitintensive Aufgaben in eine Warteschlange verschoben Ihre Anwendung kann schneller auf Web-
+-Anfragen reagieren und Ihren Kunden ein besseres Benutzererlebnis bieten. Um dieses Feature zu implementieren, verwenden wir
 `facades.Queue()`.
 
-Goravel's queue configuration options are saved in your application's `config/queue.go` configuration file. Goravel
-supports two drivers: `redis` and `sync`.
+Goravel's Warteschlangen-Konfigurationsoptionen werden in der Konfigurationsdatei `config/queue.go` deiner Anwendung gespeichert. Goravel
+unterstützt zwei Treiber: `redis` und `sync`.
 
-### Connections Vs. Queues
+### Verbindungen Vs. Warteschlangen
 
-Before delving into Goravel queues, it's important to understand the difference between "connections" and "queues". In
-the configuration file, `config/queue.go`, you'll find an array for `connections` configuration. This option specifies
-the connections to backend queue services like Redis. However, every queue connection can have multiple "queues", which
-can be thought of as different stacks or piles of queued jobs.
+Bevor man in die Goravel-Warteschlangen einsteigt, ist es wichtig, den Unterschied zwischen "Verbindungen" und "Warteschlangen" zu verstehen. In
+der Konfigurationsdatei, `config/queue.go`, werden Sie ein Array für `connections` Konfiguration finden. Diese Option spezifiziert
+die Verbindungen zu Backend-Warteschlangendiensten wie Redis. Jedoch kann jede Warteschlangen-Verbindung mehrere "Warteschlange" haben, die
+als verschiedene Stapel oder Haufen von Aufträgen in der Warteschlange angesehen werden kann.
 
-It's essential to note that each connection configuration example in the queue configuration file includes a `queue`
-attribute. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
-connection. In simpler terms, if you dispatch a job without explicitly defining which queue it should be dispatched to,
-the job will be placed in the queue defined in the queue attribute of the connection configuration.
+Es ist wichtig zu beachten, dass jedes Verbindungskonfigurationsbeispiel in der Queue Konfigurationsdatei ein Attribut `queue`
+enthält. Dieses Attribut ist die Standardwarteschlange, an die Jobs versandt werden, wenn sie an eine bestimmte
+-Verbindung gesendet werden. Einfacher ausgedrückt, wenn Sie einen Job versenden, ohne explizit festzulegen, in welcher Warteschlange er versandt werden soll
+der Auftrag wird in der Warteschlange, die in der Warteschlangen-Attribut der Verbindungskonfiguration definiert ist, platziert.
 
 ```go
-// This job is sent to the default connection's default queue
+// Dieser Job wird an die Standardwarteschlange der Standardverbindung
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
-}).Dispatch()
+  {Typ: "int", Wert: 1},
+}). ispatch()
 
-// This job is sent to the default connection's "emails" queue
-err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
-  {Type: "int", Value: 1},
+// Dieser Job wird an die Warteschlange der Standardverbindung "E-Mails"
+err := facades.Queue() gesendet. ob(&jobs.Test{}, []queue.Arg{
+  {Type: "int", Wert: 1},
 }).OnQueue("emails").Dispatch()
 ```
 
-## Creating Jobs
+## Jobs erstellen
 
-### Generating Job Classes
+### Generiere Job-Klassen
 
-By default, all of the jobs for your application are stored in the `app/jobs` directory. If the `app/Jobs` directory
-doesn't exist, it will be created when you run the `make:job` Artisan command:
+Standardmäßig werden alle Jobs für deine Anwendung im `app/jobs`-Verzeichnis gespeichert. Wenn das `app/Jobs` Verzeichnis
+nicht existiert, wird es erstellt wenn du den `make:job` Artisan Befehl ausführst:
 
 ```shell
 go run . artisan make:job ProcessPodcast
 go run . artisan make:job user/ProcessPodcast
 ```
 
-### Class Structure
+### Klassenstruktur
 
-Job classes are very simple, consisting of two methods: `Signature` and `Handle`. `Signature` serves as a task's
-distinct identifier, while `Handle` executes when the queue processes the task. Additionally, the `[]queue.Arg{}` passed
-when the task executes will be transmitted into `Handle`:
+Job-Klassen sind sehr einfach, bestehend aus zwei Methoden: `Signature` und `Handle`. `Signature` dient als
+eindeutige Identifikation, während `Handle` ausgeführt wird, wenn die Warteschlange die Aufgabe verarbeitet. Zusätzlich übergab die `[]queue.Arg{}`
+wenn der Task ausgeführt wird, an `Handle`:
 
 ```go
-package jobs
+Paketaufträge
 
-type ProcessPodcast struct {
+Typ ProcessPodcast struct {
 }
 
-// Signature The name and signature of the job.
-func (receiver *ProcessPodcast) Signature() string {
+// Signatur Name und Unterschrift des Auftrags.
+func (Empfänger *ProcessPodcast) Signature() string {
   return "process_podcast"
 }
 
-// Handle Execute the job.
-func (receiver *ProcessPodcast) Handle(args ...any) error {
+// Den Job ausführen.
+Func (Empfänger *ProcessPodcast) Handle(args ...any) Fehler {
   return nil
 }
 ```
 
-### Register Job
+### Job registrieren
 
-After creating the job, you need to register it in `app/provides/queue_service_provider.go`, so that it can be called
-correctly.
+Nachdem Sie den Job erstellt haben, müssen Sie ihn in `app/provides/queue_service_provider.go` registrieren, damit er korrekt
+aufgerufen werden kann.
 
 ```go
-func (receiver *QueueServiceProvider) Jobs() []queue.Job {
+func (Empfänger *QueueServiceProvider) Jobs() []queue.Job {
   return []queue.Job{
     &jobs.Test{},
   }
 }
 ```
 
-## Start Queue Server
+## Starte Warteschlange Server
 
-Start the queue server in `main.go` in the root directory.
+Starte den Warteschlangen-Server in `main.go` im Root-Verzeichnis.
 
 ```go
-package main
+Paket Haupt-
 
-import (
-  "github.com/goravel/framework/facades"
+Import (
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // Dies ist ein Bootstraps für das Framework und wird für den Einsatz vorbereitet.
   bootstrap.Boot()
 
-  // Start queue server by facades.Queue().
+  // Warteschlange Server durch Fassaden starten. ueue().
   go func() {
-    if err := facades.Queue().Worker().Run(); err != nil {
-      facades.Log().Errorf("Queue run error: %v", err)
+    if err := facades. ueue().Worker().Run(); err != nil {
+      Fassaden. og().Errorf("Queue run error: %v", err)
     }
   }()
 
@@ -109,40 +109,40 @@ func main() {
 }
 ```
 
-Different parameters can be passed in the `facades.Queue().Worker` method, you can monitor multiple queues by starting
-multiple `facades.Queue().Worker`.
+Verschiedene Parameter können in der `facades.Queue().Worker` Methode übergeben werden. Sie können mehrere Warteschlangen überwachen indem Sie
+mehrere `facades.Queue().Worker` starten.
 
 ```go
-// No parameters, default listens to the configuration in the `config/queue.go`, and the number of concurrency is 1
+// Keine Parameter, Standardeinstellung lauscht auf die Konfiguration in der `config/queue. o`, und die Anzahl der Nebenwährungen ist 1
 go func() {
-  if err := facades.Queue().Worker().Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  wenn err := Fassaden. ueue().Worker().Run(); err != nil {
+    Fassaden. og().Errorf("Queue run error: %v", err)
   }
 }()
 
-// Monitor processing queue for redis link, and the number of concurrency is 10
+// Überwachung der Warteschlange für redis Link, und die Anzahl der Nebenwährungen ist 10
 go func() {
-  if err := facades.Queue().Worker(queue.Args{
-    Connection: "redis",
-    Queue: "processing",
-    Concurrent: 10,
-  }).Run(); err != nil {
+  wenn err := Fassaden. ueue().Arbeit(Warteschlange. rgs{
+    Verbindung: "redis",
+    Warteschlange: "Verarbeiten",
+    Gleichlauf: 10,
+  }). un(); err != nil {
     facades.Log().Errorf("Queue run error: %v", err)
   }
 }()
 ```
 
-## Dispatching Jobs
+## Versendende Jobs
 
-Once you have written the job class, you can dispatch it using the `Dispatch` method on the job itself:
+Sobald du die Jobklasse geschrieben hast, kannst du sie mit der Methode `Dispatch` auf den Job selbst verschicken:
 
 ```go
-package controllers
+Paket Controller
 
-import (
+Import (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -150,26 +150,26 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
-  if err != nil {
-    // do something
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatch()
+  wenn err != nil {
+    // etwas
   }
 }
 ```
 
-### Synchronous Dispatching
+### Synchrones Senden
 
-If you want to dispatch a job immediately (synchronously), you can use the `DispatchSync` method. When using this
-method, the job will not be queued and will be executed immediately within the current process:
+Wenn du einen Job sofort verschicken möchtest (synchron) kannst du die `DispatchSync` Methode verwenden. Wenn diese
+-Methode verwendet wird, wird der Job nicht in der Warteschlange stehen und wird sofort innerhalb des aktuellen Prozesses ausgeführt:
 
 ```go
-package controllers
+Paket Controller
 
-import (
+Import (
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -177,8 +177,8 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).DispatchSync()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatchSync()
   if err != nil {
     // do something
   }
@@ -187,64 +187,64 @@ func (r *UserController) Show(ctx http.Context) {
 
 ### Job Chaining
 
-Job chaining allows you to specify a list of queued jobs to be executed in a specific order. If any job in the sequence
-fails, the rest of the jobs will not be executed. To run a queued job chain, you can use the `Chain` method provided by
-the `facades.Queue()`:
+Mit der Job-Verkettung können Sie eine Liste von Aufträgen angeben, die in einer bestimmten Reihenfolge ausgeführt werden. If any job in the sequence
+fails, the rest of the jobs will not be executed. Um eine Warteschlange Jobkette auszuführen, kannst du die `Chain` Methode verwenden, die von
+zur Verfügung gestellt wird:
 
 ```go
 err := facades.Queue().Chain([]queue.Jobs{
   {
     Job: &jobs.Test{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 1},
+    Args: []queue. rg{
+      {Typ: "int", Wert: 1},
     },
   },
   {
-    Job: &jobs.Test1{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 2},
+    Job: &jobs est1{},
+    Args: []Warteschlange. rg{
+      {Typ: "int", Wert: 2},
     },
   },
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### Verzögerter Versand
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
+Wenn Sie angeben möchten, dass ein Job nicht sofort von einem Warteschlangenarbeiter bearbeitet werden soll, du kannst die Methode `Delay`
+beim Jobversand verwenden. For example, let's specify that a job should not be available for processing after 100
 seconds of dispatching:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
 ```
 
-### Customizing The Queue & Connection
+### Anpassen der Warteschlange & Verbindung
 
-#### Dispatching To A Particular Queue
+#### Versand zu einer bestimmten Warteschlange
 
-By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
-assign to various queues.
+Indem du Jobs in verschiedene Warteschlangen schiebst, kannst du deine in der Warteschlange befindlichen Jobs "kategorisieren" und sogar priorisieren, wie viele Arbeitnehmer du
+verschiedenen Warteschlangen zuordnet.
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+#### Versand zu einer bestimmten Verbindung
 
-If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
-connection to which the task is pushed.
+Wenn deine Anwendung mit mehreren Warteschlangenverbindungen interagiert, kannst du die `OnConnection` Methode verwenden, um die
+Verbindung anzugeben, zu der die Aufgabe gepusht wird.
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+Du kannst die `OnConnection` und `OnQueue` Methoden zusammen verketten, um die Verbindung und die Warteschlange für einen Job anzugeben:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+## `queue.Arg.Type` Unterstützte Typen
 
 ```go
 bool
