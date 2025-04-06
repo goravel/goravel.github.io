@@ -1,136 +1,136 @@
-# Package Development
+# Paketentwicklung
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
-Goravel-specific packages.
+Pakete sind der primäre Weg, um Goravel Funktionalität hinzuzufügen. Diese Pakete können Routen, Controller und
+Konfigurationen enthalten, die speziell darauf ausgelegt sind, eine Goravel-Anwendung zu verbessern. Diese Anleitung konzentriert sich auf die Entwicklung von
+Goravel-spezifischen Paketen.
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+Hier ist ein Beispiel für das Erstellen eines Drittanbieter-
+-Pakets: [goravel/beispiel-Paket](https://github.com/goravel/example-package)
 
-## Creating A Package
+## Ein Paket erstellen
 
-You can use easily create a package template using the Artisan command:
+Sie können einfach eine Paketvorlage mit dem Artisan-Befehl erstellen:
 
 ```shell
-go run . artisan make:package sms
+go run . handwerkliche make:package sms
 ```
 
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+Die erstellten Dateien werden standardmäßig im Root-Ordner `packages` gespeichert, du kannst die `--root` Option verwenden, um sie anzupassen:
 
 ```shell
 go run . artisan make:package --root=pkg sms
 ```
 
-## Service Providers
+## Diensteanbieter
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+[Diensteanbieter](../foundation/providers) fungieren als Brücke zwischen Ihrem Paket und Goravel.
+Sie befinden sich typischerweise im Stammverzeichnis des Pakets als `service_provider.go`-Datei. Ihre Hauptfunktion besteht darin,
+Elemente in Goravels Dienstcontainer zu binden und Goravel beim Laden von Paketressourcen zu leiten.
 
-## Usage
+## Auslastung
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+Registriere den `ServiceProvider` im Paket zu `config/app.go::providers`, dann exportiere `facades` in die Anwendung.
+Detaillierte Schritte finden Sie unter [goravel/example-package](https://github.com/goravel/example-package).
 
-## Resources
+## Ressourcen
 
 ### Konfiguration
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
-allow users of your package to easily override your default configuration options. To allow your configuration files to
-be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
-package name, and the second parameter is the mapping between the current package file path and the project path:
+Normalerweise musst du die Konfigurationsdatei deines Paketes im `config`-Verzeichnis der Anwendung veröffentlichen. This will
+allow users of your package to easily override your default configuration options. Um zu erlauben, dass deine Konfigurationsdateien
+veröffentlicht werden, rufe die `Publishes` Methode von der `Boot` Methode deines Diensteanbieters auf, der erste Parameter ist der
+Paketname, der zweite Parameter ist das Mapping zwischen dem aktuellen Paketdateipfad und dem Projektpfad:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
     "config/sms.go": app.ConfigPath("sms.go"),
   })
 }
 ```
 
-### Routes
+### Routen
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+Wenn es [routes](../basic/routing) in Ihrem Paket gibt, können Sie `app.MakeRoute()` verwenden, um
+`facades.Route()` zu lösen und dann die Routen dem Projekt hinzufügen:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
  route := app.MakeRoute()
  route.Get("sms", ***)
 }
 ```
 
-### Migrations
+### Migrationen
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+Wenn es [migrations](../orm/migrations) in deinem Paket gibt, kannst du diese nach der `Veröffentlichung`-Methode veröffentlichen:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
     "migrations": app.DatabasePath("migrations"),
   })
 }
 ```
 
-## Commands
+## Befehle
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+Du kannst `Artisan` Befehl mit der `Commands` Methode registrieren. Du kannst die Befehle
+mit [Artisan CLI](../advanced/artisan) ausführen, nachdem du sie registriert hast.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
  app.Commands([]console.Command{
   commands.NewSmsCommand(),
  })
 }
 ```
 
-## Public Assets
+## Öffentliche Vermögenswerte
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+Ihr Paket kann Assets wie JavaScript, CSS und Bilder enthalten. Um diese Assets im `public`
+Verzeichnis der Anwendung zu veröffentlichen, verwenden Sie die Methode `Publishes` des Dienstanbieters:
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
     "public": app.PublicPath("vendor"),
   })
 }
 ```
 
-## Publishing File Groups
+## Veröffentlichen von Datei-Gruppen
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+Wenn Sie bestimmte Gruppen von Paketen und Ressourcen separat veröffentlichen möchten, du kannst Tags verwenden, wenn du die
+`Publishes` Methode vom Diensteanbieter des Pakets aufrufst. Damit können Sie Benutzern die Möglichkeit geben, bestimmte
+-Dateien, wie z.B. Konfigurationsdateien, zu veröffentlichen, ohne alle Dateien des Pakets veröffentlichen zu müssen. Zum illustrieren, du kannst zwei
+Gruppen für das Paket `sms` (`sms-config` und `sms-migrations`) mit Tags in der Methode `Boot` des Dienstanbieters des
+definieren.
 
 ```go
-func (receiver *ServiceProvider) Boot(app foundation.Application) {
+func (Empfänger *ServiceProvider) Boot(app foundation.Application) {
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "config/sms.go": app.ConfigPath("sms.go"),
+    "config/sms.go": app.ConfigPath("sms. o"),
   }, "sms-config")
   app.Publishes("github.com/goravel/example-package", map[string]string{
-    "migrations": app.DatabasePath("migrations"),
+    "migrations": app. atabasePath("migrations"),
   }, "sms-migrations")
 }
 ```
 
-## Publish Resources
+## Ressourcen veröffentlichen
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+Im Projekt kannst du die in einem Paket registrierten Ressourcen mit dem Befehl `vendor:publish` Artisan veröffentlichen:
 
 ```shell
 go run . artisan vendor:publish --package={You package name}
 ```
 
-The command can use the following options:
+Der Befehl kann folgende Optionen verwenden:
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| Optionsname | Alias | Aktion                                                                                                                                                                                                                                                                                             |
+| ----------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --Paket     | -p    | Paketname kann ein entferntes Paket sein: `github.com/goravel/example-package`, und kann auch ein lokales Paket sein: `. packages/example-package`, beachten Sie, dass bei der Verwendung eines lokalen Paketnamens mit `./` begonnen werden muss. |
+| --Tag       | -t    | Ressourcen-Gruppe                                                                                                                                                                                                                                                                                  |
+| --erzwingen | -f    | Bestehende Dateien überschreiben                                                                                                                                                                                                                                                                   |
+| --vorhanden | -e    | Nur bereits veröffentlichte Dateien veröffentlichen und überschreiben                                                                                                                                                                                                                              |
