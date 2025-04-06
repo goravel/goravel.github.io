@@ -4,44 +4,43 @@ export const config = defineConfig({
   description: "Goravel 是一个功能完整且可扩展性极强的 Web 应用程序框架。作为一个起始脚手架，帮助 Gopher 快速构建自己的应用程序。",
   themeConfig: {
     nav: nav(),
-    sidebar: {
-      '/quickstart/': {
-        base: '/quickstart/',
-        items: sidebarQuickstart()
-      },
-      '/upgrade/': {
-        base: '/upgrade/',
-        items: sidebarUpgrade()
-      },
-      '/foundation/': {
-        base: '/foundation/',
-        items: sidebarFoundation()
-      },
-      '/basic/': {
-        base: '/basic/',
-        items: sidebarBasic()
-      },
-      '/advanced/': {
-        base: '/advanced/',
-        items: sidebarAdvanced()
-      },
-      '/security/': {
-        base: '/security/',
-        items: sidebarSecurity()
-      },
-      '/orm/': {
-        base: '/orm/',
-        items: sidebarOrm()
-      },
-      '/testing/': {
-        base: '/testing/',
-        items: sidebarTesting()
-      },
-      '/other/': {
-        base: '/other/',
-        items: sidebarOther()
-      }
-    },
+    sidebar: [{
+      text: "快速开始",
+      base: "/cn/quickstart/",
+      items: sidebarQuickstart()
+    }, {
+      text: "升级",
+      base: '/upgrade/',
+      items: sidebarUpgrade()
+    }, {
+      text: "Foundation",
+      base: '/foundation/',
+      items: sidebarFoundation()
+    }, {
+      text: "Basic",
+      base: '/basic/',
+      items: sidebarBasic()
+    }, {
+      text: "Advanced",
+      base: '/advanced/',
+      items: sidebarAdvanced()
+    }, {
+      text: "Security",
+      base: '/security/',
+      items: sidebarSecurity()
+    }, {
+      text: "ORM",
+      base: '/orm/',
+      items: sidebarOrm()
+    }, {
+      text: "Testing",
+      base: '/testing/',
+      items: sidebarTesting()
+    }, {
+      text: "Other",
+      base: '/other/',
+      items: sidebarOther()
+    }],
     editLink: {
       pattern: 'https://github.com/goravel/goravel.github.io/edit/main/:path',
       text: "在 GitHub 上编辑此页面"
@@ -62,31 +61,19 @@ function nav(): DefaultTheme.NavItem[] {
     link: '/upgrade/v1.15',
     activeMatch: '/upgrade/'
   }, {
-    text: "基础",
-    link: '/foundation/lifecycle',
-    activeMatch: '/foundation/'
-  }, {
-    text: "基本",
+    text: 'Basic',
     link: '/basic/routing',
     activeMatch: '/basic/'
   }, {
-    text: "高级",
+    text: 'Advanced',
     link: '/advanced/artisan',
     activeMatch: '/advanced/'
-  }, {
-    text: "安全",
-    link: '/security/authentication',
-    activeMatch: '/security/'
   }, {
     text: 'ORM',
     link: '/orm/quickstart',
     activeMatch: '/orm/'
   }, {
-    text: "测试",
-    link: '/testing/quickstart',
-    activeMatch: '/testing/'
-  }, {
-    text: "其他",
+    text: 'Other',
     link: '/other/contributing',
     activeMatch: '/other/'
   }];
