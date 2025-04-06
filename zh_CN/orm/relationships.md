@@ -1,20 +1,17 @@
-# Relationships
+# 关系
 
-It's common for database tables to be interconnected. For instance, a blog post may have many comments, or an order may
-be linked to the user who placed it. `Orm` simplifies managing and dealing with such relationships, and it can handle
-various common relationships:
+数据库表之间相互关联是很常见的。 例如，一篇博客文章可能有多条评论，或者一个订单可能与下单的用户相关联。 `Orm` 简化了管理和处理这些关系的过程，它可以处理各种常见的关系：
 
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-- [Many To Many](#Many-To-Many)
-- [Polymorphic](#polymorphic)
+- [一对一](#one-to-one)
+- [一对多](#one-to-many)
+- [多对多](#Many-To-Many)
+- [多态关联](#polymorphic)
 
-## Defining Relationships
+## 定义关系
 
-### One To One
+### 一对一
 
-A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated
-with one `Phone` model.
+一对一关系是一种非常基本的数据库关系类型。 例如，一个 `User` 模型可能与一个 `Phone` 模型相关联。
 
 ```go
 type User struct {
@@ -30,10 +27,7 @@ type Phone struct {
 }
 ```
 
-When using `Orm`, it automatically assigns the foreign key to the relationship based on the parent model name. For
-instance, the `Phone` model is assumed to have a `UserID` foreign key by default. However, if you wish to change this
-convention, you can add a `foreignKey` tag to the `Phone` field in `User` model. (This also applies to other
-relationships.)
+使用 `Orm` 时，它会根据父模型名称自动为关系分配外键。 例如，默认情况下，`Phone` 模型被假定有一个 `UserID` 外键。 但是，如果你想改变这个约定，你可以在 `User` 模型的 `Phone` 字段中添加一个 `foreignKey` 标签。 （这也适用于其他关系。）
 
 ```go
 type User struct {
@@ -49,10 +43,10 @@ type Phone struct {
 }
 ```
 
-Additionally, when using `Orm`, it is assumed that the foreign key should match the primary key column of the parent.
-This means that `Orm` will search for the user's `ID` column value in the `UserId` column of the `Phone` record. If you
-wish to use a primary key value other than `ID`, you can add a "Tag" reference to the `Phone` field in `User` model. To
-do this, simply pass a third argument to the `hasOne` method. (Other relationship setups are similar.)
+此外，使用 `Orm` 时，假定外键应该匹配父级的主键列。
+这意味着 `Orm` 将在 `Phone` 记录的 `UserId` 列中搜索用户的 `ID` 列值。 如果你
+希望使用除 `ID` 之外的主键值，你可以在 `User` 模型的 `Phone` 字段中添加 "Tag" 引用。 要
+做到这一点，只需向 `hasOne` 方法传递第三个参数。 （其他关系设置类似。）
 
 ```go
 type User struct {
@@ -68,10 +62,10 @@ type Phone struct {
 }
 ```
 
-#### Defining The Inverse Of The Relationship
+#### 定义关系的反向关联
 
-We can access the `Phone` model from our `User` model. Now, we need to establish a relationship on `Phone` model that
-allows us to access the phone's owner. To do this, we can define a `User` field in `Phone` model.
+我们可以从 `User` 模型访问 `Phone` 模型。 现在，我们需要在 `Phone` 模型上建立一个关系，
+允许我们访问电话的所有者。 为此，我们可以在 `Phone` 模型中定义一个 `User` 字段。
 
 ```go
 type User struct {
@@ -87,7 +81,7 @@ type Phone struct {
 }
 ```
 
-### One To Many
+### 一对多
 
 A one-to-many relationship is used to define relationships where a single model is the parent to one or more child
 models. For example, a blog post may have an infinite number of comments. Like all other `Orm` relationships,
