@@ -1,15 +1,15 @@
-# Helpers
+# 辅助函数
 
-## Available Methods
+## 可用方法
 
-### Paths
+### 路径
 
 |                                                                      |                                                                    |                                                                  |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | [path.App()](#path-app)           | [path.Base()](#path-base)       | [path.Config()](#path-config) |
 | [path.Database()](#path-database) | [path.Storage()](#path-storage) | [path.Public()](#path-public) |
 
-### Time
+### 时间
 
 |                                                                                    |                                                                                  |                                                                              |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -18,13 +18,13 @@
 | [carbon.FromTime()](#carbon-fromtime)           | [carbon.FromStdTime()](#carbon-fromstdtime)   | [carbon.IsTestNow()](#istestnow-fromdate) |
 | [carbon.SetTestNow()](#carbon-settestnow)       | [carbon.UnsetTestNow()](#carbon-unsettestnow) |                                                                              |
 
-### Debug
+### 调试
 
 |                                                                |                                                                  |                                                                  |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [debug.Dump()](#debug-dump) | [debug.SDump()](#debug-sdump) | [debug.FDump()](#debug-fdump) |
 
-### Maps
+### 映射
 
 |                                                                |                                                                  |                                                                  |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -33,14 +33,14 @@
 | [maps.Only()](#maps-only)   | [maps.Pull()](#maps-pull)     | [maps.Set()](#maps-set)       |
 | [maps.Where()](#maps-where) |                                                                  |                                                                  |
 
-### Convert
+### 转换
 
 |                                                                          |                                                                          |                                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | [convert.Tap()](#convert-tap)         | [convert.With()](#convert-with)       | [convert.Transform()](#convert-transform) |
 | [convert.Default()](#convert-default) | [convert.Pointer()](#convert-pointer) |                                                                              |
 
-### Collect
+### 收集
 
 |                                                                        |                                                                          |                                                                          |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
@@ -51,12 +51,11 @@
 | [collect.Split()](#collect-split)   | [collect.Sum()](#collect-sum)         | [collect.Unique()](#collect-unique)   |
 | [collect.Values()](#collect-values) |                                                                          |                                                                          |
 
-## Paths
+## 路径
 
 ### `path.App()`
 
-The `path.App()` function returns the path to your application's app directory. You may also use the `path.App()`
-function to generate a path to a file relative to the application directory:
+`path.App()` 函数返回应用程序的 app 目录路径。 您还可以使用 `path.App()` 函数生成相对于应用程序目录的文件路径：
 
 ```go
 import "github.com/goravel/framework/support/path"
@@ -67,8 +66,7 @@ path := path.App("http/controllers/controller.go")
 
 ### `path.Base()`
 
-The `path.Base()` function returns the path to your application's root directory. You may also use the `path.Base()`
-function to generate a path to a given file relative to the project root directory:
+`path.Base()` 函数返回应用程序根目录的路径。 您还可以使用 `path.Base()` 函数生成相对于项目根目录的给定文件路径：
 
 ```go
 path := path.Base()
@@ -77,8 +75,7 @@ path := path.Base("vendor/bin")
 
 ### `path.Config()`
 
-The `path.Config()` function returns the path to your application's config directory. You may also use the
-`path.Config()` function to generate a path to a given file within the application's configuration directory:
+`path.Config()` 函数返回应用程序配置目录的路径。 您还可以使用 `path.Config()` 函数生成应用程序配置目录中给定文件的路径：
 
 ```go
 path := path.Config()
@@ -87,8 +84,7 @@ path := path.Config("app.go")
 
 ### `path.Database()`
 
-The `path.Database()` function returns the path to your application's database directory. You may also use the
-`path.Database()` function to generate a path to a given file within the `database` directory:
+`path.Database()` 函数返回应用程序数据库目录的路径。 您还可以使用 `path.Database()` 函数生成 `database` 目录中给定文件的路径：
 
 ```go
 path := path.Database()
@@ -97,8 +93,7 @@ path := path.Database("factories/user_factory.go")
 
 ### `path.Storage()`
 
-The `path.Storage()` function returns the path to your application's storage directory. You may also use the
-`path.Storage()` function to generate a path to a given file within the `storage` directory:
+`path.Storage()` 函数返回应用程序存储目录的路径。 您还可以使用 `path.Storage()` 函数生成 `storage` 目录中指定文件的路径：
 
 ```go
 path := path.Storage()
@@ -107,8 +102,7 @@ path := path.Storage("app/file.txt")
 
 ### `path.Public()`
 
-The `path.Public()` function returns the path to your application's public directory. You may also use the
-`path.Public()` function to generate a path to a given file within the `public` directory:
+`path.Public()` 函数返回应用程序公共目录的路径。 您还可以使用 `path.Public()` 函数生成 `public` 目录中指定文件的路径：
 
 ```go
 path := path.Public()
@@ -117,22 +111,20 @@ path := path.Public("css/app.css")
 
 ### `path.Lang()`
 
-The `path.Lang()` function returns the path to the `lang` directory. You may also use the `path.Lang()` function to
-generate a path to a given file within the `lang` directory:
+`path.Lang()` 函数返回 `lang` 目录的路径。 您还可以使用 `path.Lang()` 函数生成 `lang` 目录中指定文件的路径：
 
 ```go
 path := path.Lang()
 path := path.Lang("en.json")
 ```
 
-## Time
+## 时间
 
-The `carbon` module of Goravel is an expansion by [golang-module/carbon](https://github.com/golang-module/carbon), the
-main feature is the realization of time backtracking, please refer to the official documentation for details.
+Goravel 的 `carbon` 模块是 [golang-module/carbon](https://github.com/golang-module/carbon) 的扩展，主要特点是实现了时间回溯，详情请参考官方文档。
 
 ### `carbon.Now()`
 
-Get current time:
+获取当前时间：
 
 ```go
 import "github.com/goravel/framework/support/carbon"
@@ -142,7 +134,7 @@ carbon.Now()
 
 ### `carbon.SetTimezone()`
 
-Set timezone：
+设置时区：
 
 ```go
 carbon.SetTimezone(carbon.UTC)
@@ -150,7 +142,7 @@ carbon.SetTimezone(carbon.UTC)
 
 ### `carbon.Parse()`
 
-Get `Carbon` object by String:
+通过字符串获取 `Carbon` 对象：
 
 ```go
 carbon.Parse("2020-08-05 13:14:15")
@@ -158,7 +150,7 @@ carbon.Parse("2020-08-05 13:14:15")
 
 ### `carbon.FromTimestamp()`
 
-Get `Carbon` Object by timestamp:
+通过时间戳获取 `Carbon` 对象：
 
 ```go
 carbon.FromTimestamp(1577836800)
@@ -166,7 +158,7 @@ carbon.FromTimestamp(1577836800)
 
 ### `carbon.FromDateTime()`
 
-Get `Carbon` Object by date time:
+通过日期时间获取 `Carbon` 对象：
 
 ```go
 carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
@@ -174,7 +166,7 @@ carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
 
 ### `carbon.FromDate()`
 
-Get `Carbon` Object by date:
+通过日期获取 `Carbon` 对象：
 
 ```go
 carbon.FromDate(2020, 1, 1)
@@ -182,7 +174,7 @@ carbon.FromDate(2020, 1, 1)
 
 ### `carbon.FromTime()`
 
-Get `Carbon` Object by time:
+通过时间获取 `Carbon` 对象：
 
 ```go
 carbon.FromTime(0, 0, 0)
@@ -190,7 +182,7 @@ carbon.FromTime(0, 0, 0)
 
 ### `carbon.FromStdTime()`
 
-Get `Carbon` Object by `time.Time`:
+通过 `time.Time` 获取 `Carbon` 对象：
 
 ```go
 carbon.FromStdTime(time.Now())
@@ -198,7 +190,7 @@ carbon.FromStdTime(time.Now())
 
 ### `carbon.IsTestNow()`
 
-Determine whether the time is a test value:
+判断时间是否为测试值：
 
 ```go
 carbon.IsTestNow()
@@ -206,7 +198,7 @@ carbon.IsTestNow()
 
 ### `carbon.SetTestNow()`
 
-Set the time to a test value:
+将时间设置为测试值：
 
 ```go
 carbon.SetTestNow(carbon.Now())
@@ -214,17 +206,17 @@ carbon.SetTestNow(carbon.Now())
 
 ### `carbon.UnsetTestNow()`
 
-Restore the time to a normal value:
+将时间恢复为正常值：
 
 ```go
 carbon.UnsetTestNow()
 ```
 
-## Debug
+## 调试
 
 ### `debug.Dump()`
 
-`debug.Dump()` can print any variable:
+`debug.Dump()` 可以打印任何变量：
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -234,7 +226,7 @@ debug.Dump(myVar1, myVar2, ...)
 
 ### `debug.FDump()`
 
-`debug.FDump()` can print any variable to `io.Writer`:
+`debug.FDump()` 可以将任何变量打印到 `io.Writer`：
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -244,7 +236,7 @@ debug.FDump(someWriter, myVar1, myVar2, ...)
 
 ### `debug.SDump()`
 
-`debug.SDump()` can print any variable to `string`:
+`debug.SDump()` 可以将任何变量打印为 `string`：
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -252,11 +244,11 @@ import "github.com/goravel/framework/support/debug"
 debug.SDump(myVar1, myVar2, ...)
 ```
 
-## Maps
+## 映射
 
 ### `maps.Add()`
 
-The `maps.Add()` function adds a new key-value pair to the given map if the key does not already exist in the map:
+`maps.Add()` 函数在给定的 map 中添加一个新的键值对，如果该键在 map 中不存在：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -273,7 +265,7 @@ maps.Add(mp2, "name", "Krishan")
 
 ### `maps.Exists()`
 
-The `maps.Exists()` function determines if the given key exists in the provided map:
+`maps.Exists()` 函数用于确定给定的键是否存在于提供的映射中：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -287,7 +279,7 @@ exists = maps.Exists(mp, "email") // false
 
 ### `maps.Forget()`
 
-The `maps.Forget()` function removes the given key(s) from the provided map:
+`maps.Forget()` 函数从提供的映射中移除给定的键（s）：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -300,8 +292,8 @@ maps.Forget(mp, "name", "age")
 
 ### `maps.Get()`
 
-The `maps.Get()` function retrieves the value of the given key from the provided map. If the key does not exist, the
-default value will be returned:
+函数 `maps.Get()` 从提供的映射中检索给定键的值。 如果键不存在，将
+返回默认值：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -317,7 +309,7 @@ value = maps.Get(mp, "age", 22)
 
 ### `maps.Has()`
 
-The `maps.Has()` function determines if the given key(s) exists in the provided map:
+函数 `maps.Has()` 用于确定给定的键是否存在于提供的映射中：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -333,7 +325,7 @@ exists = maps.Has(mp, "name", "age")
 
 ### `maps.HasAny()`
 
-The `maps.HasAny()` function determines if any of the given key(s) exists in the provided map:
+函数 `maps.HasAny()` 用于确定给定的任何键是否存在于提供的映射中：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -349,7 +341,7 @@ exists = maps.HasAny(mp, "age", "email")
 
 ### `maps.Only()`
 
-The `maps.Only()` function retrieves only the given key(s) from the provided map:
+`maps.Only()` 函数从提供的映射中仅检索给定的键：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -365,7 +357,7 @@ newMap = maps.Only(mp, "name", "age")
 
 ### `maps.Pull()`
 
-The `maps.Pull()` function retrieves and removes the given key from the provided map:
+`maps.Pull()` 函数从提供的映射中检索并移除给定的键：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -377,8 +369,7 @@ name := maps.Pull(mp, "name")
 // mp = map[string]any{"language": "Go"}
 ```
 
-A default value can be provided as the third argument to the `maps.Pull()` function. This value will be returned if the
-key does not exist in the map:
+可以为 `maps.Pull()` 函数提供第三个参数作为默认值。 如果键在映射中不存在，将返回此值：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -392,7 +383,7 @@ name := maps.Pull(mp, "age", "default")
 
 ### `maps.Set()`
 
-The `maps.Set()` function sets the given key and value in the provided map:
+`maps.Set()` 函数在提供的映射中设置给定的键和值：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -405,7 +396,7 @@ maps.Set(mp, "language", "Go")
 
 ### `maps.Where()`
 
-The `maps.Where()` function filters the provided map using the given callback:
+`maps.Where()` 函数使用给定的回调函数过滤提供的映射：
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -418,11 +409,11 @@ newMap := maps.Where(mp, func(key string, value string) bool {
 // map[string]string{"name": "Goravel"}
 ```
 
-## Convert
+## 转换
 
 ### `convert.Tap()`
 
-The `convert.Tap()` function passes the given value to the provided callback and returns the value:
+`convert.Tap()` 函数将给定值传递给提供的回调函数并返回该值：
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -441,7 +432,7 @@ val := convert.Tap(mp, func(value map[string]string) {
 
 ### `convert.Transform()`
 
-The `convert.Transform()` transforms the given value using the provided callback and returns the result:
+`convert.Transform()` 使用提供的回调函数转换给定值并返回结果：
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -457,7 +448,7 @@ val := convert.Transform("foo", func(s string) *foo {
 
 ### `convert.With()`
 
-The `convert.With()` executes the given callback with the provided value and returns the result of the callback:
+`convert.With()` 使用提供的值执行给定的回调并返回回调的结果：
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -470,7 +461,7 @@ value := convert.With("Goravel", func(value string) string {
 
 ### `convert.Default()`
 
-The `convert.Default()` method returns first non-zero value. If all values are zero, it returns zero value.
+`convert.Default()` 方法返回第一个非零值。 如果所有值都为零，则返回零值。
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -487,7 +478,7 @@ value = convert.Default(0, 1)
 
 ### `convert.Pointer()`
 
-The `convert.Pointer()` method returns the pointer of the given value.
+方法 `convert.Pointer()` 返回给定值的指针。
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -497,11 +488,11 @@ convert.Pointer("foo") // *string("foo")
 convert.Pointer(1) // *int(1)
 ```
 
-## Collect
+## 收集
 
 ### `collect.Count()`
 
-The `collect.Count()` function returns the number of items in the given collection:
+函数 `collect.Count()` 返回给定集合中的项目数量：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -512,7 +503,7 @@ collect.Count([]string{"Goravel", "Framework"})
 
 ### `collect.CountBy()`
 
-The `collect.CountBy()` function counts the occurrences for which the predicate is true:
+函数 `collect.CountBy()` 计算谓词为真的出现次数：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -525,8 +516,7 @@ collect.CountBy([]string{"Goravel", "Framework"}, func(value string) bool {
 
 ### `collect.Each()`
 
-The `collect.Each()` function iterates over the items in the given collection and passes each item to the given
-callback:
+函数 `collect.Each()` 遍历给定集合中的项目，并将每个项目传递给给定的回调函数：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -540,7 +530,7 @@ collect.Each([]string{"Goravel", "Framework"}, func(value string, index int) {
 
 ### `collect.Filter()`
 
-The `collect.Filter()` function filters the items in the collection using the given callback:
+函数 `collect.Filter()` 使用给定的回调函数过滤集合中的项目：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -554,12 +544,12 @@ newCollection := collect.Filter([]string{"Goravel", "Framework"}, func(value str
 
 ### `collect.GroupBy()`
 
-The `collect.GroupBy()` function groups the items in the collection by the result of the given callback:
+函数 `collect.GroupBy()` 根据给定回调函数的结果对集合中的项目进行分组：
 
 ```go
 import "github.com/goravel/framework/support/collect"
 
-// use example of complex map slice (use different example)
+// 复杂映射切片的使用示例（使用不同的示例）
 newCollection := collect.GroupBy([]map[string]string{
     {"class": "1", "Name": "Rohan"},
     {"class": "2", "Name": "Bowen"},
@@ -576,7 +566,7 @@ newCollection := collect.GroupBy([]map[string]string{
 
 ### `collect.Keys()`
 
-The `collect.Keys()` function returns all the keys for the items in the collection:
+`collect.Keys()` 函数返回集合中所有项目的键：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -587,7 +577,7 @@ keys := collect.Keys(map[string]string{"name": "Goravel", "language": "Go"})
 
 ### `collect.Map()`
 
-The `collect.Map()` function converts one type of collection into another using the given iteratee:
+`collect.Map()` 函数使用给定的迭代器将一种类型的集合转换为另一种类型：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -601,7 +591,7 @@ newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string
 
 ### `collect.Max()`
 
-The `collect.Max()` function returns the maximum value of the given collection:
+`collect.Max()` 函数返回给定集合的最大值：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -612,7 +602,7 @@ max := collect.Max([]int{1, 2, 3, 4, 5})
 
 ### `collect.Merge()`
 
-The `collect.Merge()` function merges the given maps into a single map:
+`collect.Merge()` 函数将给定的多个映射合并成一个单一的映射：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -626,7 +616,7 @@ newMap = collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"
 
 ### `collect.Min()`
 
-The `collect.Min()` function returns the minimum value of the given collection:
+函数 `collect.Min()` 返回给定集合中的最小值：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -637,7 +627,7 @@ min := collect.Min([]int{1, 2, 3, 4, 5})
 
 ### `collect.Reverse()`
 
-The `collect.Reverse()` function reverses the items in the collection:
+函数 `collect.Reverse()` 反转集合中的项目：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -649,20 +639,19 @@ newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
 ### `collect.Shuffle()`
 
-The `collect.Shuffle()` function shuffles the items in the collection:
+函数 `collect.Shuffle()` 打乱集合中的项目：
 
 ```go
 import "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Shuffle([]int{1, 2, 3, 4, 5})
 
-// []int{3, 1, 5, 2, 4}(example)
+// []int{3, 1, 5, 2, 4}(示例)
 ```
 
 ### `collect.Split()`
 
-The `collect.Split()` function splits a collection into the groups of the given length. If the collection can't be split
-evenly, the final chunk will contain the remaining items:
+函数 `collect.Split()` 将集合分割成给定长度的组。 如果集合无法被平均分割，最后一个块将包含剩余的项目：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -674,7 +663,7 @@ newCollection := collect.Split([]int{1, 2, 3, 4, 5}, 2)
 
 ### `collect.Sum()`
 
-The `collect.Sum()` function returns the sum of all items in the collection:
+`collect.Sum()` 函数返回集合中所有项目的总和：
 
 ```go
 
@@ -687,8 +676,7 @@ sum := collect.Sum([]int{1, 2, 3, 4, 5})
 
 ### `collect.Unique()`
 
-The `collect.Unique()` method returns the duplicate-free collection where in case of duplicate values, only the first
-occurrence will be kept:
+`collect.Unique()` 方法返回去重后的集合，对于重复值，只保留第一次出现的值：
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -700,7 +688,7 @@ newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 
 ### `collect.Values()`
 
-The `collect.Values()` function returns all the values of the given collection:
+函数 `collect.Values()` 返回给定集合的所有值：
 
 ```go
 import "github.com/goravel/framework/support/collect"
