@@ -1,11 +1,11 @@
-# HTTP Response
+# Ответ HTTP
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+Вы можете использовать `ctx.Response()` для ответа HTTP в контроллере.
 
-## String
+## Строка
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+импортировать "github.com/goravel/framework/contracts/http"
 
 ctx.Response().String(http.StatusOK, "Hello Goravel")
 ```
@@ -21,50 +21,50 @@ ctx.Response().Json(http.StatusOK, http.Json{
   "Hello": "Goravel",
 })
 
-ctx.Response().Json(http.StatusOK, struct {
-  ID       uint `json:"id"`
-  Name     string `json:"name"`
+ctx. esponse().Json(http. tatusOK, struct {
+  ID uint `json:"id"`
+  Строка имени `json:"name"`
 }{
-  Id:      1,
-  Front:   "Goravel",
+  Id: 1,
+  фронт: "Горавель",
 })
 ```
 
-## Custom Return
+## Пользовательский возврат
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## Файл ответа
 
 ```go
-import "net/http"
+импортировать "net/http"
 
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## Скачать файл
 
 ```go
-import "net/http"
+импортировать "net/http"
 
-ctx.Response().Download("./public/logo.png", "1.png")
+ctx.Response().Скачать("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## Прикрепить заголовок
 
 ```go
-import "github.com/goravel/framework/contracts/http"
+импортировать "github.com/goravel/framework/contracts/http"
 
-ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel")
+ctx.Response().Заголовок ("Content", "Goravel").String(http.StatusOK, "Hello Goravel")
 ```
 
-## Cookie
+## Печенье
 
-### Set Cookie
+### Установить Cookie
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
+Используйте метод «Cookie» в копии «response», чтобы установить «cookie». The `Cookie` method accepts a `http.Cookie`
 instance, which allows you to set various cookie options.
 
 ```go
@@ -73,89 +73,89 @@ import (
   "github.com/goravel/framework/contracts/http"
 )
 
-ctx.Response().Cookie(http.Cookie{
-  Name: "name",
-  Value: "Goravel",
-  Path: "/",
-  Domain: "goravel.dev",
-  Expires: time.Now().Add(24 * time.Hour),
-  Secure: true,
+ctx.Response().Cookie(http. ookie{
+  Название: "name",
+  Значение: "Горавел",
+  Путь: "/",
+  Домен: "goravel. ev",
+  Истекает через: time.Now().Add(24 * time.Hour),
+  Безопасность: true,
   HttpOnly: true,
 })
 ```
 
-### Expire Cookie
+### Истекает печенье
 
-Use the `WithoutCookie` method to remove a cookie.
+Используйте метод `WithoutCookie` для удаления cookie.
 
 ```go
-ctx.Response().WithoutCookie("name")
+ctx.Response().WithoutCookie("имя")
 ```
 
-## Return Success
+## Успешно возвращено
 
 ```go
 ctx.Response().Success().String("Hello Goravel")
 ctx.Response().Success().Json(http.Json{
-  "Hello": "Goravel",
+  "Hello": "Горавел",
 })
 ```
 
-## Custom Code
+## Пользовательский код
 
 ```go
 ctx.Response().Status(http.StatusOK).Json(http.Json{
-  "hello": "Goravel",
+  "Привет": "Горавел",
 })
 ```
 
-## Return Stream
+## Возврат Потока
 
 ```go
-ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
-  data := []string{"a", "b", "c"}
-  for _, item := range data {
-    if _, err := w.Write([]byte(item + "\n")); err != nil {
+ctx.Response().Stream(http.StatusCreated, func(w http). treamWriter) ошибка {
+  данных := []string{"a", "b", "c"}
+  для _, элемент := range data {
+    if _, err := w. rite([]byte(item + "\n")); err != nil {
       return err
     }
 
-    if err := w.Flush(); err != nil {
+    if err := w. lush(); err != nil {
       return err
     }
 
-    time.Sleep(1 * time.Second)
+    время.Sleep(1 * раз. и др.)
   }
 
-  return nil
+  обратный номер
 })
 ```
 
-## Redirect
+## Перенаправление
 
 ```go
-ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
+ctx.Response().Перенаправление (http.StatusMovedPermanently, "https://goravel.dev")
 ```
 
-## No Content
+## Нет контента
 
 ```go
 ctx.Response().NoContent()
 ctx.Response().NoContent(http.StatusOk)
 ```
 
-## Get Response
+## Получить ответ
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+Вся информация может быть получена через файл `ctx.Response()`, который обычно используется в среднем ПО HTTP:
 
 ```go
-origin := ctx.Response().Origin()
+происхождение := ctx.Response().Origin()
 ```
 
-`origin` contains some methods as shown below：
+`origin` содержит некоторые методы, как показано ниже：
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| Метод     | Действие                  |
+| --------- | ------------------------- |
+| Тело      | Получить данные ответа    |
+| Заголовок | Получить заголовок ответа |
+| Размер    | Получить размер ответа    |
+| Статус    | Получить статус ответа    |
