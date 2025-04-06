@@ -1,375 +1,375 @@
-# Relationships
+# العلاقات
 
-It's common for database tables to be interconnected. For instance, a blog post may have many comments, or an order may
-be linked to the user who placed it. `Orm` simplifies managing and dealing with such relationships, and it can handle
-various common relationships:
+من الشائع أن تكون جداول قواعد البيانات مترابطة. على سبيل المثال، قد تحتوي مشاركة المدونة على العديد من التعليقات، أو قد يكون الطلب
+مرتبطا بالمستخدم الذي قام بوضعه. 'Orm' يبسط إدارة هذه العلاقات والتعامل معها، ويمكنه التعامل مع
+مختلف العلاقات المشتركة:
 
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-- [Many To Many](#Many-To-Many)
+- [واحد إلى واحد](#one-to-one)
+- [واحد لكثير منها](#one-to-many)
+- [كثيرًا لكثير] (#Many-To-Many)
 - [Polymorphic](#polymorphic)
 
-## Defining Relationships
+## تعريف العلاقات
 
-### One To One
+### واحد إلى واحد
 
-A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated
-with one `Phone` model.
-
-```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone
-}
-
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
-}
-```
-
-When using `Orm`, it automatically assigns the foreign key to the relationship based on the parent model name. For
-instance, the `Phone` model is assumed to have a `UserID` foreign key by default. However, if you wish to change this
-convention, you can add a `foreignKey` tag to the `Phone` field in `User` model. (This also applies to other
-relationships.)
+فالعلاقة بين شخص وآخر هي نوع أساسي جدا من علاقات قاعدة البيانات. على سبيل المثال، يمكن ربط نموذج "المستخدم"
+مع نموذج "الهاتف".
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName"`
-}
+اكتب بنية المستخدم {
+  orm. Odel
+  اسم السلسلة
+  الهاتف *
 
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
+
+نوع الهاتف الذي تم تركيبه {
+  orm. Odel
+  UserID uint
+  سلسلة الاسم
 }
 ```
 
-Additionally, when using `Orm`, it is assumed that the foreign key should match the primary key column of the parent.
-This means that `Orm` will search for the user's `ID` column value in the `UserId` column of the `Phone` record. If you
-wish to use a primary key value other than `ID`, you can add a "Tag" reference to the `Phone` field in `User` model. To
-do this, simply pass a third argument to the `hasOne` method. (Other relationship setups are similar.)
+وعند استخدام \`Orm'، يقوم تلقائياً بتعيين المفتاح الأجنبي للعلاقة استناداً إلى اسم النموذج الأصلي. على سبيل المثال
+يفترض أن نموذج 'Phone' يحتوي على مفتاح 'UserID' أجنبي افتراضيا. ومع ذلك، إذا كنت ترغب في تغيير هذه الاتفاقية
+، فيمكنك إضافة علامة "مفاتيح أجنبية" إلى حقل "الهاتف" في نموذج "المستخدم". (وهذا ينطبق أيضا على علاقات
+الأخرى.)
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Phone   *Phone `gorm:"foreignKey:UserName;references:name"`
-}
+اكتب بنية المستخدم {
+  orm. Odel
+  اسم السلسلة
+  الهاتف *`gorm:"foreignKey:UserName"`
 
-type Phone struct {
-  orm.Model
-  UserName string
-  Name   string
+
+نوع بنية الهاتف {
+  orm. Odel
+  سلسلة اسم المستخدم
+  سلسلة الاسم
 }
 ```
 
-#### Defining The Inverse Of The Relationship
-
-We can access the `Phone` model from our `User` model. Now, we need to establish a relationship on `Phone` model that
-allows us to access the phone's owner. To do this, we can define a `User` field in `Phone` model.
+وبالإضافة إلى ذلك، يُفترض عند استخدام 'الترتيب` أن يتطابق المفتاح الأجنبي مع العمود الرئيسي الرئيسي للأب.
+وهذا يعني أن 'Orm' سوف يبحث عن قيمة عمود 'ID' المستخدم في عمود 'UserId' من سجل 'الهاتف'. إذا كنت
+ترغب في استخدام قيمة رئيسية أخرى غير 'ID`، يمكنك إضافة إشارة "علامة" إلى حقل "الهاتف" في نموذج "المستخدم". إلى
+قم بذلك، ببساطة نقل حجة ثالثة إلى طريقة 'hasOne'. (إعداد العلاقات متشابه.)
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-}
+اكتب بنية المستخدم {
+  orm. Odel
+  اسم السلسلة
+  الهاتف *`gorm:"foreignKey:UserName; تفضيلات:name"`
 
-type Phone struct {
-  orm.Model
-  UserID   uint
-  Name   string
-  User   *User
+
+نوع بنية الهاتف {
+  عال. Odel
+  سلسلة اسم المستخدم
+  سلسلة الاسم
 }
 ```
 
-### One To Many
+#### تعريف عكس العلاقة
 
-A one-to-many relationship is used to define relationships where a single model is the parent to one or more child
-models. For example, a blog post may have an infinite number of comments. Like all other `Orm` relationships,
-one-to-many relationships are defined by defining a field on your `Orm` model:
+يمكننا الوصول إلى نموذج "الهاتف" من نموذج "المستخدم". Now, we need to establish a relationship on `Phone` model that
+allows us to access the phone's owner. للقيام بذلك، يمكننا تحديد حقل "المستخدم" في نموذج "الهاتف".
 
 ```go
-type Post struct {
+اكتب بنية المستخدم {
   orm.Model
-  Name   string
-  Comments []*Comment
-}
+  اسم السلسلة
 
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
+
+نوع الهاتف بنى {
+  orm. odel
+  UserID uint
+  name string
+  user *user
 }
 ```
 
-Remember, `Orm` will automatically determine the proper foreign key column for the `Comment` model. By convention, Orm
-will take the "hump case" name of the parent model and suffix it with `ID`. So, in this example, Orm will assume the
-foreign key column on the `Comment` model is `PostID`.
+### واحد للكثيرين
 
-### One To Many (Inverse) / Belongs To
-
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent
-post. To define the inverse of a `One To Many` relationship, define a relationship method on the child model which calls
-the `belongsTo` method:
+يتم استخدام علاقة واحدة إلى متعددة لتحديد العلاقات التي يكون فيها الموديل الواحد هو الوالد لواحد أو أكثر من نماذج الأطفال
+. على سبيل المثال ، قد تحتوي مشاركة المدونة على عدد غير محدود من التعليقات. مثل جميع العلاقات الأخرى 'Orm'، يتم تعريف
+علاقات واحدة إلى كثيرة من خلال تعريف حقل على نموذج 'Orm' الخاص بك:
 
 ```go
-type Post struct {
-  orm.Model
-  Name   string
-  Comments []*Comment
+نوع بنية المشاركة {
+  عوام. odel
+  اسم سلسلة
+  تعليقات []*تعليق
+
+
+نوع تعليق بنت {
+  عال. Odel
+  PostID uint
+  سلسلة الاسم
 }
-
-type Comment struct {
-  orm.Model
-  PostID   uint
-  Name   string
-  Post   *Post
-}
 ```
 
-## Many To Many Relationships
+تذكر أن "Orm" سيحدد تلقائياً العمود المفتاح الأجنبي المناسب لنموذج "التعليق". حسب العرف، سيأخذ Orm
+اسم "حالة الحدث" للنموذج الأصلي ويتلقيه مع `ID`. لذلك، في هذا المثال، سيفترض Orm عمود المفتاح
+الأجنبي في نموذج "التعليق" هو "PostID".
 
-Many-to-many relations are slightly more complicated than `One To One` and `One To Many` relationships. An example of a
-many-to-many relationship is a user that has many roles and those roles are also shared by other users in the
-application. For example, a user may be assigned the role of "Author" and "Editor"; however, those roles may also be
-assigned to other users as well. So, a user has many roles and a role has many users.
+### واحد للكثيرين (معكوس) / ينتمي إلى
 
-### Table Structure
-
-To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table
-naming can be customized and it contains `user_id` and `role_id` columns. This table is used as an intermediate table
-linking users and roles.
-
-Remember, since a role can belong to many users, we cannot simply place a `user_id` column on the `roles` table. This
-would mean that a role could only belong to a single user. In order to provide support for roles being assigned to
-multiple users, the `role_user` table is needed. We can summarize the relationship's table structure like so:
-
-```
-users
-  id - integer
-  name - string
-
-roles
-  id - integer
-  name - string
-
-role_user
-  user_id - integer
-  role_id - integer
-```
-
-### Model Structure
-
-We can define a `Roles` field on `User` model:
+الآن بعد أن يمكننا الوصول إلى جميع تعليقات المشاركة، دعونا نحدد علاقة للسماح للتعليق بالوصول إلى منشوره الأصلي
+. لتعريف العلاقة العكسية 'واحد إلى كثير\`، تعريف طريقة العلاقة على نموذج الطفل التي تسمى
+طريقة 'belongsto':
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
-}
+نوع بنية المشاركة {
+  عوام. odel
+  اسم سلسلة
+  تعليقات []*تعليق
 
-type Role struct {
-  orm.Model
-  Name   string
+
+نوع تعليق بنت {
+  عال. odel
+  PostID uint
+  سلسلة الاسم
+  Pos*Post
 }
 ```
 
-### Defining The Inverse Of The Relationship
+## العديد من العلاقات
 
-To define the inverse of the relationship, just define a `Users` field in `Role` model and append a Tag.
+والعديد من العلاقات بين العديد منها أكثر تعقيدا بقليل من علاقات 'الواحد إلى الواحد` و 'الواحد إلى الكثير`. مثال على علاقة
+بين عدة مرات والعديد هو المستخدم الذي له أدوار كثيرة وهذه الأدوار يشترك فيها أيضا مستخدمون آخرون في التطبيق
+. على سبيل المثال، يمكن إسناد دور "المؤلف" و"المحرر"؛ ومع ذلك، قد تكون هذه الأدوار أيضًا
+مخصصة لمستخدمين آخرين أيضًا. لذلك فإن المستخدم له العديد من الأدوار والدور لديه العديد من المستخدمين.
+
+### هيكل الجدول
+
+ولتحديد هذه العلاقة، هناك حاجة إلى ثلاثة جداول لقواعد البيانات: 'المستخدمون`، 'الدور`، و 'الدورة_user\`. يمكن تخصيص جدول 'role_user'
+اسم ويحتوي على عمود 'user_id' و 'role_id'. يستخدم هذا الجدول كجدول وسيط
+يربط المستخدمين والأدوار.
+
+تذكر، بما أن الدور يمكن أن ينتمي إلى العديد من المستخدمين، لا يمكننا ببساطة وضع عمود "user_id" على جدول "الأدوار". سيعني هذا
+أن الدور لا يمكن أن ينتمي إلا لمستخدم واحد. من أجل توفير الدعم للأدوار التي يتم تعيينها لـ
+مستخدمين متعددين، هناك حاجة إلى جدول 'role_user'. يمكننا تلخيص هيكل جدول العلاقة مثل هذا:
+
+```
+المستخدمون
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+أدوار
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+دور_user
+  user_id - عدد صحيح
+  role_id - عدد صحيح
+```
+
+### بنية النموذج
+
+يمكننا تعريف حقل "Roles" على نموذج "المستخدم":
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user"`
-}
+اكتب بنية المستخدم {
+  orm. odel
+  اسم سلسلة
+  أدوار []*دور `gorm:"many2many:role_user"`
 
-type Role struct {
-  orm.Model
-  Name   string
-  Users  []*User `gorm:"many2many:role_user"`
+
+نوع الدور الذي تم تركيبه {
+  orm. Odel
+  سلسلة الاسم
 }
 ```
 
-### Custom intermediate table
+### تعريف عكس العلاقة
 
-In general, the intermediate table foreign key is named by the "snake case" of the parent model name, you can override
-them by `joinForeignKey`, `joinReferences`:
+لتعريف عكس العلاقة، فقط تعريف حقل "المستخدمين" في نموذج "الدور" وإلحاق علامة.
 
 ```go
-type User struct {
-  orm.Model
-  Name  string
-  Roles   []*Role `gorm:"many2many:role_user;joinForeignKey:UserName;joinReferences:RoleName"`
+اكتب بنية المستخدم {
+  orm. odel
+  اسم سلسلة
+  أدوار []*دور `gorm:"many2many:role_user"`
+
+
+نوع الدور الذي تم تركيبه {
+  orm. odel
+  اسم السلسلة
+  المستخدمين []*المستخدم `gorm:"many2many:role_user"`
 }
-
-type Role struct {
-  orm.Model
-  Name   string
-}
 ```
 
-Table structure:
+### جدول وسيط مخصص
 
-```
-users
-  id - integer
-  name - string
-
-roles
-  id - integer
-  name - string
-
-role_user
-  user_name - integer
-  role_name - integer
-```
-
-## Polymorphic
-
-A polymorphic relationship allows the child model to belong to more than one type of model using a single association.
-For example, imagine you are building an application that allows users to share blog posts and videos. In such an
-application, a `Comment` model might belong to both the `Post` and `Video` models.
-
-### Table structure
-
-A polymorphic relation is similar to a normal relation; however, the child model can belong to more than one type of
-model using a single association. For example, a blog `Post` and a `User` may share a polymorphic relation to an `Image`
-model. Using a polymorphic relation allows you to have a single table of unique images that may be associated with posts
-and users. First, let's examine the table structure:
-
-```
-posts
-  id - integer
-  name - string
-
-videos
-  id - integer
-  name - string
-
-images
-  id - integer
-  url - string
-  imageable_id - integer
-  imageable_type - string
-
-comments
-  id - integer
-  body - text
-  commentable_id - integer
-  commentable_type - string
-```
-
-Note the `imageable_id` and `imageable_type` columns on the `images` table. The `imageable_id` column will contain the
-ID value of the post or user, while the `imageable_type` column will contain the class name of the parent model. The
-`imageable_type` column is used by Orm to determine which "type" of parent model to return when accessing the
-`imageable` relation. The `comments` table is similar.
-
-### Model Structure
-
-Next, let's examine the model definitions needed to build this relationship:
+وعموما، فإن المفتاح الأجنبي للطاولة الوسيطة تسمى ب "قضية الثعب" من اسم النموذج الأم، يمكنك تجاوزها
+بواسطة `joinForeignKey`, `joinReferences`:
 
 ```go
-type Post struct {
-  orm.Model
-  Name     string
-  Image    *Image `gorm:"polymorphic:Imageable"`
-  Comments []*Comment `gorm:"polymorphic:Commentable"`
+اكتب بنية المستخدم {
+  orm. Odel
+  اسم سلسلة
+  أدوار []*دور `gorm:"many2many:role_use; oinForeignKey:UserName;joinReferences:RoleName"`
+
+
+نوع الدور المبنى {
+  orm. Odel
+  سلسلة الاسم
+}
+```
+
+بنية الجدول:
+
+```
+المستخدمون
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+أدوار
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+دور_user
+  user_name - عدد صحيح
+  role_name - عدد صحيح
+```
+
+## البوليمورفيك
+
+وتسمح العلاقة المتعددة المورفين بأن يكون نموذج الطفل منتمياً إلى أكثر من نوع واحد باستخدام جمعية واحدة.
+على سبيل المثال، تخيل أنك تقوم ببناء تطبيق يسمح للمستخدمين بمشاركة مشاركات المدونة ومقاطع الفيديو. في مثل هذا التطبيق
+قد ينتمي نموذج 'تعليق\` إلى كل من نموذجي 'Post' و 'Video'.
+
+### بنية الجدول
+
+أي علاقة متعدّدة المورفينات مماثلة للعلاقة العادية؛ على كل حال يمكن أن ينتمي نموذج الطفل إلى أكثر من نوع
+باستخدام جمعية واحدة. على سبيل المثال، المدونة "Post" و "المستخدم" يمكن أن يتشاركا علاقة متعددة المورفين مع نموذج "صورة"
+. يتيح لك استخدام علاقة متعددة المورفين الحصول على جدول واحد للصور الفريدة التي قد تكون مرتبطة بالمشاركات
+والمستخدمين. أولا، دعونا نفحص بنية الجدول:
+
+```
+المنشورات
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+الفيديوهات
+  معرف - عدد صحيح
+  اسم - السلسلة
+
+صور
+  معرف - عدد صحيح
+  رابط - السلسلة
+  imageable_id - عدد صحيح
+  image_type - السلسلة
+
+تعليقات
+  معرف - عدد صحيح
+  - النص
+  Comtable_id - عدد صحيح
+  commentable_type - السلسلة
+```
+
+لاحظ عمودي `imageable_id` و `imageable_type` على جدول `الصور`. العمود \`imageable_id' سوف يحتوي على قيمة
+ID للمنشور أو المستخدم، في حين أن العمود 'imageable_type' سيحتوي على اسم الفئة من النموذج الأصلي. يتم استخدام عمود
+'imageable_type' من قبل Orm لتحديد أي "نوع" من النموذج الأصلي الذي سيتم إرجاعه عند الوصول إلى العلاقة
+'image'. والجدول المعنون ”التعليقات“ متشابه.
+
+### بنية النموذج
+
+وبعد ذلك، دعونا ندرس التعاريف النموذجية اللازمة لبناء هذه العلاقة:
+
+```go
+نوع بنية المشاركة {
+  عوام. odel
+  اسم السلسلة
+  صورة *صورة `gorm:"polyorphic:Imageable"`
+  تعليقات []*تعليق `gorm:"polyorphic:Commentable"` `
 }
 
-type Video struct {
-  orm.Model
-  Name     string
-  Image    *Image `gorm:"polymorphic:Imageable"`
-  Comments []*Comment `gorm:"polymorphic:Commentable"`
-}
+من نوع الفيديو }
+  orm. odel
+  اسم السلسلة
+  صورة *صورة `gorm:"polyorphic:Imageable"`
+  تعليقات []*تعليق `gorm:"polyorphic:Commentable"`
 
-type Image struct {
-  orm.Model
-  Name          string
-  ImageableID   uint
+
+نوع الصورة التي تم تركيبها {
+  orm. odel
+  اسم السلسلة
+  ImageableID uint
   ImageableType string
-}
 
-type Comment struct {
-  orm.Model
-  Name            string
-  CommentableID   uint
+
+نوع التعليق {
+  orm. odel
+  اسم السلسلة
+  CommentableID uint
   CommentableType string
 }
 ```
 
-You can change the polymorphic value by `polymorphicValue` Tag, such as:
+يمكنك تغيير القيمة المتعددة الوسائط عن طريق وسم \`polyorphicValue'، مثل:
 
 ```go
-type Post struct {
+نوع بنية المشاركة {
   orm.Model
-  Name  string
-  Image   *Image `gorm:"polymorphic:Imageable;polymorphicValue:master"`
+  اسم سلسلة
+  صورة *صورة `gorm:"polymorphic:Imageable;polyorphicValue:master"`
 }
 ```
 
-## Querying Associations
+## جمعيات الاستعلام
 
-For example, imagine a blog application in which a `User` model has many associated `Post` models:
+على سبيل المثال، تخيل تطبيق مدونة يحتوي نموذج "المستخدم" على العديد من نماذج "Post" المرتبطة:
 
 ```go
-type User struct {
-  orm.Model
-  Name   string
-  Posts  []*Post
-}
+اكتب بنية المستخدم {
+  orm. odel
+  اسم السلسلة
+  المشاركات []*Post
 
-type Post struct {
-  orm.Model
-  UserID   uint
-  Name     string
+
+نوع بنية المشاركة {
+  orm. Odel
+  UserID uint
+  سلسلة الاسم
 }
 ```
 
-### Create or Update Associations
+### إنشاء أو تحديث الجمعيات
 
-You can use the `Select`, `Omit` methods to to control the create and update of associations. These two method cannot be
-used at the same time and the associated control functions are only applicable to `Create`, `Update`, `Save`:
+يمكنك استخدام طرق "Select" و "Omit" للتحكم في إنشاء الجمعيات وتحديثها. لا يمكن أن تكون هاتان الطريقتان
+مستخدمتين في نفس الوقت ووظائف التحكم المرتبطة بهما تنطبق فقط على 'إنشاء` و 'تحديث` و 'حفظ\`:
 
 ```go
-user := models.User{Name: "user", Posts: []*models.Post{{Name: "post"}}}
+المستخدم := models.User{Name: "user", Posts: []*models.Post{{Name: "post"}}}
 
-// Create all child associations while creating User
-facades.Orm().Query().Select(orm.Associations).Create(&user)
+// إنشاء جميع جمعيات الأطفال أثناء إنشاء واجهات المستخدم
+. rm().Query().Select(orm.Associations).Create(&user)
 
-// Only create Post while creating User. Note: If you don't use `orm.Associations`, but customize specific child associations separately, all fields in the parent model should also be listed at this time.
-facades.Orm().Query().Select("Name", "Posts").Create(&user)
+// إنشاء مشاركة فقط أثناء إنشاء المستخدم. ملاحظة: إذا كنت لا تستخدم 'orm.Associations'، ولكن قم بتكييف جمعيات أطفال محددة بشكل منفصل، فيجب أيضا إدراج جميع الحقول في النموذج الأصل في هذا الوقت.
+facades.Orm().Query().Select("Name", "Posts"). reate(&user)
 
-// When creating a User, ignore the Post, but create all other child associations
-facades.Orm().Query().Omit("Posts").Create(&user)
+// عند إنشاء مستخدم، تجاهل المنشور، ولكن أنشئ جميع جمعيات الأطفال الأخرى
+facades.Orm().Query. mit("Posts").Create(&user)
 
-// When creating User, ignore Name field, but create all child associations
-facades.Orm().Query().Omit("Name").Create(&user)
+// عند إنشاء المستخدم، تجاهل حقل الاسم، ولكن إنشاء جميع جمعيات الأطفال
+واجهة. rm().Query().Omit("Name").Create(&user)
 
-// When creating User, ignore Name field and all child associations
+// عند إنشاء المستخدم، تجاهل حقل الاسم وجميع جمعيات الأطفال
 facades.Orm().Query().Omit("Name", orm.Associations).Create(&user)
 ```
 
-### Find Associations
+### البحث عن الجمعيات
 
 ```go
-// Find all matching related records
+// العثور على جميع السجلات المطابقة ذات الصلة
 var posts []models.Post
 facades.Orm().Query().Model(&user).Association("Posts").Find(&posts)
 
-// Find associations with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Order("id desc").Association("Posts").Find(&posts)
+// العثور على روابط مع الشروط
+facades.Orm().Query().Model(&user).here("name = ?", "goravel").Order("id desc").Association("Posts").Find(&posts)
 ```
 
-### Append Associations
+### إلحاق الجمعيات
 
 Append new associations for `Many To Many`, `One To Many`, replace current association for `One To One`,
 `One To One(revers)`:
@@ -380,193 +380,193 @@ facades.Orm().Query().Model(&user).Association("Posts").Append([]*models.Post{Po
 facades.Orm().Query().Model(&user).Association("Posts").Append(&models.Post{Name: "goravel"})
 ```
 
-### Replace Associations
+### استبدال الجمعيات
 
-Replace current associations with new ones:
+يستعاض عن الروابط الحالية بالرابطات الجديدة:
 
 ```go
-facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2})
+facades.Orm().Query().Model(&user).Association("Posts").Replace([]*models.Post{Post1, Post2}
 
 facades.Orm().Query().Model(&user).Association("Posts").Replace(models.Post{Name: "goravel"}, Post2)
 ```
 
-### Delete Associations
+### حذف الجمعيات
 
-Remove the relationship between source & arguments if exists, only delete the reference, won’t delete those objects from
-DB, the foreign key must be NULL:
+إزالة العلاقة بين المصدر والحجج إن وجدت، فقط حذف المرجع، لن يحذف هذه الكائنات من
+DB، المفتاح الأجنبي يجب أن يكون NUL:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Delete([]*models.Post{Post1, Post2})
 
-facades.Orm().Query().Model(&user).Association("Posts").Delete(Post1, Post2)
+facades.Orm().Query().Model(&user).Association("Posts").delete(Post1, Post2,
 ```
 
-### Clear Associations
+### تنظيف الروابط
 
-Remove all reference between source & association, won’t delete those associations:
+إزالة جميع المراجع بين المصدر والرابطة، لن تحذف هذه الرابطات:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Clear()
 ```
 
-### Count Associations
+### عدد الجمعيات
 
-Return the count of current associations:
+إرجاع عدد الجمعيات الحالية:
 
 ```go
 facades.Orm().Query().Model(&user).Association("Posts").Count()
 
-// Count with conditions
-facades.Orm().Query().Model(&user).Where("name = ?", "goravel").Association("Posts").Count()
+// Count مع الشروط
+facades.Orm().Query().Model(&user).here("name = ?", "goravel").Association("Posts").Count()
 ```
 
-### Batch Data
+### دفعة البيانات
 
 ```go
-// Find all roles for all users
+// العثور على جميع الأدوار لجميع المستخدمين
 facades.Orm().Query().Model(&users).Association("Posts").Find(&posts)
 
-// Delete User A from all user's Posts
-facades.Orm().Query().Model(&users).Association("Posts").Delete(&userA)
+// حذف المستخدم A من جميع واجهات المستخدم
+. rm().Query().Model(&users).Association("Posts").delete(&userA)
 
-// Get distinct count of all users' Posts
-facades.Orm().Query().Model(&users).Association("Posts").Count()
+// الحصول على عدد متميز من جميع مشاركات المستخدمين
+. rm().Query().Model(&users).Association("Posts"). ount()
 
-// For `Append`, `Replace` with batch data, the length of the arguments needs to be equal to the data's length or else it will return an error
-var users = []models.User{user1, user2, user3}
+/ / مقابل 'Append`، 'استبدال' ببيانات الدفعة، يجب أن يكون طول الحجج مساوياً لطول البيانات أو أنه سيؤدي إلى إرجاع خطأ
+var مستخدمين = []models. انظر{user1, user2, user3}
 
-// We have 3 users, Append userA to user1's team, append userB to user2's team, append userA, userB and userC to user3's team
-facades.Orm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models.User{userA, userB, userC})
+// لدينا 3 مستخدمين، إلحاق المستخدم A بفريق المستخدم، إلحاق المستخدم B لفريق المستخدم،إلحاق المستخدم A و المستخدم B و المستخدم C بواجهات المستخدم 3
+. rm().Query().Model(&users).Association("Team").Append(&userA, &userB, &[]models. انظر{userA, userB, userC})
 
-// Reset user1's team to userA，reset user2's team to userB, reset user3's team to userA, userB and userC
-facades.Orm().Query().Model(&users).Association("Team").Replace(&userA, &userB, &[]models.User{userA, userB, userC})
+// إعادة تعيين المستخدم 1 إلى المستخدم A، إعادة تعيين فريق المستخدم 2 إلى المستخدم، إعادة تعيين فريق المستخدم 3 إلى المستخدم A، المستخدم B و المستخدم C
+. rm().Query().Model(&users).Association("فريق").Replace(&userA, &userB, &[]models.user{userA, userB, userC})
 ```
 
-## Eager Loading
+## تحميل النسر
 
-Eager loading conveniences for querying multiple models, and alleviates the "N + 1" query problem. To illustrate the N +
-1 query problem, consider a `Book` model that "belongs to" an `Author` model:
+تسهيلات تحميل Eager للاستعلام عن نماذج متعددة، وتخفيف مشكلة الاستعلام "N + 1". لتوضيح مشكلة الاستفسار N +
+1، فكر في نموذج 'كتاب` الذي "ينتمي إلى" نموذج 'مؤلف`:
 
 ```go
-type Author struct {
+اكتب المؤلف بنيت {
   orm.Model
-  Name  string
-}
+  اسم السلسلة
+A}
 
-type Book struct {
-  orm.Model
-  AuthorID   uint
-  Name       string
-  Author     *Author
+نوع هيكل الكتاب {
+  orm. odel
+  AuthorID uint
+  name string
+  المؤلف *
 }
 ```
 
-Now, let's retrieve all books and their authors:
+الآن، دعونا نسترد كل الكتب ومؤلفها:
 
 ```go
-var books models.Book
+قم بتغيير نماذج الكتب. الكتاب
 facades.Orm().Query().Find(&books)
 
-for _, book := range books {
-  var author models.Author
+ل _، الكتاب := كتب النطاق {
+  var boomodels.Author
   facades.Orm().Query().Find(&author, book.AuthorID)
 }
 ```
 
-To retrieve all the books in the database table along with their authors, the loop code executes a query for each book.
-This means that for a collection of 25 books, the loop would run 26 queries - one for the collection of books and 25
-more to get the author of each book.
+لاسترداد جميع الكتب في جدول قاعدة البيانات مع مؤلفيها، يقوم رمز الحلقة بتنفيذ استعلام لكل كتاب.
+وهذا يعني أنه بالنسبة لمجموعة مؤلفة من 25 كتابا، ستستخدم الحلقة 26 استفسارا - واحد لمجموعة الكتب و 25
+أكثر للحصول على مؤلف كل كتاب.
 
-However, we can simplify this process using eager loading. By using the `With` method, we can specify which
-relationships need to be eagerly loaded and reduce the number of queries to just two.
+ومع ذلك، يمكننا تبسيط هذه العملية باستخدام التحميل الحريص. من خلال استخدام طريقة 'with' ، يمكننا تحديد أي علاقات
+تحتاج إلى أن يتم تحميلها بشغف وتقليل عدد الاستفسارات إلى اثنين فقط.
 
 ```go
-var books models.Book
+قم بتغيير نماذج الكتب. الكتاب
 facades.Orm().Query().With("Author").Find(&books)
 
-for _, book := range books {
+مقابل _، الكتاب := مجموعة الكتب {
   fmt.Println(book.Author)
 }
 ```
 
-For this operation, only two queries will be executed - one query to retrieve all books and one query to retrieve
-authors for all of the books:
+لهذه العملية، سيتم تنفيذ استفسارين فقط - استفسار واحد لاسترجاع جميع الكتب واستفسار واحد لاسترجاع
+للمؤلفين لكل الكتاب:
 
 ```sql
-select * from `books`;
+اختر * من `الكتاب';
 
-select * from `authors` where `id` in (1, 2, 3, 4, 5, ...);
+اختر * من `authors' where `id' in (1, 2, 3, 4, 5, ...);
 ```
 
-### Eager Loading Multiple Relationships
+### تحميل النسر العلاقات المتعددة
 
-Sometimes you may need to eager load several different relationships. To do so, just call the `With` method multiple
+في بعض الأحيان قد تحتاج إلى التيقظ لتحميل عدة علاقات مختلفة. To do so, just call the `With` method multiple
 times:
 
 ```go
-var book models.Book
-facades.Orm().Query().With("Author").With("Publisher").Find(&book)
+نماذج كتاب الكتب. الكتاب
+facades.Orm().Query().With("Author").With("الناشر").Find(&book)
 ```
 
-### Nested Eager Loading
+### تحميل النسر المتداخلة
 
-To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's
-authors and all of the author's personal contacts:
+لحرص على تحميل علاقات العلاقة، يمكنك استخدام بناء الجملة "dot". على سبيل المثال، دعونا نحرص على تحميل جميع مؤلفي الكتاب
+وجميع جهات الاتصال الشخصية للمؤلف:
 
 ```go
-var book models.Book
+نماذج كتاب الكتب. الكتاب
 facades.Orm().Query().With("Author.Contacts").Find(&book)
 ```
 
-### Constraining Eager Loads
+### تقييد حمولة النسر
 
-Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading
-query. You can accomplish this as below:
+في بعض الأحيان قد ترغب في توق لتحميل علاقة ولكن أيضا تحديد شروط استعلام إضافية للتحميل المتحرك
+الاستعلام. يمكنك إنجاز ذلك على النحو التالي:
 
 ```go
-import "github.com/goravel/framework/contracts/database/orm"
+استيراد "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().With("Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().With("Author", "name = ?", "author"). ind(&book)
 
-facades.Orm().Query().With("Author", func(query orm.Query) orm.Query {
+facades.Orm().Query().With("Author", function(Query orm.Query) orm.Query {
   return query.Where("name = ?", "author")
 }).Find(&book)
 ```
 
-In this example, Orm will only eager load posts where the post's `name` column equals the word `author`.
+في هذا المثال ، لن تتوق شركة Orm إلا إلى تحميل المشاركات حيث يكون عمود "name" للوظيفة مساويا لكلمة `author`.
 
-### Lazy Eager Loading
+### تحميل النسر اللاحق
 
-Sometimes you may need to eager load a relationship after the parent model has already been retrieved. For example, this
-may be useful if you need to dynamically decide whether to load related models:
+قد تحتاج في بعض الأحيان إلى توق لتحميل علاقة بعد استرداد النموذج الأصل مسبقاً. على سبيل المثال، قد يكون هذا
+مفيداً إذا كنت بحاجة إلى أن تقرر ديناميكياً ما إذا كنت تريد تحميل النماذج ذات الصلة:
 
 ```go
-var books models.Book
-facades.Orm().Query().Find(&books)
+قم بتغيير نماذج الكتب. الكتاب
+facades.Orm().Query. ind(&books)
 
-for _, book := range books {
-  if someCondition {
-    err := facades.Orm().Query().Load(&book, "Author")
+مقابل _، الكتاب := نطاقات الكتب {
+  إذا كان هناك شرط ما {
+    الخطأ := واجهة. rm().Query().Load(&book, "المؤلف")
   }
 }
 ```
 
-If you need to set additional query constraints on the eager loading query, you can use the code below:
+إذا كنت بحاجة إلى تعيين قيود استعلام إضافية على استعلام التحميل، يمكنك استخدام التعليمات البرمجية أدناه:
 
 ```go
-import "github.com/goravel/framework/contracts/database/orm"
+استيراد "github.com/goravel/framework/contracts/database/orm"
 
 var book models.Book
-facades.Orm().Query().Load(&book, "Author", "name = ?", "author").Find(&book)
+facades.Orm().Query().Load(&book, "Author", "name = ?", "author"). ind(&book)
 
-facades.Orm().Query().Load(&book, "Author", func(query orm.Query) orm.Query {
+facades.Orm().Query().Load(&book، "المؤلف"، وظيفة (الاستفسار orm.Query) orm.Query {
   return query.Where("name = ?", "author")
 }).Find(&book)
 ```
 
-To load a relationship only when it has not already been loaded, use the `LoadMissing` method:
+لتحميل علاقة فقط عندما لا يكون قد تم تحميلها، استخدم طريقة "تحميل مفقود":
 
 ```go
-facades.Orm().Query().LoadMissing(&book, "Author")
+facades.Orm().Query().LoadMissing(&book, "المؤلف")
 ```
