@@ -40,7 +40,7 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-### Cookies
+### Kekse
 
 You may use either `WithCookie` or `WithCookies` method to set cookies value before making a request.
 
