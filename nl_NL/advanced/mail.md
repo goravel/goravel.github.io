@@ -1,15 +1,15 @@
-# Mail
+# E-mailen
 
-Goravel can use `facades.Mail()` to easily send mail locally.
+Goravel kan `facades.Mail()` gebruiken om gemakkelijk lokaal e-mail te versturen.
 
 ## Configuratie
 
-Before sending an email, you need to configure the `config/mail.go` configuration file.
+Voordat u een e-mail verstuurt, moet u het `config/mail.go` configuratiebestand configureren.
 
-## Send Mail
+## E-mail verzenden
 
 ```go
-import "github.com/goravel/framework/mail"
+importeer "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
@@ -20,10 +20,10 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Send()
 ```
 
-## Send Mail By Queue
+## Stuur e-mail per wachtrij
 
 ```go
-import "github.com/goravel/framework/mail"
+importeer "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
@@ -34,7 +34,7 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Queue()
 ```
 
-You can also customize the queue:
+U kunt ook de wachtrij aanpassen:
 
 ```go
 import "github.com/goravel/framework/mail"
@@ -43,40 +43,40 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
   Attach([]string{"file.png"}).
-  Content(mail.Html("<h1>Hello Goravel</h1>")).
+  Content(mail.Html(<h1>Hello Goravel</h1>")).
   Subject("Subject").
-  Queue(mail.Queue().Connection("redis").Queue("mail"))
+  Queue(mail.Connection("mail.reQudis)"mail)"mail.eue)"). ("mail)")
 ```
 
-## Setting Sender
+## Afzender instellen
 
-Framework uses `MAIL_FROM_ ADDRESS` and `MAIL_FROM_ NAME` in the `config/mail.go` configuration file as global senders.
-You can also customize the sender, but you need to note that the mail address needs to be consistent with the configured
+Framework gebruikt `MAIL_FROM_ ADDRESS` en `MAIL_FROM_ NAME` in het `config/mail.go` configuratiebestand als globale afzenders.
+U kunt ook de afzender aanpassen, maar u moet weten dat het e-mail adres consistent moet zijn met de geconfigureerde
 STMP:
 
 ```go
-import "github.com/goravel/framework/mail"
+importeer "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
-  From(mail.Address(testFromAddress, testFromName)).
+  From(testFromAddress, testFromName)).
   Cc([]string{"example@example.com"}).
   Bcc([]string{"example@example.com"}).
-  Attach([]string{"file.png"}).
+  Bijlage ([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
   Queue(mail.Queue().Connection("redis").Queue("mail"))
 ```
 
-## Using Mailable
+## Mailable gebruiken
 
-The parameters of the email can be set in a `Mailable` struct. These structs are stored in the `app/mails` directory.
-You can quickly create a `Mailable` using the `make:mail` Artisan command:
+De parameters van de e-mail kunnen worden ingesteld in een `Mailable` structuur. Deze constructies worden opgeslagen in de `app/mails` map.
+Je kunt snel een `Mailable` aanmaken door het `make:mail` Artisan commando te gebruiken:
 
 ```bash
-go run . artisan make:mail OrderShipped
+uitvoeren . artisan make:mail OrderVerzonden
 ```
 
-The generated `OrderShipped` struct is as follows:
+De gegenereerde `OrderShipped` bouwt is als volgt:
 
 ```go
 import "github.com/goravel/framework/contracts/mail"
@@ -114,7 +114,7 @@ func (m *OrderShipped) Queue() *mail.Queue {
 }
 ```
 
-Then you can use the `Mailalbe` in the `Send` and `Queue` methods:
+Dan kun je de `Mailigh` methode gebruiken in de `Send` en `Queue`-methoden:
 
 ```go
 err := facades.Mail().Send(mails.NewOrderShipped())
