@@ -1,25 +1,25 @@
-# Queues
+# Очереди
 
 When building your web application, there may be tasks, like parsing and storing an uploaded CSV file, that take too
 long to complete during a web request. Fortunately, Goravel offers a solution by allowing you to create queued jobs that
-can run in the background. This way, by moving time-intensive tasks to a queue, your application can respond to web
-requests much faster and provide a better user experience for your customers. To implement this feature, we use
+can run in the background. Таким образом, перемещая трудоемкие задачи в очередь, ваше приложение может отвечать на запросы веб-
+гораздо быстрее и обеспечивает лучший пользовательский опыт для ваших клиентов. To implement this feature, we use
 `facades.Queue()`.
 
-Goravel's queue configuration options are saved in your application's `config/queue.go` configuration file. Goravel
-supports two drivers: `redis` and `sync`.
+Настройки очереди Goravel, сохранены в конфигурационном файле `config/queue.go` вашего приложения. Goravel
+поддерживает два драйвера: `redis` и `sync`.
 
-### Connections Vs. Queues
+### Соединения V Очереди
 
-Before delving into Goravel queues, it's important to understand the difference between "connections" and "queues". In
-the configuration file, `config/queue.go`, you'll find an array for `connections` configuration. This option specifies
-the connections to backend queue services like Redis. However, every queue connection can have multiple "queues", which
-can be thought of as different stacks or piles of queued jobs.
+Прежде чем отправиться в очереди Горавеля, важно понимать разницу между "связями" и "очередями". В
+конфигурационном файле, `config/queue.go`, вы найдете массив для конфигурации `connections`. Эта опция определяет
+подключений к службам backend очереди, таким как Redis. Однако каждая очередь соединения может иметь несколько "очереди", которые
+можно считать различными стеками или кучами очереди заданий.
 
-It's essential to note that each connection configuration example in the queue configuration file includes a `queue`
-attribute. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
-connection. In simpler terms, if you dispatch a job without explicitly defining which queue it should be dispatched to,
-the job will be placed in the queue defined in the queue attribute of the connection configuration.
+Важно заметить, что каждый пример конфигурации подключения в файле конфигурации очереди содержит атрибут `queue`
+. This attribute is the default queue to which jobs will be dispatched when they are sent to a given
+connection. В более простых условиях, если вы отправляете задание без явного указания очереди, он должен быть отправлен,
+работа будет размещена в очереди, определенной в атрибуте очереди конфигурации подключения.
 
 ```go
 // This job is sent to the default connection's default queue
@@ -33,31 +33,31 @@ err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{
 }).OnQueue("emails").Dispatch()
 ```
 
-## Creating Jobs
+## Создание заданий
 
-### Generating Job Classes
+### Создание классов заданий
 
-By default, all of the jobs for your application are stored in the `app/jobs` directory. If the `app/Jobs` directory
-doesn't exist, it will be created when you run the `make:job` Artisan command:
+По умолчанию все задания для вашего приложения хранятся в папке `app/jobs`. Если папка `app/Jobs`
+не существует, она будет создана при запуске команды `make:job`:
 
 ```shell
 go run . artisan make:job ProcessPodcast
 go run . artisan make:job user/ProcessPodcast
 ```
 
-### Class Structure
+### Структура класса
 
-Job classes are very simple, consisting of two methods: `Signature` and `Handle`. `Signature` serves as a task's
-distinct identifier, while `Handle` executes when the queue processes the task. Additionally, the `[]queue.Arg{}` passed
-when the task executes will be transmitted into `Handle`:
+Классы должностей очень просты, состоящие из двух методов: "Подпись" и "Ручка". `Signature` служит
+отдельным идентификатором задачи, в то время как `Handle` выполняется, когда очередь обрабатывает задачу. Кроме того, очередь `[]queue.Arg{}` прошла
+после выполнения задачи будет передана в `Handle`:
 
 ```go
-package jobs
+запускает
 
-type ProcessPodcast struct {
+тип ProcessPodcast struct {
 }
 
-// Signature The name and signature of the job.
+// Подписывание имя и подпись задания.
 func (receiver *ProcessPodcast) Signature() string {
   return "process_podcast"
 }
@@ -68,10 +68,10 @@ func (receiver *ProcessPodcast) Handle(args ...any) error {
 }
 ```
 
-### Register Job
+### Регистрация Вакансии
 
-After creating the job, you need to register it in `app/provides/queue_service_provider.go`, so that it can be called
-correctly.
+После создания задания, вам нужно зарегистрировать его в `app/provides/queue_service_provider.go`, чтобы его можно было называть
+правильно.
 
 ```go
 func (receiver *QueueServiceProvider) Jobs() []queue.Job {
@@ -81,68 +81,68 @@ func (receiver *QueueServiceProvider) Jobs() []queue.Job {
 }
 ```
 
-## Start Queue Server
+## Сервер очереди запуска
 
-Start the queue server in `main.go` in the root directory.
+Запустите сервер очереди в `main.go` в корневом каталоге.
 
 ```go
-package main
+пакет main
 
 import (
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/bootstrap"
 )
 
 func main() {
-  // This bootstraps the framework and gets it ready for use.
+  // This bootstraps the framework and make it ready for use.
   bootstrap.Boot()
 
-  // Start queue server by facades.Queue().
+  // Запуск очереди сервера фасадами.
   go func() {
-    if err := facades.Queue().Worker().Run(); err != nil {
-      facades.Log().Errorf("Queue run error: %v", err)
+    if err := facades. ueue().Worker().Run(); err != nil {
+      facades. og().Ошибка("Ошибка выполнения очереди %v", ошибка)
     }
   }()
 
-  select {}
+  выберите {}
 }
 ```
 
-Different parameters can be passed in the `facades.Queue().Worker` method, you can monitor multiple queues by starting
-multiple `facades.Queue().Worker`.
+Различные параметры могут быть переданы методом `facades.Queue().Worker`, вы можете контролировать несколько очередей запустив
+несколько `facades.Queue().Worker`.
 
 ```go
-// No parameters, default listens to the configuration in the `config/queue.go`, and the number of concurrency is 1
+// Нет параметров, по умолчанию прослушивает конфигурацию в папке `config/queue. o`, а количество concurrency равно 1
 go func() {
-  if err := facades.Queue().Worker().Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  if err := facades. ueue().Worker().Run(); err != nil {
+    facades. og().Ошибка(("Ошибка выполнения очереди %v", ошибка)
   }
 }()
 
-// Monitor processing queue for redis link, and the number of concurrency is 10
+// Обработка очереди мониторинга для ссылки redis, и количество concurrency равно 10
 go func() {
-  if err := facades.Queue().Worker(queue.Args{
-    Connection: "redis",
-    Queue: "processing",
-    Concurrent: 10,
-  }).Run(); err != nil {
-    facades.Log().Errorf("Queue run error: %v", err)
+  if err := facades. ue().Worker(очередь). rgs{
+    Подключение: "redis",
+    Очередь: "processing",
+    Параметры: 10,
+  }). un(); err != nil {
+    facades.Log().Errorf("Ошибка запуска очереди: %v", err)
   }
 }()
 ```
 
-## Dispatching Jobs
+## Отправка заданий
 
-Once you have written the job class, you can dispatch it using the `Dispatch` method on the job itself:
+Как только вы написали класс работы, вы можете отправить его, используя метод `Dispatch` на самой задаче:
 
 ```go
-package controllers
+импортировать пакетные контроллеры
 
-import (
+(
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -150,26 +150,26 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatch()
   if err != nil {
-    // do something
+    // делать что-то
   }
 }
 ```
 
-### Synchronous Dispatching
+### Синхронная диспетчеризация
 
-If you want to dispatch a job immediately (synchronously), you can use the `DispatchSync` method. When using this
-method, the job will not be queued and will be executed immediately within the current process:
+Если вы хотите отправить задание сразу (синхронно), воспользуйтесь методом «DispatchSync». При использовании метода
+работа не будет поставлена в очередь и будет выполнена сразу в рамках текущего процесса:
 
 ```go
-package controllers
+импортировать пакетные контроллеры
 
-import (
+(
   "github.com/goravel/framework/contracts/queue"
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/app/jobs"
 )
@@ -177,50 +177,50 @@ import (
 type UserController struct {
 }
 
-func (r *UserController) Show(ctx http.Context) {
-  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).DispatchSync()
+func (r *UserController) Show(ctx http. ontext) {
+  err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}). ispatchSync()
   if err != nil {
     // do something
   }
 }
 ```
 
-### Job Chaining
+### Связь заданий
 
-Job chaining allows you to specify a list of queued jobs to be executed in a specific order. If any job in the sequence
-fails, the rest of the jobs will not be executed. To run a queued job chain, you can use the `Chain` method provided by
-the `facades.Queue()`:
+Цепочка заданий позволяет указать список очереди работ в определенном порядке. Если какое-либо задание в последовательности
+не удается, остальные задания не будут выполняться. Чтобы запустить цепочку заданий, вы можете использовать метод `Chain`, предоставленный
+`facades.Queue()`:
 
 ```go
 err := facades.Queue().Chain([]queue.Jobs{
   {
     Job: &jobs.Test{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 1},
+    Args: []queue. rg{
+      {Type: "int", Значение: 1},
     },
   },
   {
-    Job: &jobs.Test1{},
-    Args: []queue.Arg{
-      {Type: "int", Value: 2},
+    Job: &jobs. est1{},
+    Арг: []очередь. rg{
+      {Type: "int", Значение: 2},
     },
   },
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### Отложенная отправка
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
+Если вы хотите указать, что работа не должна быть немедленно обработана в очереди работника, вы можете использовать метод `Delay`
+во время отправки задания. For example, let's specify that a job should not be available for processing after 100
 seconds of dispatching:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
 ```
 
-### Customizing The Queue & Connection
+### Настройка очереди и подключения
 
-#### Dispatching To A Particular Queue
+#### Отправка в очередь
 
 By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
 assign to various queues.
@@ -229,7 +229,7 @@ assign to various queues.
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+#### Отправка к самому соединению
 
 If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
 connection to which the task is pushed.
@@ -238,13 +238,13 @@ connection to which the task is pushed.
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+Вы можете связать методы `OnConnection` и `OnQueue` вместе, чтобы указать соединение и очередь для задания:
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+## `queue.Arg.Type` поддерживаемые типы
 
 ```go
 bool
