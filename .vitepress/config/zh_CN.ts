@@ -70,29 +70,6 @@ export const config = defineConfig({
     lightModeSwitchTitle: "切换到浅色主题",
     darkModeSwitchTitle: "切换到深色主题",
     skipToContentLabel: "跳转到内容",
-    search: {
-      provider: 'local',
-      options: {
-        locales: {
-          root: {
-            translations: {
-              button: {
-                buttonText: "搜索",
-                buttonAriaLabel: "搜索"
-              },
-              modal: {
-                noResultsText: "没有找到相关结果：",
-                resetButtonTitle: "清除搜索条件",
-                footer: {
-                  selectText: "选择",
-                  navigateText: "切换"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
 });
 function nav(): DefaultTheme.NavItem[] {

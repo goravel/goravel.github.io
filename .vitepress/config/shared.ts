@@ -1,8 +1,10 @@
-import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
-import { createFileSystemTypesCache } from '@shikijs/vitepress-twoslash/cache-fs'
-import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import {groupIconMdPlugin, groupIconVitePlugin} from 'vitepress-plugin-group-icons'
+import {createFileSystemTypesCache} from '@shikijs/vitepress-twoslash/cache-fs'
+import {transformerTwoslash} from '@shikijs/vitepress-twoslash'
 import timeline from "vitepress-markdown-timeline";
 import {defineConfig} from "vitepress";
+
+import {enSearch, zh_CNSearch, zh_TWSearch} from './search'
 
 export const shared = defineConfig({
     title: 'Goravel',
@@ -60,6 +62,13 @@ export const shared = defineConfig({
         ],
         search: {
             provider: 'local',
+            options: {
+                locales: {
+                    ...enSearch,
+                    ...zh_CNSearch,
+                    ...zh_TWSearch
+                }
+            }
         }
     },
 

@@ -83,30 +83,7 @@ export const config = defineConfig({
         darkModeSwitchLabel: 'Appearance',
         lightModeSwitchTitle: 'Switch to light theme',
         darkModeSwitchTitle: 'Switch to dark theme',
-        skipToContentLabel: 'Skip to content',
-        search: {
-            provider: 'local',
-            options: {
-                locales: {
-                    root: {
-                        translations: {
-                            button: {
-                                buttonText: 'Search',
-                                buttonAriaLabel: 'Search'
-                            },
-                            modal: {
-                                noResultsText: 'No results for',
-                                resetButtonTitle: 'Clear the search query',
-                                footer: {
-                                    selectText: 'Select',
-                                    navigateText: 'Navigate',
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        skipToContentLabel: 'Skip to content'
     }
 })
 
