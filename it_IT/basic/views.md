@@ -1,26 +1,26 @@
-# Views
+# Viste
 
-Of course, it's not practical to return entire HTML document strings directly from your routes and controllers.
-Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller /
-application logic from your presentation logic and are stored in the `resources/views` directory.
+Naturalmente, non è pratico restituire intere stringhe di documenti HTML direttamente dai tuoi percorsi e controllori.
+Per fortuna, le viste offrono un modo conveniente per posizionare tutto il nostro HTML in file separati. Le viste separano la logica dell'applicazione controller /
+dalla logica di presentazione e sono memorizzate nella directory `resources/views`.
 
-## Creating & Rendering Views
+## Creazione & Rendering Viste
 
-When using the Goravel default template `html/template`, you can create views by adding a file with the `.tmpl`
-extension in the application `resources/views` directory.
+Quando si utilizza il modello predefinito Goravel `html/template`, è possibile creare viste aggiungendo un file con l'estensione `.tmpl`
+nella directory `resources/views`.
 
 ```
 // resources/views/welcome.tmpl
 {{ define "welcome.tmpl" }}
 <html>
   <body>
-  <h1>Hello, {{ .name }}</h1>
+  <h1>Ciao, {{ .name }}</h1>
   </body>
 </html>
 {{ end }}
 ```
 
-After creating the view, you can use the `View` method to return the view from a route or controller in the application:
+Dopo aver creato la vista, è possibile utilizzare il metodo `View` per restituire la vista da un percorso o un controller nell'applicazione:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -30,27 +30,27 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Nested View Directories
+### Cartelle Di Vista Nested
 
-Views may also be nested within subdirectories of the `resources/views` directory. For example, if your view is stored
-at `resources/views/admin/profile.tmpl`, you can return it from one of your application's routes or controllers, note
-that the view needs to be defined as `define "admin/profile.tmpl"` as shown below:
+Le viste possono anche essere annidate nelle sottodirectory della directory `resources/views`. Ad esempio, se la tua vista è memorizzata
+su `resources/views/admin/profile. mpl`, puoi restituirlo da uno dei percorsi o controllori della tua applicazione, nota
+che la vista deve essere definita come `define "admin/profile. mpl"` come mostrato di seguito:
 
 ```go
 // resources/views/admin/profile.tmpl
 {{ define "admin/profile.tmpl" }}
-<h1>Welcome to the Admin Panel</h1>
+<h1>Benvenuto nel Pannello Admin</h1>
 {{ end }}
 
-ctx.Response().View().Make("admin/profile.tmpl", map[string]any{
+ctx. esponse().View().Make("admin/profile.tmpl", map[string]any{
   "name": "Goravel",
 })
 ```
 
-### Creating The First Available View
+### Creare La Prima Vista Disponibile
 
-Using the `First` method, you can use the first view that exists in a given array of views. This may be useful if your
-application or package allows views to be customized or overwritten:
+Usando il metodo `First`, puoi usare la prima vista che esiste in una data serie di visualizzazioni. Questo può essere utile se l'applicazione o il pacchetto
+consente di personalizzare o sovrascrivere le viste:
 
 ```go
 ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[string]any{
@@ -58,9 +58,9 @@ ctx.Response().View().First([]string{"custom/admin.tmpl", "admin.tmpl"}, map[str
 })
 ```
 
-### Determining If A View Exists
+### Determinare Se Una Vista Esiste
 
-If you need to determine if a view exists, you can use the `facades.View()` method:
+Se devi determinare se esiste una vista, puoi usare il metodo `facades.View()`:
 
 ```go
 if facades.View().Exist("welcome.tmpl") {
@@ -68,11 +68,11 @@ if facades.View().Exist("welcome.tmpl") {
 }
 ```
 
-## Passing Data To Views
+## Passaggio Dei Dati Alle Viste
 
-As you saw in the previous examples, you may pass an array of data to views to make that data available to the view.
-Please note, the format of the passed data needs to change according to the template driver used, in the following
-example, using the default `html/template` driver:
+Come si è visto negli esempi precedenti, è possibile passare una serie di dati a visualizzazioni per rendere tali dati disponibili alla vista.
+Si prega di notare che il formato dei dati passati deve cambiare in base al driver del modello utilizzato, nel seguente esempio
+, usando il driver `html/template` predefinito:
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -82,25 +82,25 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 })
 ```
 
-### Sharing Data With All Views
+### Condividere I Dati Con Tutte Le Viste
 
-Occasionally, you may need to share data with all views that are rendered by your application. You may do so using the
-`Share` method in `facades.View()`. Typically, you should place calls to the `Share` method within a service provider's
-`Boot` method. You are free to add them to the `app/providers/app_service_provider.go` class or generate a separate
-service provider to house them:
+Occasionalmente, potrebbe essere necessario condividere i dati con tutte le visualizzazioni che sono rese dalla tua applicazione. Puoi farlo usando il metodo
+`Share` in `facades.View()`. Normalmente, dovresti effettuare chiamate al metodo `Share` all'interno del metodo `Boot` di un fornitore di servizi
+. Sei libero di aggiungerli alla classe `app/providers/app_service_provider.go` o di generare un fornitore di servizi
+separato per ospitarli:
 
 ```go
-package providers
+package provider
 
 import (
  "github.com/goravel/framework/contracts/foundation"
-    "github.com/goravel/framework/facades"
+    "github. om/goravel/framework/facades"
 )
 
 type AppServiceProvider struct {
 }
 
-func (receiver *AppServiceProvider) Register(app foundation.Application) {
+func (receiver *AppServiceProvider) Register(app foundation. pplication) {
 }
 
 func (receiver *AppServiceProvider) Boot(app foundation.Application) {
