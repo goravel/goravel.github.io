@@ -1,71 +1,63 @@
-# Directory Structure
+# 目录结构
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+默认的文件结构可以让你更好地开始项目开发，你也可以自由添加新的文件夹，但不要修改默认文件夹。
 
-## Root Directory
+## 根目录
 
-### `app` Directory
+### `app` 目录
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` 包含程序的核心代码。 程序中几乎所有的逻辑都将在这个文件夹中。
 
-### `bootstrap` Directory
+### `bootstrap` 目录
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+`bootstrap` 目录包含框架启动文件 `app.go`。
 
-### `config` Directory
+### `config` 目录
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+`config` 目录包含应用程序的所有配置文件。 最好浏览这些文件并熟悉所有可用的选项。
 
-### `database` Directory
+### `database` 目录
 
-The `database` directory contains database migration files.
+`database` 目录包含数据库迁移文件。
 
-### `public` Directory
+### `public` 目录
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+`public` 目录包含一些静态资源，如图片、证书等。
 
-### `resources` Directory
+### `resources` 目录
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+`resources` 目录包含您的[视图](../basic/views)以及原始的、未编译的资源，如CSS或JavaScript。
 
-### `routes` Directory
+### `routes` 目录
 
-The `routes` directory contains all the route definitions of the application.
+`routes` 目录包含应用程序的所有路由定义。
 
-### `storage` Directory
+### `storage` 目录
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+`storage` 目录包含 `logs` 目录，而 `logs` 目录包含应用程序的日志文件。
 
-### `tests` Directory
+### `tests` 目录
 
-The `tests` directory contains your automated tests.
+`tests` 目录包含您的自动化测试。
 
-## `app` Directory
+## `app` 目录
 
-### `console` Directory
+### `console` 目录
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+该 `console` 目录包含应用程序的所有自定义 `Artisan` 命令，以及控制台引导文件 `kernel.go`，可以在此文件中注册[任务调度](../advanced/schedule)
 
-### `http` Directory
+### `http` 目录
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+`http` 目录包含控制器、中间件等，几乎所有通过 Web 进入应用程序的请求都在这里处理。
 
-### `grpc` Directory
+### `grpc` 目录
 
-The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Grpc are processed here.
+`grpc` 目录包含控制器、中间件等，几乎所有通过 Grpc 进入应用程序的请求都在这里处理。
 
-### `models` Directory
+### `models` 目录
 
-The `models` directory contains all data models.
+`models` 目录包含所有数据模型。
 
-### `providers` Directory
+### `providers` 目录
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
-for events, or performing any other tasks.
+`providers` 目录包含程序中的所有[服务提供者](../foundation/providers)。 服务提供者通过绑定服务、注册事件或执行任何其他任务来指导应用程序响应传入请求。
