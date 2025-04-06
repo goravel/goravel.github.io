@@ -1,13 +1,13 @@
-# Getting Started
+# Noțiuni de bază
 
-The testing function of Goravel relies on Golang's official test component, extending unit testing to support
-integration testing and improve application robustness.
+Funcția de testare a Goravel se bazează pe componenta oficială de test a lui Golang, extinzând testarea unității pentru a sprijini testarea integrării
+și a îmbunătăți robustețea aplicației.
 
-## Environment
+## Mediul
 
-### Custom Environment File
+### Fişier de mediu personalizat
 
-By default, the `.env` file in the root directory is used to inject configuration information during testing. If you
+În mod implicit, fişierul `.env` din directorul rădăcină este folosit pentru a injecta informaţiile de configurare în timpul testării. If you
 want to use different `.env` files for different packages, you can create a `.env` file in the package directory, and
 the test will read this file first.
 
@@ -22,32 +22,32 @@ the test will read this file first.
 - .env
 ```
 
-In addition, you may create a `.env.testing` file at the root of your project. This file will be used instead of the
-`.env` file when running `go test` with the `--env` option, note that this option needs to follow the test directory,
-for example:
+În plus, puteţi crea un fişier `.env.testing` la rădăcina proiectului dumneavoastră. Acest fișier va fi folosit în locul lui
+". nv`fișier când rulați`go test`cu opțiunea`--env\`, țineți cont că această opțiune trebuie să urmeze directorul de teste,
+de exemplu:
 
 ```shell
-go test ./... --env=.env.testing
-go test ./... -e=.env.testing
+mergi testul ./... --env=.env.test
+mergi testul ./... -e=.env.Test
 ```
 
-### `TestCase` Struct
+### Structura `TestCase`
 
-There is a `TestCase` Struct in Goravel, and the Struct will provide some convenient test methods in the future, in
-addition, there is an `init` method in the same file, this method guides the registration of the Goravel application
-before running the test. You may include any necessary logic in this method that needs to be executed before the test.
+Există o structură `TestCase` în Goravel, şi Structura va oferi în viitor nişte metode de testare convenabile, în
+plus, există o metodă `init` în acelaşi fişier, această metodă ghidează înregistrarea aplicaţiei Goravel
+înainte de a rula testul. Puteți include orice logică necesară în această metodă care trebuie executată înainte de test.
 
-## Creating Tests
+## Crearea de teste
 
-To create a new test case, use the `make:test` Artisan command:
+Pentru a crea un caz nou de test, folosiți comanda `make:test` Artisan:
 
 ```shell
-go run . artisan make:test feature/UserTest
+mergi să rulezi . artizan:test caracteristică/Test Utilizator
 ```
 
-Our test cases are written using the suite function of the [stretchr/testify](https://github.com/stretchr/testify)
-package by default. This function enables us to configure pre-test, post-test, sub-test, and assertion, among other
-things, which results in more organized test cases. For further information, kindly refer to the official documentation.
+Testele noastre sunt scrise folosind funcția suită a pachetului [stretchr/testify](https://github.com/stretchr/testify)
+în mod implicit. Această funcție ne permite să configurăm pre-test, post-test, sub-test și aserțiune, printre alte lucruri
+care rezultă în cazuri de test mai organizate. Pentru informaţii suplimentare, vă rugăm să consultaţi documentaţia oficială.
 
 ```go
 package feature
@@ -82,94 +82,94 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-## Database Testing
+## Testarea bazei de date
 
-Goravel model factories and Seeders can easily create test database records for the application's model.
+Modelul Goravel de fabrici și Seederii pot crea cu ușurință înregistrări de testare a bazei de date pentru modelul aplicației.
 
 ### Fabrici
 
-If you're conducting tests, it might be necessary to add some records to your database before running the test. You
-don't have to manually input the values of each column for the test data creation. With Goravel, you can set default
-attributes for your models via [factories](../orm/factories).
+Dacă efectuați teste, ar putea fi necesar să adăugați unele înregistrări în baza de date înainte de a rula testul. You
+don't have to manually input the values of each column for the test data creation. Cu Goravel, poți seta atributele
+implicite pentru modelele tale via [factories](../orm/factories).
 
 ```go
-var user models.User
+var modele de utilizator.Utilizator
 err := facades.Orm().Factory().Create(&user)
 ```
 
-### Running Seeders
+### Seederi care rulează
 
-If you would like to use [database seeders](../orm/seeding) to populate your database during a feature test, you may
-invoke the `Seed` method. By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of
-your other seeders. Alternatively, you can pass a specific seeder struct to the `Seed` method:
+Dacă doriţi să utilizaţi [seederi de baze de date](../orm/seeding) pentru a popula baza de date în timpul unui test de funcţie, puteţi
+invoca metoda `Seed`. În mod implicit, metoda `Seed` va executa `DatabaseSeeder`, care ar trebui să execute toate
+celuilalt seeder. Alternativ, puteţi trece un anumit spectator lovit la metoda `Seed`:
 
 ```go
-package feature
+opțiunea de import
 
-import (
- "testing"
+(
+ "testează"
 
- "github.com/stretchr/testify/suite"
+ "github. om/stretchr/testify/suite"
 
- "goravel/database/seeders"
+ "goravel/bază de date/seeders"
  "goravel/tests"
 )
 
-type ExampleTestSuite struct {
- suite.Suite
+type ExampleTesteSuite struct {
+ suite. Ia
  tests.TestCase
 }
 
 func TestExampleTestSuite(t *testing.T) {
- suite.Run(t, new(ExampleTestSuite))
+ suite. un(t, new(ExampleTestSuite))
 }
 
-// SetupTest will run before each test in the suite.
+// SetupTest va rula înaintea fiecărui test din suită.
 func (s *ExampleTestSuite) SetupTest() {
 }
 
-// TearDownTest will run after each test in the suite.
+// TearDownTest se va executa după fiecare test din suită.
 func (s *ExampleTestSuite) TearDownTest() {
 }
 
 func (s *ExampleTestSuite) TestIndex() {
-  // Run the DatabaseSeeder...
+  // Execută DatabaseSeeder. .
  s.Seed()
 
-  // Run multiple specific seeders...
+  // Execută mai multe seedere specifice
  s.Seed(&seeders.UserSeeder{}, &seeders.PhotoSeeder{})
 }
 ```
 
-### Using Docker
+### Utilizarea Docker
 
-When using `go test`, multiple packages are tested in parallel. As a result, refreshing the database in a test case
-using a local database can potentially affect other parallel test cases. To address this, Goravel offers Docker-based
-testing. With Docker, a database image can be created and used independently across different packages.
+Când utilizați `go test`, mai multe pachete sunt testate în paralel. Drept rezultat, reîmprospătarea bazei de date într-un caz de test
+folosind o bază de date locală poate afecta alte cazuri paralele de testare. Pentru a rezolva această problemă, Goravel oferă testare de la Docker
+. Cu Docker, o imagine de bază de date poate fi creată și utilizată independent pe diferite pachete.
 
 > Due to the limited support of the Docker image for the windows system, currently, the Docker test can only be run in
 > non-windows environments.
 
-#### Initiate Docker
+#### Inițiază Docker
 
-You can use the `Database` method to initiate a database image based on the default database connection, or you can pass
-the database connection name to this method to initiate other database images:
+Puteţi utiliza metoda `Database` pentru a iniţia o imagine a bazei de date bazată pe conexiunea implicită a bazei de date. sau puteți trimite numele conexiunii la baza de date
+acestei metode de inițiere a altor imagini din baza de date:
 
 ```go
-database, err := facades.Testing().Docker().Database()
-database, err := facades.Testing().Docker().Database("postgres")
+Baza de date, err := facades.Testing().Docker().Database()
+baza de date, err := facades.Testing().Docker().Database("postgres")
 ```
 
-The database images supported by default:
+Imaginile bazei de date sunt acceptate în mod implicit:
 
-| Database  | Image Link                                                                                                                                         | Version |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| Mysql     | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)              | latest  |
-| Postgres  | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)        | latest  |
-| Sqlserver | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | latest  |
-| Sqlite    | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | latest  |
+| Baza de date | Link-ul imaginii                                                                                                                                   | Versiune |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Mysql        | [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql)              | ultima   |
+| Postgres     | [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)        | ultima   |
+| Sqlserver    | [https://hub.docker.com/r/microsoft/mssql-server](https://hub.docker.com/r/microsoft/mssql-server) | ultima   |
+| Sqlite       | [https://hub.docker.com/r/nouchka/sqlite3](https://hub.docker.com/r/nouchka/sqlite3)               | ultima   |
 
-You can also use the `Image` method to customize the image:
+De asemenea, poți folosi metoda `Image` pentru a personaliza imaginea:
 
 ```go
 import contractstesting "github.com/goravel/framework/contracts/testing"
@@ -185,9 +185,9 @@ database.Image(contractstesting.Image{
 })
 ```
 
-#### Build Image
+#### Construiește imagine
 
-After the image is initiated, you can use the `Build` method to build the image:
+După ce imaginea a fost inițiată, puteți folosi metoda `Build` pentru a construi imaginea:
 
 ```go
 err := database.Build()
@@ -200,32 +200,32 @@ obtain the configuration information of the database through the `Config` method
 config := database.Config()
 ```
 
-#### Running Seeders
+#### Seederi care rulează
 
-If you wish to use [seeder](../orm/seeding) to populate the database during testing, you can call the `Seed` method.
-By default, the `Seed` method will execute the `DatabaseSeeder`, which should execute all of your other seeders.
-Alternatively, you can pass a specific seeder struct to the `Seed` method:
+Dacă doriţi să utilizaţi [seeder](../orm/seeding) pentru a popula baza de date în timpul testării, puteţi apela metoda `Seed`.
+În mod implicit, metoda `Seed` va executa `DatabaseSeeder`, care ar trebui să execute toate celelalte seedere.
+Alternativ, puteţi trece un anumit spectator lovit la metoda `Seed`:
 
 ```go
 err := database.Seed()
 err := database.Seed(&seeders.UserSeeder{})
 ```
 
-#### Refresh Database
+#### Reîmprospătează baza de date
 
-Because the test cases in the same package are executed serially, refreshing the database after a single test case run
-will have no negative impact, we can use the `Fresh` method:
+Deoarece cazurile de testare din același pachet sunt executate în mod serios, reîmprospătarea bazei de date după rularea unui singur test caz
+nu va avea impact negativ, putem folosi metoda `Fresh`:
 
 ```go
-err := database.Fresh()
+err := bază de date.Fresh()
 ```
 
-You can also use the `RefreshDatabase` method:
+De asemenea, puteţi utiliza metoda `RefreshDatabase`:
 
 ```go
-package feature
+caracteristica
 
-import (
+de import (
  "testing"
 
  "github.com/stretchr/testify/suite"
@@ -233,21 +233,21 @@ import (
  "goravel/tests"
 )
 
-type ExampleTestSuite struct {
- suite.Suite
+tip ExampleTestSuite struct {
+ suite. TestCase
  tests.TestCase
 }
 
 func TestExampleTestSuite(t *testing.T) {
- suite.Run(t, new(ExampleTestSuite))
+ suite. un(t, new(ExampleTestSuite))
 }
 
-// SetupTest will run before each test in the suite.
+// SetupTest va rula înaintea fiecărui test din suite.
 func (s *ExampleTestSuite) SetupTest() {
-  s.RefreshDatabase()
+  efreshDatabase()
 }
 
-// TearDownTest will run after each test in the suite.
+// TearDownTest se va executa după fiecare test din suită.
 func (s *ExampleTestSuite) TearDownTest() {
 }
 
@@ -255,7 +255,7 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-#### Uninstall Image
+#### Dezinstalează imaginea
 
 After the test cases in the sub-package are executed, the image will be uninstalled automatically in one hour, you can
 also use the `Shutdown` method to uninstall the image manually.
@@ -264,43 +264,43 @@ also use the `Shutdown` method to uninstall the image manually.
 err := database.Shutdown()
 ```
 
-#### Example
+#### Exemplu
 
-We can create a `TestMain` method in the sub-package and add the pre-logic of the test case:
+Putem crea o metodă `TestMain` în subpachet și adăuga pre-logica pentru testul de bază:
 
 ```go
-// tests/feature/main_test.go
-package feature
+// teste/caracteristici/main_test.go
+pachet
 
 import (
   "fmt"
   "os"
   "testing"
 
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/framework/facades"
 
   "goravel/database/seeders"
 )
 
-func TestMain(m *testing.M) {
-  database, err := facades.Testing().Docker().Database()
-  if err != nil {
+func TestMain(m *testing. ) {
+  bază de date, err := facades.Testing().Docker(). atabase()
+  dacă ero! nil {
     panic(err)
   }
 
-  if err := database.Build(); err != nil {
-    panic(err)
+  dacă err := bază de date. uild(); err != nil {
+    panic(eroare)
   }
 
-  if err := database.Seed(); err != nil {
-    panic(err)
+  if err := bază de date. ed(); mai tare! nil {
+    panic(eroare)
   }
 
-  // Execute test cases
-  exit := m.Run()
+  // Execută testul de ieșire
+  := m. un()
 
-  // Uninstall the image after all test cases have been run
-  if err := database.Clear(); err != nil {
+  // Dezinstalează imaginea după toate testele efectuate
+  dacă err := bază de date. lear(); err != nil {
     panic(err)
   }
 
@@ -308,4 +308,4 @@ func TestMain(m *testing.M) {
 }
 ```
 
-> For more usage of the TestMain method, see [Official Documentation](https://pkg.go.dev/testing#hdr-Main).
+> Pentru mai multă utilizare a metodei TestPrincipale, a se vedea [Documentația oficială](https://pkg.go.dev/testing#hdr-Main).
