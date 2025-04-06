@@ -10,67 +10,57 @@ Goravel 提供了简单的驱动程序，用于处理本地文件系统、Amazon
 | Minio      | [https://github.com/goravel/minio](https://github.com/goravel/minio)           |
 | Cloudinary | [https://github.com/goravel/cloudinary](https://github.com/goravel/cloudinary) |
 
-## Configuration
+## 配置
 
-Goravel's filesystem configuration file is located at `config/filesystems.go`. Within this file, you may configure all
-of your filesystem "disks", each disk represents a particular storage driver and storage location.
+Goravel 的文件系统配置文件位于 `config/filesystems.go`。 在此文件中，您可以配置所有文件系统"磁盘"，每个磁盘代表一个特定的存储驱动程序和存储位置。
 
-> You may configure as many disks as you like and may even have multiple disks that use the same driver.
+> 您可以根据需要配置任意数量的磁盘，甚至可以使用相同驱动程序配置多个磁盘。
 
-### The Local Driver
+### 本地驱动程序
 
-When using the `local` driver, all file operations are relative to the `root` directory defined in your `filesystems`
-configuration file. By default, this value is set to the `storage/app` directory. Therefore, the following method would
-write to `storage/app/example.txt`:
+当使用 `local` 驱动程序时，所有文件操作都是相对于 `filesystems` 配置文件中定义的 `root` 目录。 默认情况下，该值设置为 `storage/app` 目录。 因此，以下方法将写入 `storage/app/example.txt`：
 
 ```go
 facades.Storage().Put("example.txt", "Contents")
 ```
 
-### The Public Disk
+### 公共磁盘
 
-The `public`` disk included in your application's`filesystems
-`configuration file is intended for files that are going to be publicly accessible. By default, the`public
-`disk uses the`local`driver and stores its files in`storage/app/public\`. If you want to visit these file from web,
-you can create a file routing:
+应用程序的 `filesystems` 配置文件中包含的 `public` 磁盘用于存储可公开访问的文件。 默认情况下，`public` 磁盘使用 `local` 驱动程序，并将其文件存储在 `storage/app/public` 中。 如果你想从网页访问这些文件，可以创建一个文件路由：
 
 ```go
 facades.Route().Static("storage", "./storage/app/public")
 ```
 
-## Obtaining Disk Instances
+## 获取磁盘实例
 
-The `Storage` facade may be used to interact with any of your configured disks. For example, you may use the `Put`
-method on the facade to store an avatar on the default disk. If you call methods on the `Storage` facade without first
-calling the `Disk` method, the method will automatically be passed to the default disk:
+可以使用 `Storage` 门面与任何已配置的磁盘进行交互。 例如，您可以使用门面上的 `Put` 方法在默认磁盘上存储头像。 如果您在调用 `Storage` 门面的方法之前没有先调用 `Disk` 方法，该方法将自动传递给默认磁盘：
 
 ```go
 facades.Storage().Put("avatars/1.png", "Contents")
 ```
 
-If your application interacts with multiple disks, you may use the `Disk` method on the `Storage` facade to work with
-files on a particular disk:
+如果您的应用程序与多个磁盘交互，您可以在 `Storage` 门面上使用 `Disk` 方法来处理特定磁盘上的文件：
 
 ```go
 facades.Storage().Disk("s3").Put("avatars/1.png", "Contents")
 ```
 
-## Inject Context
+## 注入上下文
 
 ```go
 facades.Storage().WithContext(ctx).Put("avatars/1.png", "Contents")
 ```
 
-## Retrieving Files
+## 检索文件
 
-The `Get` method may be used to retrieve the contents of a file. The raw string contents of the file will be returned by
-the method. Remember, all file paths should be specified relative to the disk's `root` location:
+可以使用 `Get` 方法来检索文件的内容。 该方法将返回文件的原始字符串内容。 请记住，所有文件路径都应相对于磁盘的`root`位置指定：
 
 ```go
 contents := facades.Storage().Get("file.jpg")
 ```
 
-The `Exists` method may be used to determine if a file exists on the disk:
+`Exists`方法可用于确定文件是否存在于磁盘上：
 
 ```go
 if (facades.Storage().Disk("s3").Exists("file.jpg")) {
@@ -78,7 +68,7 @@ if (facades.Storage().Disk("s3").Exists("file.jpg")) {
 }
 ```
 
-The `Missing` method may be used to determine if a file is missing from the disk:
+`Missing`方法可用于确定文件是否在磁盘上缺失：
 
 ```go
 if (facades.Storage().Disk("s3").Missing("file.jpg")) {
@@ -86,23 +76,19 @@ if (facades.Storage().Disk("s3").Missing("file.jpg")) {
 }
 ```
 
-### File URLs
+### 文件URL
 
-You may use the `Url` method to get the URL for a given file. If you are using the `local` driver, this will typically
-just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` driver, the
-fully qualified remote URL will be returned:
+您可以使用`Url`方法获取给定文件的URL。 如果您使用的是`local`驱动程序，这通常只会在给定路径前加上`/storage`并返回文件的相对URL。 如果您使用的是 `s3` 驱动程序，将返回完全限定的远程 URL：
 
 ```go
 url := facades.Storage().Url("file.jpg")
 ```
 
-> When using the `local` driver, the return value of `Url` is not URL encoded. For this reason, we recommend always
-> storing your files using names that will create valid URLs.
+> 使用 `local` 驱动时，`Url` 的返回值不会进行 URL 编码。 因此，我们建议始终使用能够创建有效 URL 的名称来存储文件。
 
-#### Temporary URLs
+#### 临时 URL
 
-Using the `TemporaryUrl` method, you may create temporary URLs to files stored using the Non-local driver. This method
-accepts a path and a `Time` instance specifying when the URL should expire:
+使用 `TemporaryUrl` 方法，您可以为使用非本地驱动存储的文件创建临时 URL。 此方法接受一个路径和一个指定 URL 过期时间的 `Time` 实例：
 
 ```go
 url, err := facades.Storage().TemporaryUrl(
@@ -110,27 +96,27 @@ url, err := facades.Storage().TemporaryUrl(
 )
 ```
 
-### File Metadata
+### 文件元数据
 
-In addition to reading and writing files, Goravel can also provide information about the files themselves:
+除了读写文件外，Goravel 还可以提供有关文件本身的信息：
 
 ```go
 size := facades.Storage().Size("file.jpg")
 ```
 
-The `LastModified` method returns the last modified time of the file:
+`LastModified` 方法返回文件的最后修改时间：
 
 ```go
 time, err := facades.Storage().LastModified("file.jpg")
 ```
 
-The MIME type of a given file may be obtained via the `MimeType` method:
+可以通过 `MimeType` 方法获取给定文件的 MIME 类型：
 
 ```go
 mime, err := facades.Storage().MimeType("file.jpg")
 ```
 
-Also can use the `NewFile` method:
+也可以使用 `NewFile` 方法：
 
 ```go
 import "github.com/goravel/framework/filesystem"
@@ -141,17 +127,15 @@ lastModified, err := file.LastModified()
 mime, err := file.MimeType()
 ```
 
-### File Paths
+### 文件路径
 
-To obtain the path for a specific file, you can utilize the `Path` method. When using the `local` driver, this will
-provide you with the absolute path to the file. However, if you are using a driver like `s3`, the method will give you
-the file's relative path within the bucket:
+要获取特定文件的路径，可以使用 `Path` 方法。 当使用 `local` 驱动时，这将为您提供文件的绝对路径。 然而，如果您使用的是像 `s3` 这样的驱动，该方法将给出文件在存储桶中的相对路径：
 
 ```go
 path := facades.Storage().Path("file.jpg")
 ```
 
-## Storing Files
+## 存储文件
 
 The `Put` method may be used to store file contents on a disk. Remember, all file paths should be specified relative to
 the "root" location configured for the disk:
@@ -165,11 +149,11 @@ You can also use `PutFile` and `PutFileAs` to save files directly on disk:
 ```go
 import "github.com/goravel/framework/filesystem"
 
-// Automatically generate a unique ID for filename...
+// 自动为文件名生成唯一的 ID...
 file, err := filesystem.NewFile("./logo.png")
 path := facades.Storage().PutFile("photos", file)
 
-// Manually specify a filename...
+// 手动指定文件名...
 file, err := filesystem.NewFile("./logo.png")
 path := facades.Storage().PutFileAs("photos", file, "photo.jpg")
 ```
