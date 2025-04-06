@@ -1,24 +1,24 @@
-# Getting Started
+# 正在开始
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+Goravel使用`facades.Orm()`让开发者更容易与数据库交互。 目前，它为以下四个数据库提供官方
+支持：
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
-- SQL Server 2017+
+- SQL 服务器 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+在您开始之前，在 `.env` 中配置数据库，并确认`config/database.go` 中的 `default` 设置。
 
 # 配置
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+要配置数据库，导航到 config/database.go`。 这是您可以自定义所有数据库连接和
+选择一个 `default\` 连接。 此文件中的配置依赖于项目的环境变量，
+显示Goravel支持的各种数据库配置。
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+您也可以使用 DSN 直接连接到数据库，只需在配置文件中配置 `dsn` 字段：
 
 ```go
 "postgres": map[string]any{
@@ -28,58 +28,58 @@ You can also use DSN to connect to the database directly, just configure the `ds
 }
 ```
 
-### Read & Write Connections
+### 读取和写入连接
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+有时，您可能希望使用 `SELECT ` 和 `INSERT`、`UpdatE` 和
+`DELETE` 两个数据库连接。 戈拉韦尔使这变成了一种气旋。
 
-To see how read/write connections should be configured, let's look at this example:
+要看看如何配置读写连接，让我们看看这个示例：
 
 ```go
-import "github.com/goravel/framework/contracts/database"
+导入 "github.com/goravel/framework/contracts/database"
 
-// config/database.go
-"connections": map[string]any{
-  "mysql": map[string]any{
+// config/database. o
+"connections": map[string]anyo.
+  "mysql": map[string]anyo.
     "driver": "mysql",
-    "read": []database.Config{
-      {Host: "192.168.1.1", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "读取": []database. onfigPo.
+      {Host: "192.168.1. ", Port: 3306, Database: "忘记", 用户名: "root", 密码: "123123123"},
     },
-    "write": []database.Config{
-      {Host: "192.168.1.2", Port: 3306, Database: "forge", Username: "root", Password: "123123"},
+    "write": []database. onfigPo.
+      {Host: "192.168.1. ", Port: 3306, Database: "forge", 用户名: "root", 密码: "123123123"},
     },
-    "host": config.Env("DB_HOST", "127.0.0.1"),
-    "port":     config.Env("DB_PORT", 3306),
-    "database": config.Env("DB_DATABASE", "forge"),
+    "host": config. nv("DB_HOST", "127.0.0.1"),
+    "port": config.Env("DB_PORT", 3306),
+    "database": config. nv("DB_DATABASE", "忘记"),
     "username": config.Env("DB_USERNAME", ""),
-    "password": config.Env("DB_PASSWORD", ""),
-    "charset":  "utf8mb4",
-    "loc":      "Local",
+    "password": config. nv("DB_PASSWORD", ""),
+    "charset": "utf8mb4",
+    "local": "Local",
   },
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+我们更新了配置阵列两个新密钥 - `read` 和 `write` 。 `read`连接将使用
+`192.168.1.1` 作为主机，而`write`连接将使用 `192.168.1.2` 。 这两个连接将共享相同的
+数据库前缀、字符集和在主mysql 数组中指定的其他选项。 在
+`host` 配置数组中出现多个值时，将随机为每个请求选择一个数据库主机。
 
-### Connection Pool
+### 连接库
 
 You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
 can greatly improve concurrency performance:
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| 关键字                               | 行 动      |
+| --------------------------------- | -------- |
+| 最大idle_conns | 最大空闲连接   |
+| 最大打开conns                         | 最大打开连接数  |
+| 最大空闲时间                            | 连接最大空闲时间 |
+| 最大生存期                             | 连接的最大生存期 |
 
-### Schema
+### 图案
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres 和 Sqlserver 支持配置方案。 Postgres可以在配置文件中直接设置Schema，而
+Sqlserver需要在模型中通过“TableName”方法指定Schema。
 
 #### Postgres
 
@@ -96,221 +96,221 @@ Sqlserver needs to specify the Schema through the `TableName` method in the mode
 #### Sqlserver
 
 ```go
-func (r *User) TableName() string {
+func (r *User) TableName() string Community
   return "goravel.users"
-}
+
 ```
 
-### Get Database Information
+### 获取数据库信息
 
-You can use the `db:show` command to view all tables in the database.
+您可以使用 "db:show" 命令查看数据库中的所有表。
 
 ```bash
-go run . artisan db:show
+去运行。个体操者db:show
 ```
 
-You can also use the `db:table` command to view the structure of a specific table.
+您也可以使用 "db:table" 命令查看特定表的结构。
 
 ```bash
-go run . artisan db:table
-go run . artisan db:table users
+去运行。个体操者db:table
+来运行。个体操者db:table 用户
 ```
 
-## Model Definition
+## 模型定义
 
-To create a custom model, refer to the model file `app/models/user.go` that is included in the framework. The `struct`
-in `app/models/user.go` contains two embedded frameworks: `orm.Model` and `orm.SoftDeletes`. These frameworks define
-`id`, `created_at`, `updated_at`, and `deleted_at` properties respectively. With `orm.SoftDeletes`, you can enable soft
-deletion for the model.
+要创建一个自定义模型，请参阅框架中包含的模型文件 `app/models/user.go` 。 `app/models/user.go`中的`struct`
+包含两个嵌入框架：`orm.Model`和`orm.SoftDeletes`。 这些框架分别定义
+`id`、`created_at`、`updated_at`和`deleted_at`属性'。 使用 `orm.SoftDeletes`，您可以为模型启用软
+删除。
 
-### Model Convention
+### 示范公约
 
-1. The model is named with a big hump;
-2. Use the plural form of the model "snake naming" as the table name;
+1. 该模型用大湿润命名；
+2. 使用模型"snake naming"的复数形式作为表名；
 
-For example, the model name is `UserOrder`, and the table name is `user_orders`.
+例如，模型名称是 `Userorder` ，表名称是 `user_orders` 。
 
-### Create Model
+### 创建模型
 
-Use the `make:model` command to create a model:
+使用 `make:model` 命令创建模型：
 
 ```shell
-go run . artisan make:model User
-go run . artisan make:model user/User
+去运行。手工操作：make:model User
+来运行。手工操作：make:model 用户/用户
 ```
 
-Created model file is located in `app/models/user.go` file, the content is as follows:
+创建模型文件位于`app/models/user.go`文件中，内容如下：
 
 ```go
-package models
+软件包模型
 
-import (
+import(
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
+type User struct own
+  orm. odel
+  名称字符串
+  Avatar 字符串
   orm.SoftDeletes
 }
 ```
 
-If you want to set the model field to `any`, you need to add an additional Tag: `gorm:"type:text"`:
+如果你想要将模型字段设置为“任何”，你需要添加一个额外的标签："gorm:"type:text""：
 
 ```go
-type User struct {
+键入用户结构&
   orm.Model
-  Name   string
-  Avatar string
-  Detail any `gorm:"type:text"`
+  名称字符串
+  Avatar 字符串
+  详细说明任意`gorm:"type:text"`
   orm.SoftDeletes
 }
 ```
 
-More Tag usage details can be found at: <https://gorm.io/docs/models.html>.
+更多标签使用详情可在以下网址找到： <https://gorm.io/docs/models.html>。
 
-### Specify Table Name
+### 指定表名称
 
 ```go
-package models
+软件包模型
 
-import (
+import(
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+type User struct own
+  orm. odel
+  名称字符串
+  Avatar 字符串
+  orm. oftDeletes
 }
 
-func (r *User) TableName() string {
+func (r *User) TableName() string Windows
   return "goravel_user"
 }
 ```
 
-### Database Connections
+### 数据库连接
 
-By default, all models utilize the default database connection configured for your application. If you wish to specify a
+默认情况下，所有模型都使用为您的应用程序配置的默认数据库连接。 If you wish to specify a
 distinct connection to be used when interacting with a particular model, you need to define a `Connection` method on the
 model.
 
 ```go
-package models
+软件包模型
 
-import (
+import(
   "github.com/goravel/framework/database/orm"
 )
 
-type User struct {
-  orm.Model
-  Name   string
-  Avatar string
-  orm.SoftDeletes
+type User struct own
+  orm. odel
+  名称字符串
+  Avatar 字符串
+  orm. oftDeletes
 }
 
-func (r *User) Connection() string {
+func (r *User) Connection() string Community
   return "postgres"
 }
 ```
 
-## facades.Orm() available functions
+## Orm() 可用函数
 
-| Name        | Action                                                                                  |
-| ----------- | --------------------------------------------------------------------------------------- |
-| Connection  | [Specify Database Connection](#specify-database-connection)                             |
-| DB          | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
-| Query       | [Get Database Instance](#get-database-instance)                                         |
-| Transaction | [Transaction](#transaction)                                                             |
-| WithContext | [Inject Context](#inject-context)                                                       |
+| 名称    | 行 动                                                                                     |
+| ----- | --------------------------------------------------------------------------------------- |
+| 连接    | [指定数据库连接](#specify-database-connection)                                                 |
+| DB    | [Generic Database Interface sql.DB](#generic-database-interface-sql-db) |
+| 查询    | [获取数据库实例](#get-database-instance)                                                       |
+| 交易    | [Transaction](#transaction)                                                             |
+| 在上下文内 | [注入上下文](#inject-context)                                                                |
 
-## facades.Orm().Query() available functions
+## Facades.Orm().Query() 可用函数
 
-| Functions       | Action                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| Begin           | [Begin transaction](#transaction)                                             |
-| Commit          | [Commit transaction](#transaction)                                            |
-| Count           | [Count](#count)                                                               |
-| Create          | [Create](#create)                                                             |
-| Cursor          | [Cursor](#cursor)                                                             |
-| Delete          | [Delete](#delete)                                                             |
-| Distinct        | [Filter Repetition](#filter-repetition)                                       |
-| 驱动程序            | [Get Driver](#get-driver)                                                     |
-| Exec            | [Execute native update SQL](#execute-native-update-sql)                       |
-| Exists          | [Exists](#exists)                                                             |
-| Find            | [Query one or multiple lines by ID](#query-one-or-multiple-lines-by-id)       |
-| FindOrFail      | [Not found return error](#not-found-return-error)                             |
-| First           | [Query one line](#query-one-line)                                             |
-| FirstOr         | [Query or return data through callback](#query-one-line)                      |
-| FirstOrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models)               |
-| FirstOrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)                    |
-| FirstOrFail     | [Not Found Error](#not-found-error)                                           |
-| ForceDelete     | [Force delete](#delete)                                                       |
-| Get             | [Query multiple lines](#query-multiple-lines)                                 |
-| Group           | [Group](#group-by--having)                                                    |
-| Having          | [Having](#group-by-having)                                                    |
-| Join            | [Join](#join)                                                                 |
-| Limit           | [Limit](#limit)                                                               |
-| LockForUpdate   | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Model           | [Specify a model](#specify-table-query)                                       |
-| Offset          | [Offset](#offset)                                                             |
-| Order           | [Order](#order)                                                               |
-| OrderBy         | [Order](#order)                                                               |
-| OrderByDesc     | [Order](#order)                                                               |
-| InRandomOrder   | [Order](#order)                                                               |
-| OrWhere         | [OrWhere](#where)                                                             |
-| OrWhereNotIn    | [OrWhereNotIn](#where)                                                        |
-| OrWhereNull     | [OrWhereNull](#where)                                                         |
-| OrWhereIn       | [OrWhereIn](#where)                                                           |
-| Paginate        | [Paginate](#paginate)                                                         |
-| Pluck           | [Query single column](#query-single-column)                                   |
-| Raw             | [Execute native SQL](#execute-native-sql)                                     |
-| Restore         | [Restore](#restore)                                                           |
-| Rollback        | [Rollback transaction](#transaction)                                          |
-| Save            | [Update a existing model](#update-a-existing-model)                           |
-| SaveQuietly     | [Saving a single model without events](#saving-a-single-model-without-events) |
-| Scan            | [Scan struct](#execute-native-sql)                                            |
-| Scopes          | [Scopes](#scopes)                                                             |
-| Select          | [Specify Fields](#specify-fields)                                             |
-| SharedLock      | [Pessimistic Locking](#pessimistic-locking)                                   |
-| Sum             | [Sum](#sum)                                                                   |
-| Table           | [Specify a table](#specify-table-query)                                       |
-| ToSql           | [Get SQL](#get-sql)                                                           |
-| ToRawSql        | [Get SQL](#get-sql)                                                           |
-| Update          | [Update a single column](#update-a-single-column)                             |
-| UpdateOrCreate  | [Update or create](#update-or-create)                                         |
-| Where           | [Where](#where)                                                               |
-| WhereBetween    | [WhereBetween](#where)                                                        |
-| WhereNotBetween | [WhereNotBetween](#where)                                                     |
-| WhereNotIn      | [WhereNotIn](#where)                                                          |
-| WhereNull       | [WhereNull](#where)                                                           |
-| WhereIn         | [WhereIn](#where)                                                             |
-| WithoutEvents   | [Muting events](#muting-events)                                               |
-| WithTrashed     | [Query soft delete data](#query-soft-delete-data)                             |
+| 职能            | 行 动                                                             |
+| ------------- | --------------------------------------------------------------- |
+| 开始            | [Begin transaction](#transaction)                               |
+| 提交            | [Commit transaction](#transaction)                              |
+| 计数            | [Count](#count)                                                 |
+| 创建            | [Create](#create)                                               |
+| Cursor        | [Cursor](#cursor)                                               |
+| 删除            | [Delete](#delete)                                               |
+| 区别            | [Filter Repetition](#filter-repetition)                         |
+| 驱动程序          | [Get Driver](#get-driver)                                       |
+| Exec          | [执行本地更新 SQL](#execute-native-update-sql)                        |
+| 存在            | [Exists](#exists)                                               |
+| 查找            | [查询一行或多行的 ID](#query-one-or-multiple-lines-by-id)               |
+| FindOrail     | [未找到退货错误](#not-found-return-error)                              |
+| 第一页           | [Query one line](#query-one-line)                               |
+| 第一次或          | [通过回调查询或返回数据](#query-one-line)                                  |
+| 第一个OrCreate   | [Retrieving Or Creating Models](#retrieving-or-creating-models) |
+| 第一个OrNew      | [Retrieving Or New Models](#retrieving-or-creating-models)      |
+| 第一个Orail      | [Not Found Error](#not-found-error)                             |
+| 强制删除          | [Force delete](#delete)                                         |
+| 获取            | [查询多行](#query-multiple-lines)                                   |
+| 组别            | [Group](#group-by--having)                                      |
+| 有             | [Having](#group-by-having)                                      |
+| 加入            | [Join](#join)                                                   |
+| 限制            | [Limit](#limit)                                                 |
+| LockForUpdate | [暂时锁定](#pessimistic-locking)                                    |
+| 模型            | [指定一个模型](#specify-table-query)                                  |
+| 偏移量           | [Offset](#offset)                                               |
+| 订单            | [Order](#order)                                                 |
+| 排序方式          | [Order](#order)                                                 |
+| OrderByDesc   | [Order](#order)                                                 |
+| 随机顺序          | [Order](#order)                                                 |
+| Orwhere       | [OrWhere](#where)                                               |
+| Orwhere NotIn | [OrWhereNotIn](#where)                                          |
+| OrWhereNull   | [OrWhereNull](#where)                                           |
+| 在哪里执行         | [OrWhereIn](#where)                                             |
+| 分页            | [Paginate](#paginate)                                           |
+| 普鲁克           | [查询单列](#query-single-column)                                    |
+| 原始文件          | [执行原生SQL](#execute-native-sql)                                  |
+| 恢复            | [Restore](#restore)                                             |
+| Rollback      | [Rollback transaction](#transaction)                            |
+| 保存            | [更新一个现有的模型](#update-a-existing-model)                           |
+| 保存静音          | [保存单一模型而不发生事件](#saving-a-single-model-without-events)           |
+| 扫描            | [Scan struct](#execute-native-sql)                              |
+| 范围            | [Scopes](#scopes)                                               |
+| 选择            | [指定字段](#specify-fields)                                         |
+| 共享锁           | [暂时锁定](#pessimistic-locking)                                    |
+| Sum           | [Sum](#sum)                                                     |
+| 表             | [指定一个表](#specify-table-query)                                   |
+| ToSql         | [Get SQL](#get-sql)                                             |
+| ToRawSql      | [Get SQL](#get-sql)                                             |
+| 更新            | [更新单列](#update-a-single-column)                                 |
+| 更新 OrCreate   | [更新或创建](#update-or-create)                                      |
+| 位置            | [Where](#where)                                                 |
+| 在哪里之间         | [WhereBetween](#where)                                          |
+| 不在任何位置        | [WhereNotBetween](#where)                                       |
+| 不在任何位置        | [WhereNotIn](#where)                                            |
+| 空位置           | [WhereNull](#where)                                             |
+| 所在位置          | [WhereIn](#where)                                               |
+| 退出事件          | [静音事件](#muting-events)                                          |
+| 撤销回收站         | [查询软删除数据](#query-soft-delete-data)                              |
 
-## Query Builder
+## 查询生成器
 
 ### 注入内容
 
 ```go
-facades.Orm().WithContext(ctx)
+facades.Orm().Wide (ctx)
 ```
 
-### Specify Database Connection
+### 指定数据库连接
 
-If multiple database connections are defined in `config/database.go`, you can use them through the `Connection` function
-of `facades.Orm()`. The connection name passed to `Connection` should be one of the connections configured in
-`config/database.go`:
+如果在`config/database.go`中定义了多个数据库连接，你可以通过`facades.Orm()`的`Connection`函数
+使用这些连接。 传递给`Connection`的连接名称应该是在
+`config/database.go`中配置的连接之一：
 
 ```go
 facades.Orm().Connection("mysql")
 ```
 
-### Generic Database Interface sql.DB
+### 通用数据库接口 sql.DB
 
-Generic database interface sql.DB, then use the functionality it provides:
+通用数据库接口 sql.DB，然后使用它提供的功能：
 
 ```go
 db, err := facades.Orm().DB()
@@ -335,19 +335,19 @@ db.SetMaxOpenConns(100)
 db.SetConnMaxLifetime(time.Hour)
 ```
 
-### Get Database Instance
+### 获取数据库实例
 
-Before each specific database operation, it's necessary to obtain an instance of the database.
+在每个特定的数据库操作之前，需要获取数据库的实例。
 
 ```go
-facades.Orm().Query()
+Facades.Orm().Query()
 facades.Orm().Connection("mysql").Query()
-facades.Orm().WithContext(ctx).Query()
+facades.Orm().WiContext(ctx).Query()
 ```
 
-### Select
+### 选择
 
-#### Query one line
+#### 查询一行
 
 ```go
 var user models.User
@@ -355,170 +355,170 @@ facades.Orm().Query().First(&user)
 // SELECT * FROM `users` ORDER BY `users`.`id` LIMIT 1;
 ```
 
-Sometimes you may wish to perform some other action if no results are found. The `FirstOr` method will return a single
-model instance or, if no results are found, execute the given closure. You can set values to model in closure:
+有时如果找不到结果，您可能希望执行其他操作。 `FirstOr`方法将返回单个的
+模型实例，如果没有找到结果，则执行给定的关闭。 您可以在关闭中设置模型值：
 
 ```go
-facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error {
+Facades.Orm().Query().Where("name", "first_user").FirstOr(&user, func() error.org/
   user.Name = "goravel"
 
   return nil
 })
 ```
 
-#### Query one or multiple lines by ID
+#### 通过ID查询一条或多条行
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
 // SELECT * FROM `users` WHERE `users`.`id` = 1;
 
-var users []models.User
+var 用户 []models. ser
 facades.Orm().Query().Find(&users, []int{1,2,3})
-// SELECT * FROM `users` WHERE `users`.`id` IN (1,2,3);
+// SELECT * from `users` WHERE `users`.`id` in (1,2,3);
 ```
 
-#### Not found return error
+#### 找不到退货错误
 
 ```go
-var user models.User
+var 用户模型.User
 err := facades.Orm().Query().FindOrFail(&user, 1)
 ```
 
-#### When the primary key of the user table is `string` type, you need to specify the primary key when calling
+#### 当用户表的主键是 `string` 类型时，调用时需要指定主键
 
-`Find` method
+`Find` 方法
 
 ```go
 var user models.User
-facades.Orm().Query().Find(&user, "uuid=?" ,"a")
+facades.Orm().Query().Find(&user, "uuid=?","a")
 // SELECT * FROM `users` WHERE `users`.`uuid` = "a";
 ```
 
-#### Query multiple lines
+#### 查询多行
 
 ```go
-var users []models.User
+var 用户 []models.User
 facades.Orm().Query().Where("id in ?", []int{1,2,3}).Get(&users)
-// SELECT * FROM `users` WHERE id in (1,2,3);
+// SELECT * 来自`users` WHERE id in (1,2,3);
 ```
 
-#### Retrieving Or Creating Models
+#### 正在获取或创建模型
 
-The `FirstOrCreate` method searches for a database record using the specified column/value pairs. If the model cannot be
+`FirstOrCreate`方法使用指定的列/值对搜索数据库记录。 If the model cannot be
 found in the database, it creates a new record with the attributes from merging the first argument with the optional
 second argument.
 
-Similarly, the `FirstOrNew` method also tries to locate a record in the database based on the attributes given. However,
-if it is not found, a new instance of the model is returned. It's important to note that this new model has not been
+同样，`FirstOrNew`方法也试图根据给定的属性在数据库中找到记录。 然而,
+如果找不到, 则返回一个新的模型实例. It's important to note that this new model has not been
 saved to the database yet and you need to manually call the `Save` method to do so.
 
 ```go
 var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.556','2023-09-18 12:51:32.556','tom');
+facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{name: "tom"})
+// SELECT * 从`users` 中获取`gender` = 1 and `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`) VALUES ('2023-09-18 12:51:32.
 
-facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','2023-09-18 12:52:59.913','tom','avatar');
+facades.Orm().Query().Where("gender", 1).FirstOrCreate(&user, models.User{name: "tom"}, models. ser{Avatar: "avatar"})
+// SELECT * 从`users` WERE `gender` = 1 and `users`.`name` = 'tom' ORDER BY `users` id` LIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`name`,`avatar`) VALUES ('2023-09-18 12:52:59.913','avatar');
 
-var user models.User
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+var user model。 ser
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{name: "tom"})
+// SELECT * 来自`users` WHERE `gender` = 1 and `users`. name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
 
-facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{Name: "tom"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `gender` = 1 AND `users`.`name` = 'tom' ORDER BY `users`.`id` LIMIT 1;
+facades.Orm().Query().Where("gender", 1).FirstOrNew(&user, models.User{name: "tom"}, models. ser{Avatar: "avatar"})
+// SELECT * 从`users' `gender` = 1 and `users`.`name` = `tom' ORDER BY `users`.`id` LIMIT 1;
 ```
 
-#### Not Found Error
+#### 找不到错误
 
-When the requested item is not found, the `First` method does not generate an error. To generate an error, use the
-`FirstOrFail` method:
+当找不到请求的项目时，`First`方法不会产生错误。 若要生成错误，请使用
+`FirstOrFail` 方法：
 
 ```go
 var user models.User
 err := facades.Orm().Query().FirstOrFail(&user)
-// err == orm.ErrRecordNotFound
+// err == orm.ErRecordNot Found
 ```
 
-### Where
+### 位置
 
 ```go
-facades.Orm().Query().Where("name", "tom")
+Facades.Orm().Query().Where("name", "tom")
 facades.Orm().Query().Where("name = 'tom'")
-facades.Orm().Query().Where("name = ?", "tom")
+facades.Orm().Query().Where("name = ?"tom")
 facades.Orm().Query().WhereBetween("age", 1, 10)
-facades.Orm().Query().WhereNotBetween("age", 1, 10)
-facades.Orm().Query().WhereNotIn("name", []any{"a"})
-facades.Orm().Query().WhereNull("name")
-facades.Orm().Query().WhereIn("name", []any{"a"})
+facades.Orm().Query().Where NotBetween("age", 1, 10)
+facades.Orm().Query().Where NotIn("name", []任何{"a"})
+facad rm().Query().Where Null("name")
+facades.Orm().Query().Where In("name", []any{"a"})
 
-facades.Orm().Query().OrWhere("name = ?", "tom")
-facades.Orm().Query().OrWhereNotIn("name", []any{"a"})
-facades.Orm().Query().OrWhereNull("name")
-facades.Orm().Query().OrWhereIn("name", []any{"a"})
+facades.Orm().Query().Where ("name = ?"tom")
+facades.Orm().Query().Orwhere NotIn("name", []any{"a"})
+facades.Orm().Query().Orl("name")
+facades.Orm().Query().Orwhere In("name"]any"})
 ```
 
-### Limit
+### 限制
 
 ```go
-var users []models.User
+var 用户 []models.User
 facades.Orm().Query().Where("name = ?", "tom").Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3;
 ```
 
-### Offset
+### 偏移量
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Offset(5).Limit(3).Get(&users)
+var 用户 []models.User
+facades.Orm().Query().Where("name = ?"tom").Offset(5).Limit(3).Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' LIMIT 3 OFFSET 5;
 ```
 
-### Order
+### 订单
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("name = ?", "tom").Order("sort asc").Order("id desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc,id desc;
+var 用户 []models.User
+facades.Orm().Query().Where("name = ?"tom").Order("sort as").Order("id desc"). et(&users)
+// SELECT * FROM "users" WHERE name = "tom" ORDER BY 升序, id 降序;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort asc;
+脸。 rm().Query().Where ("name = ?", "tom").OrderBy("sort").Get(&users)
+// SELECT * 从`users` WHERE name = 'tom' ORDER BY as;
 
-facades.Orm().Query().Where("name = ?", "tom").OrderBy("sort", "desc").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().Where("name = ?"tom"). rderBy("sort", "desc").Get(&users)
+// SELECT * FROM `users` WHERE name = 'tom' ORDER BY s排序；
 
-facades.Orm().Query().Where("name = ?", "tom").OrderByDesc("sort").Get(&users)
-// SELECT * FROM `users` WHERE name = 'tom' ORDER BY sort desc;
+facades.Orm().Query().Where ("name = ?"tom").OrderByDesc("sort"). et(&users)
+// SELECT * FROM `users` WHERE name = 'tom' ORDER BY 排序;
 
-facades.Orm().Query().Where("name = ?", "tom").InRandomOrder().Get(&users)
+facades.Orm().Query(). here("name = ?", "tom").InRandomOrder().Get(&users)
 // SELECT * FROM `users` WHERE name = 'tom' ORDER BY RAND();
 ```
 
-### Paginate
+### 分页
 
 ```go
-var users []models.User
+var 用户 []models.User
 var total int64
-facades.Orm().Query().Paginate(1, 10, &users, &total)
-// SELECT count(*) FROM `users`;
+facades.Orm().Query(). aginate(1, 10, &users, &total)
+// SELECT 计数(*) FROM `users`;
 // SELECT * FROM `users` LIMIT 10;
 ```
 
-### Query Single Column
+### 查询单列
 
 ```go
-var ages []int64
+var age []int64
 facades.Orm().Query().Model(&models.User{}).Pluck("age", &ages)
 // SELECT `age` FROM `users`;
 ```
 
-### Specify Table Query
+### 指定表查询
 
-If you want to query some aggregate data, you need to specify a specific table.
+如果您想要查询某些总合数据，您需要指定一个特定的表。
 
-Specify a model
+指定一个模型
 
 ```go
 var count int64
@@ -526,67 +526,67 @@ facades.Orm().Query().Model(&models.User{}).Count(&count)
 // SELECT count(*) FROM `users` WHERE deleted_at IS NULL;
 ```
 
-Specify a table
+指定一个表
 
 ```go
 var count int
 facades.Orm().Query().Table("users").Count(&count)
-// SELECT count(*) FROM `users`; // get all records, whether deleted or not
+// SELECT count(*) FROM `users`; // 获取所有记录，无论是否删除
 ```
 
 ### Get SQL
 
-Get SQL with placeholder:
+使用占位符获取SQL：
 
 ```go
 facades.Orm().Query().ToSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = $1 AND "users"."deleted_at" IS NULL
+// SELECT * 来自"users" = $1 和 "users"."deleted_at" IS NULL
 ```
 
-Get SQL with value:
+获取SQL值：
 
 ```go
-facades.Orm().Query().ToRawSql().Get(models.User{})
-// SELECT * FROM "users" WHERE "id" = 1 AND "users"."deleted_at" IS NULL
+Facades.Orm().Query().ToRawSql().Get(models.User{})
+// SELECT * 来自 "users" = 1 和 "users"."deleted_at" IS NULL
 ```
 
-The methods can be called after `ToSql` and `ToRawSql`: `Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
+方法可以在“ToSql”和“ToRawSql”之后调用：`Count`, `Create`, `Delete`, `Find`, `First`, `Get`, `Pluck`,
 `Save`, `Sum`, `Update`.
 
-### Count
+### 计数
 
 ```go
 var count int64
-facades.Orm().Query().Table("users").Where("name = ?", "tom").Count(&count)
+facades.Orm().Query().Table("users").Where("name = ?"tom").Count(&count)
 // SELECT count(*) FROM `users` WHERE name = 'tom';
 ```
 
-### Specify Fields
+### 指定字段
 
-`Select` allows you to specify which fields to retrieve from the database, by default the ORM retrieves all fields.
+`Select`允许您指定要从数据库中检索的字段。默认情况下，ORM会检索所有字段。
 
 ```go
 facades.Orm().Query().Select("name", "age").Get(&users)
 // SELECT `name`,`age` FROM `users`;
 
 facades.Orm().Query().Select([]string{"name", "age"}).Get(&users)
-// SELECT `name`,`age` FROM `users`;
+/SELECT `name`,`age` FROM `users`;
 ```
 
-### Group By & Having
+### 按&拥有分组
 
 ```go
-type Result struct {
-  Name  string
+输入结果结构如下:
+  命名字符串
   Total int
-}
 
-var result Result
-facades.Orm().Query().Model(&models.User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "tom").Get(&result)
-// SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "tom";
+
+var results Results
+facades.Orm().Query().Model(&models.User{})。 electt("name, sum(age) as total").Group("name").Having("name = ?"tom").Get(&result)
+// SELECT name, sum(age) as total from `users` GROUP BY `name` having name = "tom";
 ```
 
-### Join
+### 加入
 
 ```go
 type Result struct {
@@ -599,56 +599,56 @@ facades.Orm().Query().Model(&models.User{}).Select("users.name, emails.email").J
 // SELECT users.name, emails.email FROM `users` LEFT JOIN emails ON emails.user_id = users.id;
 ```
 
-### Create
+### 创建
 
 ```go
-user := models.User{Name: "tom", Age: 18}
-err := facades.Orm().Query().Create(&user)
-// INSERT INTO users (name, age, created_at, updated_at) VALUES ("tom", 18, "2022-09-27 22:00:00", "2022-09-27 22:00:00");
+用户 := models.User{name: "tom", Age: 18}
+err := facades.Orm().Query(). reate(&user)
+// INSERT INTO users (name, age, created_at, updated_at) VALUES("tom", 18, "2022-09-27 22:00:00");
 
-// Not trigger model events
-err := facades.Orm().Query().Table("users").Create(map[string]any{
+// 不触发模型事件
+err := facades. rm().Query().Table("users").Create(map[string]anyo.
   "name": "Goravel",
 })
 
-// Trigger model events
-err := facades.Orm().Query().Model(&models.User{}).Create(map[string]any{
+// 触发模型事件
+err := facades. rm().Query().Model(&models.User{}).Create(map[string]anyow
   "name": "Goravel",
 })
 ```
 
-### Multiple create
+### 多次创建
 
 ```go
-users := []models.User{{Name: "tom", Age: 18}, {Name: "tim", Age: 19}}
+用户 := []models.User{name: "tom", Age: 18}, {name: "tim", Age: 19}}
 err := facades.Orm().Query().Create(&users)
 
-err := facades.Orm().Query().Table("users").Create(&[]map[string]any{
+err := facades.Orm().Query().Table("users"). reate(&[]map[string]anyn
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 
-err := facades.Orm().Query().Model(&models.User{}).Create(&[]map[string]any{
+err := facades.Orm(). ().Model(&models.User{}).Create(&[]map[string]any卷
   {"name": "Goravel"},
   {"name": "Framework"},
 })
 ```
 
-> `created_at` and `updated_at` will be filled automatically.
+> `created_at` 和 `updated_at` 将自动填写。
 
 ### Cursor
 
-Can be used to significantly reduce your application's memory consumption when iterating through tens of thousands of
-Eloquent model records. Note, the `Cursor` method can be used with `With` at the same time, please
+可以用来大幅降低应用程序内存消耗，当经由数以万计的
+Emart Modern Records。 Note, the `Cursor` method can be used with `With` at the same time, please
 use [Lazy Eager Loading](./relationships#lazy-eager-loading) to load relationship in the `for` logic.
 
 ```go
 cursor, err := facades.Orm().Query().Model(models.User{}).Cursor()
-if err != nil {
+如果是err != nil {
   return err
 }
-for row := range cursor {
-  var user models.User
+行:= range cursor power
+  var user models. ser
   if err := row.Scan(&user); err != nil {
     return err
   }
@@ -656,9 +656,9 @@ for row := range cursor {
 }
 ```
 
-### Save Model
+### 保存模型
 
-#### Update an existing model
+#### 更新现有模型
 
 ```go
 var user models.User
@@ -666,85 +666,85 @@ facades.Orm().Query().First(&user)
 
 user.Name = "tom"
 user.Age = 100
-facades.Orm().Query().Save(&user)
-// UPDATE `users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`='' WHERE `id` = 1;
+facades.Orm().Query(). ave(&user)
+// 更新`users` SET `created_at`='2023-09-14 16:03:29.454',`updated_at`='2023-09-18 21:05:59.896',`name`='tom',`age`=100,`avatar`=''WHERE `id`=1;
 ```
 
-#### Update columns
+#### 更新列
 
 ```go
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
-// UPDATE `users` SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = 'tom';
+.Orm().Query().Model(&models.User{}).Where("name", "tom").Update("name", "hello")
+// UpdatE `users" SET `name`='hello',`updated_at`='2023-09-18 21:06:30.373' WHERE `name` = ';
 
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(models.User{Name: "hello", Age: 18})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
-// UPDATE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = 'tom';
+facades.Orm().Query().Model(&models.User{}).Where ("name", "tom").Update(models. ser{name: "hello", Age: 18})
+facades.Orm().Query().Model(&models.User{}).Where ("name", "tom").Update(map[string]any{"name": "hello", "age": 18})
+// UpdatE `users` SET `updated_at`='2023-09-18 21:07:06.489',`name`='hello',`age`=18 WHERE `name` = ';
 ```
 
-> When updating with `struct`, Orm will only update non-zero fields. You might want to use `map` to update attributes or
-> use `Select` to specify fields to update. Note that `struct` can only be `Model`, if you want to update with non
-> `Model`, you need to use `.Table("users")`, however, the `updated_at` field cannot be updated automatically at this
-> time.
+> 当使用 `struct`时，Orm 只能更新非零字段。 您可能想使用 `map` 来更新属性或
+> 使用 `Select` 来指定要更新的字段。 请注意，`struct`只能是 `Model`，如果你想要更新non
+> `Model`，你需要使用 `。 able("users")`, 但`updated_at`字段不能在这次
+> 时间自动更新。
 
-#### Update or create
+#### 更新或创建
 
-Query by `name`, if not exist, create by `name`, `avatar`, if exists, update `avatar` based on `name`:
+查询`name`, 如果不存在, 通过 `name`, `avatar` 创建, 如果存在, 则更新`avatar` 基于 `name`:
 
 ```go
-facades.Orm().Query().UpdateOrCreate(&user, models.User{Name: "name"}, models.User{Avatar: "avatar"})
-// SELECT * FROM `users` WHERE `users`.`name` = 'name' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1;
-// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08.869',NULL,'name','avatar');
-// UPDATE `users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL AND `id` = 1;
+facades.Orm().Query().UpdateOrCreate(&user, models.User{name: "}, models.User{Avatar: "avatar"})
+// SELECT * 从`users` 中得到'。如果`users`.`name` = '和 `users`.`deleted_at` IS NULL ORDER BY `users`。 id` lIMIT 1;
+// INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`avatar`) VALUES ('2023-03-11 10:11:08.869','2023-03-11 10:11:08。 ',NULL,'name','avatar');
+// 更新`users` SET `name`='name',avatar`='avatar',`updated_at`='2023-03-11 10:11:08.881' WHERE users`.`deleted_at` IS NULL and `id` = 1;
 ```
 
-### Delete
+### 删除
 
-Delete by model, the number of rows affected by the statement is returned by the method:
+按模型删除，受语句影响的行数按方法返回：
 
 ```go
 var user models.User
 facades.Orm().Query().Find(&user, 1)
-res, err := facades.Orm().Query().Delete(&user)
-res, err := facades.Orm().Query().Model(&models.User{}).Where("id", 1).Delete()
-res, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
+ress, err := facades.Orm().Query().Delete(&user)
+ress, err := facades.Orm().Query().Model(&models.User{}). here("id", 1).Delete()
+ress, err := facades.Orm().Query().Table("users").Where("id", 1).Delete()
 // DELETE FROM `users` WHERE `users`.`id` = 1;
 
 num := res.RowsAffected
 ```
 
-Multiple delete
+多次删除
 
 ```go
 facades.Orm().Query().Where("name = ?", "tom").Delete(&models.User{})
-// DELETE FROM `users` WHERE name = 'tom';
+// DELETE 从`users` WHERE name = 'tom';
 ```
 
-Want to force delete a soft-delete data.
+强制删除软删除数据。
 
 ```go
-facades.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").ForceDelete()
-facades.Orm().Query().Table("users").Where("name", "tom").ForceDelete()
+.Orm().Query().Where("name", "tom").ForceDelete(&models.User{})
+facades.Orm().Query().Model(&models.User{}).Where ("name", "tom").ForceDelete()
+facades.Orm().Query().Table("users").Where ("name", "tom").ForceDelete() .Where ("tom").ForceDelete()
 ```
 
-You can delete records with model associations via `Select`:
+您可以通过 "Select" 删除模型关联的记录：
 
 ```go
-// Delete Account of user when deleting user
+// 删除用户删除用户
 facades.Orm().Query().Select("Account").Delete(&user)
 
-// Delete Orders and CreditCards of user when deleting user
-facades.Orm().Query().Select("Orders", "CreditCards").Delete(&user)
+// 删除用户删除用户
+facades.Orm().Query().Select("Orders", "creditCards")时的订单和信用卡。 元素(&user)
 
-// Delete all child associations of user when deleting user
-facades.Orm().Query().Select(orm.Associations).Delete(&user)
+// 删除删除用户
+facades.Orm().Query().Select(orm.Associations) 元素(&user)
 
-// Delete all Account of users when deleting users
+// 删除删除用户删除时的所有用户
 facades.Orm().Query().Select("Account").Delete(&users)
 ```
 
-Note: The associations will be deleted only if the primary key of the record is not empty, and Orm uses these primary
-keys as conditions to delete associated records:
+注意：只有当记录的主键不是空的，关联才会被删除。 并且Orm 使用这些主要的
+密钥作为删除相关记录的条件：
 
 ```go
 // Delete user that name='goravel', but don't delete account of user
@@ -757,93 +757,93 @@ facades.Orm().Query().Select("Account").Where("name = ?", "goravel").Delete(&mod
 facades.Orm().Query().Select("Account").Delete(&models.User{ID: 1})
 ```
 
-If execute batch delete without any conditions, ORM doesn't do that and returns an error. So you have to add some
-conditions, or use native SQL.
+如果执行批量删除没有任何条件，ORM不会这样做，并且返回错误。 所以您必须添加一些
+条件，或者使用原生SQL。
 
-### Query Soft Delete Data
+### 查询软删除数据
 
 ```go
-var user models.User
-facades.Orm().Query().WithTrashed().First(&user)
+var 用户
+facades.Orm().Query().Withrashed().First(&user)
 ```
 
-### Filter Repetition
+### 过滤器重复
 
 ```go
-var users []models.User
+var 用户 []models.User
 facades.Orm().Query().Distinct("name").Find(&users)
 ```
 
-### Get Driver
+### 获取驱动程序
 
 ```go
-driver := facades.Orm().Query().Driver()
+驱动程序:= facades.Orm().Query().Driver()
 
-// Judge driver
-if driver == orm.DriverMysql {}
+// 法官驱动程序
+如果驱动程序== orm.DriverMysql {}
 ```
 
-### Execute Native SQL
+### 执行原生SQL
 
 ```go
-type Result struct {
-  ID   int
-  Name string
-  Age  int
+请输入结果结构如下面的
+  ID int
+  name
+  Age int
 }
 
-var result Result
-facades.Orm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
+var results 结果
+facades。 rm().Query().Raw("SELECT id, name, age FROM users WHERE name = ?", "tom").Scan(&result)
 ```
 
-### Execute Native Update SQL
+### 执行本地更新 SQL
 
-The number of rows affected by the statement is returned by the method:
+受语句影响的行数由方法返回：
 
 ```go
-res, err := facades.Orm().Query().Exec("DROP TABLE users")
+Res, err := facades.Orm().Query().Exec("DROP TABLE 用户")
 // DROP TABLE `users`;
 
 num := res.RowsAffected
 ```
 
-### Exists
+### 存在
 
 ```go
-var exists bool
-facades.Orm().Query().Model(&models.User{}).Where("name", "tom").Exists(&exists)
+var 存在布尔值
+facades.Orm().Query().Model(&models.User{}).Where ("name", "tom").Exists(&exists)
 ```
 
-### Restore
+### 恢复
 
 ```go
-facades.Orm().Query().WithTrashed().Restore(&models.User{ID: 1})
-facades.Orm().Query().Model(&models.User{ID: 1}).WithTrashed().Restore()
-// UPDATE `users` SET `deleted_at`=NULL WHERE `id` = 1;
+.Orm().Query().Withrashed().Restore(&models.User{ID: 1})
+facades.Orm().Query().Model(&models.User{ID: 1}).Withrashed().Restore()
+// UPDATE`users` SET `deleted_at`=NULWHERE `id` = 1;
 ```
 
-### Transaction
+### 交易
 
-You can execute a transaction by `Transaction` function.
+您可以通过 `Transaction` 函数执行交易。
 
 ```go
-import (
+导入 (
   "github.com/goravel/framework/contracts/database/orm"
   "github.com/goravel/framework/facades"
 
   "goravel/app/models"
 )
 
-...
+. .
 
-return facades.Orm().Transaction(func(tx orm.Query) error {
+return facades.Orm().Transaction(func(tx orm.Query) 錯誤。
   var user models.User
 
   return tx.Find(&user, user.ID)
 })
 ```
 
-You can also manually control the flow of the transaction yourself:
+您也可以手动控制交易流量：
 
 ```go
 tx, err := facades.Orm().Query().Begin()
@@ -855,9 +855,9 @@ if err := tx.Create(&user); err != nil {
 }
 ```
 
-### Scopes
+### 范围
 
-Allows you to specify commonly used queries that can be referenced when method are called.
+允许您指定在调用方法时可以引用的常用查询。
 
 ```go
 func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
@@ -874,36 +874,36 @@ func Paginator(page string, limit string) func(methods orm.Query) orm.Query {
 facades.Orm().Query().Scopes(scopes.Paginator(page, limit)).Find(&entries)
 ```
 
-### Raw Expressions
+### 原始表达式
 
-You can use the `db.Raw` method to update fields:
+你可以使用 `db.Raw` 方法来更新字段：
 
 ```go
-import "github.com/goravel/framework/database/db"
+导入 "github.com/goravel/framework/database/db"
 
 facades.Orm().Query().Model(&user).Update("age", db.Raw("age - ?", 1))
-// UPDATE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899' WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
+// UpdatE `users` SET `age`=age - 1,`updated_at`='2023-09-14 14:03:20.899" WHERE `users`.`deleted_at` IS NULL AND `id` = 1;
 ```
 
-### Pessimistic Locking
+### 悲观锁定
 
-The query builder also includes a few functions to help you achieve "pessimistic locking" when executing your `select`
-statements.
+查询生成器还包含一些功能，帮助您在执行 "select"
+语句时实现"悲观锁定"。
 
-To execute a statement with a "shared lock", you may call the `SharedLock` method. A shared lock prevents the selected
-rows from being modified until your transaction is committed:
+要执行带有“共享锁”的语句，您可以调用 `SharedLock` 方法。 共享锁阻止所选的
+行被修改直到您的交易完成：
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).SharedLock().Get(&users)
+var 用户 []models.User
+facades.Orm().Query().Where("投票", ">", 100).SharedLock().Get(&users)
 ```
 
-Alternatively, you may use the `LockForUpdate` method. A "for update" lock prevents the selected records from being
+或者，您可以使用 `LockForUpdate` 方法。 A "for update" lock prevents the selected records from being
 modified or from being selected with another shared lock:
 
 ```go
-var users []models.User
-facades.Orm().Query().Where("votes", ">", 100).LockForUpdate().Get(&users)
+var 用户 []models.User
+facades.Orm().Query().Where("投票", ">", 100).LockForUpdate().Get(&users)
 ```
 
 ### Sum
@@ -918,19 +918,19 @@ fmt.Println(sum)
 
 ## 事件
 
-Orm models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `Retrieved`,
-`Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Saved`, `Deleting`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
-`Restored`, `Restoring`.
+Orm 模型传送了几次事件，允许您在模型的生命周期中绑定到以下时刻： `检索`,
+`Creating`, `Created`, `Updating`, `Updated`, `Saving`, `Deleted`, `ForceDeleting`, `ForceDeleted`,
+`Restored`, `Recovering`.
 
-The `Retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for
-the first time, the `Creating` and `Created` events will dispatch. The `Updating` / `Updated` events will dispatch when
-an existing model is modified and the `Save` method is called. The `Saving` / `Saved` events will dispatch when a model
-is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are
-dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the
-changes to the model are persisted.
+当从数据库检索到现有模型时，"检索" 事件将会被发送。 当一个新模型首次保存为
+时，`Creating` 和`Created` 事件将会发出。 当
+一个现有模型被修改并调用`Save` 方法时，`Updatating` / `Updated` 事件将会被调用。 `Saving` / `Saved` 事件将在模型
+创建或更新时发送 - 即使模型属性没有改变。 以`-ing`结尾的事件名称是
+发送之前对模型的任何更改都保持不变， 虽然以“-ed”结束的事件是在
+对模型的更改持续后发送的。
 
-To start listening to model events, define a `DispatchesEvents` method on your model. This property maps various points
-of the model's lifecycle to your own event classes.
+要开始监听模型事件，请在模型上定义一个 `DispatchesEvents` 方法。 此属性映射模型生命周期的各点
+到您自己的事件类。
 
 ```go
 import (
@@ -988,57 +988,57 @@ func (u *User) DispatchesEvents() map[contractsorm.EventType]func(contractsorm.E
 }
 ```
 
-> Note: Just register the events you need. Model events are not dispatched when doing batch operations through Orm.
+> 注意：只需注册您需要的事件。 当通过Orm进行批量操作时，模型事件不会被发送。
 
-### Observers
+### 观察员
 
-#### Defining Observers
+#### 定义观察员
 
-If you are listening to many events on a given model, you may use observers to group all of your listeners into a single
-class. Observer classes have method names that reflect the Eloquent events you wish to listen for. Each of these methods
-receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a
-new observer class:
+如果您正在聆听某个模式上的许多事件， 您可以使用观察员将您的所有听众分为单个的
+类。 观察类的方法名称反映了你想要听到的讨论事件。 每种方法
+都收到受影响的模型作为其唯一的参数。 "make:observer" Artisan 命令是创建一个
+新观察员类的最简单方式：
 
 ```shell
-go run . artisan make:observer UserObserver
-go run . artisan make:observer user/UserObserver
+去运行。个体操者make:observer UserObserver
+来运行个体操者make:observer user/UserObserver
 ```
 
-This command will place the new observer in your `app/observers` directory. If this directory does not exist, Artisan
-will create it for you. Your fresh observer will look like the following:
+此命令将把新的观察员放置在你的 "app/observers" 目录中。 如果此目录不存在，Artisan
+将为您创建它。 你的新观察家看起来像以下：
 
 ```go
-package observers
+包
 
-import (
+导入(
  "fmt"
 
  "github.com/goravel/framework/contracts/database/orm"
 )
 
-type UserObserver struct{}
+类型 UserObserver struct{}
 
-func (u *UserObserver) Created(event orm.Event) error {
+func (u *UserObserver) 已创建(事件orm)。 vent) 错误 {
  return nil
 }
 
-func (u *UserObserver) Updated(event orm.Event) error {
+func (u *UserObserver) Updated(event orm.Event) 错误 {
  return nil
 }
 
-func (u *UserObserver) Deleted(event orm.Event) error {
+func (u *UserObserver) 已删除(事件 orm)。 vent) 错误 {
  return nil
 }
 
-func (u *UserObserver) ForceDeleted(event orm.Event) error {
+func (u *UserObserver) ForceDeleted(event orm.Event) 错误 {
  return nil
 }
 ```
 
-The template observer only contains some events, you can add other events according to your needs.
+模板观察家只包含一些事件，您可以根据您的需要添加其他事件。
 
-To register an observer, you need to call the `Observe` method on the model you wish to observe. You may register
-observers in the `Boot` method of your application's `app/providers/event_service_provider.go::Boot` service provider:
+要注册一个观察者，你需要在你想观察的模型上调用 `Observer` 方法。 您可以在 "App/providers/event_service_provider.go:Boot" 服务提供商的 "Boot" 方法中注册
+观察家：
 
 ```go
 package providers
@@ -1066,36 +1066,36 @@ func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener 
 }
 ```
 
-> Note: If you set `DispatchesEvents` and `Observer` at the same time, only `DispatchesEvents` will be applied.
+> 注意：如果同时设置 `DispatchesEvents` 和 `Observer` ，将只应用 `DispatchesEvents` 。
 
-#### Parameter in Observer
+#### 观察家中的参数
 
-The `event` parameter will be passed to all observers:
+`event`参数将传递给所有观察者：
 
-| Method       | Action                                                                                                     |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Context      | Get context that passed by `facades.Orm().WithContext()`                                                   |
-| GetAttribute | Get the modified value, if not modified, get the original value, if there is no original value, return nil |
-| GetOriginal  | Get the original value, if there is no original value, return nil                                          |
-| IsDirty      | Determine whether the field is modified                                                                    |
-| IsClean      | IsDirty reverse                                                                                            |
-| Query        | Get a new Query, which can be used with transaction                                                        |
-| SetAttribute | Set a new value for a field                                                                                |
+| 方法                    | 行 动                                       |
+| --------------------- | ----------------------------------------- |
+| 二. 背景 | 获取通过 `facades.Orm().WiContext()` 传递的上下文内容 |
+| 获取属性                  | 获取修改过的值，如果未被修改，获得原始值，如果没有原始值，则返回 nil      |
+| 获取原始文件                | 获取原始值，如果没有原始值，返回 nil                      |
+| 伊迪尔蒂文                 | 确定是否修改字段                                  |
+| IsClean               | 异常反转                                      |
+| 查询                    | 获得一个新查询，可以与交易一起使用                         |
+| SetAttribute          | 为字段设置一个新值                                 |
 
-### Muting Events
+### 静音事件
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the
-`WithoutEvents` method:
+您可能偶尔需要临时“静音”所有由模型触发的事件。 您可以使用
+`WoutEvents` 方法实现这一点：
 
 ```go
 var user models.User
-facades.Orm().Query().WithoutEvents().Find(&user, 1)
+facades.Orm().Query().without Events().Find(&user, 1)
 ```
 
-#### Saving A Single Model Without Events
+#### 保存一个不发生事件的单一模型
 
-Sometimes you may wish to "save" a given model without dispatching any events. You may accomplish this with the
-`SaveQuietly` method:
+有时您可能希望“保存”一个特定的模型而不发送任何事件。 你可以使用
+`SaveQuietly` 方法完成这个操作：
 
 ```go
 var user models.User
