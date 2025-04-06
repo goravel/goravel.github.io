@@ -1,11 +1,11 @@
-# Controllers
+# Regelsystemen
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+In plaats van alle aanvraag-verwerkingslogica te definiëren in de vorm van een sluiting op een aparte route, kan een controller worden gebruikt
+voor integratie. De controllers worden opgeslagen in de map `app/http/controllers`.
 
-## Define Controllers
+## Definieer regelaars
 
-The following is an example of a basic controller:
+Het volgende is een voorbeeld van een basiscontroller:
 
 ```go
 package controllers
@@ -32,7 +32,7 @@ func (r *UserController) Show(ctx http.Context) http.Response {
 }
 ```
 
-The route define:
+De route gedefinieerd:
 
 ```go
 package routes
@@ -44,44 +44,44 @@ import (
 )
 
 func Api() {
-  userController := controllers.NewUserController()
+  userController := controllers. ewUserController()
   facades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### Controller aanmaken
 
 ```shell
-go run . artisan make:controller UserController
-go run . artisan make:controller user/UserController
+uitvoeren . artisan make:controller UserController
+ga uit. artisan make:controller gebruiker/UserController
 ```
 
-## Resource Controllers
+## Grondstof Controllers
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+Als je aan elk Eloquent model in je applicatie denkt als een "bron" het is typisch om dezelfde sets
+acties uit te voeren tegen elke bron in je applicatie. Stel je bijvoorbeeld voor dat je applicatie een `Photo` model en een
+`Movie` model bevat. Waarschijnlijk kunnen gebruikers deze bronnen maken, lezen, bijwerken of verwijderen.
 
 Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+routes to a controller with a single line of code. Om te beginnen, kunnen we de `make:controller` Artisan commando
+`--resource` optie gebruiken om snel een controller aan te maken voor deze acties:
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+uitvoeren . artisan make:controller --resource PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
-controller:
+Deze opdracht zal een controller genereren op `app/http/controllers/photo_controller.go`. De controller zal een
+methode bevatten voor elk van de beschikbare resource operaties. Vervolgens kunt u een resource route registreren die naar de
+controller verwijst:
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+facades.Route().Resource("foto's", controllers.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| Werkwoord   | URI               | actie      |
+| ----------- | ----------------- | ---------- |
+| KRIJG       | `/foto's`         | Indexeren  |
+| POSTE       | `/foto's`         | Winkel     |
+| KRIJG       | `/foto's/{photo}` | Weergeven  |
+| VOORKOMEN   | `/foto's/{photo}` | Vernieuwen |
+| VERWIJDEREN | `/foto's/{photo}` | Vernietig  |
