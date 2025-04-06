@@ -253,8 +253,7 @@ facades.Schema().DropIfExists("users")
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `SQLite`, and
-`Sqlserver` databases, it is a `String` type.
+创建一个可以根据 `[]any` 中的类型存储在 `Mysql` 中的 `Enum` 字段，但在 `Postgres`、`SQLite` 和 `Sqlserver` 数据库中，它是 `String` 类型。
 
 ```go
 table.Enum("difficulty", []any{"easy", "hard"})
