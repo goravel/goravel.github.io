@@ -1,58 +1,58 @@
-# Facades
+# واجهات
 
 `facades` provide a "static" interface for the core functionality of the application and provide a more flexible, more
 elegant, and easy-to-test syntax.
 
-All `facades` of Goravel are defined under `github.com/goravel/framework/facades`. We can easily use `facades`:
+جميع 'واجهات غورافيل معرّفة تحت 'github.com/goravel/framework/facades`. يمكننا بسهولة استخدام 'واجهات`:
 
 ```go
-import "github.com/goravel/framework/facades"
+استيراد "github.com/goravel/framework/facades"
 
 facades.Route().Run(facades.Config().GetString("app.host"))
 ```
 
-## How Facades Work
+## كيف تعمل الواجهات
 
-`facades` are generally instantiated in the `Register` or `Boot` stage of each module `ServerProvider`.
+'واجهات عادة ما تكون مثالية في مرحلة 'التسجيل' أو 'Boot' من كل وحدة نمطية 'Serverprovider\`.
 
 ```go
-func (config *ServiceProvider) Register() {
+Fc (تكوين *Serviceprovider) Register() {
   app := Application{}
   facades.Config = app.Init()
 }
 ```
 
-If the `facades` use other `facades`, then instantiate them in the `Boot` phase of the `ServerProvider`:
+إذا كانت "الواجهة" تستخدم "واجهات أخرى"، فمثلها في مرحلة "Boot" من "Serverserer":
 
 ```go
-func (database *ServiceProvider) Boot() {
+Fc (قاعدة البيانات *Serviceproviders ) Boot() {
   app := Application{}
   facades.DB = app.Init()
 }
 ```
 
-## Facade Class Reference
+## مرجع صف الواجهة
 
-| Facade      | Document                                     |
-| ----------- | -------------------------------------------- |
-| App         | [Container](../foundation/container)         |
-| Artisan     | [Command Console](../advanced/artisan)       |
-| Auth        | [Authentication](../security/authentication) |
-| مخبئ        | [Cache](../advanced/cache)                   |
-| Config      | [Configuration](../quickstart/configuration) |
-| Crypt       | [Encryption](../security/encryption)         |
-| Event       | [Event](../advanced/events)                  |
-| Gate        | [Authorization](../security/authorization)   |
-| Grpc        | [Grpc](../basic/grpc)                        |
-| Hash        | [Hashing](../security/hashing)               |
-| Log         | [Log](../basic/logging)                      |
-| Mail        | [Mail](../advanced/mail)                     |
-| Orm         | [ORM](../orm/quickstart)                     |
-| Queue       | [Queue](../advanced/queues)                  |
-| RateLimiter | [RateLimiter](../basic/routing)              |
-| Route       | [Route](../basic/routing)                    |
-| Seeder      | [Seeder](../orm/seeding)                     |
-| Schedule    | [Schedule](../advanced/schedule)             |
-| Storage     | [Storage](../advanced/schedule)              |
-| Testing     | [Testing](../testing/quickstart)             |
-| Validation  | [Validation](../advanced/schedule)           |
+| واجهة          | مستند                                        |
+| -------------- | -------------------------------------------- |
+| التطبيق        | [Container](../foundation/container)         |
+| Artisan        | [الأمر القديم](../advanced/artisan)          |
+| المصادقة       | [Authentication](../security/authentication) |
+| مخبئ           | [Cache](../advanced/cache)                   |
+| الإعدادات      | [Configuration](../quickstart/configuration) |
+| تشفير          | [Encryption](../security/encryption)         |
+| الحدث          | [Event](../advanced/events)                  |
+| البوابة        | [Authorization](../security/authorization)   |
+| عشب            | [Grpc](../basic/grpc)                        |
+| التجزئة        | [Hashing](../security/hashing)               |
+| سجل            | [Log](../basic/logging)                      |
+| البريد         | [Mail](../advanced/mail)                     |
+| خام            | [ORM](../orm/quickstart)                     |
+| قائمة الانتظار | [Queue](../advanced/queues)                  |
+| معدل محدد      | [RateLimiter](../basic/routing)              |
+| الطريق         | [Route](../basic/routing)                    |
+| مشاهدة         | [Seeder](../orm/seeding)                     |
+| الجدول         | [Schedule](../advanced/schedule)             |
+| التخزين        | [Storage](../advanced/schedule)              |
+| اختبار         | [Testing](../testing/quickstart)             |
+| المصادقة       | [Validation](../advanced/schedule)           |
