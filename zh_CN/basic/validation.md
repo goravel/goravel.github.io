@@ -1,17 +1,17 @@
-# Validation
+# 验证
 
-Goravel provides several different approaches to validate your application's incoming data. It is most common to use the
-`Validate` method available on all incoming HTTP requests. Goravel includes a wide variety of convenient validation
-rules.
+Goravel 提供了几种不同的方法来验证应用程序的传入数据。 最常见的是使用所有传入 HTTP 请求上可用的
+`Validate` 方法。 Goravel 包含各种方便的验证
+规则。
 
-## Validation Quickstart
+## 验证快速入门
 
-Let's take a closer look at a complete example of how to validate a form and return error messages to the user. This
-overview will provide you with a general understanding of how to validate incoming request data using Goravel.
+让我们仔细看一个完整的示例，了解如何验证表单并向用户返回错误消息。 这个
+概述将为您提供使用 Goravel 验证传入请求数据的一般理解。
 
-### Defining The Routes
+### 定义路由
 
-First, let's assume we have the following routes defined in our `routes/web.go` file:
+首先，让我们假设我们在 `routes/web.go` 文件中定义了以下路由：
 
 ```go
 import "goravel/app/http/controllers"
@@ -21,12 +21,11 @@ facades.Route().Get("/post/create", postController.Create)
 facades.Route().Post("/post", postController.Store)
 ```
 
-The `GET` route displays a form for creating a new blog post. The `POST` route stores the new post in the database.
+`GET` 路由显示用于创建新博客文章的表单。 使用 `POST` 路由将新帖子存储到数据库中。
 
-### Creating The Controller
+### 创建控制器
 
-Next, let's take a look at a simple controller that handles incoming requests to these routes. We'll leave the `Store`
-method empty for now:
+接下来，让我们看一个简单的控制器，它处理这些路由的传入请求。 我们暂时将 `Store` 方法保留为空：
 
 ```go
 package controllers
@@ -36,12 +35,12 @@ import (
 )
 
 type PostController struct {
-  // Dependent services
+  // 依赖服务
 }
 
 func NewPostController() *PostController {
   return &PostController{
-    // Inject services
+    // 注入服务
   }
 }
 
@@ -54,9 +53,9 @@ func (r *PostController) Store(ctx http.Context) {
 }
 ```
 
-### Writing The Validation Logic
+### 编写验证逻辑
 
-Now we are ready to fill in our `Store` method with the logic to validate the new blog post.
+现在我们准备在 `Store` 方法中填写验证新博客文章的逻辑。
 
 ```go
 func (r *PostController) Store(ctx http.Context) {
@@ -68,7 +67,7 @@ func (r *PostController) Store(ctx http.Context) {
 }
 ```
 
-### Nested Attributes
+### 嵌套属性
 
 If the incoming HTTP request contains "nested" field data, you may specify these fields in your validation rules using
 the "dot" syntax:
