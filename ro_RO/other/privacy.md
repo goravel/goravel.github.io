@@ -1,37 +1,37 @@
-# Privacy Policy
+# Politica de confidenţialitate
 
-## Collection of Information
+## Colectarea de informații
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+Colectăm anumite informaţii despre tine când vizitezi goravel.dev. Aceste informaţii pot include:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- Informaţii despre paginile pe care le vizitaţi pe site-ul nostru
+- Orice alte informații pe care le furnizați în mod voluntar
 
-## Use of Information
+## Utilizarea informațiilor
 
-We may use the collected information for various purposes, including:
+Putem folosi informațiile colectate în diverse scopuri, inclusiv:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- Personalizare experiență pe site-ul nostru
+- Îmbunătăţirea site-ului nostru şi a serviciilor
+- Contactați-vă cu privire la solicitările sau cererile dvs.
 
-## Data Security
+## Securitatea datelor
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
-your information from unauthorized access, disclosure, alteration, or destruction.
+Luăm în serios securitatea datelor dvs. Implementăm măsuri tehnice și organizaționale adecvate pentru a proteja
+informațiile dvs. împotriva accesului neautorizat, divulgării, modificării sau distrugerii.
 
-## Third-Party Disclosure
+## Publicarea de către terți
 
-We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+Putem împărtăși informațiile dvs. cu terțe părți de încredere care ne ajută în operarea site-ului nostru web sau în furnizarea de servicii către
+Aceste părți terțe sunt obligate prin contract să păstreze informațiile dvs. confidențiale și sigure.
 
-## Cookies
+## Cookie-uri
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+Site-ul nostru poate utiliza cookie-urile pentru a vă îmbunătăți experiența de navigare. Cookie-urile sunt fișiere mici stocate pe dispozitivul tău care
+activează anumite caracteristici și funcționalități. Puteți alege să dezactivați cookie-urile din setările browser-ului, dar vă rugăm să rețineți
+că unele părți ale website-ului nostru ar putea să nu funcționeze corespunzător.
 
-## Changes to this Policy
+## Modificări ale acestei politici
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+Putem actualiza această Politică de confidenţialitate din când în când. Orice modificări vor fi publicate pe această pagină, iar politica revizuită
+va intra în vigoare imediat după postare.
