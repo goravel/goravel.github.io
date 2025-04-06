@@ -1,10 +1,10 @@
 # Grpc
 
-Grpc module can be operated by `facades.Grpc()`.
+Grpc模块可以通过`facades.Grpc()`操作。
 
-## Controllers
+## 控制器
 
-Controllers can be defined in the `/app/grpc/controllers` directory.
+控制器可以在`/app/grpc/controllers`目录中定义。
 
 ```go
 // app/grpc/controllers
@@ -31,10 +31,9 @@ func (r *UserController) Show(ctx context.Context, req *protos.UserRequest) (pro
 }
 ```
 
-## Define routing
+## 定义路由
 
-All routing files can be defined in the `/routes` directory, such as `/routes/grpc.go`. Then bind routes in the
-`app/providers/grpc_service_provider.go` file.
+所有路由文件可以在`/routes`目录中定义，例如`/routes/grpc.go`。 然后在`app/providers/grpc_service_provider.go`文件中绑定路由。
 
 ```go
 // routes/grpc.go
@@ -52,9 +51,9 @@ func Grpc() {
 }
 ```
 
-### Register routing
+### 注册路由
 
-Register routing in the `app/providers/grpc_service_provider.go` file after routing was defined.
+在定义路由后，在 `app/providers/grpc_service_provider.go` 文件中注册路由。
 
 ```go
 // app/providers/grpc_service_provider.go
@@ -76,25 +75,25 @@ func (router *GrpcServiceProvider) Boot() {
 }
 ```
 
-## Start Grpc Server
+## 启动 Grpc 服务器
 
-Start Grpc in the `main.go` file.
+在 `main.go` 文件中启动 Grpc。
 
 ```go
 go func() {
   if err := facades.Grpc().Run(facades.Config().GetString("grpc.host")); err != nil {
-    facades.Log().Errorf("Grpc run error: %v", err)
+    facades.Log().Errorf("Grpc运行错误：%v", err)
   }
 }()
 ```
 
-## Interceptor
+## 拦截器
 
-The interceptor can be defined in the `app/grpc/inteceptors` folder, and then registered to `app/grpc/kernel.go`.
+拦截器可以在 `app/grpc/inteceptors` 文件夹中定义，然后注册到 `app/grpc/kernel.go` 中。
 
-**Server Interceptor**
+**服务器拦截器**
 
-You can set the server interceptors in the `app/grpc/kernel.go:UnaryServerInterceptors` method. For example:
+你可以在 `app/grpc/kernel.go:UnaryServerInterceptors` 方法中设置服务器拦截器。 例如：
 
 ```go
 // app/grpc/kernel.go
@@ -111,10 +110,9 @@ func (kernel *Kernel) UnaryServerInterceptors() []grpc.UnaryServerInterceptor {
 }
 ```
 
-**Client Interceptor**
+**客户端拦截器**
 
-You can set the client interceptor in the `app/grpc/kernel.go:UnaryClientInterceptorGroups` method, the method can group
-interceptors. For example, `interceptors.Client` is included under the `trace` group.
+你可以在 `app/grpc/kernel.go:UnaryClientInterceptorGroups` 方法中设置客户端拦截器，该方法可以对拦截器进行分组。 例如，`interceptors.Client` 包含在 `trace` 组下。
 
 ```go
 // app/grpc/kernel.go
@@ -133,8 +131,7 @@ func (kernel *Kernel) UnaryClientInterceptorGroups() map[string][]grpc.UnaryClie
 }
 ```
 
-the `trace` group can be applied to the configuration item `grpc.clients.interceptors`, in this way, the Client will be
-applied to all interceptors under the group. For example:
+可以将 `trace` 组应用于配置项 `grpc.clients.interceptors`，这样 Client 将应用于该组下的所有拦截器。 例如：
 
 ```go
 package config
@@ -146,13 +143,13 @@ import (
 func init() {
   config := facades.Config
   config.Add("grpc", map[string]interface{}{
-    // Grpc Configuration
+    // gRPC 配置
     //
-    // Configure your server host
+    // 配置你的服务器主机
     "host": config.Env("GRPC_HOST", ""),
 
-    // Configure your client host and interceptors.
-    // Interceptors can be the group name of UnaryClientInterceptorGroups in app/grpc/kernel.go.
+    // 配置你的客户端主机和拦截器。
+    // 拦截器可以是 app/grpc/kernel.go 中 UnaryClientInterceptorGroups 的组名。
     "clients": map[string]any{
       "user": map[string]any{
         "host":         config.Env("GRPC_USER_HOST", ""),
