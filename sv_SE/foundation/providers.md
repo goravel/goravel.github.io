@@ -1,16 +1,16 @@
-# Service Providers
+# Tjänsteleverantörer
 
-The most important thing in the kernel boot operation is to load the `ServiceProvider`. All `ServiceProvider` under the
-application are configured in the `providers` array in  `config/app.go`.
+Det viktigaste i kärnans uppstartsoperation är att ladda `ServiceProvider`. Alla `ServiceProvider` under
+-programmet är konfigurerade i `providers`-arrayen i `config/app.go`.
 
-First, the kernel will call the `Register` method of all service providers. After all service providers have been
-registered, the kernel will call the `Boot` method of all `ServiceProvider` again.
+Först kommer kärnan att anropa `Register`-metoden för alla tjänsteleverantörer. Efter att alla tjänsteleverantörer har blivit
+registrerade, kommer kärnan att anropa `Boot`-metoden för alla `ServiceProvider` igen.
 
-The `ServiceProvider` is the key to the life cycle of Goravel. They enable the framework to contain various components,
-such as routing, database, queue, cache, etc.
+`ServiceProvider` är nyckeln till livscykeln för Goravel. De gör det möjligt för ramverket att innehålla olika komponenter,
+såsom routing, databas, kö, cache, etc.
 
-You can also customize your own provider, it can be stored under `app/providers` and registered in the `providers` array
-in `config/app.go`.
+Du kan också anpassa din egen leverantör, den kan lagras under `app/providers` och registreras i `providers`-arrayen
+i `config/app.go`.
 
-The framework comes with a blank service provider `app/providers/app_service_provider.go` where you can implement simple
-boot logic. In bigger projects, you have the option to create new service providers for more precise control.
+Ramverket levereras med en tom tjänsteleverantör `app/providers/app_service_provider.go` där du kan implementera enkel
+boot logik. I större projekt har du möjlighet att skapa nya tjänsteleverantörer för mer exakt kontroll.
