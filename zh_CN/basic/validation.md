@@ -406,19 +406,19 @@ if validator.Errors().Has("email") {
 | `min`                  | `min:value` 检查值是否大于或等于给定值（`intX` `uintX` `floatX`）                                                                                     |
 | `eq`                   | `eq:value` 检查输入值是否等于给定值                                                                                                                |
 | `ne`                   | `ne:value` 检查输入值是否不等于给定值                                                                                                               |
-| `lt`                   | `lt:value` Check value is less than the given value(`intX` `uintX` `floatX`)                                        |
-| `gt`                   | `gt:value` Check value is greater than the given value(`intX` `uintX` `floatX`)                                     |
-| `len`                  | `len:value` Check value length is equals to the given size(`string` `array` `slice` `map`)                          |
-| `min_len`              | `min_len:value` Check the minimum length of the value is the given size(`string` `array` `slice` `map`)             |
-| `max_len`              | `max_len:value` Check the maximum length of the value is the given size(`string` `array` `slice` `map`)             |
-| `email`                | Check value is email address string                                                                                                    |
-| `array`                | Check value is array, slice type                                                                                                       |
-| `map`                  | Check value is a MAP type                                                                                                              |
-| `eq_field`             | `eq_field:field` Check that the field value is equals to the value of another field                                                    |
-| `ne_field`             | `ne_field:field` Check that the field value is not equals to the value of another field                                                |
-| `gt_field`             | `gt_field:field` Check that the field value is greater than the value of another field                                                 |
-| `gte_field`            | `gte_field:field` Check that the field value is greater than or equal to the value of another field                                    |
-| `lt_field`             | `lt_field:field` Check that the field value is less than the value of another field                                                    |
+| `lt`                   | `lt:value` 检查值是否小于给定值（`intX` `uintX` `floatX`）                                                                                         |
+| `gt`                   | `gt:value` 检查值是否大于给定值(`intX` `uintX` `floatX`)                                                                      |
+| `len`                  | `len:value` 检查值的长度是否等于给定的大小（`string` `array` `slice` `map`）                                                                            |
+| `min_len`              | `min_len:value` 检查值的最小长度是否为给定大小（`string` `array` `slice` `map`）                                                                        |
+| `max_len`              | `max_len:value` 检查值的最大长度是否为给定大小（`string` `array` `slice` `map`）                                                                        |
+| `email`                | 检查值是否为电子邮件地址字符串                                                                                                                        |
+| `array`                | 检查值是否为数组，切片类型                                                                                                                          |
+| `map`                  | 检查值是否为集合类型                                                                                                                             |
+| `eq_field`             | `eq_field:field` 检查字段值是否等于另一个字段的值                                                                                                      |
+| `ne_field`             | `ne_field:field` 检查字段值是否不等于另一个字段的值                                                                                                     |
+| `gt_field`             | `gt_field:field` 检查字段值是否大于另一个字段的值                                                                                                      |
+| `gte_field`            | `gte_field:field` 检查字段值是否大于或等于另一个字段的值                                                                                                  |
+| `lt_field`             | `lt_field:field` 检查字段值是否小于另一个字段的值                                                                                                      |
 | `lte_field`            | `lte_field:field` Check if the field value is less than or equal to the value of another field                                         |
 | `file`                 | Verify if it is an uploaded file                                                                                                       |
 | `image`                | Check if it is an uploaded image file and support suffix check                                                                         |
