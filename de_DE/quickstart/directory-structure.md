@@ -1,49 +1,49 @@
-# Directory Structure
+# Verzeichnisstruktur
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+Die Standard-Dateistruktur kann Ihnen den Projektfortschritt verbessern, und Sie können auch frei neue Ordner hinzufügen, aber
+ändern Sie die Standardordner nicht.
 
-## Root Directory
+## Root-Verzeichnis
 
-### `app` Directory
+### `app` Verzeichnis
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` enthält den Kerncode des Programms. Fast die gesamte Logik des Programms wird in diesem Ordner.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+Das Verzeichnis `bootstrap` enthält die Frameworkstart-Datei `app.go`.
 
-### `config` Directory
+### `config` Verzeichnis
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+Das `config` Verzeichnis enthält alle Konfigurationsdateien der Anwendung. Es ist am besten, diese Dateien zu durchsuchen und
+sich mit allen verfügbaren Optionen vertraut zu machen.
 
-### `database` Directory
+### `database` Verzeichnis
 
-The `database` directory contains database migration files.
+Das Verzeichnis `database` enthält Migrationsdateien für Datenbanken.
 
-### `public` Directory
+### `public` Verzeichnis
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+Das `public` Verzeichnis enthält einige statische Ressourcen wie Bilder, Zertifikate, etc.
 
-### `resources` Directory
+### `resources` Verzeichnis
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+Das `resources` Verzeichnis enthält deine [views](../basic/views) sowie deine rohe, nicht kompilierte Assets wie
+CSS oder JavaScript.
 
-### `routes` Directory
+### `routes` Verzeichnis
 
-The `routes` directory contains all the route definitions of the application.
+Das Verzeichnis `routes` enthält alle Routendefinitionen der Anwendung.
 
-### `storage` Directory
+### "Speicher"-Verzeichnis
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+Das Verzeichnis `storage` enthält das `logs` Verzeichnis und das `logs` Verzeichnis enthält die Protokolldateien der Anwendung.
 
-### `tests` Directory
+### `tests` Verzeichnis
 
 The `tests` directory contains your automated tests.
 
-## `app` Directory
+## `app` Verzeichnis
 
 ### `console` Directory
 
