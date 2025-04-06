@@ -1,44 +1,44 @@
 import { defineConfig, type DefaultTheme } from 'vitepress';
-export const en = defineConfig({
+export const config = defineConfig({
   lang: 'en-US',
   description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
   themeConfig: {
     nav: nav(),
     sidebar: {
-      '/en/quickstart/': {
-        base: '/en/quickstart/',
+      '/quickstart/': {
+        base: '/quickstart/',
         items: sidebarQuickstart()
       },
-      '/en/upgrade/': {
-        base: '/en/upgrade/',
+      '/upgrade/': {
+        base: '/upgrade/',
         items: sidebarUpgrade()
       },
-      '/en/foundation/': {
-        base: '/en/foundation/',
+      '/foundation/': {
+        base: '/foundation/',
         items: sidebarFoundation()
       },
-      '/en/basic/': {
-        base: '/en/basic/',
+      '/basic/': {
+        base: '/basic/',
         items: sidebarBasic()
       },
-      '/en/advanced/': {
-        base: '/en/advanced/',
+      '/advanced/': {
+        base: '/advanced/',
         items: sidebarAdvanced()
       },
-      '/en/security/': {
-        base: '/en/security/',
+      '/security/': {
+        base: '/security/',
         items: sidebarSecurity()
       },
-      '/en/orm/': {
-        base: '/en/orm/',
+      '/orm/': {
+        base: '/orm/',
         items: sidebarOrm()
       },
-      '/en/testing/': {
-        base: '/en/testing/',
+      '/testing/': {
+        base: '/testing/',
         items: sidebarTesting()
       },
-      '/en/other/': {
-        base: '/en/other/',
+      '/other/': {
+        base: '/other/',
         items: sidebarOther()
       }
     },
@@ -55,54 +55,54 @@ export const en = defineConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [{
     text: 'Quickstart',
-    link: '/en/quickstart/installation',
-    activeMatch: '/en/quickstart/'
+    link: '/quickstart/installation',
+    activeMatch: '/quickstart/'
   }, {
     text: 'Upgrade',
-    link: '/en/upgrade/v1.15',
-    activeMatch: '/en/upgrade/'
+    link: '/upgrade/v1.15',
+    activeMatch: '/upgrade/'
   }, {
     text: 'Foundation',
-    link: '/en/foundation/lifecycle',
-    activeMatch: '/en/foundation/'
+    link: '/foundation/lifecycle',
+    activeMatch: '/foundation/'
   }, {
     text: 'Basic',
-    link: '/en/basic/routing',
-    activeMatch: '/en/basic/'
+    link: '/basic/routing',
+    activeMatch: '/basic/'
   }, {
     text: 'Advanced',
-    link: '/en/advanced/artisan',
-    activeMatch: '/en/advanced/'
+    link: '/advanced/artisan',
+    activeMatch: '/advanced/'
   }, {
     text: 'Security',
-    link: '/en/security/authentication',
-    activeMatch: '/en/security/'
+    link: '/security/authentication',
+    activeMatch: '/security/'
   }, {
     text: 'ORM',
-    link: '/en/orm/quickstart',
+    link: '/orm/quickstart',
     activeMatch: '/orm/'
   }, {
-    text: 'Testing',
-    link: '/en/testing/quickstart',
+    text: "测试",
+    link: '/testing/quickstart',
     activeMatch: '/testing/'
   }, {
     text: 'Other',
-    link: '/en/other/contributing',
+    link: '/other/contributing',
     activeMatch: '/other/'
   }];
 }
 function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Installation',
+    text: "安装",
     link: 'installation'
   }, {
     text: "配置",
     link: 'configuration'
   }, {
-    text: 'Directory Structure',
+    text: "目录结构",
     link: 'directory-structure'
   }, {
-    text: 'Compile',
+    text: "编译",
     link: 'compile'
   }];
 }
@@ -123,25 +123,25 @@ function sidebarFoundation(): DefaultTheme.SidebarItem[] {
     text: 'Lifecycle',
     link: 'lifecycle'
   }, {
-    text: 'Service Container',
+    text: "服务容器",
     link: 'container'
   }, {
-    text: 'Service Providers',
+    text: "服务商",
     link: 'providers'
   }, {
-    text: 'Facades',
+    text: "面具",
     link: 'facades'
   }];
 }
 function sidebarBasic(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Routing',
+    text: "路由",
     link: 'routing'
   }, {
     text: 'Middlewares',
     link: 'middlewares'
   }, {
-    text: 'Controllers',
+    text: "控制器",
     link: 'controllers'
   }, {
     text: 'Requests',
@@ -150,19 +150,19 @@ function sidebarBasic(): DefaultTheme.SidebarItem[] {
     text: 'Responses',
     link: 'responses'
   }, {
-    text: 'Views',
+    text: "视图",
     link: 'views'
   }, {
-    text: 'Grpc',
+    text: "格尔普克",
     link: 'grpc'
   }, {
-    text: 'Session',
+    text: "会议",
     link: 'session'
   }, {
-    text: 'Validation',
+    text: "验证",
     link: 'validation'
   }, {
-    text: 'Logging',
+    text: "日志记录",
     link: 'logging'
   }];
 }
@@ -183,22 +183,22 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
     text: "邮件",
     link: 'mail'
   }, {
-    text: 'Queues',
+    text: "队列",
     link: 'queues'
   }, {
-    text: 'Task Scheduling',
+    text: "任务计划",
     link: 'schedule'
   }, {
     text: "本地化",
     link: 'localization'
   }, {
-    text: 'Package Development',
+    text: "软件包开发",
     link: 'package'
   }, {
     text: 'Color Output',
     link: 'color'
   }, {
-    text: 'Strings',
+    text: "字符串",
     link: 'strings'
   }, {
     text: 'Helpers',
@@ -207,16 +207,16 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
 }
 function sidebarSecurity(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Authentication',
+    text: "认证",
     link: 'authentication'
   }, {
-    text: 'Authorization',
+    text: "授权",
     link: 'authorization'
   }, {
-    text: 'Encryption',
+    text: "加密",
     link: 'encryption'
   }, {
-    text: 'Hashing',
+    text: "正在散列",
     link: 'hashing'
   }];
 }
@@ -225,16 +225,16 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
     text: 'Quickstart',
     link: 'quickstart'
   }, {
-    text: 'Relationships',
+    text: "关系",
     link: 'relationships'
   }, {
-    text: 'Migrations',
+    text: "迁移",
     link: 'migrations'
   }, {
     text: 'Seeding',
     link: 'seeding'
   }, {
-    text: 'Factories',
+    text: "因子",
     link: 'factories'
   }];
 }
@@ -243,7 +243,7 @@ function sidebarTesting(): DefaultTheme.SidebarItem[] {
     text: 'Quickstart',
     link: 'quickstart'
   }, {
-    text: 'HTTP Tests',
+    text: "HTTP 测试",
     link: 'http'
   }, {
     text: 'Mocks',
@@ -258,7 +258,7 @@ function sidebarOther(): DefaultTheme.SidebarItem[] {
     text: 'Excellent Packages',
     link: 'packages'
   }, {
-    text: 'Privacy Policy',
+    text: "隐私政策",
     link: 'privacy'
   }];
 }
