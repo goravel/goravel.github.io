@@ -1,81 +1,81 @@
-# Routing
+# 路由
 
-The Goravel routing module can be operated by `facades.Route()`.
+Goravel路由模块可以通过 `facades.Route()`来操作。
 
-## HTTP Driver
+## HTTP 驱动程序
 
-Goravel uses [gin](https://github.com/gin-gonic/gin) as its default HTTP driver. To use other drivers, configure them in
-the `config/http.go` file. The official default supports [gin](https://github.com/gin-gonic/gin)
-and [fiber](https://github.com/gofiber/fiber).
+Goravel 使用 [gin](https://github.com/gin-gonic/gin作为默认的 HTTP 驱动程序。 若要使用其他驱动程序，请在
+的 `config/http.go` 文件中配置它们。 官方默认支持 [gin](https://github.com/gin-gonic/gin)
+和 [fiber](https://github.com/gofiber/fiber)。
 
-| 驱动程序  | 链接                                                                                                   |
-| ----- | ---------------------------------------------------------------------------------------------------- |
-| Gin   | [https://github.com/goravel/gin](https://github.com/goravel/gin)     |
-| Fiber | [https://github.com/goravel/fiber](https://github.com/goravel/fiber) |
+| 驱动程序 | 链接                                                                                                   |
+| ---- | ---------------------------------------------------------------------------------------------------- |
+| Gin  | [https://github.com/goravel/gin](https://github.com/goravel/gin)     |
+| 纤维化  | [https://github.com/goravel/fiber](https://github.com/goravel/fiber) |
 
-## Default Routing File
+## 默认路由文件
 
-To define routing files, simply navigate to the `/routes` directory. By default, the framework utilizes a sample route
-located in `/routes/web.go`. To establish routing binding, the `func Web()` method is registered in the
-`app/providers/route_service_provider.go` file.
+要定义路由文件，只需导航到 `/routes` 目录。 默认情况下，框架使用位于`/routes/web.go`中的示例路
+。 要建立路由绑定，`func Web()`方法注册在
+`app/providers/Rute_service_provider.go` 文件中。
 
-If you require more precise management, you can add routing files to the `/routes` directory and register them in the
-`app/providers/route_service_provider.go` file.
+如果你需要更精确的管理，你可以将路由文件添加到 "/routes" 目录并注册到
+"app/providers/route_service_provider.go" 文件。
 
-## Start HTTP Server
+## 启动 HTTP 服务器
 
-Start the HTTP server in `main.go` in the root directory by calling `facades.Route().Run()`. This will automatically
+以 `facades.Route().Run()`启动根目录`main.go`中的 HTTP 服务器。 This will automatically
 fetch the `route.host` configuration.
 
 ```go
-package main
+软件包
 
-import (
-  "github.com/goravel/framework/facades"
+正在导入(
+  "github. om/goravel/framework/facades”
 
   "goravel/bootstrap"
 )
 
-func main() {
-  // This bootstraps the framework and gets it ready for use.
-  bootstrap.Boot()
+func main() 请您注意，
+  // 此引导框架并准备使用。
+  引导。 oot()
 
-  // Start http server by facades.Route().
-  go func() {
-    if err := facades.Route().Run(); err != nil {
-      facades.Log().Errorf("Route run error: %v", err)
+  // 以 facades.Route() 启动http 服务器
+  go func() por
+    if err := facades. Oute().Run(); err != nil power
+      facades. og().Errorf("路由运行错误： %v", err)
     }
   }()
 
-  select {}
+  选择 {}
 }
 ```
 
-## Start HTTPS Server
+## 启动 HTTPS 服务器
 
-Please complete the configuration of `http.tls` in `config/http.go` before using HTTPS, the `facades.Route().RunTLS()`
-method will start the HTTPS server according to the relevant configuration:
+请先完成`config/http.go`中的`http.tls`的配置，然后使用 HTTPS，`facades.Route().RunTLS()`
+方法将根据相关配置启动HTTPS 服务器：
 
 ```go
 // main.go
-if err := facades.Route().RunTLS(); err != nil {
+if err := facades.Route().RunTLS(); err != nil 然后再见
   facades.Log().Errorf("Route run error: %v", err)
 }
 ```
 
-You can also use `facades.Route().RunTLSWithCert()` method to customize the host and certificate.
+您也可以使用 `facades.Route().RunTLSWORT()` 方法自定义主机和证书。
 
 ```go
 // main.go
-if err := facades.Route().RunTLSWithCert("127.0.0.1:3000", "ca.pem", "ca.key"); err != nil {
-  facades.Log().Errorf("Route run error: %v", err)
+if err := facades.Route().RunTLSWORCert("127.0.0.1:3000", "ca.pem", "ca.key"); err != nil w
+  facades.Log().Errorf("Route 运行错误: %v", err)
 }
 ```
 
-## Close HTTP/HTTPS Server
+## 关闭 HTTP/HTTPS 服务器
 
-You can gracefully close the HTTP/HTTPS server by calling the `Shutdown` method, which will wait for all requests to be
-processed before closing.
+您可以通过调用 `Shutdown` 方法来愉快地关闭HTTP/HTTPS 服务器，该方法将等待所有请求被
+处理后关闭。
 
 ```go
 // main.go
@@ -105,27 +105,27 @@ go func() {
 select {}
 ```
 
-### Routing Methods
+### 路由方法
 
-| Methods    | Action                                |
-| ---------- | ------------------------------------- |
-| Group      | [Group Routing](#group-routing)       |
-| Prefix     | [Routing Prefix](#routing-prefix)     |
-| ServeHTTP  | [Testing Routing](#testing-routing)   |
-| Get        | [Basic Routing](#basic-routing)       |
-| Post       | [Basic Routing](#basic-routing)       |
-| Put        | [Basic Routing](#basic-routing)       |
-| Delete     | [Basic Routing](#basic-routing)       |
-| Patch      | [Basic Routing](#basic-routing)       |
-| 备选方案       | [Basic Routing](#basic-routing)       |
-| Any        | [Basic Routing](#basic-routing)       |
-| Resource   | [Resource Routing](#resource-routing) |
-| Static     | [File Routing](#file-routing)         |
-| StaticFile | [File Routing](#file-routing)         |
-| StaticFS   | [File Routing](#file-routing)         |
-| Middleware | [Middleware](#middleware)             |
+| 方法                                                    | 行 动                                   |
+| ----------------------------------------------------- | ------------------------------------- |
+| 组别                                                    | [Group Routing](#group-routing)       |
+| 前缀                                                    | [路由前缀](#routing-prefix)               |
+| ServeHTTP                                             | [测试路由](#testing-routing)              |
+| 获取                                                    | [Basic Routing](#basic-routing)       |
+| 帖子                                                    | [Basic Routing](#basic-routing)       |
+| 放入... | [Basic Routing](#basic-routing)       |
+| 删除                                                    | [Basic Routing](#basic-routing)       |
+| 补丁                                                    | [Basic Routing](#basic-routing)       |
+| 备选方案                                                  | [Basic Routing](#basic-routing)       |
+| 任何                                                    | [Basic Routing](#basic-routing)       |
+| 资源                                                    | [Resource Routing](#resource-routing) |
+| 静态的                                                   | [File Routing](#file-routing)         |
+| StaticFile                                            | [File Routing](#file-routing)         |
+| StaticFS                                              | [File Routing](#file-routing)         |
+| 中间件                                                   | [Middleware](#middleware)             |
 
-## Basic Routing
+## 基本路由
 
 ```go
 facades.Route().Get("/", func(ctx http.Context) http.Response {
@@ -141,7 +141,7 @@ facades.Route().Options("/", userController.Show)
 facades.Route().Any("/", userController.Show)
 ```
 
-## Resource Routing
+## 资源路由
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -165,7 +165,7 @@ func (c *ResourceController) Update(ctx http.Context) {}
 func (c *ResourceController) Destroy(ctx http.Context) {}
 ```
 
-## Group Routing
+## 组路由
 
 ```go
 facades.Route().Group(func(router route.Router) {
@@ -175,23 +175,23 @@ facades.Route().Group(func(router route.Router) {
 })
 ```
 
-## Routing Prefix
+## 路由前缀
 
 ```go
-facades.Route().Prefix("users").Get("/", userController.Show)
+Route().Prefix("users").Get("/", userController.Show)
 ```
 
-## File Routing
+## 文件路由
 
 ```go
-import "net/http"
+导入 "net/http"
 
 facades.Route().Static("static", "./public")
 facades.Route().StaticFile("static-file", "./public/logo.png")
 facades.Route().StaticFS("static-fs", http.Dir("./public"))
 ```
 
-## Routing Parameters
+## 路由参数
 
 ```go
 facades.Route().Get("/input/{id}", func(ctx http.Context) http.Response {
@@ -201,22 +201,22 @@ facades.Route().Get("/input/{id}", func(ctx http.Context) http.Response {
 })
 ```
 
-Detail [Request](./requests)
+详情 [Request](./requests)
 
-## Middleware
+## 中间件
 
 ```go
-import "github.com/goravel/framework/http/middleware"
+导入 "github.com/goravel/framework/http/middleware"
 
-facades.Route().Middleware(middleware.Cors()).Get("users", userController.Show)
+facades.Route().Middleware(middleware.Cors().Get("users", userController.Show)
 ```
 
-Detail [Middleware](./middlewares)
+详情 [Middleware](./middlewares)
 
-## Fallback Routes
+## 备用路由
 
-Using the `Fallback` method, you may define a route that will be executed when no other route matches the incoming
-request.
+使用 `Fallback` 方法，您可以定义当没有其他路由匹配传入的
+请求时将执行的路由。
 
 ```go
 facades.Route().Fallback(func(ctx http.Context) http.Response {
@@ -224,18 +224,18 @@ facades.Route().Fallback(func(ctx http.Context) http.Response {
 })
 ```
 
-## Rate Limiting
+## 评分限制
 
-### Defining Rate Limiters
+### 定义速率限制
 
-Goravel includes powerful and customizable rate-limiting services that you may utilize to restrict the amount of traffic
-for a given route or group of routes. To get started, you should define rate limiter configurations that meet your
-application's needs. Typically, this should be done within the `configureRateLimiting` method of your application's
-`app/providers/route_service_provider.go` class.
+Goravel包含强大和可定制的限制费率服务，您可以使用这些服务来限制指定路线或组路由的
+的交通量。 要开始, 您应该定义符合您的
+应用程序需要的比率限制器配置。 通常，这应该在你的应用程序的
+的 `app/providers/route_service_provider.go` 类的 `configureRateLimiting` 方法内进行。
 
-Rate limiters are defined using the `facades.RateLimiter()`'s `For` method. The `For` method accepts a rate limiter name
-and a closure that returns the limit configuration that should apply to routes that are assigned to the rate limiter.
-The rate limiter name may be any string you wish:
+比率限制器使用`facades.RateLimiter()`的`For`方法来定义。 "For" 方法接受一个比率限制器名称
+和一个关闭，返回应该适用于分配给比率限制器的路由的限制配置。
+比率限制器名称可能是您想要的字符串：
 
 ```go
 import (
@@ -252,24 +252,24 @@ func (receiver *RouteServiceProvider) configureRateLimiting() {
 ```
 
 If the incoming request exceeds the specified rate limit, a response with a 429 HTTP status code will automatically be
-returned by Goravel. If you would like to define your own response that should be returned by a rate limit, you may use
-the response method:
+returned by Goravel. 如果你想要定义你自己的响应，应该以一个比率限制返回，你可以使用
+的响应方式：
 
 ```go
-facades.RateLimiter().For("global", func(ctx http.Context) http.Limit {
-  return limit.PerMinute(1000).Response(func(ctx http.Context) {
-    ctx.Request().AbortWithStatus(http.StatusTooManyRequests)
+Facades.RateLimiter().For("global", func(ctx http.Contextt) http.Limit ow.
+  return limit.PerMinute(1000).Response(funfunc(ctx http.Contextt) own
+    ctx.Request().AbortWithStatus(httpStatusTooManyRequests)
   })
 })
 ```
 
-Since rate limiter callbacks receive the incoming HTTP request instance, you may build the appropriate rate limit
-dynamically based on the incoming request or authenticated user:
+因为Rate limiter callback收到传入的 HTTP 请求实例 您可以根据传入请求或认证用户动态构建适当的速率限制
+：
 
 ```go
-facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
+RateLimiter().For("global", func(ctx contracttshttp.Context) contractshttp.Limit Power
   // Suppose
-  if is_vip() {
+  if is_vip() v.
     return limit.PerMinute(100)
   }
 
@@ -277,11 +277,10 @@ facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshtt
 })
 ```
 
-#### Segmenting Rate Limits
+#### 分区率限制
 
-Sometimes you may wish to segment rate limits by some arbitrary value. For example, you may wish to allow users to
-access a given route 100 times per minute per IP address. To accomplish this, you may use the `By` method when building
-your rate limit:
+有时您可能希望将比率限制分割成任意的数值。 例如，您可能希望允许用户访问
+给定的路由每分钟的 IP 地址100次。 为了实现这一点，您可以使用 'By' 方法来构建您的速度限制：
 
 ```go
 facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
@@ -293,22 +292,22 @@ facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshtt
 })
 ```
 
-To illustrate this feature using another example, we can limit access to the route to 100 times per minute per
-authenticated user ID or 10 times per minute per IP address for guests:
+使用另一个例子来说明这个功能 我们可以限制每个
+认证用户ID每分钟100次，或每个IP地址每分钟10次的访客：
 
 ```go
-facades.RateLimiter().For("global", func(ctx contractshttp.Context) contractshttp.Limit {
-  if userID != 0 {
+Facades.RateLimiter().For("global", func(ctx contracttshttp.Context) contractshttp.Limit volume
+  if userID != 0 vow
     return limit.PerMinute(100).By(userID)
-  }
 
-  return limit.PerMinute(10).By(ctx.Request().Ip())
+
+  return limit.PerMinute(10).By(ctx.t()Ip())
 })
 ```
 
-#### Multiple Rate Limits
+#### 多速率限制
 
-If needed, you may return an array of rate limits for a given rate limiter configuration. Each rate limit will be
+如果需要，您可以返回给定比率限制配置的数组费率限制。 Each rate limit will be
 evaluated for the route based on the order they are placed within the array:
 
 ```go
@@ -320,10 +319,10 @@ facades.RateLimiter().ForWithLimits("login", func(ctx contractshttp.Context) []c
 })
 ```
 
-### Attaching Rate Limiters To Routes
+### 附加速率限制到路由
 
-Rate limiters may be attached to routes or route groups using the throttle middleware. The throttle middleware accepts
-the name of the rate limiter you wish to assign to the route:
+频率限制器可以附加到使用温度中间件的路线或路线组。 温度中间件接受了
+您想要分配给路由的速率限制器名称：
 
 ```go
 import github.com/goravel/framework/http/middleware
@@ -335,9 +334,9 @@ facades.Route().Middleware(middleware.Throttle("global")).Get("/", func(ctx http
 })
 ```
 
-## Cross-Origin Resource Sharing (CORS)
+## 跨源资源共享 (CORS)
 
-Goravel has CORS enabled by default, the configuration can be modified in `config/cors.go`.
+Goravel默认启用了 CORS ，配置可以在 `config/cors.go` 中修改。
 
-> For more information on CORS and CORS headers, please consult
-> the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
+> 关于CORS 和 CORS 标题的更多信息，请访问
+> [[MDN 网络文档在 CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers)。
