@@ -1,31 +1,31 @@
-# Encryption
+# Versleuteling
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
-that their underlying value can not be modified or tampered with once encrypted.
+Goravel's encryptiediensten bieden een eenvoudige, handige interface voor het versleutelen en decoderen van tekst via OpenSSL
+met AES-256 encryptie. Alle gecodeerde waarden van Goravel zijn ondertekend met behulp van een berichtauthenticatiecode (GMAC), zodat
+hun onderliggende waarde niet kan worden gewijzigd of geknoeid met eenmaal versleuteld.
 
 ## Configuratie
 
-Before using Goravel's encrypter, you must set the `key` configuration option in your `config/app.go` configuration
-file. This option is driven by the `APP_KEY` environment variable. Use the `go run . artisan key:generate` command to
-generate this variable's value since the `key:generate` command will utilize Golang's secure random bytes generator to
-create a secure cryptographic key for your application.
+Voordat u de encryptie van Goravels kunt gebruiken, moet u de `key` configuratie optie in uw `config/app.go` configuratie
+bestand instellen. Deze optie wordt gedreven door de `APP_KEY` omgevingsvariabele. Gebruik `go run . artisan sleutel:generate` commando naar
+genereer de waarde van deze variabele, aangezien het `key:generate` commando gebruik zal maken van Golang's veilige, willekeurige bytes generator naar
+maak een beveiligde cryptografische sleutel voor uw applicatie.
 
-## Using The Encrypter
+## De Encrypter gebruiken
 
-### Encrypting A Value
+### Versleutelen van een waarde
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+Om een waarde te coderen, kunt u de `EncryptString` methode gebruiken in `facades.Crypt()`. Deze methode versleutelt waarden met behulp van de
+OpenSSL en AES-256-GCM codering. Bovendien, alle gecodeerde waarden zijn ondertekend met een verificatiecode (GMAC)
+om ontsleuteling door kwaadwillende gebruikers te voorkomen die proberen de gegevens te knoeien.
 
 ```go
-secret, err := facades.Crypt().EncryptString("goravel")
+geheim, err := facades.Crypt().EncryptString("goravel")
 ```
 
-### Decrypting A Value
+### Decoderen van een waarde
 
-You can use the `DecryptString` method from `facades.Crypt()` to decrypt values. If the value can not be properly
+U kunt de `DecryptString` methode van `facades.Crypt()` gebruiken om waarden te ontsleutelen. If the value can not be properly
 decrypted, such as when the message authentication code is invalid, an error will be returned.
 
 ```go
