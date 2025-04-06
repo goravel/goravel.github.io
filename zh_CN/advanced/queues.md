@@ -196,43 +196,40 @@ err := facades.Queue().Chain([]queue.Jobs{
 }).Dispatch()
 ```
 
-### Delayed Dispatching
+### 延迟分发
 
-If you would like to specify that a job should not be immediately processed by a queue worker, you may use the `Delay`
-method during job dispatch. For example, let's specify that a job should not be available for processing after 100
-seconds of dispatching:
+如果您想指定一个任务不应该被队列工作者立即处理，您可以在任务分发期间使用 `Delay`
+方法。 例如，让我们指定一个任务在分发后100秒内不应该可用于处理：
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).Delay(time.Now().Add(100*time.Second)).Dispatch()
 ```
 
-### Customizing The Queue & Connection
+### 自定义队列和连接
 
-#### Dispatching To A Particular Queue
+#### 分发到特定队列
 
-By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you
-assign to various queues.
+通过将任务推送到不同的队列，您可以对排队的任务进行"分类"，甚至可以优先考虑分配给各种队列的工作者数量。
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnQueue("processing").Dispatch()
 ```
 
-#### Dispatching To A Particular Connection
+#### 分发到特定连接
 
-If your application interacts with multiple queue connections, you can use the `OnConnection` method to specify the
-connection to which the task is pushed.
+如果您的应用程序与多个队列连接交互，您可以使用 `OnConnection` 方法来指定任务被推送到的连接。
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").Dispatch()
 ```
 
-You may chain the `OnConnection` and `OnQueue` methods together to specify the connection and the queue for a job:
+您可以将 `OnConnection` 和 `OnQueue` 方法链接在一起，为任务指定连接和队列：
 
 ```go
 err := facades.Queue().Job(&jobs.Test{}, []queue.Arg{}).OnConnection("sync").OnQueue("processing").Dispatch()
 ```
 
-## `queue.Arg.Type` Supported Types
+## `queue.Arg.Type` 支持的类型
 
 ```go
 bool
