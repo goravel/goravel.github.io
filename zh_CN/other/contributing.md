@@ -62,16 +62,11 @@ Goravel欢迎来自不同才能的丰富多样的贡献，如编码、翻译、�
 
 ## Bug 反馈
 
-您可以在这里报告Bug反馈，
-提交前请先在问题列表中搜索类似问题。 报告应包含标题和问题的清晰描述，尽可能多的相关信息，以及演示问题的代码示例。 Bug反馈的目的是让您自己和其他人能够轻松重现Bug并开发修复方案。 Goravel鼓励提交者同时为Bug修复创建PR，使开源项目得到更积极的开发。 The report should contain a title and a clear description of the problem, as much relevant information as
-possible, and a code sample that demonstrates the problem. The goal of Bug Feedback is to make it easy for yourself and
-other persons to reproduce the Bug and develop fixes. Goravel encourages committers to create a PR for the Bug repair at
-the same time, making the open-source project more actively developed.
+您可以在这里报告Bug反馈，提交前请先在问题列表中搜索类似问题。 报告应包含标题和问题的清晰描述，尽可能多的相关信息，以及演示问题的代码示例。 Bug 反馈的目的是让您自己和其他人能够轻松重现 Bug 并开发修复方案。 Goravel 鼓励提交者同时为 Bug 修复创建 PR，使开源项目得到更积极的开发。
 
 ## 支持问题
 
-Goravel的GitHub问题跟踪器不是用来提供Goravel帮助或支持的。 相反，请使用以下渠道之一： Instead, use one of the following
-channels:
+Goravel的GitHub问题跟踪器不是用来提供Goravel帮助或支持的。 相反，请使用以下渠道之一：
 
 - [GitHub讨论](https://github.com/goravel/goravel/discussions)
 - [Telegram](https://github.com/goravel/goravel/tree/master#group)
@@ -79,10 +74,7 @@ channels:
 
 ## 开发讨论
 
-您可以在Goravel框架仓库的[GitHub讨论板](https://github.com/goravel/goravel/discussions)上提出新功能或对现有Goravel行为的改进建议。 关于错误、新功能和现有功能实现的非正式讨论在Telegram或微信群中进行。 Goravel的维护者Bowen通常在工作日上午9:00至下午18:00（UTC+08:00）出现在群里，在其他时间偶尔出现在群里。 Informal discussion regarding
-bugs, new features, and implementation of existing features takes place in Telegram or WeChat. Bowen, the maintainer of
-Goravel, is typically present in the group on weekdays from 9am-6pm (UTC+08:00), and sporadically present in the group
-at other times.
+您可以在Goravel框架仓库的[GitHub讨论板](https://github.com/goravel/goravel/discussions)上提出新功能或对现有Goravel行为的改进建议。 关于错误、新功能和现有功能实现的非正式讨论在 Telegram 或微信群中进行。 Goravel 的维护者 Bowen 通常在工作日上午9:00至下午18:00（UTC+08:00）出现在群里，在其他时间偶尔出现在群里。
 
 ## 贡献
 
@@ -138,8 +130,7 @@ at other times.
 
 ## 行为准则
 
-Goravel的行为准则源自Laravel的行为准则。 任何违反行为准则的行为都可以向Bowen报告。 Any violations of the code of conduct may be
-reported to Bowen.
+Goravel的行为准则源自Laravel的行为准则。 任何违反行为准则的行为都可以向Bowen报告。
 
 - 参与者将容忍不同的观点。
 - 参与者必须确保他们的语言和行为不包含人身攻击和贬低性的个人评论。
