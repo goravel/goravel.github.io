@@ -1,38 +1,38 @@
 # Configurazione
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Tutti i file di configurazione del framework Goravel sono memorizzati nella directory `config`. È possibile visualizzare le istruzioni
+specifiche e configurarle in modo flessibile in base alle esigenze del progetto.
 
-## Environment Configuration
+## Configurazione Ambiente
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+L'esecuzione di applicazioni in ambienti diversi di solito richiede diverse configurazioni. Ad esempio, potresti voler attivare
+la modalità Debug localmente, ma non ne hai bisogno nell'ambiente di produzione.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Pertanto, il framework fornisce il file `.env.example` nella directory principale. È necessario copiare questo file, rinominarlo
+in `.env` prima di iniziare lo sviluppo, e modificare gli elementi di configurazione nel `. file nv` secondo le esigenze del tuo progetto
+.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Nota che il `. il file nv` non dovrebbe essere aggiunto al controllo di versione, perché quando più persone collaborano, diversi sviluppatori
+possono utilizzare configurazioni diverse, e diverse configurazioni di ambiente di distribuzione sono diverse.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+Inoltre, se un intruso ottiene l'accesso al tuo repository di codice, ci sarà il rischio di esporre la configurazione
+sensibile. Se vuoi aggiungere un nuovo elemento di configurazione, puoi aggiungerlo al file `.env.example` per sincronizzare la configurazione
+di tutti gli sviluppatori.
 
-## Retrieve Environment Configuration
+## Recupera Configurazione Ambiente
 
-Use the following method to obtain the configuration items in the `.env` file:
+Usa il seguente metodo per ottenere gli elementi di configurazione nel file `.env`:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// Il primo parametro è la chiave di configurazione, e il secondo parametro è il valore predefinito
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## Accedere Ai Valori Di Configurazione
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+Puoi facilmente utilizzare la funzione globale `facades.Config()` ovunque nell'applicazione per accedere ai valori di configurazione
+nella directory `config`. L'accesso al valore di configurazione può utilizzare la sintassi "". È anche possibile specificare un valore predefinito
+, se l'opzione di configurazione non esiste, viene restituito il valore predefinito:
 
 ```go
 // Get the configuration through assertion
@@ -48,7 +48,7 @@ facades.Config().GetInt("app.int", 1)
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## Imposta Configurazione
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,10 +56,10 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Ottieni Informazioni Sul Progetto
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Puoi usare il comando `artisan about` per visualizzare la versione quadro, la configurazione, ecc.
 
 ```bash
-go run . artisan about
+vai a correre . artigiano circa
 ```
