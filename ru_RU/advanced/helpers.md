@@ -1,15 +1,15 @@
 # Helpers
 
-## Available Methods
+## Доступные методы
 
-### Paths
+### Пути
 
 |                                                                      |                                                                    |                                                                  |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | [path.App()](#path-app)           | [path.Base()](#path-base)       | [path.Config()](#path-config) |
 | [path.Database()](#path-database) | [path.Storage()](#path-storage) | [path.Public()](#path-public) |
 
-### Time
+### Время
 
 |                                                                                    |                                                                                  |                                                                              |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -24,23 +24,23 @@
 | -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [debug.Dump()](#debug-dump) | [debug.SDump()](#debug-sdump) | [debug.FDump()](#debug-fdump) |
 
-### Maps
+### Карты
 
-|                                                                |                                                                  |                                                                  |
-| -------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [maps.Add()](#maps-add)     | [maps.Exists()](#maps-exists) | [maps.Forget()](#maps-forget) |
-| [maps.Get()](#maps-get)     | [maps.Has()](#maps-has)       | [maps.HasAny()](#maps-hasany) |
-| [maps.Only()](#maps-only)   | [maps.Pull()](#maps-pull)     | [maps.Set()](#maps-set)       |
-| [maps.Where()](#maps-where) |                                                                  |                                                                  |
+|                                                               |                                                                  |                                                                  |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [карты.Add()](#maps-add)   | [maps.Exists()](#maps-exists) | [maps.Forget()](#maps-forget) |
+| [maps.Get()](#maps-get)    | [maps.Has()](#maps-has)       | [maps.HasAny()](#maps-hasany) |
+| [maps.Only()](#maps-only)  | [maps.Pull()](#maps-pull)     | [maps.Set()](#maps-set)       |
+| [карты.где()](#maps-where) |                                                                  |                                                                  |
 
-### Convert
+### Конвертировать
 
 |                                                                          |                                                                          |                                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | [convert.Tap()](#convert-tap)         | [convert.With()](#convert-with)       | [convert.Transform()](#convert-transform) |
 | [convert.Default()](#convert-default) | [convert.Pointer()](#convert-pointer) |                                                                              |
 
-### Collect
+### Собрать
 
 |                                                                        |                                                                          |                                                                          |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
@@ -51,12 +51,12 @@
 | [collect.Split()](#collect-split)   | [collect.Sum()](#collect-sum)         | [collect.Unique()](#collect-unique)   |
 | [collect.Values()](#collect-values) |                                                                          |                                                                          |
 
-## Paths
+## Пути
 
 ### `path.App()`
 
-The `path.App()` function returns the path to your application's app directory. You may also use the `path.App()`
-function to generate a path to a file relative to the application directory:
+Функция `path.App()` возвращает путь к каталогу приложения вашего приложения. Вы также можете использовать функцию `path.App()`
+для создания пути к файлу относительно каталога приложения:
 
 ```go
 import "github.com/goravel/framework/support/path"
@@ -67,48 +67,48 @@ path := path.App("http/controllers/controller.go")
 
 ### `path.Base()`
 
-The `path.Base()` function returns the path to your application's root directory. You may also use the `path.Base()`
-function to generate a path to a given file relative to the project root directory:
+Функция `path.Base()` возвращает путь к корневому каталогу вашего приложения. Вы также можете использовать функцию `path.Base()`
+для создания пути к заданному файлу относительно корневой директории проекта:
 
 ```go
-path := path.Base()
-path := path.Base("vendor/bin")
+путь := path.Base()
+путь := path.Base("vendor/bin")
 ```
 
 ### `path.Config()`
 
-The `path.Config()` function returns the path to your application's config directory. You may also use the
-`path.Config()` function to generate a path to a given file within the application's configuration directory:
+Функция `path.Config()` возвращает путь к папке конфигурации вашего приложения. Вы также можете использовать функцию
+`path.Config()` для создания пути к заданному файлу в каталоге конфигурации приложения:
 
 ```go
-path := path.Config()
-path := path.Config("app.go")
+путь := path.Config()
+путь := path.Config("app.go")
 ```
 
 ### `path.Database()`
 
-The `path.Database()` function returns the path to your application's database directory. You may also use the
-`path.Database()` function to generate a path to a given file within the `database` directory:
+Функция `path.Database()` возвращает путь к базе данных вашего приложения. Вы также можете использовать функцию
+`path.Database()` для создания пути к заданному файлу в папке `database`:
 
 ```go
-path := path.Database()
-path := path.Database("factories/user_factory.go")
+путь := path.Database()
+путь := path.Database("factories/user_factory.go")
 ```
 
 ### `path.Storage()`
 
-The `path.Storage()` function returns the path to your application's storage directory. You may also use the
-`path.Storage()` function to generate a path to a given file within the `storage` directory:
+Функция `path.Storage()` возвращает путь к каталогу хранения вашего приложения. Вы также можете использовать функцию
+`path.Storage()` для создания пути к заданному файлу в папке `storage`:
 
 ```go
-path := path.Storage()
-path := path.Storage("app/file.txt")
+путь := path.Storage()
+путь := path.Storage("app/file.txt")
 ```
 
 ### `path.Public()`
 
-The `path.Public()` function returns the path to your application's public directory. You may also use the
-`path.Public()` function to generate a path to a given file within the `public` directory:
+Функция `path.Public()` возвращает путь к публичному каталогу вашего приложения. Вы также можете использовать функцию
+`path.Public()` для создания пути к заданному файлу в папке `public`:
 
 ```go
 path := path.Public()
@@ -117,32 +117,32 @@ path := path.Public("css/app.css")
 
 ### `path.Lang()`
 
-The `path.Lang()` function returns the path to the `lang` directory. You may also use the `path.Lang()` function to
-generate a path to a given file within the `lang` directory:
+Функция `path.Lang()` возвращает путь в папку `lang`. Вы также можете использовать функцию `path.Lang()` для
+сгенерировать путь к заданному файлу в папке `lang`:
 
 ```go
-path := path.Lang()
-path := path.Lang("en.json")
+путь := path.Lang()
+путь := path.Lang("en.json")
 ```
 
-## Time
+## Время
 
-The `carbon` module of Goravel is an expansion by [golang-module/carbon](https://github.com/golang-module/carbon), the
-main feature is the realization of time backtracking, please refer to the official documentation for details.
+Модуль «карбон» Горавеля - это расширение [golang-module/carbon](https://github.com/golang-module/carbon), основной функцией
+является реализация обратного периода времени, пожалуйста, обратитесь к официальной документации за подробностями.
 
 ### `carbon.Now()`
 
-Get current time:
+Получить текущее время:
 
 ```go
-import "github.com/goravel/framework/support/carbon"
+импортировать "github.com/goravel/framework/support/carbon"
 
 carbon.Now()
 ```
 
 ### `carbon.SetTimezone()`
 
-Set timezone：
+Установить часовой пояс：
 
 ```go
 carbon.SetTimezone(carbon.UTC)
@@ -150,7 +150,7 @@ carbon.SetTimezone(carbon.UTC)
 
 ### `carbon.Parse()`
 
-Get `Carbon` object by String:
+Получите `Carbon` объект, строка:
 
 ```go
 carbon.Parse("2020-08-05 13:14:15")
@@ -158,7 +158,7 @@ carbon.Parse("2020-08-05 13:14:15")
 
 ### `carbon.FromTimestamp()`
 
-Get `Carbon` Object by timestamp:
+Получить объект `Carbon` по метке времени:
 
 ```go
 carbon.FromTimestamp(1577836800)
@@ -166,15 +166,15 @@ carbon.FromTimestamp(1577836800)
 
 ### `carbon.FromDateTime()`
 
-Get `Carbon` Object by date time:
+Получить `Carbon` объект по дате времени:
 
 ```go
-carbon.FromDateTime(2020, 1, 1, 0, 0, 0)
+carbon.FromDateTime(2020, 1, 1, 0, 0)
 ```
 
 ### `carbon.FromDate()`
 
-Get `Carbon` Object by date:
+Получить объект `Carbon` по дате:
 
 ```go
 carbon.FromDate(2020, 1, 1)
@@ -182,7 +182,7 @@ carbon.FromDate(2020, 1, 1)
 
 ### `carbon.FromTime()`
 
-Get `Carbon` Object by time:
+Получить `Carbon` объект по времени:
 
 ```go
 carbon.FromTime(0, 0, 0)
@@ -190,7 +190,7 @@ carbon.FromTime(0, 0, 0)
 
 ### `carbon.FromStdTime()`
 
-Get `Carbon` Object by `time.Time`:
+Получить `Carbon` объект по `time.Time`:
 
 ```go
 carbon.FromStdTime(time.Now())
@@ -198,7 +198,7 @@ carbon.FromStdTime(time.Now())
 
 ### `carbon.IsTestNow()`
 
-Determine whether the time is a test value:
+Определяет, является ли время тестовое значение:
 
 ```go
 carbon.IsTestNow()
@@ -206,7 +206,7 @@ carbon.IsTestNow()
 
 ### `carbon.SetTestNow()`
 
-Set the time to a test value:
+Установите время на тестовое значение:
 
 ```go
 carbon.SetTestNow(carbon.Now())
@@ -214,7 +214,7 @@ carbon.SetTestNow(carbon.Now())
 
 ### `carbon.UnsetTestNow()`
 
-Restore the time to a normal value:
+Восстановить время до нормального значения:
 
 ```go
 carbon.UnsetTestNow()
@@ -224,7 +224,7 @@ carbon.UnsetTestNow()
 
 ### `debug.Dump()`
 
-`debug.Dump()` can print any variable:
+`debug.Dump()` может печатать любую переменную:
 
 ```go
 import "github.com/goravel/framework/support/debug"
@@ -234,60 +234,60 @@ debug.Dump(myVar1, myVar2, ...)
 
 ### `debug.FDump()`
 
-`debug.FDump()` can print any variable to `io.Writer`:
+`debug.FDump()` может печатать любую переменную в `io.Writer`:
 
 ```go
-import "github.com/goravel/framework/support/debug"
+импортировать "github.com/goravel/framework/support/debug"
 
 debug.FDump(someWriter, myVar1, myVar2, ...)
 ```
 
 ### `debug.SDump()`
 
-`debug.SDump()` can print any variable to `string`:
+`debug.SDump()` может печатать любую переменную в `string`:
 
 ```go
-import "github.com/goravel/framework/support/debug"
+импортировать "github.com/goravel/framework/support/debug"
 
 debug.SDump(myVar1, myVar2, ...)
 ```
 
-## Maps
+## Карты
 
 ### `maps.Add()`
 
-The `maps.Add()` function adds a new key-value pair to the given map if the key does not already exist in the map:
+Функция `maps.Add()` добавляет на заданную карту новую пару ключей в том случае, если ключ еще не существует на карте:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Krishan"}
-maps.Add(mp, "age", 22)
+maps. dd(mp, "age", 22)
 // map[string]any{"name": "Krishan", "age": 22}
 
 mp2 := map[string]string{}
-maps.Add(mp2, "name", "Bowen")
+maps. dd(mp2, "name", "Bowen")
 maps.Add(mp2, "name", "Krishan")
 // map[string]string{"name": "Bowen"}
 ```
 
-### `maps.Exists()`
+### `maps.Существует()`
 
-The `maps.Exists()` function determines if the given key exists in the provided map:
+Функция `maps.Exists()` определяет, существует ли данный ключ в представленной карте:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Krishan", "age": 22}
 
-exists := maps.Exists(mp, "name") // true
+существует := maps.Exists(mp, "name") // true
 
-exists = maps.Exists(mp, "email") // false
+существует = maps.Exists(mp, "email") // ложное
 ```
 
 ### `maps.Forget()`
 
-The `maps.Forget()` function removes the given key(s) from the provided map:
+Функция `maps.Forget()` удаляет заданный ключ (ключи) из предоставленной карты:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -300,15 +300,15 @@ maps.Forget(mp, "name", "age")
 
 ### `maps.Get()`
 
-The `maps.Get()` function retrieves the value of the given key from the provided map. If the key does not exist, the
-default value will be returned:
+Функция `maps.Get()` возвращает значение заданного ключа на предоставленной карте. Если ключ не существует, значение
+по умолчанию будет возвращено:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Bowen"}
 
-value := maps.Get(mp, "name", "Krishan")
+value := maps. et(mp, "name", "Krishan")
 // Bowen
 
 value = maps.Get(mp, "age", 22)
@@ -317,82 +317,82 @@ value = maps.Get(mp, "age", 22)
 
 ### `maps.Has()`
 
-The `maps.Has()` function determines if the given key(s) exists in the provided map:
+Функция `maps.Has()` определяет, существует ли указанная клавиша (клавиши) на предоставленной карте:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-exists := maps.Has(mp, "name", "language")
+существует := maps. as(mp, "name", "language")
 // true
 
-exists = maps.Has(mp, "name", "age")
+существует = maps.Has(mp, "name", "age")
 // false
 ```
 
 ### `maps.HasAny()`
 
-The `maps.HasAny()` function determines if any of the given key(s) exists in the provided map:
+Функция `maps.HasAny()` определяет, существует ли какая-либо из заданных ключей(ов) на предоставленной карте:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-exists := maps.HasAny(mp, "name", "age")
+существует := maps. asAny(mp, "name", "age")
 // true
 
-exists = maps.HasAny(mp, "age", "email")
+существует = maps.HasAny(mp, "age", "email")
 // false
 ```
 
 ### `maps.Only()`
 
-The `maps.Only()` function retrieves only the given key(s) from the provided map:
+Функция `maps.Only()` извлекает только заданный ключ(ы) из предоставленной карты:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-newMap := maps.Only(mp, "name")
-// map[string]any{"name": "Goravel"}
+newMap := maps. nly(mp, "name")
+// map[string]any{"name": "Горавель"}
 
 newMap = maps.Only(mp, "name", "age")
-// map[string]any{"name": "Goravel"}
+// map[string]any{"name": "Горавель"}
 ```
 
 ### `maps.Pull()`
 
-The `maps.Pull()` function retrieves and removes the given key from the provided map:
+Функция `maps.Pull()` извлекает и удаляет заданный ключ с предоставленной карты:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "name")
+name := maps. ull(mp, "name")
 // name = "Goravel"
 // mp = map[string]any{"language": "Go"}
 ```
 
-A default value can be provided as the third argument to the `maps.Pull()` function. This value will be returned if the
-key does not exist in the map:
+Значение по умолчанию может быть передано в качестве третьего аргумента функции `maps.Pull()`. Это значение будет возвращено, если ключ
+не существует на карте:
 
 ```go
-import "github.com/goravel/framework/support/maps"
+импорт "github.com/goravel/framework/support/maps"
 
 mp := map[string]any{"name": "Goravel", "language": "Go"}
 
-name := maps.Pull(mp, "age", "default")
+name := maps. ull(mp, "age", "default")
 // name = "default"
 // mp = map[string]any{"name": "Goravel", "language": "Go"}
 ```
 
 ### `maps.Set()`
 
-The `maps.Set()` function sets the given key and value in the provided map:
+Функция `maps.Set()` устанавливает заданный ключ и значение на предоставленной карте:
 
 ```go
 import "github.com/goravel/framework/support/maps"
@@ -405,43 +405,43 @@ maps.Set(mp, "language", "Go")
 
 ### `maps.Where()`
 
-The `maps.Where()` function filters the provided map using the given callback:
+Функция `maps.Where()` фильтрует предоставленную карту, используя заданный обратный вызов:
 
 ```go
 import "github.com/goravel/framework/support/maps"
 
 mp := map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap := maps.Where(mp, func(key string, value string) bool {
+newMap := maps. here(mp, func(key string, value string) bool {
     return key == "name"
 })
 // map[string]string{"name": "Goravel"}
 ```
 
-## Convert
+## Конвертировать
 
 ### `convert.Tap()`
 
-The `convert.Tap()` function passes the given value to the provided callback and returns the value:
+Функция `convert.Tap()` передает заданное значение в предоставленную обратную связь и возвращает значение:
 
 ```go
 import "github.com/goravel/framework/support/convert"
 
 value := convert.Tap("Goravel", func(value string) {
-    fmt.Println(value + " Framework")
+    fmt. rintln(value + " Framework")
 })
 // Goravel
 
 mp := map[string]string{"name": "Goravel"}
-val := convert.Tap(mp, func(value map[string]string) {
+val := convert. ap(mp, func(value map[string]string) {
     mp["language"] = "Go"
 })
-// map[string]string{"name": "Goravel", "language": "Go"}
+// map[string]string{"name": "Горавел", "language": "Go"}
 ```
 
 ### `convert.Transform()`
 
-The `convert.Transform()` transforms the given value using the provided callback and returns the result:
+`convert.Transform()` преобразует заданное значение, используя предоставленную обратную связь, и возвращает результат:
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -449,7 +449,7 @@ import "github.com/goravel/framework/support/convert"
 value := convert.Transform(1, strconv.Itoa)
 // "1"
 
-val := convert.Transform("foo", func(s string) *foo {
+val := convert. ransform("foo", func(s string) *foo {
       return &foo{Name: s}
 })
 // &foo{Name: "foo"}
@@ -457,7 +457,7 @@ val := convert.Transform("foo", func(s string) *foo {
 
 ### `convert.With()`
 
-The `convert.With()` executes the given callback with the provided value and returns the result of the callback:
+`convert.With()` выполняет заданное значение обратного вызова и возвращает результат обратного вызова:
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -470,7 +470,7 @@ value := convert.With("Goravel", func(value string) string {
 
 ### `convert.Default()`
 
-The `convert.Default()` method returns first non-zero value. If all values are zero, it returns zero value.
+Метод `convert.Default()` возвращает первое не-нулевое значение. Если все значения равны нулю, он возвращает нулевое значение.
 
 ```go
 import "github.com/goravel/framework/support/convert"
@@ -478,30 +478,30 @@ import "github.com/goravel/framework/support/convert"
 value := convert.Default("", "foo")
 // foo
 
-value = convert.Default("bar", "foo")
-// bar
+value = convert. efault("bar", "foo")
+// значение бара
 
-value = convert.Default(0, 1)
+= convert.Default(0, 1)
 // 1
 ```
 
 ### `convert.Pointer()`
 
-The `convert.Pointer()` method returns the pointer of the given value.
+Метод `convert.Pointer()` возвращает указатель заданного значения.
 
 ```go
-import "github.com/goravel/framework/support/convert"
+импортируйте "github.com/goravel/framework/support/convert"
 
 convert.Pointer("foo") // *string("foo")
 
 convert.Pointer(1) // *int(1)
 ```
 
-## Collect
+## Собрать
 
 ### `collect.Count()`
 
-The `collect.Count()` function returns the number of items in the given collection:
+Функция `collect.Count()` возвращает количество элементов в данной коллекции:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -512,7 +512,7 @@ collect.Count([]string{"Goravel", "Framework"})
 
 ### `collect.CountBy()`
 
-The `collect.CountBy()` function counts the occurrences for which the predicate is true:
+Функция `collect.CountBy()` подсчитывает случаи, при которых предикат верен:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -520,12 +520,13 @@ import "github.com/goravel/framework/support/collect"
 collect.CountBy([]string{"Goravel", "Framework"}, func(value string) bool {
     return strings.Contains(value, "Goravel")
 })
-// 1
+
+ // 1
 ```
 
 ### `collect.Each()`
 
-The `collect.Each()` function iterates over the items in the given collection and passes each item to the given
+Функция `collect.Each()` повторяет элементы в заданной коллекции и передает каждый элемент заданному
 callback:
 
 ```go
@@ -540,7 +541,7 @@ collect.Each([]string{"Goravel", "Framework"}, func(value string, index int) {
 
 ### `collect.Filter()`
 
-The `collect.Filter()` function filters the items in the collection using the given callback:
+Функция `collect.Filter()` фильтрует элементы коллекции, используя заданный обратный вызов:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -554,29 +555,29 @@ newCollection := collect.Filter([]string{"Goravel", "Framework"}, func(value str
 
 ### `collect.GroupBy()`
 
-The `collect.GroupBy()` function groups the items in the collection by the result of the given callback:
+Функция `collect.GroupBy()` группирует элементы в коллекции по результатам данного обратного вызова:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+импортируйте "github.com/goravel/framework/support/collect"
 
-// use example of complex map slice (use different example)
-newCollection := collect.GroupBy([]map[string]string{
+// используйте пример сложного кусочека карт (используйте другой пример)
+newCollection := collect. roupBy([]map[string]string{
     {"class": "1", "Name": "Rohan"},
-    {"class": "2", "Name": "Bowen"},
-    {"class": "2", "Name": "Krishan"},
+    {"class": "2", "Название: "Боуен"},
+    {"класс": "2", "Имя": "Кришан"},
 }, func(value map[string]string) string {
     return value["class"]
 })
 
 // map[string][]map[string]string{
-//     "1": []map[string]string{{"class": "1", "Name": "Rohan"}},
-//     "2": []map[string]string{{"class": "2", "Name": "Bowen"}, {"class": "2", "Name": "Krishan"}},
+// "1": []map[string]string{{"class": "1", "Name": "Rohan"}},
+// "2": []map[string]string{{"class": "2", "Name": "Bowen"}, {"class": "2", "Name": "Krishan"}},
 // }
 ```
 
 ### `collect.Keys()`
 
-The `collect.Keys()` function returns all the keys for the items in the collection:
+Функция `collect.Keys()` возвращает все ключи для элементов в коллекции:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -587,12 +588,12 @@ keys := collect.Keys(map[string]string{"name": "Goravel", "language": "Go"})
 
 ### `collect.Map()`
 
-The `collect.Map()` function converts one type of collection into another using the given iteratee:
+Функция `collect.Map()` преобразует один тип коллекции в другой, используя заданную итерацию:
 
 ```go
 import "github.com/goravel/framework/support/collect"
 
-newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string,  _ int) string {
+newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string, _ int) string {
     return strings.ToUpper(value)
 })
 
@@ -601,10 +602,10 @@ newCollection := collect.Map([]string{"Goravel", "Framework"}, func(value string
 
 ### `collect.Max()`
 
-The `collect.Max()` function returns the maximum value of the given collection:
+Функция `collect.Max()` возвращает максимальное значение данной коллекции:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+импорт "github.com/goravel/framework/support/collect"
 
 max := collect.Max([]int{1, 2, 3, 4, 5})
 // 5
@@ -612,7 +613,7 @@ max := collect.Max([]int{1, 2, 3, 4, 5})
 
 ### `collect.Merge()`
 
-The `collect.Merge()` function merges the given maps into a single map:
+Функция «collect.Merge()» объединяет заданные карты в одну карту:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -620,16 +621,16 @@ import "github.com/goravel/framework/support/collect"
 newMap := collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"language": "Go"})
 // map[string]string{"name": "Goravel", "language": "Go"}
 
-newMap = collect.Merge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
+newMap = collect. erge(map[string]string{"name": "Goravel"}, map[string]string{"name": "Framework"})
 // map[string]string{"name": "Framework"}
 ```
 
 ### `collect.Min()`
 
-The `collect.Min()` function returns the minimum value of the given collection:
+Функция `collect.Min()` возвращает минимальное значение данной коллекции:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+импорт "github.com/goravel/framework/support/collect"
 
 min := collect.Min([]int{1, 2, 3, 4, 5})
 // 1
@@ -637,10 +638,10 @@ min := collect.Min([]int{1, 2, 3, 4, 5})
 
 ### `collect.Reverse()`
 
-The `collect.Reverse()` function reverses the items in the collection:
+Функция `collect.Reverse()` возвращает элементы в коллекции:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+импорт "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
@@ -649,7 +650,7 @@ newCollection := collect.Reverse([]string{"Goravel", "Framework"})
 
 ### `collect.Shuffle()`
 
-The `collect.Shuffle()` function shuffles the items in the collection:
+Функция `collect.Shuffle()` перемешивает элементы в коллекции:
 
 ```go
 import "github.com/goravel/framework/support/collect"
@@ -661,7 +662,7 @@ newCollection := collect.Shuffle([]int{1, 2, 3, 4, 5})
 
 ### `collect.Split()`
 
-The `collect.Split()` function splits a collection into the groups of the given length. If the collection can't be split
+Функция `collect.Split()` разбивает коллекцию на группы заданной длины. If the collection can't be split
 evenly, the final chunk will contain the remaining items:
 
 ```go
@@ -674,7 +675,7 @@ newCollection := collect.Split([]int{1, 2, 3, 4, 5}, 2)
 
 ### `collect.Sum()`
 
-The `collect.Sum()` function returns the sum of all items in the collection:
+Функция «collect.Sum()» возвращает сумму всех элементов в коллекции:
 
 ```go
 
@@ -687,11 +688,11 @@ sum := collect.Sum([]int{1, 2, 3, 4, 5})
 
 ### `collect.Unique()`
 
-The `collect.Unique()` method returns the duplicate-free collection where in case of duplicate values, only the first
-occurrence will be kept:
+Метод `collect.Unique()` возвращает коллекцию, свободную от дубликатов, где в случае повторяющихся значений сохранится только первая коллекция
+:
 
 ```go
-import "github.com/goravel/framework/support/collect"
+импортировать "github.com/goravel/framework/support/collect"
 
 newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 
@@ -700,7 +701,7 @@ newCollection := collect.Unique([]string{"Goravel", "Framework", "Goravel"})
 
 ### `collect.Values()`
 
-The `collect.Values()` function returns all the values of the given collection:
+Функция «collect.Values()» возвращает все значения данной коллекции:
 
 ```go
 import "github.com/goravel/framework/support/collect"
