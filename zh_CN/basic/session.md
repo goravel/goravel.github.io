@@ -1,20 +1,14 @@
-# Session
+# 会话
 
-Session enables you to store user information across multiple requests, providing a stateful experience within the
-inherently stateless HTTP protocol. This user information is stored persistently on the server side. Goravel offers a
-unified interface for interacting with various persistent storage drivers.
+会话使您能够在多个请求中存储用户信息，在本质上无状态的HTTP协议中提供有状态的体验。 这些用户信息被持久地存储在服务器端。 Goravel提供了一个统一的接口来与各种持久存储驱动程序交互。
 
-## Configuration
+## 配置
 
-The `session` configuration file is located at `config/session.go`. The default driver is `file`, which stores sessions
-in the `storage/framework/sessions` directory. Goravel allows you to create a custom `session` driver by implementing
-the `contracts/session/driver` interface.
+`session`配置文件位于`config/session.go`。 默认驱动程序是`file`，它将会话存储在`storage/framework/sessions`目录中。 Goravel允许您通过实现`contracts/session/driver`接口来创建自定义的`session`驱动程序。
 
-### Register Middleware
+### 注册中间件
 
-By default, Goravel does not start a session automatically. However, it provides middleware to start a session. You can
-register the session middleware in the `app/http/kernel.go` file to apply it to all routes, or you can add it to
-specific routes:
+默认情况下，Goravel不会自动启动会话。 然而，它提供了启动会话的中间件。 你可以在 `app/http/kernel.go` 文件中注册会话中间件以将其应用于所有路由，或者将其添加到特定路由：
 
 ```go
 import (
@@ -29,43 +23,41 @@ func (kernel Kernel) Middleware() []http.Middleware {
 }
 ```
 
-## Interacting With The Session
+## 与会话交互
 
-### Retrieving Data
+### 检索数据
 
-You can use the `Get` method to retrieve data from the session. If the value does not exist, `nil` will be returned.
+你可以使用 `Get` 方法从会话中检索数据。 如果该值不存在，将返回 `nil`。
 
 ```go
 value := ctx.Request().Session().Get("key")
 ```
 
-You may also pass a default value as the second argument to the `Get` method. This value will be returned if the
-specified key does not exist in the session:
+你也可以将默认值作为第二个参数传递给 `Get` 方法。 如果指定的键在会话中不存在，将返回这个值：
 
 ```go
 value := ctx.Request().Session().Get("key", "default")
 ```
 
-### Retrieving All Data
+### 检索所有数据
 
-If you would like to retrieve all data from the session, you may use the `All` method:
+如果您想检索会话中的所有数据，可以使用 `All` 方法：
 
 ```go
 data := ctx.Request().Session().All()
 ```
 
-### Retrieving a Subset of Data
+### 检索数据子集
 
-If you would like to retrieve a subset of the session data, you may use the `Only` method:
+如果您想检索会话数据的子集，可以使用 `Only` 方法：
 
 ```go
 data := ctx.Request().Session().Only([]string{"username", "email"})
 ```
 
-### Determining If An Item Exists In The Session
+### 判断会话中是否存在某项
 
-To determine if an item is present in the session, you may use the `Has` method. The `Has` method returns `true` if the
-item is present and is not `nil`:
+要判断会话中是否存在某项，可以使用 `Has` 方法。 如果该项存在且不为 `nil`，`Has` 方法将返回 `true`：
 
 ```go
 if ctx.Request().Session().Has("user") {
@@ -73,7 +65,7 @@ if ctx.Request().Session().Has("user") {
 }
 ```
 
-To determine if an item is present and even if it is `nil`, you may use the `Exists` method:
+要判断某项是否存在，即使它是 `nil`，您可以使用 `Exists` 方法：
 
 ```go
 if ctx.Request().Session().Exists("user") {
@@ -81,7 +73,7 @@ if ctx.Request().Session().Exists("user") {
 }
 ```
 
-To determine if an item is not present in the session, you may use the `Missing` method:
+要确定会话中是否不存在某个项目，你可以使用 `Missing` 方法：
 
 ```go
 if ctx.Request().Session().Missing("user") {
@@ -89,26 +81,26 @@ if ctx.Request().Session().Missing("user") {
 }
 ```
 
-### Storing Data
+### 存储数据
 
-You can use the `Put` method to store data in the session:
+你可以使用 `Put` 方法在会话中存储数据：
 
 ```go
 ctx.Request().Session().Put("key", "value")
 ```
 
-### Retrieving & Deleting Data
+### 获取和删除数据
 
-If you would like to retrieve an item from the session and then delete it, you may use the `Pull` method:
+如果你想从会话中获取一个项目然后删除它，你可以使用 `Pull` 方法：
 
 ```go
 value := ctx.Request().Session().Pull("key")
 ```
 
-### Deleting Data
+### 删除数据
 
-The `Forget` method can be used to remove a piece of data from the session. If you would like to remove all data from
-the session, you can use the `Flush` method:
+`Forget` 方法可用于从会话中删除一条数据。 如果你想要从会话中删除所有数据，
+可以使用 `Flush` 方法：
 
 ```go
 ctx.Request().Session().Forget("username", "email")
@@ -116,23 +108,23 @@ ctx.Request().Session().Forget("username", "email")
 ctx.Request().Session().Flush()
 ```
 
-### Regenerating The Session ID
+### 重新生成会话 ID
 
-Regenerating the session ID is often done in order to prevent malicious users from exploiting a session fixation attack
-on your application. You may regenerate the session ID using the `Regenerate` method:
+重新生成会话 ID 通常是为了防止恶意用户利用会话固定攻击
+来攻击你的应用程序。 你可以使用 `Regenerate` 方法重新生成会话 ID：
 
 ```go
 ctx.Request().Session().Regenerate()
 ```
 
-If you would like to regenerate the session ID and forget all data that was in the session, you may use the `Invalidate`
-method:
+如果你想重新生成会话 ID 并忘记会话中的所有数据，可以使用 `Invalidate`
+方法：
 
 ```go
 ctx.Request().Session().Invalidate()
 ```
 
-Then, you need to save the new session to the cookie:
+然后，你需要将新会话保存到 cookie 中：
 
 ```go
 ctx.Response().Cookie(http.Cookie{
@@ -147,40 +139,38 @@ ctx.Response().Cookie(http.Cookie{
 })
 ```
 
-### Flash Data
+### 闪存数据
 
-Flash data is session data that will only be available during the subsequent HTTP request, and then will be deleted.
-Flash data is useful for storing temporary messages such as status messages. You may use the `Flash` method to store
-flash data in the session:
+闪存数据是只在后续 HTTP 请求期间可用，然后将被删除的会话数据。
+闪存数据对于存储临时消息（如状态消息）非常有用。 您可以使用 `Flash` 方法在会话中存储闪存数据：
 
 ```go
 ctx.Request().Session().Flash("status", "Task was successful!")
 ```
 
-If you would like to keep your flash data around for an additional request, you may use the `Reflash` method:
+如果您希望闪存数据在额外的请求中保持可用，可以使用 `Reflash` 方法：
 
 ```go
 ctx.Request().Session().Reflash()
 ```
 
-If you would like to keep specific flash data around for an additional request, you may use the `Keep` method:
+如果您想在额外的请求中保留特定的闪存数据，可以使用 `Keep` 方法：
 
 ```go
 ctx.Request().Session().Keep("status", "username")
 ```
 
-If you would like to keep specific data around for immediate use, you may use the `Now` method:
+如果您想立即使用特定数据，可以使用 `Now` 方法：
 
 ```go
 ctx.Request().Session().Now("status", "Task was successful!")
 ```
 
-## Interacting With Session Manager
+## 与会话管理器交互
 
-### Building A Custom Session
+### 构建自定义会话
 
-Use the `Session` facade to build a custom session. The `Session` facade provides the `BuildSession` method, which takes
-a driver instance and an optional session ID if you want to specify a custom session ID:
+使用 `Session` 门面来构建自定义会话。 `Session` 门面提供了 `BuildSession` 方法，该方法接受一个驱动实例和一个可选的会话 ID（如果您想指定自定义会话 ID）：
 
 ```go
 import "github.com/goravel/framework/facades"
@@ -188,34 +178,33 @@ import "github.com/goravel/framework/facades"
 session := facades.Session().BuildSession(driver, "sessionID")
 ```
 
-### Add Custom Session Drivers
+### 添加自定义会话驱动
 
-#### Implementing The Driver
+#### 实现驱动
 
-To implement a custom session driver, driver must implement the `contracts/session/driver` interface.
+要实现自定义会话驱动程序,驱动程序必须实现 `contracts/session/driver` 接口。
 
 ```go
-// Driver is the interface for Session handlers.
+// Driver 是 Session 处理程序的接口。
 type Driver interface {
-  // Close closes the session handler.
+  // Close 关闭会话处理程序。
   Close() error
-  // Destroy destroys the session with the given ID.
+  // Destroy 销毁具有给定 ID 的会话。
   Destroy(id string) error
-  // Gc performs garbage collection on the session handler with the given maximum lifetime.
+  // Gc 对具有给定最大生存期的会话处理程序执行垃圾回收。
   Gc(maxLifetime int) error
-  // Open opens a session with the given path and name.
+  // Open 使用给定的路径和名称打开会话。
   Open(path string, name string) error
-  // Read reads the session data associated with the given ID.
+  // Read 读取与给定 ID 关联的会话数据。
   Read(id string) (string, error)
-  // Write writes the session data associated with the given ID.
+  // Write 写入与给定 ID 关联的会话数据。
   Write(id string, data string) error
 }
 ```
 
-#### Registering The Driver
+#### 注册驱动程序
 
-After implementing the driver, you need to register it in Goravel. You can do this using `Extend` method of the
-`facades.Session`. You should call the `Extend` method in the `boot` method of `app/providers/app_service_provider.go`:
+实现驱动程序后,您需要在 Goravel 中注册它。 您可以使用 `facades.Session` 的 `Extend` 方法来实现这一点。 您应该在 `app/providers/app_service_provider.go` 的 `boot` 方法中调用 `Extend` 方法：
 
 ```go
 import "github.com/goravel/framework/contracts/session"
@@ -225,26 +214,24 @@ facades.Session().Extend("redis", func() session.Driver {
 })
 ```
 
-Once the driver is registered, you can use it by setting the `driver` option in the session configuration file to
-`redis` or by setting the `SESSION_DRIVER` environment variable to `redis`.
+一旦驱动程序注册完成，您可以通过在会话配置文件中将 `driver` 选项设置为 `redis`，或者将 `SESSION_DRIVER` 环境变量设置为 `redis` 来使用它。
 
-### Retrieving driver instance
+### 获取驱动程序实例
 
-Use the `Driver` method to retrieve the driver instance from the session manager. It accepts an optional driver name, if
-not provided, it returns the default driver instance:
+使用 `Driver` 方法从会话管理器中获取驱动程序实例。 它接受一个可选的驱动程序名称，如果未提供，则返回默认驱动程序实例：
 
 ```go
 driver, err := facades.Session().Driver("file")
 ```
 
-### Starting A New Session
+### 开始一个新会话
 
 ```go
 session := facades.Session().BuildSession(driver)
 session.Start()
 ```
 
-### Saving The Session Data
+### 保存会话数据
 
 ```go
 session := facades.Session().BuildSession(driver)
@@ -252,7 +239,7 @@ session.Start()
 session.Save()
 ```
 
-### Attaching the Session to the Request
+### 将会话附加到请求
 
 ```go
 session := facades.Session().BuildSession(driver)
@@ -260,7 +247,7 @@ session.Start()
 ctx.Request().SetSession(session)
 ```
 
-### Checking if request has session
+### 检查请求是否有会话
 
 ```go
 if ctx.Request().HasSession() {
