@@ -1,8 +1,8 @@
-# HTTP Response
+# Risposta HTTP
 
-You can use `ctx.Response()` for HTTP response in the Controller.
+Puoi usare `ctx.Response()` per la risposta HTTP nel Controller.
 
-## String
+## Stringa
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -21,22 +21,22 @@ ctx.Response().Json(http.StatusOK, http.Json{
   "Hello": "Goravel",
 })
 
-ctx.Response().Json(http.StatusOK, struct {
-  ID       uint `json:"id"`
-  Name     string `json:"name"`
+ctx. esponse().Json(http. tatusOK, struct {
+  ID uint `json:"id"`
+  Name string `json:"name"`
 }{
-  Id:      1,
-  Front:   "Goravel",
+  Id: 1,
+  Front: "Goravel",
 })
 ```
 
-## Custom Return
+## Reso Personalizzato
 
 ```go
 ctx.Response().Data(http.StatusOK, "text/html; charset=utf-8", []byte("<b>Goravel</b>"))
 ```
 
-## Response File
+## File Di Risposta
 
 ```go
 import "net/http"
@@ -44,7 +44,7 @@ import "net/http"
 ctx.Response().File("./public/logo.png")
 ```
 
-## Download File
+## Scarica File
 
 ```go
 import "net/http"
@@ -52,7 +52,7 @@ import "net/http"
 ctx.Response().Download("./public/logo.png", "1.png")
 ```
 
-## Attach Header
+## Allega Intestazione
 
 ```go
 import "github.com/goravel/framework/contracts/http"
@@ -62,10 +62,10 @@ ctx.Response().Header("Content", "Goravel").String(http.StatusOK, "Hello Goravel
 
 ## Cookie
 
-### Set Cookie
+### Imposta Cookie
 
-Use the `Cookie` method on the `response` instance to set a `cookie`. The `Cookie` method accepts a `http.Cookie`
-instance, which allows you to set various cookie options.
+Usa il metodo `Cookie` sull'istanza `response` per impostare un `cookie`. Il metodo `Cookie` accetta un'istanza `http.Cookie`
+che consente di impostare varie opzioni di cookie.
 
 ```go
 import (
@@ -73,26 +73,26 @@ import (
   "github.com/goravel/framework/contracts/http"
 )
 
-ctx.Response().Cookie(http.Cookie{
+ctx.Response().Cookie(http. ookie{
   Name: "name",
   Value: "Goravel",
   Path: "/",
-  Domain: "goravel.dev",
-  Expires: time.Now().Add(24 * time.Hour),
+  Dominio: "goravel. ev",
+  Scadenza: ora().Add(24 * ora),
   Secure: true,
   HttpOnly: true,
 })
 ```
 
-### Expire Cookie
+### Scadenza Cookie
 
-Use the `WithoutCookie` method to remove a cookie.
+Usa il metodo `WithoutCookie` per rimuovere un cookie.
 
 ```go
 ctx.Response().WithoutCookie("name")
 ```
 
-## Return Success
+## Restituzione Riuscita
 
 ```go
 ctx.Response().Success().String("Hello Goravel")
@@ -101,7 +101,7 @@ ctx.Response().Success().Json(http.Json{
 })
 ```
 
-## Custom Code
+## Codice Personalizzato
 
 ```go
 ctx.Response().Status(http.StatusOK).Json(http.Json{
@@ -109,53 +109,53 @@ ctx.Response().Status(http.StatusOK).Json(http.Json{
 })
 ```
 
-## Return Stream
+## Restituisci Stream
 
 ```go
-ctx.Response().Stream(http.StatusCreated, func(w http.StreamWriter) error {
+ctx.Response().Stream(http.StatusCreated, func(w http. treamWriter) error {
   data := []string{"a", "b", "c"}
   for _, item := range data {
-    if _, err := w.Write([]byte(item + "\n")); err != nil {
+    if _, err := w. rite([]byte(item + "\n")); err != nil {
       return err
     }
 
-    if err := w.Flush(); err != nil {
+    se err := w. lush(); err != nil {
       return err
     }
 
-    time.Sleep(1 * time.Second)
+    volta.Sonno (1 * volta). secondo)
   }
 
-  return nil
+  restituisce nil
 })
 ```
 
-## Redirect
+## Reindirizzamento
 
 ```go
 ctx.Response().Redirect(http.StatusMovedPermanently, "https://goravel.dev")
 ```
 
-## No Content
+## Nessun Contenuto
 
 ```go
 ctx.Response().NoContent()
 ctx.Response().NoContent(http.StatusOk)
 ```
 
-## Get Response
+## Ottieni Risposta
 
-You can obtain all the information from `ctx.Response()`, which is commonly used in HTTP middleware:
+È possibile ottenere tutte le informazioni da `ctx.Response()`, che è comunemente usato in HTTP middleware:
 
 ```go
-origin := ctx.Response().Origin()
+origine := ctx.Response().Origin()
 ```
 
-`origin` contains some methods as shown below：
+`origin` contiene alcuni metodi come mostrato sotto：
 
-| Method | Action              |
-| ------ | ------------------- |
-| Body   | Get response data   |
-| Header | Get response header |
-| Size   | Get response size   |
-| Status | Get response status |
+| Metodo       | Azione                        |
+| ------------ | ----------------------------- |
+| Corpo        | Ottieni dati di risposta      |
+| Intestazione | Ottieni intestazione risposta |
+| Dimensione   | Ottieni dimensione risposta   |
+| Stato        | Ottieni stato risposta        |
