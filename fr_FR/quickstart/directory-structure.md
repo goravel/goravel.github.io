@@ -1,49 +1,49 @@
-# Directory Structure
+# Structure du répertoire
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+La structure de fichier par défaut peut vous aider à mieux démarrer l'avancement du projet, et vous pouvez également ajouter de nouveaux dossiers librement, mais
+ne modifiez pas les dossiers par défaut.
 
-## Root Directory
+## Répertoire racine
 
-### `app` Directory
+### Répertoire `app`
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` contient le code de base du programme. Presque toute la logique du programme sera dans ce dossier.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+Le dossier `bootstrap` contient le fichier de démarrage du framework `app.go`.
 
-### `config` Directory
+### Dossier `config`
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
-familiarize yourself with all the available options.
+Le dossier `config` contient tous les fichiers de configuration de l'application. Il est préférable de parcourir ces fichiers et
+de vous familiariser avec toutes les options disponibles.
 
-### `database` Directory
+### Répertoire `database`
 
-The `database` directory contains database migration files.
+Le dossier `database` contient des fichiers de migration de base de données.
 
-### `public` Directory
+### Répertoire `public`
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+Le répertoire `public` contient des ressources statiques, telles que les images, les certificats, etc.
 
-### `resources` Directory
+### Répertoire `resources`
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+Le répertoire `resources` contient votre [views](../basic/views) ainsi que vos ressources brutes non compilées telles que
+CSS ou JavaScript.
 
-### `routes` Directory
+### Répertoire `routes`
 
-The `routes` directory contains all the route definitions of the application.
+Le répertoire `routes` contient toutes les définitions de route de l'application.
 
-### `storage` Directory
+### Répertoire `storage`
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+Le dossier `storage` contient le dossier `logs`, et le dossier `logs` contient les fichiers journaux de l'application.
 
-### `tests` Directory
+### Répertoire `tests`
 
 The `tests` directory contains your automated tests.
 
-## `app` Directory
+## Répertoire `app`
 
 ### `console` Directory
 
