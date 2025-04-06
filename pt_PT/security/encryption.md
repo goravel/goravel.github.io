@@ -1,33 +1,33 @@
-# Encryption
+# Encriptação
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
-that their underlying value can not be modified or tampered with once encrypted.
+Os serviços de criptografia do Goravelm fornecem uma interface simples e conveniente para criptografar e descriptografar texto via OpenSSL
+usando a criptografia AES-256. Todos os valores criptografados de Goravel são assinados usando um código de autenticação de mensagem (GMAC), então
+que seus valores subjacentes não podem ser modificados ou adulterados uma vez criptografados.
 
 ## Configuração
 
-Before using Goravel's encrypter, you must set the `key` configuration option in your `config/app.go` configuration
-file. This option is driven by the `APP_KEY` environment variable. Use the `go run . artisan key:generate` command to
+Antes de usar o encriptador do Goravel, você deve definir a opção de configuração `chave` na configuração
+do arquivo `config/app.go`. Esta opção é conduzida pela variável de ambiente `APP_KEY`. Use o `ir executar. artisan key:generate` command to
 generate this variable's value since the `key:generate` command will utilize Golang's secure random bytes generator to
 create a secure cryptographic key for your application.
 
-## Using The Encrypter
+## Usando o Criptografador
 
-### Encrypting A Value
+### Criptografar Um Valor
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+Para criptografar um valor, você pode usar o método `EncryptString` em `facades.Crypt()`. Este método criptografa valores usando o
+OpenSSL e a cifra AES-256-GCM. Adicionalmente, todos os valores criptografados são assinados com um código de autenticação (GMAC)
+para evitar a descriptografia de usuários maliciosos que tentam adulterar os dados.
 
 ```go
-secret, err := facades.Crypt().EncryptString("goravel")
+secreto, err := facades.Crypt().EncryptString("goravel")
 ```
 
-### Decrypting A Value
+### Descriptografar um Valor
 
-You can use the `DecryptString` method from `facades.Crypt()` to decrypt values. If the value can not be properly
-decrypted, such as when the message authentication code is invalid, an error will be returned.
+Você pode usar o método `DecryptString` de `facades.Crypt()` para descriptografar valores. Se o valor não puder ser corretamente
+descriptografado, como quando o código de autenticação da mensagem é inválido, um erro será retornado.
 
 ```go
-str, err := facades.Crypt().DecryptString(secret)
+str, err := facades.Crypt().DecryptString(secreto)
 ```
