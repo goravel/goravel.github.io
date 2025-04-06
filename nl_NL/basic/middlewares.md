@@ -1,13 +1,13 @@
 # Middleware
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+Middleware biedt een handig mechanisme voor het inspecteren en filteren van HTTP-verzoeken die uw applicatie invoeren.
 
-## Define Middleware
+## Middleware definiëren
 
-You can create your own middleware in the `app/http/middleware` directory, the structure is as follows.
+Je kunt je eigen middleware aanmaken in de `app/http/middleware` map, de structuur is als volgt.
 
 ```go
-package middleware
+pakket middleware
 
 import (
   "github.com/goravel/framework/contracts/http"
@@ -20,21 +20,21 @@ func Auth() http.Middleware {
 }
 ```
 
-### Create Middleware By Command
+### Aanmaken Middleware Door Opdracht
 
 ```
-go run . artisan make:middleware Auth
+ga uit. artisan make:middleware Auth
 
-// Support nested folders
+// Steun geneste mappen
 go run . artisan make:middleware user/Auth
 ```
 
-## Register Middleware
+## Registreer Middleware
 
-### Global Middleware
+### Globaal Middleware
 
-If you want to apply middleware for every HTTP request of your application, you only need to register the middleware in
-the `Middleware` in the `app/http/kernel.go` file.
+Als u middel-ware wilt toepassen voor elk HTTP-verzoek van uw applicatie, u hoeft alleen het middleware in
+de `Middleware` te registreren in `app/http/kernel. o` bestand.
 
 ```go
 // app/http/kernel.go
@@ -56,19 +56,19 @@ func (kernel *Kernel) Middleware() []http.Middleware {
 }
 ```
 
-### Assign Middleware for Routing
+### Middleware toewijzen voor routering
 
-You can register the middleware for some routing separately:
+U kunt het middleware voor sommige routers apart registreren:
 
 ```go
-import "github.com/goravel/framework/http/middleware"
+importeer "github.com/goravel/framework/http/middleware"
 
 facades.Route().Middleware(middleware.Auth()).Get("users", userController.Show)
 ```
 
-## Abort Request
+## Verzoek afbreken
 
-In middleware, if you need to interrupt the request, you can use the `Abort` method.
+In het middleware, als je het verzoek moet onderbreken, kun je de `Abort` methode gebruiken.
 
 ```go
 ctx.Request().Abort()
