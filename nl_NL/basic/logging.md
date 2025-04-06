@@ -1,24 +1,24 @@
-# Logging
+# Logboekregistratie
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+Om de actieve status van de applicatie te begrijpen Goravel biedt een krachtige logboekdienst die
+logberichten en systeemfouten kan opnemen naar een bestand of andere kanalen via `facades. og()`.
 
 ## Configuratie
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+Om log kanalen te configureren, kunnen aangepaste configuraties gemaakt worden in `config/logging.go`.
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` gebruikt `stack` kanaal om de logs standaard op te nemen, `stack` staat toe om logs doorgestuurd te worden naar meerdere kanalen.
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+De 'print' configuratie in 'single' en 'daily' drivers kunnen de log-uitvoer in de console beheren.
 
-## Available channel drivers
+## Beschikbare railchauffeurs
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| naam        | Beschrijving              |
+| ----------- | ------------------------- |
+| `stapel`    | Meerdere kanalen toestaan |
+| `single`    | Enkel logboekbestand      |
+| `overdag`   | Eén logbestand per dag    |
+| 'aangepast' | Aangepaste schijf         |
 
 ### Context van injectie
 
@@ -26,87 +26,87 @@ The `print` configuration in `single` and `daily` drivers can control log output
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## Logberichten schrijven
 
 ```go
 facades.Log().Debug(message)
-facades.Log().Debugf(message, args)
+facades.Log().Log().Debugf(message, args)
 facades.Log().Info(message)
 facades.Log().Infof(message, args)
 facades.Log().Warning(message)
-facades.Log().Warningf(message, args)
-facades.Log().Error(message)
-facades.Log().Errorf(message, args)
+facades.Log().Warningf(message args)
+facades. og().Error(bericht)
+facades.Log().Log().Errorf(message, args)
 facades.Log().Fatal(message)
 facades.Log().Fatalf(message, args)
 facades.Log().Panic(message)
-facades.Log().Panicf(message, args)
+facades.Log().Panicf(message args)
 ```
 
-### Write to a specific channel
+### Schrijf naar een specifiek kanaal
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+Soms kunt u berichten opnemen in een ander kanaal dan het standaard kanaal van de applicatie:
 
 ```go
-facades.Log().Channel("single").Info(message)
+facades.Log().Channel("enkel").Info(message)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+Als je naar meerdere kanalen tegelijkertijd wilt schrijven, kun je de 'Stack' methode gebruiken:
 
 ```go
 facades.Log().Stack([]string{"single", "slack"}).Info(message)
 ```
 
-## Chain Methods
+## Ketting Methoden
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+Goravel biedt handige kettmethoden, die het gemakkelijk maken om nuttige informatie in te voegen in de log:
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| Methode      | actie                                                                                        |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| Code         | Stel een code of slug in die de log beschrijft.                              |
+| Suggestie    | Stel een hint in om sneller te debuggen.                                     |
+| Over         | Stel de feature categorie of domein in waarin de log relevant is.            |
+| Eigenaar     | Handig voor waarschuwingsdoeleinden.                                         |
+| Aanvragen    | Levert een http.Request.                                     |
+| Antwoord     | Levert een http.Response.                                    |
+| Labels       | Voeg meerdere tags toe, met een beschrijving van de functie een foutmelding. |
+| Gebruiker    | Stel de gebruiker in die geassocieerd is met de log.                         |
+| met          | Voeg sleutelwaarde-paren toe aan de context van de logboekvermelding.        |
+| Terugtrekken | Voeg stapelinformatie toe aan de log invoer.                                 |
 
-## Create a custom channel
+## Een aangepast kanaal maken
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+Als u een volledig aangepast kanaal wilt definiëren, kunt u het `custom` stuurprogramma type opgeven in het `config/logging.go`
+configuratiebestand.
+Voeg daarna een `via` optie toe om een `framework\contracts\log\Logger` structuur te implementeren:
 
 ```go
 // config/logging.go
 "custom": map[string]interface{}{
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### Implementeer Chauffeur
 
-Implement `framework\contracts\log\Logger` interface.
+Implementeer `framework\contracts\log\Logger` interface.
 
 ```go
 // framework/contracts/log/Logger
 package log
 
 type Logger interface {
-  // Handle pass channel config path here
+  // Handle pass channel config pad hier
   Handle(channel string) (Hook, error)
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). Voorbeeld:
+bestanden kunnen worden opgeslagen in de `app/extensions` map (modifiable). Voorbeeld:
 
 ```go
 package extensions
