@@ -1,198 +1,198 @@
-# Session
+# الجلسة
 
 Session enables you to store user information across multiple requests, providing a stateful experience within the
-inherently stateless HTTP protocol. This user information is stored persistently on the server side. Goravel offers a
-unified interface for interacting with various persistent storage drivers.
+inherently stateless HTTP protocol. يتم تخزين معلومات المستخدم هذه باستمرار على جانب الخادم. توفر Goravel واجهة موحدة من نوع
+للتفاعل مع مختلف سائقي التخزين الدائمين.
 
 ## الإعدادات
 
-The `session` configuration file is located at `config/session.go`. The default driver is `file`, which stores sessions
-in the `storage/framework/sessions` directory. Goravel allows you to create a custom `session` driver by implementing
-the `contracts/session/driver` interface.
+يوجد ملف تكوين `الدورة` في `config/session.go`. المشغل الافتراضي هو `ملف`، الذي يخزن الجلسات
+في دليل `تخزين/إطار/دورات`. يسمح لك Goravel بإنشاء سائق مخصص لـ 'الدورة' عن طريق تنفيذ
+واجهة 'العقود/الدورة/السائق'.
 
-### Register Middleware
+### تسجيل البرامج المتوسطة
 
-By default, Goravel does not start a session automatically. However, it provides middleware to start a session. You can
+بشكل افتراضي، لا تبدأ غورافيل جلسة تلقائيا. ومع ذلك، فهو يوفر أداة وسيطة لبدء الجلسة. You can
 register the session middleware in the `app/http/kernel.go` file to apply it to all routes, or you can add it to
 specific routes:
 
 ```go
-import (
+استيراد (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/session/middleware"
-)
+  "github.com/goravel/framework/session/medileware"
+
 
 func (kernel Kernel) Middleware() []http.Middleware {
-  return []http.Middleware{
-    middleware.StartSession(),
-  }
-}
+  العودة []http.Middleware{
+    medileware.StartSession(),
+
+ A}
 ```
 
-## Interacting With The Session
+## التفاعل مع الجلسة
 
-### Retrieving Data
+### استرداد البيانات
 
-You can use the `Get` method to retrieve data from the session. If the value does not exist, `nil` will be returned.
+يمكنك استخدام طريقة 'الحصول على' لاسترداد البيانات من الجلسة. إذا لم تكن القيمة موجودة، سيتم إرجاع 'لا شيء'.
 
 ```go
-value := ctx.Request().Session().Get("key")
+القيمة := ctx.request().Session().Get("المفتاح")
 ```
 
-You may also pass a default value as the second argument to the `Get` method. This value will be returned if the
-specified key does not exist in the session:
+يمكنك أيضا نقل قيمة افتراضية كحجة ثانية إلى طريقة 'Get'. سيتم إرجاع هذه القيمة إذا كان المفتاح
+المحدد غير موجود في الدورة:
 
 ```go
-value := ctx.Request().Session().Get("key", "default")
+القيمة := ctx.request().Session().Get("key", "default")
 ```
 
-### Retrieving All Data
+### استرداد جميع البيانات
 
-If you would like to retrieve all data from the session, you may use the `All` method:
+إذا كنت ترغب في استرداد جميع البيانات من الجلسة، فيمكنك استخدام طريقة "الكل":
 
 ```go
-data := ctx.Request().Session().All()
+بيانات := ctx.request().Session().All()
 ```
 
-### Retrieving a Subset of Data
+### استرداد مجموعة فرعية من البيانات
 
-If you would like to retrieve a subset of the session data, you may use the `Only` method:
+إذا كنت ترغب في استرداد مجموعة فرعية من بيانات الجلسة، فيمكنك استخدام طريقة "فقط":
 
 ```go
-data := ctx.Request().Session().Only([]string{"username", "email"})
+بيانات := ctx.request().Session().Only([]string{"username", "email"})
 ```
 
-### Determining If An Item Exists In The Session
+### تحديد ما إذا كان هناك عنصر في الجلسة
 
-To determine if an item is present in the session, you may use the `Has` method. The `Has` method returns `true` if the
-item is present and is not `nil`:
+لتحديد ما إذا كان عنصر موجود في الجلسة، يمكنك استخدام طريقة "Has". طريقة 'Has' ترجع 'true' إذا كان العنصر
+موجود وليس 'nil':
 
 ```go
-if ctx.Request().Session().Has("user") {
+if ctx.request().Session().Has("user") {
     //
 }
 ```
 
-To determine if an item is present and even if it is `nil`, you may use the `Exists` method:
+لتحديد ما إذا كان العنصر موجود وحتى إذا كان 'لا شيء\`، يمكنك استخدام طريقة 'القائمين':
 
 ```go
-if ctx.Request().Session().Exists("user") {
+if ctx.request().Session().Exists("user") {
     //
 }
 ```
 
-To determine if an item is not present in the session, you may use the `Missing` method:
+لتحديد ما إذا كان البند غير موجود في الجلسة، يمكنك استخدام طريقة "مفقودة":
 
 ```go
-if ctx.Request().Session().Missing("user") {
+if ctx.request().Session().Missing("user") {
     //
 }
 ```
 
-### Storing Data
+### تخزين البيانات
 
-You can use the `Put` method to store data in the session:
-
-```go
-ctx.Request().Session().Put("key", "value")
-```
-
-### Retrieving & Deleting Data
-
-If you would like to retrieve an item from the session and then delete it, you may use the `Pull` method:
+يمكنك استخدام طريقة "Put" لتخزين البيانات في الدورة:
 
 ```go
-value := ctx.Request().Session().Pull("key")
+ctx.request().Session().Put("key", "value")
 ```
 
-### Deleting Data
+### استرداد وحذف البيانات
 
-The `Forget` method can be used to remove a piece of data from the session. If you would like to remove all data from
-the session, you can use the `Flush` method:
+إذا كنت ترغب في استرداد عنصر من الدورة ومن ثم حذفه، فيمكنك استخدام طريقة "سحب":
 
 ```go
-ctx.Request().Session().Forget("username", "email")
-
-ctx.Request().Session().Flush()
+القيمة := ctx.request().Session().Pull("المفتاح")
 ```
 
-### Regenerating The Session ID
+### حذف البيانات
 
-Regenerating the session ID is often done in order to prevent malicious users from exploiting a session fixation attack
-on your application. You may regenerate the session ID using the `Regenerate` method:
+يمكن استخدام طريقة "النسيج" لإزالة جزء من البيانات من الجلسة. إذا كنت ترغب في إزالة جميع البيانات من
+الجلسة، يمكنك استخدام طريقة 'Flush':
 
 ```go
-ctx.Request().Session().Regenerate()
+ctx.request().Session().Forget("username", "email")
+
+ctx.request().Session().Flush()
 ```
 
-If you would like to regenerate the session ID and forget all data that was in the session, you may use the `Invalidate`
-method:
+### إعادة إنشاء معرف الجلسة
+
+عادة ما يتم تجديد معرف الجلسة لمنع المستخدمين الخبيثين من استغلال هجوم تثبيت الجلسة
+على التطبيق الخاص بك. يمكنك إعادة إنشاء معرف الجلسة باستخدام طريقة "إعادة الإنشاء":
 
 ```go
-ctx.Request().Session().Invalidate()
+ctx.request().Session().Regenerate()
 ```
 
-Then, you need to save the new session to the cookie:
+إذا كنت ترغب في تجديد معرف الجلسة ونسى جميع البيانات التي كانت في الجلسة، فيمكنك استخدام طريقة 'غير صحيح'
+:
+
+```go
+ctx.request().Session().Invalidate()
+```
+
+ثم تحتاج إلى حفظ الجلسة الجديدة إلى ملفات تعريف الارتباط:
 
 ```go
 ctx.Response().Cookie(http.Cookie{
-  Name:     ctx.Request().Session().GetName(),
-  Value:    ctx.Request().Session().GetID(),
-  MaxAge:   facades.Config().GetInt("session.lifetime") * 60,
-  Path:     facades.Config().GetString("session.path"),
-  Domain:   facades.Config().GetString("session.domain"),
-  Secure:   facades.Config().GetBool("session.secure"),
-  HttpOnly: facades.Config().GetBool("session.http_only"),
-  SameSite: facades.Config().GetString("session.same_site"),
+  name: ctx.request().Session().GetName(),
+  Vvalue: ctx.request().Session. etID(),
+  MaxAge: facades.Config().GetInt("session.lifetime") * 60,
+  المسار: facades.Config().GetString("الدورة. ث"),
+  domain: facades.Config().GetString("session.domain"),
+  Secure: facades.Config().GetBool("الدورة. كانر")،
+  HttpOnly: facades.Config().GetBool("session.http_only")،
+  SameSite: facades.Config().GetString("session.same_site")،
 })
 ```
 
-### Flash Data
+### فلاش البيانات
 
-Flash data is session data that will only be available during the subsequent HTTP request, and then will be deleted.
-Flash data is useful for storing temporary messages such as status messages. You may use the `Flash` method to store
-flash data in the session:
-
-```go
-ctx.Request().Session().Flash("status", "Task was successful!")
-```
-
-If you would like to keep your flash data around for an additional request, you may use the `Reflash` method:
+بيانات الفلاش هي بيانات الجلسة التي ستكون متاحة فقط أثناء طلب HTTP اللاحق، ثم سيتم حذفها.
+بيانات الفلاش مفيدة لتخزين الرسائل المؤقتة مثل رسائل الحالة. يمكنك استخدام طريقة "فلاش" لتخزين بيانات الفلاش
+في الدورة:
 
 ```go
-ctx.Request().Session().Reflash()
+ctx.request().Session().Flash("الحالة"، "المهمة كانت ناجحة!")
 ```
 
-If you would like to keep specific flash data around for an additional request, you may use the `Keep` method:
+إذا كنت ترغب في الحفاظ على بياناتك الفلاش للحصول على طلب إضافي، فيمكنك استخدام طريقة "إعادة الفلاش":
 
 ```go
-ctx.Request().Session().Keep("status", "username")
+ctx.request().Session().Reflash()
 ```
 
-If you would like to keep specific data around for immediate use, you may use the `Now` method:
+إذا كنت ترغب في الاحتفاظ ببيانات فلاش محددة للحصول على طلب إضافي، فيمكنك استخدام طريقة "الاحتفاظ":
 
 ```go
-ctx.Request().Session().Now("status", "Task was successful!")
+ctx.request().Session().Keep("الحالة"، "username")
 ```
 
-## Interacting With Session Manager
+إذا كنت ترغب في الاحتفاظ ببيانات محددة للاستخدام الفوري، فيمكنك استخدام طريقة "الآن":
 
-### Building A Custom Session
+```go
+ctx.request().Session().Now("الحالة"، "المهمة كانت ناجحة!")
+```
 
-Use the `Session` facade to build a custom session. The `Session` facade provides the `BuildSession` method, which takes
+## التفاعل مع مدير الجلسة
+
+### بناء جلسة مخصصة
+
+استخدم واجهة "الدورة" لبناء جلسة مخصصة. The `Session` facade provides the `BuildSession` method, which takes
 a driver instance and an optional session ID if you want to specify a custom session ID:
 
 ```go
-import "github.com/goravel/framework/facades"
+استيراد جلسة "github.com/goravel/framework/facades"
 
-session := facades.Session().BuildSession(driver, "sessionID")
+:= facades.Session().BuildSession(driver, "sessionID")
 ```
 
-### Add Custom Session Drivers
+### إضافة مشغلات جلسة مخصصة
 
-#### Implementing The Driver
+#### تنفيذ القيادة
 
-To implement a custom session driver, driver must implement the `contracts/session/driver` interface.
+لتنفيذ سائق جلسة مخصصة، يجب على السائق تنفيذ واجهة 'العقود/الدورة/السائق'.
 
 ```go
 // Driver is the interface for Session handlers.
@@ -212,58 +212,58 @@ type Driver interface {
 }
 ```
 
-#### Registering The Driver
+#### تسجيل السائق
 
-After implementing the driver, you need to register it in Goravel. You can do this using `Extend` method of the
-`facades.Session`. You should call the `Extend` method in the `boot` method of `app/providers/app_service_provider.go`:
+بعد تنفيذ السائق، تحتاج إلى تسجيله في غورافل. يمكنك القيام بذلك باستخدام طريقة "التوسيع" ل
+`facades.Session`. يجب عليك استدعاء طريقة "Extend" في طريقة "boot" لـ "app/providers/app_service_provider.go\`:
 
 ```go
-import "github.com/goravel/framework/contracts/session"
+استيراد "github.com/goravel/framework/contracts/session"
 
 facades.Session().Extend("redis", func() session.Driver {
   return &RedisDriver{}
 })
 ```
 
-Once the driver is registered, you can use it by setting the `driver` option in the session configuration file to
-`redis` or by setting the `SESSION_DRIVER` environment variable to `redis`.
+بمجرد تسجيل السائق، يمكنك استخدامه عن طريق تعيين خيار "السائق" في ملف تكوين الجلسة إلى
+`redis` أو عن طريق تعيين متغير البيئة `SESSION_DRIVER` إلى `redis`.
 
-### Retrieving driver instance
+### استرجاع نموذج المشغل
 
-Use the `Driver` method to retrieve the driver instance from the session manager. It accepts an optional driver name, if
-not provided, it returns the default driver instance:
+استخدم طريقة "المشغل" لاسترداد نموذج المشغل من مدير الجلسة. يقبل اسم مشغل اختياري، إذا لم يتم تقديم
+، فإنه يعيد مثال المشغل الافتراضي:
 
 ```go
-driver, err := facades.Session().Driver("file")
+سائق، err := facades.Session().Driver("ملف")
 ```
 
-### Starting A New Session
+### بدء جلسة جديدة
 
 ```go
-session := facades.Session().BuildSession(driver)
+الجلسة := facades.Session().BuildSession(driver)
 session.Start()
 ```
 
-### Saving The Session Data
+### حفظ بيانات الجلسة
 
 ```go
-session := facades.Session().BuildSession(driver)
+الجلسة := facades.Session().BuildSession(driver)
 session.Start()
 session.Save()
 ```
 
-### Attaching the Session to the Request
+### إرفاق الجلسة بالطلب
 
 ```go
-session := facades.Session().BuildSession(driver)
+الجلسة := facades.Session().BuildSession(driver)
 session.Start()
-ctx.Request().SetSession(session)
+ctx.request().SetSession(الدورة)
 ```
 
-### Checking if request has session
+### التحقق مما إذا كان الطلب له جلسة
 
 ```go
-if ctx.Request().HasSession() {
+if ctx.request().HasSession() {
     //
 }
 ```
