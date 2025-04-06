@@ -99,23 +99,23 @@ select {}
 
 ### 路由方法
 
-| 方法        | 操作                        |
-| --------- | ------------------------- |
-| 组         | [分组路由](#group-routing)    |
-| 前缀        | [路由前缀](#routing-prefix)   |
-| ServeHTTP | [测试路由](#testing-routing)  |
-| Get       | [基本路由](#basic-routing)    |
-| Post      | [基本路由](#basic-routing)    |
-| Put       | [基本路由](#basic-routing)    |
-| Delete    | [基本路由](#basic-routing)    |
-| 补丁        | [基本路由](#basic-routing)    |
-| 选项        | [基本路由](#basic-routing)    |
-| 任意        | [基本路由](#basic-routing)    |
-| 资源        | [资源路由](#resource-routing) |
-| 静态        | [文件路由](#file-routing)     |
-| 静态文件      | [文件路由](#file-routing)     |
-| StaticFS  | [文件路由](#file-routing)     |
-| 中间件       | [中间件](#middleware)        |
+| 方法         | 操作                        |
+| ---------- | ------------------------- |
+| Group      | [分组路由](#group-routing)    |
+| Prefix     | [路由前缀](#routing-prefix)   |
+| ServeHTTP  | [测试路由](#testing-routing)  |
+| Get        | [基本路由](#basic-routing)    |
+| Post       | [基本路由](#basic-routing)    |
+| Put        | [基本路由](#basic-routing)    |
+| Delete     | [基本路由](#basic-routing)    |
+| Patch      | [基本路由](#basic-routing)    |
+| Options    | [基本路由](#basic-routing)    |
+| Any        | [基本路由](#basic-routing)    |
+| Resource   | [资源路由](#resource-routing) |
+| Static     | [文件路由](#file-routing)     |
+| StaticFile | [文件路由](#file-routing)     |
+| StaticFS   | [文件路由](#file-routing)     |
+| Middleware | [中间件](#middleware)        |
 
 ## 基本路由
 
@@ -302,7 +302,7 @@ facades.RateLimiter().ForWithLimits("login", func(ctx contractshttp.Context) []c
 
 ### 将速率限制器附加到路由
 
-可以使用 throttle 中间件将速率限制器附加到路由或路由组。 throttle 中间件接受您希望分配给路由的速率限制器的名称：
+可以使用 throttle 中间件将速率限制器附加到路由或路由组。 Throttle 中间件接受您希望分配给路由的速率限制器的名称：
 
 ```go
 import github.com/goravel/framework/http/middleware
