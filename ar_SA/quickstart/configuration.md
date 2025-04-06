@@ -1,54 +1,54 @@
 # الإعدادات
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+يتم تخزين جميع ملفات التكوين لإطار Goravel في دليل \`config'. يمكنك عرض تعليمات محددة
+وتهيئتها بمرونة وفقا لاحتياجات المشروع.
 
-## Environment Configuration
+## تكوين البيئة
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+عادة ما يتطلب تشغيل التطبيقات في بيئات مختلفة تكوينات مختلفة. على سبيل المثال، قد ترغب في
+تشغيل وضع التصحيح محليا ولكن لا تحتاج إليه في بيئة الإنتاج.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+ولذلك، يوفر الإطار ملف `env.example` في الدليل الجذري. تحتاج إلى نسخ هذا الملف، وإعادة تسميته
+إلى `.env' قبل أن تبدأ في التطوير، وتعديل عناصر التكوين في `. ملف nv\` وفقًا لاحتياجات مشروعك
+.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+لاحظ أن `. لا ينبغي إضافة ملف nv` إلى التحكم في الإصدار، لأنه عندما يتعاون أشخاص متعددون، يمكن لمطوري
+مختلفين استخدام تكوينات مختلفة، وتكوين بيئة الانتشار المختلفة مختلفة.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+بالإضافة إلى ذلك، إذا حصل تدخل على الوصول إلى مستودع التعليمات البرمجية الخاص بك، سيكون هناك خطر الكشف عن التكوين الحساس
+. إذا كنت ترغب في إضافة عنصر تكوين جديد، يمكنك إضافته إلى ملف `.env.example` لمزامنة تكوين
+لجميع المطورين.
 
-## Retrieve Environment Configuration
+## استرداد تكوين البيئة
 
-Use the following method to obtain the configuration items in the `.env` file:
+استخدم الطريقة التالية للحصول على عناصر التكوين في ملف `.env`:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// المعلمة الأولى هو مفتاح الإعداد، والمعلمة الثانية هي القيمة الافتراضية
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## قيم تكوين الوصول
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+يمكنك بسهولة استخدام دالة 'facades.Config()' العالمية في أي مكان في التطبيق للوصول إلى قيم التكوين
+في دليل 'config'. الوصول إلى قيمة التكوين يمكن أن يستخدم بناء الجملة "." يمكنك أيضا تحديد قيمة
+افتراضية، إذا كان خيار التكوين غير موجود، يتم إرجاع القيمة الافتراضية:
 
 ```go
-// Get the configuration through assertion
+// احصل على التكوين من خلال التأكيد
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// احصل على تكوين السلسلة
+facades.Config().GetString("تطبيق". ame", "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// احصل على تكوين من النوع
+facades.Config().GetInt("تطبيق". nt", 1)
 
-// Get the configuration of the bool type
+// احصل على تكوين النوع
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## ضبط الإعدادات
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,10 +56,10 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## الحصول على معلومات المشروع
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+يمكنك استخدام الأمر 'artisan about' لعرض الإصدار الإطاري، التكوين، إلخ.
 
 ```bash
-go run . artisan about
+اذهب للتشغيل. حرفي حول
 ```
