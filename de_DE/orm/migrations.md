@@ -1,87 +1,87 @@
-# Migrations
+# Migrationen
 
-When multiple people collaborate to develop applications, it's crucial to have a standardized database structure for
-synchronization. Without this, there could be chaos as everyone's individual data won't match up. Database migration is
-the solution to this problem. The database structure is version-controlled to ensure its consistency within all
-developers.
+Wenn mehrere Personen zusammenarbeiten, um Anwendungen zu entwickeln, ist es entscheidend, eine standardisierte Datenbankstruktur für die
+Synchronisation zu haben. Andernfalls könnte es Chaos geben, da die individuellen Daten aller nicht übereinstimmen. Database migration is
+the solution to this problem. Die Datenbankstruktur wird versionsgesteuert um ihre Konsistenz bei allen
+Entwicklern zu gewährleisten.
 
 ## Konfiguration
 
-The database migration files are stored in the `database/migrations` directory. You can configure the database
-connection information in the `config/database.go` file. Currently, there are two drivers available for migrations: Go
-language migration and SQL migration. However, the SQL migration will be removed in future versions.
+Die Migrationsdateien der Datenbank werden im Verzeichnis `database/migrations` gespeichert. Du kannst die Datenbank
+Verbindungsdaten in der `config/database.go` Datei konfigurieren. Derzeit stehen zwei Treiber für Migration zur Verfügung: Go
+Sprachmigration und SQL-Migration. Allerdings wird die SQL-Migration in zukünftigen Versionen entfernt.
 
 ```go
-// Available Drivers: "default", "sql"
-"migrations": map[string]any{
+// Verfügbare Treiber: "default", "sql"
+"migrations": Karte[string]any{
   "driver": "default",
-  // You can cumstomize the table name of migrations
-  "table":  "migrations",
+  // Sie können den Tabellennamen der Migrationen
+  "Tabelle": "Migrationen",
 },
 ```
 
-## Create Migrations
+## Migrationen erstellen
 
-Use the `make:migration` command to create the migration:
+Benutze den Befehl `make:migration` um die Migration zu erstellen:
 
 ```shell
 go run . artisan make:migration create_users_table
 ```
 
-This command will generate migration files in the `database/migrations` directory. Each migration file will begin with a
-timestamp, which Goravel will use to determine the execution order of the migration files.
+Dieser Befehl generiert Migrationsdateien im `database/migrations` Verzeichnis. Jede Migrationsdatei beginnt mit einem
+Zeitstempel, den Goravel zur Bestimmung der Ausführungsreihenfolge der Migrationsdateien verwenden wird.
 
-### Quickly Create
+### Schnell erstellen
 
-Use `create_users_table` to automatically generate a table containing the infrastructure of `users`:
+Verwende `create_users_table` um automatisch eine Tabelle mit der Infrastruktur von `users` zu erstellen:
 
 ```
 ^create_(\w+)_table$
 ^create_(\w+)$
 ```
 
-Use `add_avatar_to_users_table` to automatically generate a structure for adding fields to the `users` table:
+Verwende `add_avatar_to_users_table` um automatisch eine Struktur zu generieren, um Felder zur `users` Tabelle hinzuzufügen:
 
 ```
-_(to|from|in)_(\w+)_table$
-_(to|from|in)_(\w+)$
+_(to|von|in)_(\w+)_table$
+_(to|von|in)_(\w+)$
 ```
 
-If the above conditions are not matched, the framework will generate an empty migration file.
+Wenn die oben genannten Bedingungen nicht übereinstimmen, erzeugt das Framework eine leere Migrationsdatei.
 
-## Migration Structure
+## Migrationsstruktur
 
-### Go Language Migration
+### Sprachmigration gehen
 
-The migration struct contains two methods: `Up` and `Down`. The `Up` method is used to add new tables, columns, or
-indexes to the database, while the `Down` method is used to undo the operations performed by the `Up` method. In these
-two methods, you can use `facades.Schema()` to create and operate database tables. For available methods, see
-the [documentation](#tables). The following migration will create a `users` table:
+Der Migrationsstrukt enthält zwei Methoden: `Up` und `Down`. Die `Up` Methode wird verwendet, um neue Tabellen, Spalten oder
+Indizes zur Datenbank hinzuzufügen, während die `Down` Methode benutzt wird, um die Operationen der `Up` Methode rückgängig zu machen. In diesen
+zwei Methoden kannst du `facades.Schema()` verwenden, um Datenbanktabellen zu erstellen und zu bedienen. Für verfügbare Methoden siehe
+die [documentation](#tables). Die folgende Migration wird eine `Benutzer`-Tabelle erstellen:
 
 ```go
-package migrations
+-Paketmigrationen
 
-import (
+importieren (
  "github.com/goravel/framework/contracts/database/schema"
- "github.com/goravel/framework/facades"
+ "github. om/goravel/framework/facades"
 )
 
-type M20241207095921CreateUsersTable struct {
+Typ M20241207095921CreateUsersTable struct {
 }
 
-// Signature The unique signature for the migration.
+// Signatur Die eindeutige Signatur für die Migration.
 func (r *M20241207095921CreateUsersTable) Signature() string {
  return "20241207095921_create_users_table"
 }
 
-// Up Run the migrations.
+// Hochlauf der Migrationen.
 func (r *M20241207095921CreateUsersTable) Up() error {
- if !facades.Schema().HasTable("users") {
+ if !facades. chema().HasTable("users") {
   return facades.Schema().Create("users", func(table schema.Blueprint) {
-   table.ID()
+   table. D()
    table.String("name").Nullable()
    table.String("email").Nullable()
-   table.Timestamps()
+   tabelle. imestamps()
   })
  }
 
@@ -94,10 +94,10 @@ func (r *M20241207095921CreateUsersTable) Down() error {
 }
 ```
 
-#### Set Migration Connection
+#### Migrationsverbindung festlegen
 
-If the migration will interact with a database connection other than the application's default database connection, you
-should use the migration's `Connection` method:
+Wenn die Migration mit einer anderen Datenbankverbindung als der Standard-Datenbankverbindung der Anwendung interagiert, sollten Sie
+die Methode `Connection` der Migration verwenden:
 
 ```go
 func (r *M20241207095921CreateUsersTable) Connection() string {
@@ -105,15 +105,15 @@ func (r *M20241207095921CreateUsersTable) Connection() string {
 }
 ```
 
-### SQL Migration
+### SQL-Migration
 
-The migration command will generate two migration files: `***.up.sql` and `***.down.sql`, corresponding to execution and
-rollback, respectively. You can write SQL statements directly in these two files.
+Der Migrationsbefehl generiert zwei Migrationsdateien: `***.up.sql` und `***.down.sql`, entsprechend der Ausführung und
+Rollbacks. Sie können SQL-Anweisungen direkt in diese beiden Dateien schreiben.
 
 ```sql
--- ***.up.sql
-CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+-- ***.up. ql
+TABLE `users` ERSTELLEN (
+  `id` bigint(20) unsigniert NICHT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -121,14 +121,14 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ***.down.sql
+-- ***. own.sql
 DROP TABLE `users`;
 ```
 
-## Register Migrations
+## Migrationen registrieren
 
-When using Go language migrations, you need to register the migration files in the `database/kernel.go` file after the
-migration files are generated:
+Wenn du Go Sprachmigrationen verwendest, musst du die Migrationsdateien in der `database/kernel.go` Datei registrieren, nachdem die
+Migrationsdateien generiert wurden:
 
 ```go
 // database/kernel.go
@@ -139,72 +139,72 @@ func (kernel Kernel) Migrations() []schema.Migration {
 }
 ```
 
-SQL migrations do not need to be registered, as the framework will automatically scan the SQL files in the
-`database/migrations` directory.
+SQL-Migrationen müssen nicht registriert werden, da das Framework die SQL-Dateien automatisch im
+`database/migrations` Verzeichnis scannt.
 
-## Run Migrations
+## Migrationen ausführen
 
-To run all of your outstanding migrations, execute the `migrate` Artisan command:
-
-```shell
-go run . artisan migrate
-```
-
-If you would like to see which migrations have run thus far, you may use the `migrate:status` Artisan command:
+Um alle deine ausstehenden Migrationen auszuführen, führen Sie den `migrate` Artisan Befehl aus:
 
 ```shell
-go run . artisan migrate:status
+go run . Handwerkliche Migration
 ```
 
-## Rolling Back Migrations
-
-To roll back the latest migration, use the `rollback` Artisan command. This command rolls back the last "batch" of
-migrations, which may include multiple migration files:
+Wenn du sehen möchtest, welche Migrationen bisher durchgeführt wurden, kannst du den `migrate:status` Artisan Befehl verwenden:
 
 ```shell
-go run . artisan migrate:rollback
+go run . handwerkliche migrate:status
 ```
 
-You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example,
-the following command will roll back the last five migrations:
+## Migrationen rückgängig machen
+
+Um die letzte Migration rückgängig zu machen, benutzen Sie den `rollback` Artisan Befehl. Dieser Befehl rollt den letzten "Batch" der
+Migrationen zurück, die mehrere Migrationsdateien enthalten können:
 
 ```shell
-go run . artisan migrate:rollback --step=5
+go run . handwerkliche Migrate:rollback
 ```
 
-The `migrate:reset` command will roll back all of your application's migrations:
+Du kannst eine begrenzte Anzahl von Migrationen zurücksetzen, indem du die `step` Option für den `rollback` Befehl angibst. Zum Beispiel wird der folgende Befehl
+die letzten fünf Migrationen zurückrollen:
 
 ```shell
-go run . artisan migrate:reset
+go run . handwerkliche Migrate:rollback --step=5
 ```
 
-### Roll Back & Migrate Using A Single Command
-
-The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command
-effectively re-creates your entire database:
+Der Befehl `migrate:reset` wird alle Migrationsbewegungen deiner Anwendung rückgängig machen:
 
 ```shell
-go run . artisan migrate:refresh
+go run . handwerkliche Migrate:reset
 ```
 
-You may roll back and re-migrate a limited number of migrations by providing the `step` option to the `refresh` command.
-For example, the following command will roll back and re-migrate the last five migrations:
+### Rückrollen & Migrieren mit einem einzigen Kommando
+
+Der Befehl `migrate:refresh` wird alle deine Migrationen zurückrollen und dann den `migrate` Befehl ausführen. Dieser Befehl
+erstellt Ihre gesamte Datenbank effektiv neu:
+
+```shell
+go run . handwerkliche Migrate:refresh
+```
+
+Du kannst eine begrenzte Anzahl von Migrationen zurücksetzen und erneut migrieren, indem du die `step` Option dem `refresh` Befehl zur Verfügung stellst.
+Zum Beispiel wird der folgende Befehl zurückrollen und die letzten fünf Migrationen neu migrieren:
 
 ```shell
 go run . artisan migrate:refresh --step=5
 ```
 
-### Drop All Tables & Migrate
+### Alle Tabellen ablegen & migrieren
 
-The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+Der Befehl `migrate:fresh` wird alle Tabellen aus der Datenbank ablegen und dann den Befehl `migrate` ausführen:
 
 ```shell
 go run . artisan migrate:fresh
 ```
 
-## Tables
+## Tabellen
 
-### Create Table
+### Tabelle erstellen
 
 ```go
 facades.Schema().Create("users", func(table schema.Blueprint) {
@@ -215,7 +215,7 @@ facades.Schema().Create("users", func(table schema.Blueprint) {
 })
 ```
 
-### Check If Table / Column Exists
+### Prüfen ob Tabelle / Spalte vorhanden ist
 
 ```go
 if facades.Schema().HasTable("users") {}
@@ -224,7 +224,7 @@ if facades.Schema().HasColumns("users", []string{"name", "email"}) {}
 if facades.Schema().HasIndex("users", "email_unique") {}
 ```
 
-### Database Connection
+### Datenbankverbindung
 
 ```go
 facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprint) {
@@ -232,7 +232,7 @@ facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprin
 })
 ```
 
-### Update Table
+### Tabelle aktualisieren
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -240,7 +240,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Rename / Drop Table
+### Tabelle umbenennen / Ablegen
 
 ```go
 facades.Schema().Rename("users", "new_users")
@@ -249,66 +249,66 @@ facades.Schema().DropIfExists("users")
 
 ```
 
-## Columns
+## Spalten
 
-### Available Column Types
+### Verfügbare Spaltentypen
 
 |                     |                    |                       |                             |
 | ------------------- | ------------------ | --------------------- | --------------------------- |
 | BigIncrements       | BigInteger         | Boolean               | Char                        |
-| Date                | DateTime           | DateTimeTz            | Decimal                     |
-| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
-| Increments          | Integer            | IntegerIncrements     | Json                        |
-| Increments          | LongText           | MediumIncrements      | MediumInteger               |
-| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
-| SoftDeletesTz       | String             | Text                  | Time                        |
-| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
-| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
+| Datum               | Datumszeit         | Datum-TZ              | Dezimalzahl                 |
+| Doppelt             | [Enum](#enum)      | Schweben              | [ID](#id)                   |
+| Erhöhungen          | Ganzzahl           | IntegerIncrements     | Json                        |
+| Erhöhungen          | LongText           | Mittlere Inkremente   | MediumInteger               |
+| Mittlerer Text      | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz       | String             | Text                  | Zeit                        |
+| TimeTz              | Zeitstempel        | Zeitstempel           | Zeitstempel                 |
+| Zeitstempel         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
 | TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
 | UnsignedTinyInteger |                    |                       |                             |
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
-`Sqlserver` databases, it is a `String` type.
+Erstelle ein `Enum`-Feld, das in `Mysql` gemäß dem Typ in `[]any` gespeichert werden kann, aber in `Postgres`, `Sqlite` und
+`Sqlserver` Datenbanken, es ist ein `String` Typ.
 
 ```go
 table.Enum("difficulty", []any{"easy", "hard"})
-table.Enum("num", []any{1, 2})
+Tabelle.Enum("num", []irgend{1, 2})
 ```
 
 #### ID
 
-The `ID` method is an alias for the `BigIncrements` method. By default, this method will create an `id` column; however,
-if you would like to assign a different name to the column, you may pass the column name:
+Die `ID` Methode ist ein Alias für die `BigIncrements` Methode. Standardmäßig wird diese Methode eine `id`-Spalte erstellen; aber,
+, wenn Sie der Spalte einen anderen Namen zuweisen möchten, können Sie den Spaltennamen übergeben:
 
 ```go
 table.ID()
-table.ID("user_id")
+Tabelle.ID("user_id")
 ```
 
 #### SoftDeletes
 
-The `SoftDeletes` method adds a nullable `deleted_at` `TIMESTAMP` column. This column is intended to store the
-`deleted_at` timestamp required for the Orm "soft delete" feature:
+Die `SoftDeletes` Methode fügt eine nullable `deleted_at` `TIMESTAMP` Spalte hinzu. Diese Spalte soll den Zeitstempel
+`deleted_at` speichern, der für die Orm "soft delete" Funktion erforderlich ist:
 
 ```go
 table.SoftDeletes()
 ```
 
-#### Custom column
+#### Eigene Spalte
 
-If you are using column types that framework does not support yet, you can use the `Column` method to customize the
-field type:
+Wenn du Spaltentypen verwendest, die das Framework noch nicht unterstützt, kannst du die `Column`-Methode verwenden, um den Feldtyp
+anzupassen:
 
 ```go
-table.Column("geometry", "geometry")
+table.Column("Geometrie", "Geometrie")
 ```
 
-### Column Modifiers
+### Spaltenmodifikatoren
 
-In addition to the column types listed above, when adding a column to a database table, you can also add "modifiers" to
-the column. For example, to allow a column to be "nullable," you can use the `Nullable` method:
+Zusätzlich zu den oben aufgeführten Spaltentypen können Sie beim Hinzufügen einer Spalte zu einer Datenbanktabelle auch "Modifikatoren" zu der Spalte
+hinzufügen. Um zum Beispiel eine Spalte "nullable" zu erlauben, kannst du die "Nullable"-Methode verwenden:
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -316,19 +316,19 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-The following table contains all available column modifiers:
+Die folgende Tabelle enthält alle verfügbaren Spaltenmodifikatoren:
 
-| Modified                 | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.AutoIncrement()`       | Sets an integer column as auto-incrementing (primary key)                                                     |
-| `.Comment("my comment")` | Adds a comment to the column (MySQL / PostgreSQL)                                                             |
-| `.Default(value)`        | Sets the default value for the column                                                                                            |
-| `.Nullable()`            | Allows NULL values to be inserted into the column                                                                                |
-| `.Unsigned()`            | Sets an integer column as UNSIGNED (MySQL only)                                                               |
-| `.UseCurrent()`          | Sets a timestamp column to use CURRENT_TIMESTAMP as the default value                                       |
-| `.UseCurrentOnUpdate()`  | Sets a timestamp column to use CURRENT_TIMESTAMP when the record is updated (MySQL only) |
+| Geändert                     | Beschreibung                                                                                                                                               |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.AutoIncrement()`           | Legt eine ganzzahlige Spalte als Auto-Inkrementierung fest (Primärschlüssel)                                                            |
+| `.Comment("mein Kommentar")` | Fügt der Spalte einen Kommentar (MySQL / PostgreSQL) hinzu                                                                              |
+| `.Standard(Wert)`            | Legt den Standardwert für die Spalte fest                                                                                                                  |
+| `.Nullable()`                | Erlaubt NULL-Werte in die Spalte einzufügen                                                                                                                |
+| `.Unsignned()`               | Setzt eine Ganzzahl-Spalte als UNSIGNED (nur MySQL)                                                                                     |
+| `.UseCurrent()`              | Setzt eine Zeitstempelspalte um CURRENT_TIMESTAMP als Standardwert zu verwenden                                                       |
+| `.UseCurrentOnUpdate()`      | Setzt eine Zeitstempel-Spalte, um CURRENT_TIMESTAMP zu verwenden, wenn der Datensatz aktualisiert wird (nur MySQL) |
 
-### Drop Column
+### Spalte ablegen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -337,32 +337,32 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-## Indexes
+## Indizes
 
-### Create Index
+### Index erstellen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
-  // Add primary key
-  table.Primary("id")
-  // Add composite primary key
-  table.Primary("id", "name")
+  // Primärschlüssel
+  Tabelle hinzufügen. rimary("id")
+  // Primärschlüssel
+  Tabelle.Primary("id", "name")
 
-  // Add unique index
-  table.Unique("name")
+  // Eindeutigen Index
+  Tabelle hinzufügen. nique("name")
   table.Unique("name", "age")
 
-  // Add normal index
+  // Normaler Index
   table.Index("name")
-  table.Index("name", "age")
+  Tabelle hinzufügen. ndex("name", "age")
 
-  // Add fulltext index
-  table.FullText("name")
-  table.FullText("name", "age")
+  // Volltextindex
+  Tabelle.FullText("name")
+  Tabelle.FullText("name", "age")
 })
 ```
 
-### Rename Index
+### Index umbenennen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -370,7 +370,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Index
+### Index ablegen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
@@ -384,7 +384,7 @@ facades.Schema().Table("users", func(table schema.Blueprint) {
 })
 ```
 
-### Create Foreign Key
+### Fremdschlüssel erstellen
 
 ```go
 facades.Schema().Table("posts", func(table schema.Blueprint) {
@@ -393,7 +393,7 @@ facades.Schema().Table("posts", func(table schema.Blueprint) {
 })
 ```
 
-### Drop Foreign Key
+### Fremdschlüssel ablegen
 
 ```go
 facades.Schema().Table("users", func(table schema.Blueprint) {
