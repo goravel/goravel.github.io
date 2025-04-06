@@ -1,57 +1,58 @@
-# Mail
+# Почта
 
-Goravel can use `facades.Mail()` to easily send mail locally.
+Горавель может использовать `facades.Mail()` чтобы легко отправлять почту локально.
 
 ## Конфигурация
 
-Before sending an email, you need to configure the `config/mail.go` configuration file.
+Перед отправкой электронной почты необходимо настроить конфигурационный файл `config/mail.go`.
 
-## Send Mail
+## Отправить почту
 
 ```go
 import "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
-  Bcc([]string{"example@example.com"}).
+  Bcc([]string{"example.com"}).
   Attach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
-  Send()
+  Send() 
+ Send()
 ```
 
-## Send Mail By Queue
+## Отправить почту в очереди
 
 ```go
 import "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
-  Bcc([]string{"example@example.com"}).
+  Bcc([]string{"example.com"}).
   Attach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
   Queue()
 ```
 
-You can also customize the queue:
+Вы также можете настроить очередь:
 
 ```go
 import "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   Cc([]string{"example@example.com"}).
-  Bcc([]string{"example@example.com"}).
+  Bcc([]string{"example.com"}).
   Attach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
   Subject("Subject").
-  Queue(mail.Queue().Connection("redis").Queue("mail"))
+  Queue(mail.Queue().Connection("redis").Queue("Очередь"))
 ```
 
-## Setting Sender
+## Настройка отправителя
 
-Framework uses `MAIL_FROM_ ADDRESS` and `MAIL_FROM_ NAME` in the `config/mail.go` configuration file as global senders.
-You can also customize the sender, but you need to note that the mail address needs to be consistent with the configured
+Framework использует `MAIL_FROM_ ADDRESS` и `MAIL_FROM_ NAME` в конфигурационном файле `config/mail.go` как глобальные отправители.
+Вы также можете настроить отправителя, но вы должны иметь в виду, что почтовый адрес должен соответствовать настроенному
 STMP:
 
 ```go
@@ -59,7 +60,7 @@ import "github.com/goravel/framework/mail"
 
 err := facades.Mail().To([]string{"example@example.com"}).
   From(mail.Address(testFromAddress, testFromName)).
-  Cc([]string{"example@example.com"}).
+  Cc([]string{"example.com"}).
   Bcc([]string{"example@example.com"}).
   Attach([]string{"file.png"}).
   Content(mail.Html("<h1>Hello Goravel</h1>")).
@@ -67,16 +68,16 @@ err := facades.Mail().To([]string{"example@example.com"}).
   Queue(mail.Queue().Connection("redis").Queue("mail"))
 ```
 
-## Using Mailable
+## Почтовая рассылка
 
-The parameters of the email can be set in a `Mailable` struct. These structs are stored in the `app/mails` directory.
-You can quickly create a `Mailable` using the `make:mail` Artisan command:
+Параметры электронной почты можно задать в структуре «Почтовый ящик». Эти структуры хранятся в папке `app/mails`.
+Вы можете быстро создать `Mailable`, используя команду `make:mail`:
 
 ```bash
-go run . artisan make:mail OrderShipped
+запустить . artisan make:mail Отправлено
 ```
 
-The generated `OrderShipped` struct is as follows:
+Сгенерированная структура `OrderShipped` выглядит следующим образом:
 
 ```go
 import "github.com/goravel/framework/contracts/mail"
@@ -114,9 +115,9 @@ func (m *OrderShipped) Queue() *mail.Queue {
 }
 ```
 
-Then you can use the `Mailalbe` in the `Send` and `Queue` methods:
+Затем вы можете использовать `Mailalbe` в методах `Send` и `Queue`:
 
 ```go
 err := facades.Mail().Send(mails.NewOrderShipped())
-err := facades.Mail().Queue(mails.NewOrderShipped())
+err := facades.Mail().Очередь (mails.NewOrderShipped())
 ```
