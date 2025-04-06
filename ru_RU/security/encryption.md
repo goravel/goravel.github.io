@@ -1,33 +1,33 @@
-# Encryption
+# Шифрование
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
-that their underlying value can not be modified or tampered with once encrypted.
+Службы шифрования Goravel'а обеспечивают простой, удобный интерфейс для шифрования и расшифровки текста через OpenSSL
+с использованием AES-256 шифрования. Все зашифрованные значения Горавеля подписываются с помощью кода аутентификации (GMAC) таким образом,
+чтобы их базовое значение не может быть изменено или изменено сразу же зашифровано.
 
 ## Конфигурация
 
-Before using Goravel's encrypter, you must set the `key` configuration option in your `config/app.go` configuration
-file. This option is driven by the `APP_KEY` environment variable. Use the `go run . artisan key:generate` command to
-generate this variable's value since the `key:generate` command will utilize Golang's secure random bytes generator to
-create a secure cryptographic key for your application.
+Перед использованием шифрования Goravel, вы должны установить параметр `key` в конфигурации `config/app.go`
+файла. Этот параметр используется переменной окружения `APP_KEY`. Используйте `go run . Команда artisan key:generate` для
+генерировать это значение переменной, поскольку команда `key:generate` использует безопасный генератор случайных байт Golang для
+создайте безопасный криптографический ключ для вашего приложения.
 
-## Using The Encrypter
+## Использование шифрования
 
-### Encrypting A Value
+### Шифрование значения
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+Для шифрования значения вы можете использовать метод `EncryptString` в `facades.Crypt()`. Этот метод шифрует значения используя шифр
+OpenSSL и AES-256-GCM. Кроме того, все зашифрованные значения подписаны кодом аутентификации (GMAC)
+для предотвращения дешифрования злоумышленниками, пытающимися приручить данные.
 
 ```go
-secret, err := facades.Crypt().EncryptString("goravel")
+секрет, err := facades.Crypt().Шифровать("goravel")
 ```
 
-### Decrypting A Value
+### Расшифровка значения
 
-You can use the `DecryptString` method from `facades.Crypt()` to decrypt values. If the value can not be properly
-decrypted, such as when the message authentication code is invalid, an error will be returned.
+Вы можете использовать метод `DecryptString` от `facades.Crypt()` до расшифровки значений. Если значение не может быть правильно
+расшифровано, например, когда код аутентификации неверен, будет возвращена ошибка.
 
 ```go
-str, err := facades.Crypt().DecryptString(secret)
+, err := facades.Crypt().DecryptString(secret)
 ```
