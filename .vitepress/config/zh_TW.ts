@@ -209,8 +209,8 @@ function sidebarSecurity(): DefaultTheme.SidebarItem[] {
 }
 function sidebarOrm(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Quickstart',
-    link: 'quickstart'
+    text: "Quickstart",
+    link: "quickstart"
   }, {
     text: 'Relationships',
     link: 'relationships'
@@ -227,8 +227,8 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
 }
 function sidebarTesting(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Quickstart',
-    link: 'quickstart'
+    text: "Quickstart",
+    link: "quickstart"
   }, {
     text: 'HTTP Tests',
     link: 'http'
