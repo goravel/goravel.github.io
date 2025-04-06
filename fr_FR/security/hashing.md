@@ -1,39 +1,39 @@
-# Hashing
+# Hachage
 
-The Goravel `facades.Hash()` provides secure Argon2id and Bcrypt hashing for storing user passwords. If you are using
-one of the Goravel application starter kits, Argon2id will be used for registration and authentication by default.
+Le `facades.Hash()` de Goravel fournit un hachage Argon2id sécurisé et Bcrypt pour stocker les mots de passe de l'utilisateur. Si vous utilisez
+l'un des kits de démarrage d'application Goravel, Argon2id sera utilisé par défaut pour l'enregistrement et l'authentification.
 
 ## Configuration
 
-The default hashing driver for your application is configured in your application's `config/hashing.go` configuration
-file. There are currently several supported drivers: Argon2id and Bcrypt.
+Le pilote de hachage par défaut pour votre application est configuré dans le fichier
+de configuration `config/hashing.go` de votre application. Il y a actuellement plusieurs pilotes pris en charge : Argon2id et Bcrypt.
 
-## Basic Usage
+## Utilisation de base
 
-### Hashing Passwords
+### Hachage des mots de passe
 
-You may hash a password by calling the `Make` method on the `facades.Hash()`:
+Vous pouvez hacher un mot de passe en appelant la méthode `Make` sur les `facades.Hash()`:
 
 ```go
-password, err := facades.Hash().Make(password)
+mot de passe, erreur := facades.hash().Make(password)
 ```
 
-### Verifying That A Password Matches A Hash
+### Vérifier qu'un mot de passe correspond à un hachage
 
-The `Check` method provided by the Hash facade allows you to verify that a given plain-text string corresponds to a
-given hash:
+La méthode `Check` fournie par la façade Hash vous permet de vérifier qu'une chaîne de texte brut donnée correspond à un hachage
+donné:
 
 ```go
 if facades.Hash().Check('plain-text', hashedPassword) {
-    // The passwords match...
+    // Les mots de passe correspondent...
 }
 ```
 
-### Determining If A Password Needs To Be Rehashed
+### Déterminer si un mot de passe doit être réinitialisé
 
-The `NeedsRehash` method provided by the Hash facade allows you to determine if the work factor used by the hasher has
-changed since the password was hashed. Some applications choose to perform this check during the application's
-authentication process:
+La méthode `NeedsRehash` fournie par la façade Hash vous permet de déterminer si le facteur de travail utilisé par le hasher a
+changé depuis que le mot de passe a été haché. Certaines applications choisissent d'effectuer cette vérification pendant le processus d'authentification
+de l'application :
 
 ```go
 if facades.Hash().NeedsRehash(hashed) {
