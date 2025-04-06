@@ -57,7 +57,7 @@ export const config = defineConfig({
       label: "页面导航"
     },
     lastUpdated: {
-      text: 'Last updated',
+      text: "最后更新于",
       formatOptions: {
         dateStyle: 'short',
         timeStyle: 'medium'
