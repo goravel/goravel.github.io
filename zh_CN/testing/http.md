@@ -1,96 +1,96 @@
-# HTTP Tests
+# HTTP 测试
 
-When building web applications, you'll often need to test if your HTTP requests work correctly from start to finish.
-Goravel's testing tools make this straightforward - you can simulate requests and verify responses without setting up
-complex test environments.
+当构建网页应用程序时，您常常需要测试您的 HTTP 请求是否从开始到完成正常工作。
+Goravel的测试工具使这个直截了当——你可以模拟请求和验证响应，而无需设置
+复杂的测试环境。
 
-## Make Requests
+## 提出请求
 
-Testing HTTP endpoints in Goravel uses a simple pattern. Start with the `Http` method from your `TestCase`, which needs
-a `*testing.T` parameter for assertions. This gives you a request object (`framework/contracts/testing.TestRequest`)
-that handles all common HTTP verbs like `Get`, `Post`, and `Put`.
+测试Goravel中的 HTTP 端点使用简单的模式。 从你的 `TestCase`中的 `Http` 方法开始, 这个方法需要
+一个 `*testing.T` 参数来进行断言。 这会给您一个请求对象 (`framework/contracts/testing.TestRequest`)
+来处理所有常见的 HTTP 动词，如`Get`、`Post`和`Put`。
 
-Instead of making real HTTP calls, these methods simulate your application's request cycle internally. Each request
-returns a response object (`framework/contracts/testing.TestResponse`) with methods to check the results.
+这些方法不是进行真正的 HTTP 调用，而是在内部模拟您的应用程序的请求周期。 每个请求
+返回一个响应对象(`framework/contracts/testing.TestResponse`)，并返回检查结果的方法。
 
-Here's a basic example:
+下面是一个基本示例：
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).Get("/users/1")
+func (s *ExampleTestSuite) TestIndex() Power
+ 响应, err := s.Http(s.T()).Get("/users/1")
  s.Nil(err)
  response.AssertStatus(200)
 }
 ```
 
-### Customize Request Headers
+### 自定义请求标题
 
-You can customize request headers using either `WithHeader` for a single header or `WithHeaders` for multiple headers:
+您可以自定义请求头使用单个标题的 "Wouheader" 或多个标题的 "Wouheaders" ：
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
-    // Single header
-    response, err := s.Http(s.T()).WithHeader("X-Custom-Header", "Value").Get("/users/1")
+func (s *exampleTestSuite) TestIndex() Power
+    // single header
+    response, err := s.Http(s.T())。 ithheader("X-Custom-Header", "Value").Get("/users/1")
     
-    // Multiple headers
-    response, err := s.Http(s.T()).WithHeaders(map[string]string{
+    // 多个headers
+    响应, err := s. ttp(s.T())。 ithHeaders(map[string]string_
         "X-Custom-Header": "Value",
-        "Accept": "application/json",
-    }).Get("/users/1")
+        "接受": "application/json",
+    }). et("/users/1")
 }
 ```
 
-### Cookies
+### Cookie
 
-You may use either `WithCookie` or `WithCookies` method to set cookies value before making a request.
+您可以使用 "WithCookie" 或 "WithCookies" 方法在提出请求之前设置 cookies 值。
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithCookie("name", "krishan").Get("/users/1")
+func (s *ExampleTestSuite) TestIndex() Power
+ response, err := s.Http(s.T().WithCookie("name", "krishan"). et("/users/1")
 
- // or use WithHeaders for multiple Headers
- response, err := s.Http(s.T()).WithHeader(map[string]string{
+ // 或多个Headers
+ 响应，err := s。 ttp(s.T())。 ithHeader(map[string]string_
         "name": "krishan",
         "lang": "en",
-    }).Get("/users/1")
+    }). et("/users/1")
 }
 ```
 
-### WithSession
+### 取消会话
 
-You may set the data to the session using the `WithSession` method:
+您可以使用 "WiSession" 方法设置数据到会话中：
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
-}
+func (s *ExampleTestSuite) TestIndex() Power
+ 响应, err := s.Http(s.T().Withessession(map[string]any{"role": "admin"}).Get("/users/1")
+
 ```
 
-### Debugging Responses
+### 调试响应
 
-After making request you may use `Session`, `Headers`, `Content`, `Cookies` or `Json` method to check data returned from
-the request.
+在提出请求后，您可以使用 `Session`、`Headers`、`Content`、`Cookies` 或 `Json` 方法来检查从
+请求返回的数据。
 
 ```go
-func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
+func (s *ExampleTestSuite) TestIndex() Power
+ 响应, err := s.Http(s.T().Withessession(map[string]任何{"role": "admin"}). et("/users/1")
  
- content, err := response.Content()
+ contents, err := response.Content()
  
- cookies := response.Cookies()
+ cookies := response. ookies()
  
  headers := response.Headers()
  
- json, err := response.Json() // response body parsed as json(map[string]any)
+ json, err := response。 Son() // 响应机构解析为json(map[string]any)
  
- session, err := response.Session() // returns all values stored in the current request session
+ session, err := response。 ession() // 返回当前请求会话中存储的所有值
 }
 ```
 
-## Building Body
+## 建筑体
 
-For method like `Post`, `Put`, `Delete` etc. Goravel accepts `io.Reader` as second argument. To simplify building
-payloads, the framework provides utility methods for constructing request bodies.
+方法如`Post`、`Put`、`Delete`等。 Goravel接受`io.Reader`作为第二个参数。 为了简化建筑物
+有效载荷，框架提供了构建请求实体的实用方法。
 
 ```go
 import "github.com/goravel/framework/support/http"
@@ -104,10 +104,10 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-## Testing Json APIs
+## 测试 Json APIs
 
-Goravel provides several helpers to test JSON API responses effectively. It attempts to unmarshal the response body into
-a Go `map[string]any`. If unmarshalling fails, the associated assertions will also fail.
+Goravel提供了几个助手来有效测试 JSON API 反应。 它试图将响应体拆分为
+一个去地图[string]。 如果取消调用失败，相关的断言也将失败。
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
@@ -121,8 +121,8 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-To access the unmarshalled JSON directly, use the `Json` method on the `TestResponse`. This lets you inspect individual
-elements of the response body.
+若要直接访问未marshalled JSON，请使用 `TestResponse` 上的 `Json` 方法。 这让您可以检查响应体中的单个
+元素。
 
 ```go
 json, err := response.Json()
@@ -131,14 +131,14 @@ s.True(json["created"])
 ```
 
 :::tip
-The `AssertJson` method checks whether the response contains all the specified values, even if the response includes
-additional fields. It doesn't require an exact match unless you use `AssertExactJson`.
+`AssertJson`方法检查响应是否包含所有指定值，即使响应包含了
+附加字段。 除非您使用 `AssertExactJson` ，否则它不需要精确匹配。
 :::
 
-### Asserting Exact JSON Matches
+### 声明精彩的 JSON 匹配
 
-If you need to verify that the response matches your expected JSON exactly (with no extra or missing fields), use the
-`AssertExactJson` method.
+如果您需要验证响应是否与您所期望的 JSON 完全匹配(没有额外的或缺失的字段)，请使用
+`AssertExactJson` 方法。
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
@@ -154,66 +154,66 @@ func (s *ExampleTestSuite) TestIndex() {
 
 ### Fluent JSON Testing
 
-Goravel makes it easy to perform fluent assertions on JSON responses. Using the `AssertFluentJson` method, you can pass
-a closure that provides an instance of `framework/contracts/testing.AssertableJSON`. This instance allows you to check
-specific values or conditions in the JSON response returned by your request.
+Goravel很容易对JSON的反应进行流畅的断言。 使用 `AssertFluentJson` 方法，你可以通过
+一个关闭提供一个 `framework/contracts/testing.AssertableJSON` 的实例。 此实例允许您在您的请求返回的 JSON 响应中检查
+特定值或条件。
 
-For example, you can use the `Where` method to assert that a particular value exists in the JSON response, and the
-`Missing` method to ensure that an attribute is not present.
+例如，您可以使用 `Where ` 方法来断言在JSON 响应中存在某个特定值。 和
+`Missing` 方法确保属性不存在。
 
 ```go
-import contractstesting "github.com/goravel/framework/contracts/testing"
+导入 contractstetting "github.com/goravel/framework/contracts/testing"
 
-func (s *ExampleTestSuite) TestIndex() {
-    response, err := s.Http(s.T()).Get("/users/1")
+func (s *ExampleTestSuite) TestIndex()
+    response, err := s. ttp(s.T()).Get("/users/1")
  s.Nil(err)
  
- response.AssertStatus(201).
-  AssertFluentJson(func (json contractstesting.AssertableJSON) {
-   json.Where("id", float64(1)).
-    Where("name", "bowen").
-    WhereNot("lang", "en").
-    Missing("password")
+ response.AssertStatus(201)。
+  AssertFluentJson(func (json contractstetting.AssertableJSON) power
+   json.Where("id", float64(1)))。
+    在哪里("name", "bowen").
+    Where Not("lang", "en").
+    缺失("密码")
         })
 }
 ```
 
-### Asserting Attribute Presence / Absence
+### 描述属性存在/不存在
 
-If you want to check whether an attribute is present or missing, Goravel makes it simple with the `Has` and `Missing`
-methods.
+如果您想要检查属性是否存在或丢失，Goravel使用`Has`和`Missing`
+方法使其变得简单。
 
 ```go
 response.AssertStatus(201).
-    AssertFluentJson(func (json contractstesting.AssertableJSON) {
-        json.Has("username").
+    AssertFluentJson(func (json contractstetting.AssertableJSON) w
+        json.Has(“username”).
             Missing("password")
-    })
+})
 ```
 
-You can also assert the presence or absence of multiple attributes at once using `HasAll` and `MissingAll`.
+您还可以同时使用 `HasAll` 和 `MissingAll` 来断言是否存在多个属性。
 
 ```go
 response.AssertStatus(201).
-    AssertFluentJson(func (json contractstesting.AssertableJSON) {
+    AssertFluentJson(func (json contractstetting.AssertableJSON) w
         json.Has([]string{"username", "email"}).
             MissingAll([]string{"verified", "password"})
-    })
+})
 ```
 
-If you only need to check for the presence of at least one attribute from a list, use the `HasAny` method.
+如果您只需要检查列表中至少一个属性的存在，请使用 `HasAny` 方法。
 
 ```go
 response.AssertStatus(201).
-    AssertFluentJson(func (json contractstesting.AssertableJSON) {
-  json.HasAny([]string{"username", "email"})
-    })
+    AssertFluentJson(func (json contractstetting.AssertableJSON) w
+  json.HasAny[]string{"username", "email"})
+})
 ```
 
-### Scoping JSON Collection Assertions
+### 调整JSON集合描述
 
-When a response contains a collection of objects under a named key, you can use various methods to assert its structure
-and content.
+当响应包含一个命名密钥下的对象集合时，您可以使用各种方法来确定其结构
+和内容。
 
 ```go
 type Item struct {
@@ -231,8 +231,8 @@ facades.Route().Get("/", func(ctx http.Context) http.Response {
 }
 ```
 
-You can use the `Count` method to verify the number of elements in the collection. To assert properties of the first
-element, use the `First` method, which provides an instance of `AssertableJson`. Similarly, the `Each` method allows you
+您可以使用 `Count` 方法来验证收藏中的元素数量。 要确定第一个
+元素的属性，请使用 `First` 方法，提供一个实例`AssertableJson`。 Similarly, the `Each` method allows you
 to iterate over all elements and assert their properties individually. Alternatively, the `HasWithScope` method combines
 the functionality of `First` and `Count`, allowing you to assert both the first element and its contents while providing
 an `AssertableJson` instance for scoped assertions.
@@ -265,9 +265,9 @@ response.AssertStatus(200).
     })
 ```
 
-## Available Assertions
+## 可用的声明
 
-### Response Assertions
+### 反应陈述
 
 |                                                   |                                                         |                                                         |
 | ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
@@ -285,142 +285,142 @@ response.AssertStatus(200).
 | [AssertStatus](#assertstatus)                     | [AssertSuccessful](#assertsuccessful)                   | [AssertTemporaryRedirect](#asserttemporaryredirect)     |
 | [AssertTooManyRequests](#asserttoomanyrequests)   | [AssertUnauthorized](#assertunauthorized)               | [AssertUnprocessableEntity](#assertunprocessableentity) |
 
-### AssertAccepted
+### 声明接受
 
-Asserts that the response has an `202 Accepted` HTTP status code:
+确认响应有一个 `202 接受` HTTP 状态码：
 
 ```go
-response.AssertAccepted()
+响应.AssertAccepted()
 ```
 
 ### AssertBadRequest
 
-Asserts that the response has a `400 Bad Request` HTTP status code:
+确认响应有一个 `400 Bad Request` HTTP 状态码：
 
 ```go
-response.AssertBadRequest()
+回复.AssertBadRequest()
 ```
 
-### AssertConflict
+### 声明冲突
 
-Asserts that the response has a `409 Conflict` HTTP status code:
+确认响应有一个 `409 Conflict` HTTP 状态代码：
 
 ```go
-response.AssertConflict()
+回复.AssertConflict()
 ```
 
 ### AssertCookie
 
-Asserts that the response contains a cookie with the specified name and value:
+确认响应包含指定名称和值的 cookie：
 
 ```go
-response.AssertCookie("name", "value")
+响应.AssertCookie("name", "值")
 ```
 
-### AssertCookieExpired
+### 自述Cookie已过期
 
-Asserts that the specified cookie has expired:
+确认指定的 cookie 已过期：
 
 ```go
-response.AssertCookieExpired("name")
+响应.AssertCookieExpired("name")
 ```
 
 ### AssertCookieMissing
 
-Asserts that the response does not contain a cookie with the specified name:
+确认响应不包含指定名称的 cookie ：
 
 ```go
-response.AssertCookieMissing("name")
+响应.AssertCookieMissing("name")
 ```
 
-### AssertCookieNotExpired
+### AssertCookieNot过期的
 
-Asserts that the specified cookie has not expired:
+确认指定的 cookie 尚未过期：
 
 ```go
-response.AssertCookieNotExpired("name")
+响应.AssertCookieNotExpired("name")
 ```
 
-### AssertCreated
+### 描述创建
 
-Asserts that the response has a `201 Created` HTTP status code:
+确认响应有一个 `201 创建` HTTP 状态码：
 
 ```go
-response.AssertCreated()
+回复.AssertCreated()
 ```
 
 ### AssertDontSee
 
-Asserts that the response does not contain the specified values. The second parameter (optional) determines whether to
-escape special characters in the values before checking. If not provided, it defaults to true.
+确认响应不包含指定的值。 The second parameter (optional) determines whether to
+escape special characters in the values before checking. 如果没有提供，它将默认为真。
 
 ```go
-response.AssertDontSee([]string{"<div>"}, false)  // Do not escape special characters
+响应.AssertDontSee([]string{"<div>"}, false) // 不要逃脱特殊字符
 ```
 
 ### AssertExactJson
 
-Asserts that the response JSON matches exactly the provided `map[string]any`:
+确认JSON响应完全匹配所提供的 "地图[string]任何"：
 
 ```go
-response.AssertExactJson(map[string]any{"created": true})
+回复.AssertExactJson(地图[string]任何{"创建": true})
 ```
 
 ### AssertFluentJson
 
-Asserts the response JSON using a fluent interface:
+使用流体接口来破坏JSON响应：
 
 ```go
-import contractstesting "github.com/goravel/framework/contracts/testing"
+Import contractstetting "github.com/goravel/framework/contracts/testing"
 
-response.AssertFluentJson(func(json contractstesting.AssertableJSON) {
+response.AssertFluentJson(funfunc(json contractstesting.AssertableJSON) ow.
      json.Where("created", true)
 })
 ```
 
-### AssertForbidden
+### 断言
 
-Asserts that the response has a `403 Forbidden` HTTP status code:
+确认响应有一个 `403 Forbiden` HTTP 状态码：
 
 ```go
-response.AssertForbidden()
+回复.AssertForbiden()
 ```
 
-### AssertFound
+### 已发现
 
-Asserts that the response has a `302 Found` HTTP status code:
+确认响应有一个 `302 Found` HTTP 状态码：
 
 ```go
-response.AssertFound()
+响应.AssertFound()
 ```
 
 ### AssertGone
 
-Asserts that the response has a `410 Gone` HTTP status code:
+确认响应有一个 `410 Gone` HTTP 状态码：
 
 ```go
 response.AssertGone()
 ```
 
-### AssertHeader
+### 描述标题
 
-Asserts that the response contains the specified header with the given value:
+确认响应包含给定值的指定头部：
 
 ```go
 response.AssertHeader("Content-Type", "application/json")
 ```
 
-### AssertHeaderMissing
+### 断言头丢失
 
-Asserts that the response does not contain the specified header:
+确认响应不包含指定的标题：
 
 ```go
-response.AssertHeaderMissing("X-Custom-Header")
+回复。AssertHeaderMissing("X-自定义头")
 ```
 
-### AssertInternalServerError
+### AssertInternalServer错误
 
-Asserts that the response has a `500 Internal Server` Error HTTP status code:
+确认响应有一个 `500 Internal Server` 错误的 HTTP 状态代码：
 
 ```go
 response.AssertInternalServerError()
@@ -428,39 +428,39 @@ response.AssertInternalServerError()
 
 ### AssertJson
 
-Asserts that the response JSON contains the provided fragment:
+确认应对措施包含所提供的碎片：
 
 ```go
-response.AssertJson(map[string]any{"created": true})
+响应.AssertJson(地图[string]任何{"创建": true})
 ```
 
-### AssertJsonMissing
+### AssertJson缺失的
 
-Asserts that the specified keys or values are missing in the response JSON:
+确认在响应JSON中缺少指定的键或值：
 
 ```go
-response.AssertJsonMissing(map[string]any{"created": false})
+响应.AssertJsonMissing(地图[string]任何{"创建": false})
 ```
 
-### AssertMethodNotAllowed
+### 描述方法不允许
 
-Asserts that the response has a `405 Method Not Allowed` HTTP status code:
+确认响应有一个 `405 方法不允许` HTTP 状态码：
 
 ```go
-response.AssertMethodNotAllowed()
+回复.AssertMethodNotalled()
 ```
 
-### AssertMovedPermanently
+### 声明永久移动
 
-Asserts that the response has a `301 Moved Permanently` HTTP status code:
+确认响应有一个 \`301 移动永久' HTTP 状态码：
 
 ```go
-response.AssertMovedPermanently()
+回复.AssertMovedPermanently()
 ```
 
 ### AssertNoContent
 
-Asserts that the response has a `204 No Content` HTTP status code:
+确认响应有一个 `204 No Content` HTTP 状态码：
 
 ```go
 response.AssertNoContent()
@@ -468,73 +468,73 @@ response.AssertNoContent()
 
 ### AssertNotAcceptable
 
-Asserts that the response has a `406 Not Acceptable` HTTP status code:
+确认响应有 `406 不接受` HTTP 状态码：
 
 ```go
-response.AssertNotAcceptable()
+回复.AssertNotAcceptable()
 ```
 
-### AssertNotFound
+### 断言未发现
 
-Asserts that the response has a `404 Not Found` HTTP status code:
+确认响应有一个 `404 找不到` HTTP 状态码：
 
 ```go
-response.AssertNotFound()
+响应.AssertNotFound()
 ```
 
-### AssertNotModified
+### 声明已修改
 
-Asserts that the response has a `304 Not Modified` HTTP status code:
+确认响应有一个 `304 Not Modified` HTTP 状态码：
 
 ```go
-response.AssertNotModified()
+回复.AssertNotModified()
 ```
 
-### AssertOk
+### 声明确认
 
-Asserts that the response has a `200 OK` HTTP status code:
+确认响应有一个 `200 OK` HTTP 状态码：
 
 ```go
 response.AssertOk()
 ```
 
-### AssertPartialContent
+### 描述部分内容
 
-Asserts that the response has a `206 Partial Content` HTTP status code:
+确认响应有一个 `206 Partial Content` HTTP 状态码：
 
 ```go
-response.AssertPartialContent()
+回复.AssertPartialContent()
 ```
 
-### AssertPaymentRequired
+### 需要自述支付
 
-Asserts that the response has a `402 Payment Required` HTTP status code:
+确认响应有一个 `402 付款要求` HTTP 状态码：
 
 ```go
-response.AssertPaymentRequired()
+响应.AssertPaymentRequireed()
 ```
 
-### AssertRequestTimeout
+### AssertRequest超时
 
-Asserts that the response has a `408 Request Timeout` HTTP status code:
+确认响应有一个 `408 Request Timeout` HTTP 状态码：
 
 ```go
-response.AssertRequestTimeout()
+响应.AssertRequestTimeout()
 ```
 
-### AssertSee
+### 断言
 
-Asserts that the response contains the specified values. The second parameter (optional) determines whether to escape
-special characters in the values before checking. If not provided, it defaults to `true`.
+确认响应包含指定的值。 第二个参数 (可选) 决定在检查前是否跳过
+特殊字符。 如果没有提供，则默认为`true`。
 
 ```go
-response.AssertSee([]string{"<div>"}, false)  // Do not escape special characters
+回复.AssertSee([]string{"<div>"}, false) // 不要脱离特殊字符
 ```
 
 ### AssertSeeInOrder
 
 Asserts that the response contains the specified values in the given order. The second parameter (optional) determines
-whether to escape special characters in the values before checking. If not provided, it defaults to `true`.
+whether to escape special characters in the values before checking. 如果没有提供，则默认为`true`。
 
 ```go
 response.AssertSeeInOrder([]string{"First", "Second"}, false)  // Do not escape special characters
