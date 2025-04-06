@@ -1,54 +1,55 @@
 # 配置
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Goravel框架的所有配置文件都保存在`config`目录中。 您可以查看指定的
+说明并根据项目需要灵活配置它们。
 
-## Environment Configuration
+## 环境配置
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+在不同环境中运行应用程序通常需要不同的配置。 例如，您可能想要
+在本地打开调试模式，但在生产环境中不需要它。
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
+因此，框架提供了根目录中的`.env.example`文件。 You need to copy this file, rename it
 to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
 needs.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+请注意`。 nv`文件不应被添加到版本控制中，因为当多人合作时， 不同的
+开发者可能使用不同的配置，不同的部署环境配置是不同的。
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+此外，如果入侵者能够访问您的代码仓库，则有可能暴露敏感的
+配置。 如果你想要添加一个新的配置项, 你可以添加它到 `.env.example` 文件来同步所有开发者的
+配置。
 
-## Retrieve Environment Configuration
+## 获取环境配置
 
-Use the following method to obtain the configuration items in the `.env` file:
+使用以下方法获取`.env`文件中的配置项：
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// 第一个参数是配置键，第二个参数是默认值
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## 访问配置值
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+您可以轻松地使用应用程序中的全局`facades.Config()`函数来访问`config`目录中的配置值
+。 对配置值的访问可以使用“.”语法。 您也可以指定默认的
+值，如果配置选项不存在，则返回默认值：
 
 ```go
-// Get the configuration through assertion
+// 通过断言
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// 获取字符串类型
+facades.Config().GetString("app. 您可以使用
+facades.Config().GetInt("app. - "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// 获取int 类型
+ facades.Config().GetInt("app. nt", 1)
 
-// Get the configuration of the bool type
+// 获取布尔类型
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## 设置配置
 
 ```go
 facades.Config().Add("path", "value1")
@@ -56,10 +57,10 @@ facades.Config().Add("path.with.dot.case1", "value1")
 facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## 获取项目信息
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+您可以使用 `technologan about` 命令查看框架版本、配置等。
 
 ```bash
-go run . artisan about
+去运行艺人关于
 ```
