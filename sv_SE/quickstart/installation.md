@@ -1,52 +1,52 @@
 # Installation
 
-## Server Requirements
+## Serverkrav
 
 - Golang >= 1.21
 
 ## Installation
 
-### Using Goravel Installer
+### Använder Goravel Installer
 
-Initialize the installer according to the [documentation](https://github.com/goravel/installer), and then initialize a
-new Goravel project using the following command:
+Initiera installationsprogrammet enligt [documentation](https://github.com/goravel/installer) och initiera sedan ett
+nytt Goravel-projekt med följande kommando:
 
 ```shell
-// Enter the directory where you want to install the project
-goravel new blog
+// Ange katalogen där du vill installera projektet
+goravel ny blogg
 ```
 
-### Manual Installation
+### Manuell installation
 
 ```shell
-// Download framework
-git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/.git*
+// Hämta ramverk
+git clone --depth=1 https://github.com/goravel/goravel.git && rm -rf goravel/. it*
 
-// Install dependencies
+// Installera beroenden
 cd goravel && go mod tidy
 
-// Create .env environment configuration file
+// Create . nv miljö konfigurationsfil
 cp .env.example .env
 
-// Generate application key
-go run . artisan key:generate
+// Generera applikationsnyckeln
+go run . hantverksnyckel:generate
 ```
 
-## Start HTTP Service
+## Starta HTTP-tjänst
 
-### Start Service According To .env File In The Root Directory
+### Starta tjänsten enligt .env fil i rotkatalogen
 
 ```shell
-go run .
+gå kör.
 ```
 
-### Specify .env File To Start Service
+### Ange .env fil att starta tjänsten
 
 ```shell
-go run . --env=./.env
+kör . --env=./.env
 ```
 
-### Start Service Using Environment Variables
+### Starta tjänsten med hjälp av miljövariabler
 
 ```shell
 APP_ENV=production APP_DEBUG=true go run .
@@ -54,15 +54,15 @@ APP_ENV=production APP_DEBUG=true go run .
 
 ### Live reload
 
-Install [cosmtrek/air](https://github.com/cosmtrek/air), Goravel has a built-in configuration file that can be used
-directly:
+Installera [cosmtrek/air](https://github.com/cosmtrek/air), Goravel har en inbyggd konfigurationsfil som kan användas
+direkt:
 
 ```
-air
+luft
 ```
 
-If you are using Windows system, you need to modify the `.air.toml` file in the root directory, and add the `.exe`
-suffix to the following two lines:
+Om du använder Windows-systemet, måste du ändra `.air. oml`-filen i rotkatalogen och lägg till `.exe`
+suffix till följande två rader:
 
 ```shell
 [build]
@@ -72,24 +72,24 @@ suffix to the following two lines:
 
 ## Konfiguration
 
-### Configuration files
+### Konfigurationsfiler
 
-All configuration files of the Goravel framework are placed in the `config` directory. All configuration items have
-annotations, you can adjust them according to your needs.
+Alla konfigurationsfiler i Goravels ramverk placeras i `config`-katalogen. Alla konfigurationsobjekt har
+anteckningar, du kan justera dem efter dina behov.
 
-### Generate Application key
+### Skapa applikationsnyckel
 
-You need to generate the application key after Goravel is installed locally. Running the command below, a 32-bit string
-will be generated on the `APP_KEY` key in the `.env` file. This key is mainly used for data encryption and decryption.
+Du måste generera applikationsnyckeln efter att Goravel är installerad lokalt. Kör kommandot nedan, kommer en 32-bitars sträng
+att genereras på `APP_KEY`-nyckeln i `.env`-filen. Denna nyckel används främst för datakryptering och dekryptering.
 
 ```shell
-go run . artisan key:generate
+gå kör. hantverksnyckel:generera
 ```
 
-### Generate JWT Token
+### Generera JWT-token
 
-You need to generate JWT Token if you use [Authentication](../security/authentication).
+Du måste generera JWT-token om du använder [Authentication](../security/authentication).
 
 ```shell
-go run . artisan jwt:secret
+gå springa. hantverkare jwt:secret
 ```
