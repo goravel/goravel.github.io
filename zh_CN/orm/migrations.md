@@ -237,23 +237,24 @@ facades.Schema().DropIfExists("users")
 
 ### 可用列类型
 
-|                     |                 |                       |                      |
-| ------------------- | --------------- | --------------------- | -------------------- |
-| BigIncrements       | BigInteger      | 布尔值                   | 字符                   |
-| 日期                  | 日期时间            | 带时区的日期时间              | 小数                   |
-| 双精度浮点数              | [枚举](#enum)     | 浮点数                   | [ID](#id)            |
-| 递增                  | 整数              | 整数递增                  | Json                 |
-| 递增                  | 长文本             | 中等递增                  | 中等整数                 |
-| 中等文本                | 小递增             | 小整数                   | [软删除](#softdeletes)  |
-| 软删除时区               | 字符串             | 文本                    | 时间                   |
-| 时间时区                | 时间戳             | 时间戳                   | 时间戳时区                |
-| 时间戳时区               | 无符号大整数          | 微增量                   | TinyInteger          |
-| TinyText            | UnsignedInteger | UnsignedMediumInteger | UnsignedSmallInteger |
-| UnsignedTinyInteger |                 |                       |                      |
+|                     |                    |                       |                             |
+| ------------------- | ------------------ | --------------------- | --------------------------- |
+| BigIncrements       | BigInteger         | Boolean               | Char                        |
+| Date                | DateTime           | DateTimeTz            | Decimal                     |
+| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
+| Increments          | Integer            | IntegerIncrements     | Json                        |
+| Increments          | LongText           | MediumIncrements      | MediumInteger               |
+| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz       | String             | Text                  | Time                        |
+| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
+| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
+| TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
+| UnsignedTinyInteger |                    |                       |                             |
 
-#### 枚举
+#### Enum
 
-创建一个可以根据 `[]any` 中的类型存储在 `Mysql` 中的 `Enum` 字段，但在 `Postgres`、`Sqlite` 和 `Sqlserver` 数据库中，它是 `String` 类型。
+Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `SQLite`, and
+`Sqlserver` databases, it is a `String` type.
 
 ```go
 table.Enum("difficulty", []any{"easy", "hard"})
@@ -269,7 +270,7 @@ table.ID()
 table.ID("user_id")
 ```
 
-#### 软删除
+#### SoftDeletes
 
 `SoftDeletes`方法添加一个可为空的`deleted_at` `TIMESTAMP`列。 该列用于存储Orm "软删除"功能所需的`deleted_at`时间戳：
 
