@@ -1,71 +1,71 @@
-# Directory Structure
+# Структура каталогов
 
-The default file structure can make you better start project advancement, and you can also add new folders freely, but
-do not modify the default folders.
+Структура файлов по умолчанию может сделать вас лучше начать продвижение проекта, и вы можете добавить новые папки свободно, но
+не изменяет папки по умолчанию.
 
-## Root Directory
+## Корневой каталог
 
-### `app` Directory
+### Директория `app`
 
-`app` contains the core code of the program. Almost all the logic in the program will be in this folder.
+`app` содержит основной код программы. Почти вся логика в программе будет в этой папке.
 
 ### `bootstrap` Directory
 
-The `bootstrap` directory contains the framework startup file `app.go`.
+Каталог `bootstrap` содержит `app.go`.
 
-### `config` Directory
+### `config` Каталог
 
-The `config` directory contains all configuration files of the application. It is best to browse through these files and
+Каталог `config` содержит все конфигурационные файлы приложения. It is best to browse through these files and
 familiarize yourself with all the available options.
 
-### `database` Directory
+### Директория `database`
 
-The `database` directory contains database migration files.
+Каталог `database` содержит файлы миграции базы данных.
 
-### `public` Directory
+### Директория `public`
 
-The `public` directory contains some static resources, such as images, certificates, etc.
+Каталог `public` содержит некоторые статические ресурсы, такие как изображения, сертификаты и т.д.
 
-### `resources` Directory
+### `Ресурсы` Каталог
 
-The `resources` directory contains your [views](../basic/views) as well as your raw, un-compiled assets such as
-CSS or JavaScript.
+Каталог `resources` содержит ваш [views](../basic/views), а также ваши raw, не скомпилированные файлы, такие как
+CSS или JavaScript.
 
-### `routes` Directory
+### Каталог `routes`
 
-The `routes` directory contains all the route definitions of the application.
+Каталог `routes` содержит все определения маршрутов приложения.
 
-### `storage` Directory
+### Каталог `storage`
 
-The `storage` directory contains the `logs` directory, and the `logs` directory contains the application log files.
+Каталог `storage` содержит каталог `logs`, а каталог `logs` содержит файлы журнала приложения.
 
-### `tests` Directory
+### Каталог `tests`
 
-The `tests` directory contains your automated tests.
+Каталог `tests` содержит ваши автоматические тесты.
 
-## `app` Directory
+## Директория `app`
 
-### `console` Directory
+### Директория `console`
 
-The `console` directory contains all the custom `Artisan` commands of the application, and the console boot file
-`kernel.go`, which can be registered in this file [Task Scheduling](../advanced/schedule)
+Каталог `console` содержит все пользовательские команды `Artisan` приложения, а также загрузочный файл
+`kernel. o`, который может быть зарегистрирован в этом файле [Планирование задач](../advanced/schedule)
 
-### `http` Directory
+### Каталог `http`
 
-The `http` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Web are processed here.
+Папка `http` содержит контроллеры, middleware и т.д., и почти все запросы, входящие в приложение через
+Web обрабатываются здесь.
 
-### `grpc` Directory
+### Директория `grpc`
 
-The `grpc` directory contains controllers, middleware, etc., and almost all requests that enter the application via the
-Grpc are processed here.
+Директория `grpc` содержит контроллеры, middleware и т.д., и почти все запросы, поступающие в приложение через
+Grpc обрабатываются здесь.
 
-### `models` Directory
+### Директория `models`
 
-The `models` directory contains all data models.
+Каталог `models` содержит все модели данных.
 
-### `providers` Directory
+### Каталог `providers`
 
-The `providers` directory contains all [Service Providers](../foundation/providers) in the
-program. The service provider guides the application to respond to incoming requests by binding services, registering
+Каталог `providers` содержит все [Service Providers](../foundation/providers) в программе
+. The service provider guides the application to respond to incoming requests by binding services, registering
 for events, or performing any other tasks.
