@@ -1,37 +1,37 @@
-# Authentication
+# Проверка подлинности
 
-Authentication is an indispensable feature in Web Applications, the `facades.Auth()` module of Goravel provides support
-for JWT.
+Аутентификация является незаменимой функцией в веб-приложениях, модуль `facades.Auth()` Goravel обеспечивает поддержку
+для JWT.
 
 ## Конфигурация
 
-You can configure `defaults` guard and multiple `guards` in the `config/auth.go` file to switch different user
-identities in the application.
+Вы можете настроить защиту `defaults` и несколько `guards` в файле `config/auth.go` для переключения разных пользователей
+в приложении.
 
-You can configure the parameters of JWT in the `config/jwt.go` file, such as `secret`, `ttl`, `refresh_ttl`.
+Вы можете настроить параметры JWT в файле `config/jwt.go`, например, `secret`, `ttl`, `refresh_ttl`.
 
-### Configure TTL for different Guards
+### Настроить TTL для различных Стражей
 
-You can set TTL for each Guard separately in the `config/auth.go` file, if not set, the `jwt.ttl` configuration is used
-by default.
+Вы можете установить TTL для каждой гвардии отдельно в файле `config/auth.go`, если не задано, конфигурация `jwt.ttl` используется
+по умолчанию.
 
 ```go
 // config/auth.go
 "guards": map[string]any{
   "user": map[string]any{
     "driver": "jwt",
-++  "ttl": 60,
+++ "ttl": 60,
   },
 },
 ```
 
-## Generate JWT Token
+## Сгенерировать JWT токен
 
 ```shell
 go run . artisan jwt:secret
 ```
 
-## Generate Token Using User
+## Сгенерировать токен с использованием пользователя
 
 You can generate a token by Model, there is no extra configuration if the model uses `orm.Model`, otherwise, you need to
 configure Tag on the model primary key field, for example:
@@ -42,13 +42,13 @@ type User struct {
   Name string
 }
 
-var user models.User
+var user models. ser
 user.ID = 1
 
-token, err := facades.Auth(ctx).Login(&user)
+токен, err := facades.Auth(ctx).Login(&user)
 ```
 
-## Generate Token Using ID
+## Сгенерировать токен с помощью ID
 
 ```go
 token, err := facades.Auth(ctx).LoginUsingID(1)
@@ -60,16 +60,16 @@ token, err := facades.Auth(ctx).LoginUsingID(1)
 payload, err := facades.Auth(ctx).Parse(token)
 ```
 
-Through `payload` you can get:
+Через `payload` вы можете получить:
 
-1. `Guard`: Current Guard;
-2. `Key`: User flag;
-3. `ExpireAt`: Expire time;
-4. `IssuedAt`: Issued time;
+1. Охранник: нынешняя охрана;
+2. `Ключ`: Флаг пользователя;
+3. \`Истекает срок действия;
+4. `IssuedAt`: выпущенное время;
 
-> If `err` isn't nil other than `ErrorTokenExpired`, the payload should be nil.
+> Если `err` не является пустым, кроме `ErrorTokenExpired`, то загрузчик должен быть nil.
 
-You can judge whether the Token is expired by err:
+Вы можете судить об ошибке токен:
 
 ```go
 "errors"
@@ -78,33 +78,33 @@ You can judge whether the Token is expired by err:
 errors.Is(err, auth.ErrorTokenExpired)
 ```
 
-> The token can be parsed normally with or without the Bearer prefix.
+> Токен может быть обработан обычно с или без префикса носителя.
 
-## Get User
+## Получить пользователя
 
-You need to generate a Token by `Parse` before getting a user, the process can be handled in HTTP middleware.
+Вам нужно сгенерировать токен при помощи `Parse` перед тем как получить пользователя, процесс может быть обработан в HTTP middleware.
 
 ```go
 var user models.User
-err := facades.Auth(ctx).User(&user) // Must point
+err := facades.Auth(ctx).User(&user) // Необходимая точка
 id, err := facades.Auth(ctx).ID()
 ```
 
-## Refresh Token
+## Обновить токен
 
-You need to generate a Token by `Parse` before refreshing the user.
+Вам нужно сгенерировать токен от `Parse` перед обновлением пользователя.
 
 ```go
 token, err := facades.Auth(ctx).Refresh()
 ```
 
-## Logout
+## Выйти
 
 ```go
 err := facades.Auth(ctx).Logout()
 ```
 
-## Multiple Guards
+## Несколько Стражей
 
 ```go
 token, err := facades.Auth(ctx).Guard("admin").LoginUsingID(1)
@@ -112,4 +112,4 @@ err := facades.Auth(ctx).Guard("admin").Parse(token)
 token, err := facades.Auth(ctx).Guard("admin").User(&user)
 ```
 
-> When the default guard is not used, the `Guard` method must be called before calling the above methods.
+> При отсутствии охранника по умолчанию перед вызовом вышеуказанных методов необходимо вызвать метод «Стража».
