@@ -1,39 +1,39 @@
 # Hashing
 
-The Goravel `facades.Hash()` provides secure Argon2id and Bcrypt hashing for storing user passwords. If you are using
-one of the Goravel application starter kits, Argon2id will be used for registration and authentication by default.
+Goravel `facades.Hash()` oferă securizare Argon2id și Bcrypt hashing pentru stocarea parolelor utilizatorului. Dacă utilizaţi
+una dintre pachetele de pornire Goravel, Argon2id va fi folosit implicit pentru înregistrare şi autentificare.
 
 ## Configurare
 
-The default hashing driver for your application is configured in your application's `config/hashing.go` configuration
-file. There are currently several supported drivers: Argon2id and Bcrypt.
+Șoferul implicit de hashing pentru aplicația dvs. este configurat în fișierul de configurare
+al aplicației dvs. `config/hwww.go`. În prezent există mai mulți șoferi suportați: Argon2id și Bcrypt.
 
-## Basic Usage
+## Utilizare de bază
 
-### Hashing Passwords
+### Hashing Parole
 
-You may hash a password by calling the `Make` method on the `facades.Hash()`:
+Puteţi hasha o parolă apelând metoda `Make` pe `facades.Hash()`:
 
 ```go
-password, err := facades.Hash().Make(password)
+parola, err := facades.Hash().Make(password)
 ```
 
-### Verifying That A Password Matches A Hash
+### Verificarea acelei parole se potrivește cu A Hash
 
-The `Check` method provided by the Hash facade allows you to verify that a given plain-text string corresponds to a
-given hash:
+Metoda `Check` furnizată de fața Hash vă permite să verificați dacă un anumit șir de text simplu corespunde unui
+dat hash:
 
 ```go
 if facades.Hash().Check('plain-text', hashedPassword) {
-    // The passwords match...
+    // Parolele se potrivesc ...
 }
 ```
 
-### Determining If A Password Needs To Be Rehashed
+### Determinați dacă o parolă trebuie rehashed
 
-The `NeedsRehash` method provided by the Hash facade allows you to determine if the work factor used by the hasher has
-changed since the password was hashed. Some applications choose to perform this check during the application's
-authentication process:
+Metoda `NeedsRehash` furnizată de fațada Hash vă permite să determinați dacă factorul de lucru folosit de hasher a fost schimbat
+de când parola a fost hash-ului. Unele aplicații aleg să efectueze această verificare în timpul procesului de autentificare
+al aplicației:
 
 ```go
 if facades.Hash().NeedsRehash(hashed) {
