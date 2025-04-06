@@ -1,6 +1,8 @@
 # 加密
 
-Goravel 的加密服务提供了一个简单、方便的接口，通过 OpenSSL 使用 AES-256 加密来加密和解密文本。 Goravel 的所有加密值都使用消息认证码（GMAC）进行签名，以确保加密后的底层值不会被修改或篡改。
+Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text using AES-256
+encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so that their
+underlying value can not be modified or tampered with once encrypted.
 
 ## 配置
 
@@ -10,7 +12,9 @@ Goravel 的加密服务提供了一个简单、方便的接口，通过 OpenSSL 
 
 ### 加密值
 
-要加密一个值，您可以使用 `facades.Crypt()` 中的 `EncryptString` 方法。 此方法使用OpenSSL和AES-256-GCM密码对值进行加密。 此外,所有加密值都使用消息认证码(GMAC)进行签名,以防止恶意用户通过篡改数据来尝试解密。
+要加密一个值，您可以使用 `facades.Crypt()` 中的 `EncryptString` 方法。 This method encrypts values using
+AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC) to prevent
+decryption by malicious users who try to tamper with the data.
 
 ```go
 secret, err := facades.Crypt().EncryptString("goravel")
