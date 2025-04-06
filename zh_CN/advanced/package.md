@@ -1,45 +1,38 @@
-# Package Development
+# 包开发
 
-Packages are the primary way of adding functionality to Goravel. These packages may contain routes, controllers, and
-configurations that are specifically designed to enhance a Goravel application. This guide focuses on developing
-Goravel-specific packages.
+包是向 Goravel 添加功能的主要方式。 这些包可能包含专门设计用于增强 Goravel 应用程序的路由、控制器和配置。 本指南重点介绍开发 Goravel 特定的包。
 
-Here is an example for building a third-party
-package: [goravel/example-package](https://github.com/goravel/example-package)
+这里有一个构建第三方包的示例：[goravel/example-package](https://github.com/goravel/example-package)
 
-## Creating A Package
+## 创建包
 
-You can use easily create a package template using the Artisan command:
+您可以使用 Artisan 命令轻松创建包模板：
 
 ```shell
 go run . artisan make:package sms
 ```
 
-The created files are saved by default in the root `packages` folder, you can use `--root` option to customize:
+创建的文件默认保存在根目录的 `packages` 文件夹中，您可以使用 `--root` 选项进行自定义：
 
 ```shell
 go run . artisan make:package --root=pkg sms
 ```
 
-## Service Providers
+## 服务提供者
 
-[Service providers](../foundation/providers) act as the bridge between your package and Goravel.
-They are typically located in the root of the package as a `service_provider.go` file. Their main function is to bind
-items into Goravel's service container and guide Goravel in loading package resources.
+[服务提供者](../foundation/providers)充当您的包和 Goravel 之间的桥梁。
+它们通常位于包的根目录中，作为一个 `service_provider.go` 文件。 它们的主要功能是将项目绑定到 Goravel 的服务容器中，并指导 Goravel 加载包资源。
 
-## Usage
+## 用法
 
-Register the `ServiceProvider` in the package to `config/app.go::providers`, then export `facades` to the application.
-For detailed steps, refer to [goravel/example-package](https://github.com/goravel/example-package).
+在 `config/app.go::providers` 中注册包的 `ServiceProvider`，然后将 `facades` 导出到应用程序。
+有关详细步骤，请参阅 [goravel/example-package](https://github.com/goravel/example-package)。
 
-## Resources
+## 资源
 
-### Configuration
+### 配置
 
-Typically, you will need to publish your package's configuration file to the application's `config` directory. This will
-allow users of your package to easily override your default configuration options. To allow your configuration files to
-be published, call the `Publishes` method from the `Boot` method of your service provider, the first parameter is the
-package name, and the second parameter is the mapping between the current package file path and the project path:
+通常，您需要将包的配置文件发布到应用程序的 `config` 目录中。 这将允许包的用户轻松覆盖您的默认配置选项。 要允许发布您的配置文件，请从服务提供者的 `Boot` 方法中调用 `Publishes` 方法，第一个参数是包名，第二个参数是当前包文件路径和项目路径之间的映射：
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -49,10 +42,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-### Routes
+### 路由
 
-If there are [routes](../basic/routing) in your package, you can use `app.MakeRoute()` to resolve
-`facades.Route()`, then add the routes to the project:
+如果你的包中有[路由](../basic/routing)，你可以使用 `app.MakeRoute()` 来解析 `facades.Route()`，然后将路由添加到项目中：
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -61,9 +53,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-### Migrations
+### 迁移
 
-If there are [migrations](../orm/migrations) in your package, you can publish them by the `Publishes` method:
+如果你的包中有[迁移](../orm/migrations)，你可以通过 `Publishes` 方法发布它们：
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -73,10 +65,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Commands
+## 命令
 
-You can register `Artisan` command by the `Commands` method, you can run the commands
-using [Artisan CLI](../advanced/artisan) after registering them.
+你可以通过 `Commands` 方法注册 `Artisan` 命令，注册后你可以使用 [Artisan CLI](../advanced/artisan) 运行这些命令。
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -86,10 +77,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Public Assets
+## 公共资源
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public`
-directory, use the service provider's `Publishes` method:
+你的包可能有 JavaScript、CSS 和图片等资源。 要将这些资源发布到应用程序的 `public` 目录，使用服务提供者的 `Publishes` 方法：
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -99,13 +89,9 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Publishing File Groups
+## 发布文件组
 
-If you want to publish specific groups of package assets and resources separately, you can use tags when calling the
-`Publishes` method from the package's service provider. This allows you to give users the option to publish certain
-files, like configuration files, without having to publish all the package's assets. To illustrate, you can define two
-publish groups for the `sms` package (`sms-config` and `sms-migrations`) using tags in the `Boot` method of the
-package's service provider.
+如果你想单独发布特定组的包资源，你可以在包的服务提供者中调用 `Publishes` 方法时使用标签。 这使你能够给用户选择发布某些文件，如配置文件，而不必发布包的所有资源。 为了说明，你可以在包的服务提供者的 `Boot` 方法中使用标签为 `sms` 包定义两个发布组（`sms-config` 和 `sms-migrations`）。
 
 ```go
 func (receiver *ServiceProvider) Boot(app foundation.Application) {
@@ -118,19 +104,19 @@ func (receiver *ServiceProvider) Boot(app foundation.Application) {
 }
 ```
 
-## Publish Resources
+## 发布资源
 
-In the project, You can publish the resources registered in a package using `vendor:publish` Artisan command:
+在项目中，您可以使用 `vendor:publish` Artisan 命令发布包中注册的资源：
 
 ```shell
-go run . artisan vendor:publish --package={You package name}
+go run . artisan vendor:publish --package={您的包名}
 ```
 
-The command can use the following options:
+该命令可以使用以下选项：
 
-| Option Name | Alias | Action                                                                                                                                                                                                                                                              |
-| ----------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --package   | -p    | Package name, can be a remote package: `github.com/goravel/example-package`, and also can be a local package: `./packages/example-package`, note that when using a local package name, it needs to start with `./`. |
-| --tag       | -t    | Resource Group                                                                                                                                                                                                                                                      |
-| --force     | -f    | Overwrite any existing files                                                                                                                                                                                                                                        |
-| --existing  | -e    | Publish and overwrite only the files that have already been published                                                                                                                                                                                               |
+| 选项名称       | 别名 | 操作                                                                                                       |
+| ---------- | -- | -------------------------------------------------------------------------------------------------------- |
+| --package  | -p | 包名，可以是远程包：`github.com/goravel/example-package`，也可以是本地包：`./packages/example-package`，注意使用本地包名时需以 `./` 开头。 |
+| --tag      | -t | 资源组                                                                                                      |
+| --force    | -f | 覆盖任何现有文件                                                                                                 |
+| --existing | -e | 仅发布并覆盖已经发布的文件                                                                                            |
