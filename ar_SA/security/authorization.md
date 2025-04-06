@@ -1,78 +1,78 @@
-# Authorization
+# التصريح
 
-Goravel offers built-in [authentication](./authentication) services and an easy-to-use authorization feature to
-manage user actions on resources. Even if a user is authenticated, they may not have the authority to modify or delete
-certain Eloquent models or database records. Goravel's authorization feature allows for a systematic way of managing
-these authorization checks.
+يقدم Goravel خدمات مدمجة في [authentication](./authentication) وميزة تفويض سهلة الاستخدام ل
+إدارة إجراءات المستخدم على الموارد. حتى إذا تم توثيق المستخدم، قد لا يكون لديهم سلطة تعديل أو حذف
+نماذج أو سجلات قواعد البيانات الخاصة بـ Eloquent (Automatic Translation) تتيح ميزة ترخيص غورافيل طريقة منهجية لإدارة فحص الترخيصformat@@0
+هذه الترخيص.
 
-There are two ways to authorize actions in Goravel: [gates](#gates) and [policies](#policies). Imagine gates and
-policies as similar to routes and controllers. Gates are based on closures and provide a simple approach to
-authorization, whereas policies group logic around a specific resource, similar to controllers. This documentation will
+هناك طريقتان للإذن باتخاذ إجراءات في غورفل: [gates](#gates) و [policies](#policies). Imagine gates and
+policies as similar to routes and controllers. تستند البوابات إلى الإغلاقات وتوفر نهجاً بسيطاً للإذن
+في حين أن منطق مجموعة السياسات حول مورد معين، مشابه للمراقبين. This documentation will
 first cover gates and then delve into policies.
 
-It's not necessary to exclusively use gates or policies when building an application. Most applications will use a
-combination of both, which is perfectly acceptable!
+وليس من الضروري استخدام البوابات أو السياسات حصرا عند بناء التطبيق. معظم التطبيقات ستستخدم مزيجا
+من كليهما، وهو مقبول تماما!
 
-## Gates
+## البوابات
 
-### Writing Gates
+### بوابات الكتابة
 
-Gates serve as closures that verify whether a user is authorized to perform a specific action. They are commonly set up
-in the `app/providers/auth_service_provider.go` file's `Boot` method using the Gate facade.
+وتعتبر البوابات بمثابة إغلاق تتحقق مما إذا كان يحق للمستخدم تنفيذ إجراء معين. عادة ما يتم إعدادها
+في طريقة 'app/providers/auth_service_provider.go' 'Boot' باستخدام واجهة البوابة.
 
-In this scenario, we will establish a gate to check if a user can modify a particular Post model by comparing its ID to
-the user_id of the post's creator.
+وفي هذا السيناريو، سوف نقوم بإنشاء بوابة للتحقق مما إذا كان يمكن للمستخدم تعديل نموذج منشور معين عن طريق مقارنة معرفته بـ
+المستخدم معرف منشئ المشاركة.
 
 ```go
-package providers
+موفري الحزمة
 
-import (
-  "context"
+استيراد (
+  "سياق"
 
   contractsaccess "github.com/goravel/framework/contracts/auth/access"
   "github.com/goravel/framework/auth/access"
-  "github.com/goravel/framework/facades"
-)
+  "github. om/goravel/framework/facades"
 
-type AuthServiceProvider struct {
+
+نوع AuthServiceProمزود البنية {
+
+
+func (المتلقي *AuthServiceprovider) Register(مؤسسة التطبيق. التكرار) {
+
 }
 
-func (receiver *AuthServiceProvider) Register(app foundation.Application) {
-
-}
-
-func (receiver *AuthServiceProvider) Boot(app foundation.Application) {
-  facades.Gate().Define("update-post",
-    func(ctx context.Context, arguments map[string]any) contractsaccess.Response {
-      user := ctx.Value("user").(models.User)
-      post := arguments["post"].(models.Post)
+func (المتلقي *AuthServiceproviders er) Boot(Foundation .Application) {
+  الواجهة. ate().Define("update-post",
+    func(ctx context.Context.Context, arguments map[string]any) contractsaccess. esponse {
+      مستخدم := ctx.Value("user").(models.User)
+      مشاركة := الحجج ["post"].(models. ost)
 
       if user.ID == post.UserID {
-        return access.NewAllowResponse()
-      } else {
-        return access.NewDenyResponse("error")
-      }
+        الوصول إلى العودة. ewAlallowResponse()
+      } أخرى {
+        الوصول إلى العودة. ewDenyResponse("خطأ")
+
     },
-  )
+
 }
 ```
 
-### Authorizing Actions
+### تصريح الإجراءات
 
-To authorize an action using gates, you should use the `Allows` or `Denies` methods provided by the Gate facade:
+للإذن بإجراء باستخدام البوابات، يجب عليك استخدام طرق 'السماح' أو 'الرفض' التي توفرها واجهة البوابة:
 
 ```go
-package controllers
+وحدات تحكم الحزمة
 
-import (
+استيراد (
   "github.com/goravel/framework/facades"
-)
 
-type UserController struct {
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+نوع UserController struct {
+
+func (r *UserController) Show(ctx http.Context) named@@. esponse {
   var post models.Post
-  if facades.Gate().Allows("update-post", map[string]any{
+  if facades.Gate. llows("تحديث", map[string]any{
     "post": post,
   }) {
     
@@ -80,7 +80,7 @@ func (r *UserController) Show(ctx http.Context) http.Response {
 }
 ```
 
-You can authorize multiple actions simultaneously using the `Any` or `None` methods.
+يمكنك أن تأذن باتخاذ إجراءات متعددة في نفس الوقت باستخدام أساليب "أي واحد" أو "لا شيء".
 
 ```go
 if facades.Gate().Any([]string{"update-post", "delete-post"}, map[string]any{
@@ -96,115 +96,115 @@ if facades.Gate().None([]string{"update-post", "delete-post"}, map[string]any{
 }
 ```
 
-### Gate Responses
+### استجابات البوابة
 
-The `Allows` method returns a boolean value. To get the full authorization response, use the `Inspect` method.
+طريقة "السماح" تعيد قيمة منطقية. للحصول على إجابة التفويض الكامل، استخدم طريقة "الفحص".
 
 ```go
-response := facades.Gate().Inspect("edit-settings", nil);
+الاستجابة: = facades.Gate().Inspect("edit-settings", nil);
 
-if response.Allowed() {
-    // The action is authorized...
-} else {
+if response.Alallowed() {
+    // تم الإذن بالإجراء...
+} آخر{
     fmt.Println(response.Message())
 }
 ```
 
-### Intercepting Gate Checks
+### اعتراض عمليات التحقق من البوابة
 
-Sometimes, you may wish to grant all abilities to a specific user. You can define a closure using the `Before` method,
-which runs before any other authorization checks:
+في بعض الأحيان، قد ترغب في منح جميع القدرات لمستخدم محدد. يمكنك تحديد الإغلاق باستخدام طريقة 'قبل\`،
+التي تعمل قبل أي فحص إذن آخر:
 
 ```go
-facades.Gate().Before(func(ctx context.Context, ability string, arguments map[string]any) contractsaccess.Response {
-  user := ctx.Value("user").(models.User)
+facades.Gate().Before(function(ctx context.Context.Contex، سلسلة القدرة، الحجج[string]أي) العقود، الرد {
+  المستخدم := ctx.Value("user"). models.User)
   if isAdministrator(user) {
-    return access.NewAllowResponse()
-  }
+    Reaccess.NewAllowResponse()
 
-  return nil
+
+  Renl
 })
 ```
 
-If the `Before` closure returns a non-nil result, that result will be considered the result of the authorization check.
+وإذا كان الإغلاق 'السابق\` لا يؤدي إلى أي نتيجة، فإن هذه النتيجة تعتبر نتيجة التحقق من الترخيص.
 
-The `After` method can be used to define a closure that will be executed after all other authorization checks.
+ويمكن استخدام طريقة "اللاحقة" لتحديد الإغلاق الذي سيتم تنفيذه بعد جميع عمليات التحقق الأخرى من الأذونات.
 
 ```go
-facades.Gate().After(func(ctx context.Context, ability string, arguments map[string]any, result contractsaccess.Response) contractsaccess.Response {
-  user := ctx.Value("user").(models.User)
+facades.Gate().After(function(ctx context.Context.Contex، سلسلة القدرة، الحجج[string]أي نتيجة العقود، الاستجابة) العقود، # الاستجابة،
+  المستخدم := ctx. alue("user").(models.User)
   if isAdministrator(user) {
-    return access.NewAllowResponse()
-  }
+    العودة إلى الوصولs.NewAllowResponse()
 
-  return nil
+
+  refl
 })
 ```
 
-> Notice: The return result of `After` will be applied only when `facades.Gate().Define` returns nil.
+> إشعار: نتيجة الإرجاع "بعد" لن تطبق إلا عند عودة "facades.Gate().Define".
 
 ### حقن السياق
 
-The `context` will be passed to the `Before`, `After`, and `Define` methods.
+وسيتم نقل "السياق" إلى الأساليب `السابقة` و`اللاحقة` و`تعريف`.
 
 ```go
-facades.Gate().WithContext(ctx).Allows("update-post", map[string]any{
+facades.Gate().WithContext(ctx).Alallows("update-post", map[string]أي {
   "post": post,
 })
 ```
 
-## Policies
+## السياسات
 
-### Generating Policies
+### توليد السياسات
 
-You can use the `make:policy` Artisan command to generate a policy. The generated policy will be saved in the
-`app/policies` directory. If the directory does not exist in your application, Goravel will create it for you.
+يمكنك استخدام الأمر الفني "make:policy" لإنشاء سياسة. سيتم حفظ السياسة التي تم إنشاؤها في دليل
+"app/policies". إذا كان الدليل غير موجود في التطبيق الخاص بك، سيقوم Goravel بإنشائه لك.
 
 ```go
 go run . artisan make:policy PostPolicy
 go run . artisan make:policy user/PostPolicy
 ```
 
-### Writing Policies
+### سياسات الكتابة
 
-Let's define an `Update` method on `PostPolicy` to check if a `User` can update a `Post`.
+لنحدد طريقة "تحديث" على "PostPolicy" للتحقق مما إذا كان "المستخدم" يمكنه تحديث "Post".
 
 ```go
-package policies
+سياسات الحزمة
 
-import (
-  "context"
+استيراد (
+  "سياق"
   "goravel/app/models"
 
   "github.com/goravel/framework/auth/access"
-  contractsaccess "github.com/goravel/framework/contracts/auth/access"
-)
+  contractsaccess "github. om/goravel/framework/contracts/auth/access"
+
 
 type PostPolicy struct {
 }
 
 func NewPostPolicy() *PostPolicy {
-  return &PostPolicy{}
-}
+  Re&PostPolicy{}
 
-func (r *PostPolicy) Update(ctx context.Context, arguments map[string]any) contractsaccess.Response {
+
+func (r *PostPolicy) Update(ctx). ontex، الخريطة[string]أي) العقودtsaccess.Response {
   user := ctx.Value("user").(models.User)
-  post := arguments["post"].(models.Post)
+  post := الحجج ["post"].(models.Post)
 
-  if user.ID == post.UserID {
-    return access.NewAllowResponse()
-  } else {
-    return access.NewDenyResponse("You do not own this post.")
-  }
+  اذا كان المستخدم. D == post.UserID {
+    العودة الوصولs.NewAllowResponse()
+  } أخرى {
+    الوصول إلى العودة. ewDenyResponse("أنت لا تمتلك هذا المنشور.")
+
 }
 ```
 
-Then we can register the policy to `app/providers/auth_service_provider.go`:
+ثم يمكننا تسجيل السياسة إلى `app/providers/auth_service_provider.go`:
 
 ```go
-facades.Gate().Define("update-post", policies.NewPostPolicy().Update)
+facades.Gate().Define("update-post", Policies.NewPostPolicy().Update)
 ```
 
-As you work on authorizing different actions, you can add more methods to your policy. For instance, you can create
-`View` or `Delete` methods to authorize various model-related actions. Feel free to name your policy methods as you see
+وبينما تعمل على الإذن باتخاذ إجراءات مختلفة، يمكنك إضافة المزيد من الطرق إلى سياستك. على سبيل المثال، يمكنك إنشاء أساليب
+`عرض` أو `حذف` للسماح باتخاذ إجراءات مختلفة ذات صلة بالنماذج. Feel free to name your policy methods as you see
 fit.
