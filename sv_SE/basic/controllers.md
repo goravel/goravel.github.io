@@ -1,18 +1,18 @@
-# Controllers
+# Regulatorer
 
-Instead of defining all request processing logic in the form of a closure in a separate route, a controller can be used
-for integration. The controllers are stored in the `app/http/controllers` directory.
+I stället för att definiera all processlogik i form av en stängning på en separat rutt, kan en styrenhet användas
+för integration. Regulatorerna lagras i `app/http/controllers`-katalogen.
 
-## Define Controllers
+## Definiera styrenheter
 
-The following is an example of a basic controller:
+Följande är ett exempel på en grundläggande styrenhet:
 
 ```go
-package controllers
+paketstyrningar
 
 import (
   "github.com/goravel/framework/contracts/http"
-  "github.com/goravel/framework/facades"
+  "github. om/goravel/frameing/facades"
 )
 
 type UserController struct {
@@ -25,63 +25,63 @@ func NewUserController() *UserController {
   }
 }
 
-func (r *UserController) Show(ctx http.Context) http.Response {
+func (r *UserController) Show(ctx http. ontext) http.Response {
   return ctx.Response().Success().Json(http.Json{
     "Hello": "Goravel",
   })
 }
 ```
 
-The route define:
+Rutten definierar:
 
 ```go
-package routes
+paketrutter
 
 import (
-  "github.com/goravel/framework/facades"
+  "github.com/goravel/frameing/facades"
 
   "goravel/app/http/controllers"
 )
 
 func Api() {
-  userController := controllers.NewUserController()
-  facades.Route().Get("/{id}", userController.Show)
+  userController := controllers. ewUserController()
+  fasades.Route().Get("/{id}", userController.Show)
 }
 ```
 
-### Create Controller
+### Skapa styrenhet
 
 ```shell
-go run . artisan make:controller UserController
-go run . artisan make:controller user/UserController
+gå köra . hantverkare make:controller UserController
+gå köra . hantverkare make:controller user/UserController
 ```
 
-## Resource Controllers
+## Resurs styrenheter
 
-If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of
-actions against each resource in your application. For example, imagine your application contains a `Photo` model and a
-`Movie` model. It is likely that users can create, read, update, or delete these resources.
+Om du tänker på varje Eloquent modell i din ansökan som en "resurs", det är typiskt att utföra samma uppsättningar av
+åtgärder mot varje resurs i din ansökan. Till exempel, föreställ dig att din applikation innehåller en `Photo`-modell och en
+`Movie`-modell. Det är troligt att användare kan skapa, läsa, uppdatera eller ta bort dessa resurser.
 
-Because of this common use case, Goravel resource routing assigns the typical create, read, update, and delete ("CRUD")
-routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's
-`--resource` option to quickly create a controller to handle these actions:
+På grund av detta vanliga användningsfall, Goravel resurs routing tilldelar den typiska skapa, läsa, uppdatera och ta bort ("CRUD")
+rutter till en regulator med en enda kodrad. För att komma igång kan vi använda `make:controller` Artisans kommando
+`--resource` för att snabbt skapa en styrenhet för att hantera dessa åtgärder:
 
 ```shell
-go run . artisan make:controller --resource PhotoController
+gå köra . hantverkare make:controller --resurs PhotoController
 ```
 
-This command will generate a controller at `app/http/controllers/photo_controller.go`. The controller will contain a
-method for each of the available resource operations. Next, you may register a resource route that points to the
+Detta kommando kommer att generera en controller vid `app/http/controllers/photo_controller.go`. Styrenheten kommer att innehålla en
+metod för varje tillgänglig resurs verksamhet. Därefter kan du registrera en resurs som pekar på
 controller:
 
 ```go
-facades.Route().Resource("photos", controllers.NewPhotoController())
+facades.Route().Resur("bilder", regulatorer.NewPhotoController())
 ```
 
-| Verb      | URI               | Action  |
-| --------- | ----------------- | ------- |
-| GET       | `/photos`         | Index   |
-| POST      | `/photos`         | Store   |
-| GET       | `/photos/{photo}` | Show    |
-| PUT/PATCH | `/photos/{photo}` | Update  |
-| DELETE    | `/photos/{photo}` | Destroy |
+| Verb      | URI               | Åtgärd    |
+| --------- | ----------------- | --------- |
+| FÅ        | `/photos`         | Index     |
+| POST      | `/photos`         | Butik     |
+| FÅ        | `/photos/{photo}` | Visa      |
+| PUT/PATCH | `/photos/{photo}` | Uppdatera |
+| RADERA    | `/photos/{photo}` | Förstör   |
