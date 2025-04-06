@@ -1,37 +1,37 @@
-# Privacy Policy
+# Política de privacidad
 
-## Collection of Information
+## Recopilación de información
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+Recopilamos cierta información sobre usted cuando visita goravel.dev. Esta información puede incluir:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- Información sobre las páginas que visita en nuestro sitio web
+- Cualquier otra información que proporcione voluntariamente
 
-## Use of Information
+## Uso de la información
 
-We may use the collected information for various purposes, including:
+Podemos utilizar la información recopilada para varios propósitos, incluyendo:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- Personalizar tu experiencia en nuestro sitio web
+- Mejorar nuestro sitio web y nuestros servicios
+- Contactar con usted en relación con sus consultas o solicitudes
 
-## Data Security
+## Seguridad de datos
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
-your information from unauthorized access, disclosure, alteration, or destruction.
+Nos tomamos en serio la seguridad de sus datos. Implementamos las medidas técnicas y organizativas apropiadas para proteger
+su información del acceso no autorizado, la devolución, la alteración o la destrucción.
 
-## Third-Party Disclosure
+## Divulgación de terceros
 
-We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+Podemos compartir su información con terceros de confianza que nos ayuden a operar nuestro sitio web o a proporcionar servicios a
+usted. Estos terceros están obligados contractualmente a mantener su información confidencial y segura.
 
 ## Cookies
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
+Nuestro sitio web puede utilizar cookies para mejorar su experiencia de navegación. Las cookies son archivos pequeños almacenados en tu dispositivo que
+habilita ciertas características y funcionalidad. You may choose to disable cookies in your browser settings, but please note
 that some parts of our website may not function properly.
 
-## Changes to this Policy
+## Cambios a esta Política
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+Podremos actualizar esta Política de Privacidad de vez en cuando. Cualquier cambio se publicará en esta página, y la política revisada
+entrará en vigor inmediatamente después de publicar.
