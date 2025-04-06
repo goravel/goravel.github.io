@@ -1,3 +1,42 @@
+<script setup>
+import { VPTeamMembers } from 'vitepress/theme';
+
+const core_developers = [
+  {
+    avatar: 'https://github.com/hwbrzzl.png',
+    name: 'Wenbo Han',
+    title: 'Creator',
+    links: [
+      { icon: 'github', link: 'https://github.com/hwbrzzl' }
+    ]
+  },
+  {
+    avatar: 'https://github.com/devhaozi.png',
+    name: '耗子',
+    title: 'Developer',
+    links: [
+      { icon: 'github', link: 'https://github.com/DevHaoZi' }
+    ]
+  },
+  {
+    avatar: 'https://github.com/kkumar-gcc.png',
+    name: 'krishan kumar',
+    title: 'Developer',
+    links: [
+      { icon: 'github', link: 'https://github.com/kkumar-gcc' }
+    ]
+  },
+  {
+    avatar: 'https://github.com/almas1992.png',
+    name: 'ALMAS',
+    title: 'Developer',
+    links: [
+      { icon: 'github', link: 'https://github.com/almas1992' }
+    ]
+  }
+];
+</script>
+
 # 贡献指南
 
 Goravel欢迎来自不同才能的丰富多样的贡献，如编码、翻译、文章、教程等。 完成两个功能（5个`Good First Issue`等于1个`Feature`）后，您将被认可为核心贡献者。 每三个月完成一个功能，您就可以保持这个状态。
@@ -13,16 +52,17 @@ Goravel欢迎来自不同才能的丰富多样的贡献，如编码、翻译、�
 
 ## 核心开发者
 
-<a href="https://github.com/hwbrzzl" target="_blank"><img src="https://avatars.githubusercontent.com/u/24771476?v=4" width="48" height="48"></a> <a href="https://github.com/DevHaoZi" target="_blank"><img src="https://avatars.githubusercontent.com/u/115467771?v=4" width="48" height="48"></a> <a href="https://github.com/kkumar-gcc" target="_blank"><img src="https://avatars.githubusercontent.com/u/84431594?v=4" width="48" height="48"></a> <a href="https://github.com/almas1992" target="_blank"><img src="https://avatars.githubusercontent.com/u/9382335?v=4" width="48" height="48"></a>
+<VPTeamMembers size="small" :members="core_developers" />
 
 ## 贡献者
 
-<a href="https://github.com/merouanekhalili" target="_blank"><img src="https://avatars.githubusercontent.com/u/1122628?v=4" width="48" height="48"></a> <a href="https://github.com/hongyukeji" target="_blank"><img src="https://avatars.githubusercontent.com/u/23145983?v=4" width="48" height="48"></a> <a href="https://github.com/sidshrivastav" target="_blank"><img src="https://avatars.githubusercontent.com/u/28773690?v=4" width="48" height="48"></a> <a href="https://github.com/Juneezee" target="_blank"><img src="https://avatars.githubusercontent.com/u/20135478?v=4" width="48" height="48"></a> <a href="https://github.com/dragoonchang" target="_blank"><img src="https://avatars.githubusercontent.com/u/1432336?v=4" width="48" height="48"></a> <a href="https://github.com/dhanusaputra" target="_blank"><img src="https://avatars.githubusercontent.com/u/35093673?v=4" width="48" height="48"></a> <a href="https://github.com/mauri870" target="_blank"><img src="https://avatars.githubusercontent.com/u/10168637?v=4" width="48" height="48"></a> <a href="https://github.com/Marian0" target="_blank"><img src="https://avatars.githubusercontent.com/u/624592?v=4" width="48" height="48"></a> <a href="https://github.com/ahmed3mar" target="_blank"><img src="https://avatars.githubusercontent.com/u/12982325?v=4" width="48" height="48"></a> <a href="https://github.com/flc1125" target="_blank"><img src="https://avatars.githubusercontent.com/u/14297703?v=4" width="48" height="48"></a> <a href="https://github.com/zzpwestlife" target="_blank"><img src="https://avatars.githubusercontent.com/u/12382180?v=4" width="48" height="48"></a> <a href="https://github.com/juantarrel" target="_blank"><img src="https://avatars.githubusercontent.com/u/7213379?v=4" width="48" height="48"></a> <a href="https://github.com/Kamandlou" target="_blank"><img src="https://avatars.githubusercontent.com/u/77993374?v=4" width="48" height="48"></a> <a href="https://github.com/livghit" target="_blank"><img src="https://avatars.githubusercontent.com/u/108449432?v=4" width="48" height="48"></a> <a href="https://github.com/jeff87218" target="_blank"><img src="https://avatars.githubusercontent.com/u/29706585?v=4" width="48" height="48"></a> <a href="https://github.com/shayan-yousefi" target="_blank"><img src="https://avatars.githubusercontent.com/u/19957980?v=4" width="48" height="48"></a> <a href="https://github.com/zxdstyle" target="_blank"><img src="https://avatars.githubusercontent.com/u/38398954?v=4" width="48" height="48"></a> <a href="https://github.com/milwad-dev" target="_blank"><img src="https://avatars.githubusercontent.com/u/98118400?v=4" width="48" height="48"></a> <a href="https://github.com/mdanialr" target="_blank"><img src="https://avatars.githubusercontent.com/u/48054961?v=4" width="48" height="48"></a> <a href="https://github.com/KlassnayaAfrodita" target="_blank"><img src="https://avatars.githubusercontent.com/u/113383200?v=4" width="48" height="48"></a> <a href="https://github.com/YlanzinhoY" target="_blank"><img src="https://avatars.githubusercontent.com/u/102574758?v=4" width="48" height="48"></a> <a href="https://github.com/gouguoyin" target="_blank"><img src="https://avatars.githubusercontent.com/u/13517412?v=4" width="48" height="48"></a> <a href="https://github.com/dzham" target="_blank"><img src="https://avatars.githubusercontent.com/u/10853451?v=4" width="48" height="48"></a> <a href="https://github.com/praem90" target="_blank"><img src="https://avatars.githubusercontent.com/u/6235720?v=4" width="48" height="48"></a> <a href="https://github.com/vendion" target="_blank"><img src="https://avatars.githubusercontent.com/u/145018?v=4" width="48" height="48"></a> <a href="https://github.com/tzsk" target="_blank"><img src="https://avatars.githubusercontent.com/u/13273787?v=4" width="48" height="48"></a>
+<a href="https://github.com/goravel/framework/graphs/contributors">
+  <img alt="contributors" src="https://contrib.rocks/image?repo=goravel/framework"/>
+</a>
 
 ## Bug 反馈
 
-您可以在这里报告Bug反馈，
-提交前请先在问题列表中搜索类似问题。 报告应包含标题和问题的清晰描述，尽可能多的相关信息，以及演示问题的代码示例。 Bug反馈的目的是让您自己和其他人能够轻松重现Bug并开发修复方案。 Goravel鼓励提交者同时为Bug修复创建PR，使开源项目得到更积极的开发。
+您可以在这里报告Bug反馈，提交前请先在问题列表中搜索类似问题。 报告应包含标题和问题的清晰描述，尽可能多的相关信息，以及演示问题的代码示例。 Bug 反馈的目的是让您自己和其他人能够轻松重现 Bug 并开发修复方案。 Goravel 鼓励提交者同时为 Bug 修复创建 PR，使开源项目得到更积极的开发。
 
 ## 支持问题
 
@@ -34,7 +74,7 @@ Goravel的GitHub问题跟踪器不是用来提供Goravel帮助或支持的。 �
 
 ## 开发讨论
 
-您可以在Goravel框架仓库的[GitHub讨论板](https://github.com/goravel/goravel/discussions)上提出新功能或对现有Goravel行为的改进建议。 关于错误、新功能和现有功能实现的非正式讨论在Telegram或微信群中进行。 Goravel的维护者Bowen通常在工作日上午9:00至下午18:00（UTC+08:00）出现在群里，在其他时间偶尔出现在群里。
+您可以在Goravel框架仓库的[GitHub讨论板](https://github.com/goravel/goravel/discussions)上提出新功能或对现有Goravel行为的改进建议。 关于错误、新功能和现有功能实现的非正式讨论在 Telegram 或微信群中进行。 Goravel 的维护者 Bowen 通常在工作日上午9:00至下午18:00（UTC+08:00）出现在群里，在其他时间偶尔出现在群里。
 
 ## 贡献
 

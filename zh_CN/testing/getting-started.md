@@ -79,16 +79,16 @@ Goravel模型工厂和种子可以轻松为应用程序的模型创建测试数�
 
 ### 工厂
 
-如果你正在进行测试，可能需要在运行测试之前向数据库添加一些记录。 你不必手动输入测试数据创建的每个列的值。 使用Goravel，你可以通过[工厂](../orm/factories)为你的模型设置默认属性。
+如果你正在进行测试，可能需要在运行测试之前向数据库添加一些记录。 你不必手动输入测试数据创建的每个列的值。 使用 Goravel，你可以通过[工厂](../orm/factories)为你的模型设置默认属性。
 
 ```go
 var user models.User
 err := facades.Orm().Factory().Create(&user)
 ```
 
-### 运行种子程序
+### 运行填充
 
-如果您想在功能测试期间使用[数据库种子程序](../orm/seeding)来填充数据库，您可以调用`Seed`方法。 默认情况下，`Seed`方法将执行`DatabaseSeeder`，它应该执行所有其他种子程序。 或者，您可以将特定的种子程序结构传递给`Seed`方法：
+如果您想在功能测试期间使用[填充](../orm/seeding)来填充数据库，您可以调用`Seed`方法。 默认情况下，`Seed` 方法将执行 `DatabaseSeeder`，它应该执行所有其他种子程序。 或者，您可以将特定的种子程序结构传递给 `Seed` 方法：
 
 ```go
 package feature
@@ -130,13 +130,13 @@ func (s *ExampleTestSuite) TestIndex() {
 
 ### 使用 Docker
 
-当使用`go test`时，多个包会并行测试。 因此，在测试用例中刷新使用本地数据库的数据库可能会影响其他并行的测试用例。 为了解决这个问题，Goravel提供了基于Docker的测试。 使用Docker，可以创建一个数据库镜像，并在不同的包中独立使用。
+当使用`go test`时，多个包会并行测试。 因此，在测试用例中刷新使用本地数据库的数据库可能会影响其他并行的测试用例。 为了解决这个问题，Goravel 提供了基于 Docker 的测试。 使用 Docker，可以创建一个数据库镜像，并在不同的包中独立使用。
 
-> 由于Docker镜像对Windows系统的支持有限，目前Docker测试只能在非Windows环境中运行。
+> 由于 Docker 镜像对 Windows 系统的支持有限，目前 Docker 测试只能在非 Windows 环境中运行。
 
-#### 初始化Docker
+#### 初始化 Docker
 
-你可以使用`Database`方法基于默认数据库连接初始化一个数据库镜像，或者你可以向这个方法传递数据库连接名来初始化其他数据库镜像：
+你可以使用 `Database` 方法基于默认数据库连接初始化一个数据库镜像，或者你可以向这个方法传递数据库连接名来初始化其他数据库镜像：
 
 ```go
 database, err := facades.Testing().Docker().Database()
@@ -182,11 +182,11 @@ err := database.Build()
 config := database.Config()
 ```
 
-#### 运行种子程序
+#### 运行填充
 
-如果你希望在测试期间使用[种子程序](../orm/seeding)来填充数据库，你可以调用`Seed`方法。
-默认情况下，`Seed`方法将执行`DatabaseSeeder`，它应该执行你的所有其他种子程序。
-或者，你可以向`Seed`方法传递一个特定的种子程序结构体：
+如果你希望在测试期间使用[填充](../orm/seeding)来填充数据库，你可以调用 `Seed` 方法。
+默认情况下，`Seed` 方法将执行 `DatabaseSeeder`，它应该执行你的所有其他种子程序。
+或者，您可以将特定的种子程序结构传递给 `Seed` 方法：
 
 ```go
 err := database.Seed()
