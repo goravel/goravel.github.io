@@ -273,106 +273,106 @@ please use the `Disk` method:
 the`HashName`and`Extension\` methods to get a name and an extension for the given file upload:
 
 ```go
-file, err := ctx.Request().File("avatar")
+ملف ، خطأ := ctx.request().File("صورة")
 
-name := file.HashName() // Generate a unique, random name...
-extension, err := file.Extension() // Determine the file's extension based on the file's MIME type...
+اسم := الملف .HashName() // توليد اسم فريد عشوائي...
+ملحق, err := file.Extension() // تحديد ملحق الملف بناء على نوع MIME للملف...
 ```
 
-## Deleting Files
+## حذف الملفات
 
-The `Delete` method accepts a single filename or an array of files to delete:
+طريقة "حذف" تقبل اسم ملف واحد أو مجموعة من الملفات لحذفها:
 
 ```go
-err := facades.Storage().Delete("file.jpg")
+err := facades.Storage().delete("file.jpg")
 err := facades.Storage().Delete("file.jpg", "file2.jpg")
 ```
 
-If necessary, you may specify the disk that the file should be deleted from:
+إذا لزم الأمر، يمكنك تحديد القرص الذي يجب حذف الملف من:
 
 ```go
-err := facades.Storage().Disk("s3").Delete("file.jpg")
+الخطأ := facades.Storage().Disk("s3").delete("file.jpg")
 ```
 
-## Directories
+## المجلدات
 
-### Get All Files Within A Directory
+### احصل على كل الملفات ضمن دليل
 
-The `Files` method returns a slice of all of the files in a given directory. If you would like to retrieve a list of all
-files within a given directory including all subdirectories, you may use the `AllFiles` method:
+طريقة "الملفات" ترجع شريحة من جميع الملفات في دليل معين. إذا كنت ترغب في استرداد قائمة بجميع الملفات
+داخل دليل معين بما في ذلك جميع الدلائل الفرعية، فيمكنك استخدام طريقة 'كل الملفات\`:
 
 ```go
-files, err := facades.Storage().Disk("s3").Files("directory")
-files, err := facades.Storage().Disk("s3").AllFiles("directory")
+الملفات، خطأ: = facades.Storage().Disk("s3").files("الدليل")
+الملفات، الخطأ := facades.Storage().Disk("s3").AllFiles("الدليل")
 ```
 
-### Get All Directories Within A Directory
+### احصل على جميع الدلائل ضمن دليل
 
-The `Directories` method returns a slice of all the directories within a given directory. Additionally, you may use the
-`AllDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
+طريقة "الدليل" ترجع شريحة من جميع الأدلة داخل دليل معين. بالإضافة إلى ذلك، يمكنك استخدام طريقة
+'AllDirectories' للحصول على قائمة بجميع الدلائل داخل دليل معين وجميع دلائله الفرعية:
 
 ```go
-directories, err := facades.Storage().Disk("s3").Directories("directory")
-directories, err := facades.Storage().Disk("s3").AllDirectories("directory")
+الدليلات، الخطأ := facades.Storage().Disk("s3").Directories("الدليل")
+الدليل، الخطأ := facades.Storage().Disk("s3").AllDirectories("الدليل")
 ```
 
-### Create A Directory
+### إنشاء دليل
 
-The `MakeDirectory` method will create the given directory, including any needed subdirectories:
+طريقة "MakeGuidey" ستنشئ الدليل المحدد، بما في ذلك أي أدلة فرعية مطلوبة:
 
 ```go
-err := facades.Storage().MakeDirectory(directory)
+الخطأ := facades.Storage().MakeDirectory(الدليل)
 ```
 
-### Delete A Directory
+### حذف دليل
 
-Finally, the `DeleteDirectory` method may be used to remove a directory and all of its files:
+وأخيرا، يمكن استخدام طريقة "حذف الدليل" لإزالة الدليل وجميع ملفاته:
 
 ```go
-err := facades.Storage().DeleteDirectory(directory)
+الخطأ := facades.Storage().deleteDirectory(الدليل)
 ```
 
-## Custom Filesystems
+## نظم الملفات المخصصة
 
-You can set the `custom` driver in the `config/filesystems.go` file.
+يمكنك تعيين مشغل 'custom' في ملف 'config/filesystems.go'.
 
 ```go
 "custom": map[string]any{
   "driver": "custom",
-  "via":    filesystems.NewLocal(),
+  "via": filesystems.NewLocal(),
 },
 ```
 
-You need to implement the `github.com/goravel/framework/contracts/filesystem/Driver` interface in the `via`
-configuration item.
+تحتاج إلى تنفيذ واجهة 'github.com/goravel/framework/contracts/filesystem/Driver' في عنصر التشكيل 'via'
+.
 
 ```go
-type Driver interface {
-  AllDirectories(path string) ([]string, error)
-  AllFiles(path string) ([]string, error)
-  Copy(oldFile, newFile string) error
-  Delete(file ...string) error
-  DeleteDirectory(directory string) error
-  Directories(path string) ([]string, error)
-  Exists(file string) bool
-  Files(path string) ([]string, error)
-  Get(file string) (string, error)
-  GetBytes(file string) ([]byte, error)
-  LastModified(file string) (time.Time, error)
-  MakeDirectory(directory string) error
-  MimeType(file string) (string, error)
-  Missing(file string) bool
-  Move(oldFile, newFile string) error
-  Path(file string) string
-  Put(file, content string) error
-  PutFile(path string, source File) (string, error)
-  PutFileAs(path string, source File, name string) (string, error)
-  Size(file string) (int64, error)
-  TemporaryUrl(file string, time time.Time) (string, error)
+اكتب واجهة المشغل {
+  AllDirectories(مسار سلسلة) ([]سلة، خطأ)
+  AllFiles(مسار سلسلة) ([]سلسلة، خطأ)
+  Copy(oldFile ، سلسلة ملفات جديدة)
+  حذف (ملف... محاولة) خطأ
+  حذف الدليل (سلسلة الدليل) خطأ
+  دليل (سلسلة المسارات) ([]سلسلة، خطأ)
+  Exists(سلسلة الملف)
+  الملفات (سلسلة المسار) ([]سلسلة، خطأ)
+  Get(ملف سلسلة، خطأ)
+  GetBytes(ملف سلسلة) ([]byte, error)
+  LastModified(ملف سلسلة) (وقت). تعطي, خطأ)
+  خطأ MakeGuide (سلسلة الدليل)
+  MimeType(سلسلة الملف) (سلسلة، خطأ)
+  مفقودة (سلسلة ملف) bool
+  move(oldFile ، سلسلة ملفات جديدة)
+  Path(سلسلة الملف) سلسلة
+  Put(ملف)، سلسلة المحتوى) خطأ
+  PutFile(سلسلة المسار، مصدر الملف) (السلسلة، الخطأ)
+  PutFileAs(سلسلة المسار، مصدر الملف اسم سلسلة) (سلسلة، خطأ)
+  حجم (سلسلة الملف) (int64, خطأ)
+  مؤقتةUrl(سلسلة الملف، الوقت الزمني. ime) (سلسلة، خطأ)
   WithContext(ctx context.Context) Driver
-  Url(file string) string
+  Url(file) سلسلة
 }
 ```
 
-> Note: Since the configuration has not been loaded when the custom driver is registered, so please use
-> `facades.Config().Env` to obtain the configuration in the custom driver.
+> ملاحظة: بما أن التكوين لم يتم تحميله عند تسجيل المشغل المخصص، لذا يرجى استخدام
+> `واجهات'. onfig().Env` للحصول على التكوين في مشغل مخصص.
