@@ -1,44 +1,44 @@
 import { defineConfig, type DefaultTheme } from 'vitepress';
-export const en = defineConfig({
+export const config = defineConfig({
   lang: 'en-US',
   description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
   themeConfig: {
     nav: nav(),
     sidebar: {
-      '/en/quickstart/': {
-        base: '/en/quickstart/',
+      '/quickstart/': {
+        base: '/quickstart/',
         items: sidebarQuickstart()
       },
-      '/en/upgrade/': {
-        base: '/en/upgrade/',
+      '/upgrade/': {
+        base: '/upgrade/',
         items: sidebarUpgrade()
       },
-      '/en/foundation/': {
-        base: '/en/foundation/',
+      '/foundation/': {
+        base: '/foundation/',
         items: sidebarFoundation()
       },
-      '/en/basic/': {
-        base: '/en/basic/',
+      '/basic/': {
+        base: '/basic/',
         items: sidebarBasic()
       },
-      '/en/advanced/': {
-        base: '/en/advanced/',
+      '/advanced/': {
+        base: '/advanced/',
         items: sidebarAdvanced()
       },
-      '/en/security/': {
-        base: '/en/security/',
+      '/security/': {
+        base: '/security/',
         items: sidebarSecurity()
       },
-      '/en/orm/': {
-        base: '/en/orm/',
+      '/orm/': {
+        base: '/orm/',
         items: sidebarOrm()
       },
-      '/en/testing/': {
-        base: '/en/testing/',
+      '/testing/': {
+        base: '/testing/',
         items: sidebarTesting()
       },
-      '/en/other/': {
-        base: '/en/other/',
+      '/other/': {
+        base: '/other/',
         items: sidebarOther()
       }
     },
@@ -55,39 +55,39 @@ export const en = defineConfig({
 function nav(): DefaultTheme.NavItem[] {
   return [{
     text: 'Quickstart',
-    link: '/en/quickstart/installation',
-    activeMatch: '/en/quickstart/'
+    link: '/quickstart/installation',
+    activeMatch: '/quickstart/'
   }, {
     text: 'Upgrade',
-    link: '/en/upgrade/v1.15',
-    activeMatch: '/en/upgrade/'
+    link: '/upgrade/v1.15',
+    activeMatch: '/upgrade/'
   }, {
     text: 'Foundation',
-    link: '/en/foundation/lifecycle',
-    activeMatch: '/en/foundation/'
+    link: '/foundation/lifecycle',
+    activeMatch: '/foundation/'
   }, {
     text: 'Basic',
-    link: '/en/basic/routing',
-    activeMatch: '/en/basic/'
+    link: '/basic/routing',
+    activeMatch: '/basic/'
   }, {
     text: 'Advanced',
-    link: '/en/advanced/artisan',
-    activeMatch: '/en/advanced/'
+    link: '/advanced/artisan',
+    activeMatch: '/advanced/'
   }, {
     text: 'Security',
-    link: '/en/security/authentication',
-    activeMatch: '/en/security/'
+    link: '/security/authentication',
+    activeMatch: '/security/'
   }, {
     text: 'ORM',
-    link: '/en/orm/quickstart',
+    link: '/orm/quickstart',
     activeMatch: '/orm/'
   }, {
-    text: 'Testing',
-    link: '/en/testing/quickstart',
+    text: "Testar",
+    link: '/testing/quickstart',
     activeMatch: '/testing/'
   }, {
     text: 'Other',
-    link: '/en/other/contributing',
+    link: '/other/contributing',
     activeMatch: '/other/'
   }];
 }
@@ -99,10 +99,10 @@ function sidebarQuickstart(): DefaultTheme.SidebarItem[] {
     text: "Konfiguration",
     link: 'configuration'
   }, {
-    text: 'Directory Structure',
+    text: "Katalogens struktur",
     link: 'directory-structure'
   }, {
-    text: 'Compile',
+    text: "Kompilera",
     link: 'compile'
   }];
 }
@@ -123,25 +123,25 @@ function sidebarFoundation(): DefaultTheme.SidebarItem[] {
     text: 'Lifecycle',
     link: 'lifecycle'
   }, {
-    text: 'Service Container',
+    text: "Service Behållare",
     link: 'container'
   }, {
     text: "Tjänsteleverantörer",
     link: 'providers'
   }, {
-    text: 'Facades',
+    text: "Fasader",
     link: 'facades'
   }];
 }
 function sidebarBasic(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Routing',
+    text: "Rutt",
     link: 'routing'
   }, {
     text: 'Middlewares',
     link: 'middlewares'
   }, {
-    text: 'Controllers',
+    text: "Regulatorer",
     link: 'controllers'
   }, {
     text: 'Requests',
@@ -150,7 +150,7 @@ function sidebarBasic(): DefaultTheme.SidebarItem[] {
     text: 'Responses',
     link: 'responses'
   }, {
-    text: 'Views',
+    text: "Visningar",
     link: 'views'
   }, {
     text: 'Grpc',
@@ -159,10 +159,10 @@ function sidebarBasic(): DefaultTheme.SidebarItem[] {
     text: 'Session',
     link: 'session'
   }, {
-    text: 'Validation',
+    text: "Validering",
     link: 'validation'
   }, {
-    text: 'Logging',
+    text: "Loggar",
     link: 'logging'
   }];
 }
@@ -198,7 +198,7 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
     text: 'Color Output',
     link: 'color'
   }, {
-    text: 'Strings',
+    text: "Strängar",
     link: 'strings'
   }, {
     text: 'Helpers',
@@ -207,16 +207,16 @@ function sidebarAdvanced(): DefaultTheme.SidebarItem[] {
 }
 function sidebarSecurity(): DefaultTheme.SidebarItem[] {
   return [{
-    text: 'Authentication',
+    text: "Autentisering",
     link: 'authentication'
   }, {
-    text: 'Authorization',
+    text: "Tillstånd",
     link: 'authorization'
   }, {
-    text: 'Encryption',
+    text: "Kryptering",
     link: 'encryption'
   }, {
-    text: 'Hashing',
+    text: "Hashning",
     link: 'hashing'
   }];
 }
@@ -225,7 +225,7 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
     text: 'Quickstart',
     link: 'quickstart'
   }, {
-    text: 'Relationships',
+    text: "Relationer",
     link: 'relationships'
   }, {
     text: "Migreringar",
@@ -234,7 +234,7 @@ function sidebarOrm(): DefaultTheme.SidebarItem[] {
     text: 'Seeding',
     link: 'seeding'
   }, {
-    text: 'Factories',
+    text: "Fabriker",
     link: 'factories'
   }];
 }
@@ -243,7 +243,7 @@ function sidebarTesting(): DefaultTheme.SidebarItem[] {
     text: 'Quickstart',
     link: 'quickstart'
   }, {
-    text: 'HTTP Tests',
+    text: "HTTP-test",
     link: 'http'
   }, {
     text: 'Mocks',
@@ -258,7 +258,7 @@ function sidebarOther(): DefaultTheme.SidebarItem[] {
     text: 'Excellent Packages',
     link: 'packages'
   }, {
-    text: 'Privacy Policy',
+    text: "Integritetspolicy",
     link: 'privacy'
   }];
 }
