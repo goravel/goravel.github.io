@@ -1,8 +1,8 @@
 # Encryption
 
-Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL
-using AES-256 encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so
-that their underlying value can not be modified or tampered with once encrypted.
+Goravel's encryption services provide a simple, convenient interface for encrypting and decrypting text using AES-256
+encryption. All of Goravel's encrypted values are signed using a message authentication code (GMAC) so that their
+underlying value can not be modified or tampered with once encrypted.
 
 ## Configuration
 
@@ -15,9 +15,9 @@ create a secure cryptographic key for your application.
 
 ### Encrypting A Value
 
-To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using the
-OpenSSL and AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC)
-to prevent decryption by malicious users who try to tamper with the data.
+To encrypt a value, you can use the `EncryptString` method in `facades.Crypt()`. This method encrypts values using
+AES-256-GCM cipher. Additionally, all encrypted values are signed with a message authentication code (GMAC) to prevent
+decryption by malicious users who try to tamper with the data.
 
 ```go
 secret, err := facades.Crypt().EncryptString("goravel")
