@@ -1,7 +1,6 @@
 # 入门
 
-Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行交互。 目前，它官方支持以下四种数据库： Currently, it provides official
-support for the following four databases:
+Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行交互。 目前，它官方支持以下四种数据库：
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
@@ -12,8 +11,7 @@ support for the following four databases:
 
 # 配置
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. 要配置数据库，请导航到 `config/database.go`。 在这里，您可以自定义所有数据库连接并选择一个 `default` 连接。 此文件中的配置依赖于项目的环境变量，并展示了Goravel支持的各种数据库配置。
+要配置数据库，请导航到 `config/database.go`。 在这里，您可以自定义所有数据库连接并选择一个 `default` 连接。 此文件中的配置依赖于项目的环境变量，并展示了Goravel支持的各种数据库配置。
 
 ### DSN
 
@@ -1059,7 +1057,7 @@ func (receiver *EventServiceProvider) listen() map[event.Event][]event.Listener 
 | GetAttribute | 获取修改后的值，如果未修改，则获取原始值，如果没有原始值，则返回 nil     |
 | GetOriginal  | 获取原始值，如果没有原始值，则返回 nil                    |
 | IsDirty      | 确定字段是否被修改                                |
-| IsClean      | IsDirty reverse                          |
+| IsClean      | 已更改的相反                                   |
 | Query        | 获取一个新的查询，可以与事务一起使用                       |
 | SetAttribute | 为字段设置新值                                  |
 
