@@ -1,119 +1,119 @@
-# Contribution Guide
+# Guida Ai Contributi
 
-Goravel welcomes rich and diverse contributions from different talents, such as coding, translations, articles,
-tutorials, etc. After completing two features(5 `Good First Issue` == 1 `Feature`), you will be recognized as a core
-contributor. By completing one feature every three months, you can maintain this status.
+Goravel accoglie contributi ricchi e diversi da diversi talenti, come la codifica, le traduzioni, gli articoli, i tutorial
+, ecc. Dopo aver completato due funzionalità(5 `Good First Issue` == 1 `Feature`), sarai riconosciuto come un collaboratore di base
+. Completando una funzione ogni tre mesi, è possibile mantenere questo stato.
 
-Let's make Goravel more efficient together!
+Rendiamo Goravel più efficiente insieme!
 
-## Reward
+## Ricompensa
 
-- Core developers will be eligible for benefits when Goravel benefits in the future.
-- After completing a `Feature`, you will receive an official Goravel T-Shirt, with a maximum of 1 per major version
-  release cycle. (PS: Because of the difference of country, you may need to help us to find a suitable supplier.)
+- Gli sviluppatori di base potranno beneficiare di benefici quando Goravel beneficerà in futuro.
+- Dopo aver completato una `Feature`, riceverai una T-Shirt Goravel ufficiale, con un massimo di 1 per ciclo di rilascio versione
+  . (PS: A causa della differenza di paese, potrebbe essere necessario aiutarci a trovare un fornitore adatto.)
 
 <p align="left"><img src="/t-shirt.jpg" width="500"></p>
 
-## Core Developers
+## Sviluppatori Principali
 
 <a href="https://github.com/hwbrzzl" target="_blank"><img src="https://avatars.githubusercontent.com/u/24771476?v=4" width="48" height="48"></a> <a href="https://github.com/DevHaoZi" target="_blank"><img src="https://avatars.githubusercontent.com/u/115467771?v=4" width="48" height="48"></a> <a href="https://github.com/kkumar-gcc" target="_blank"><img src="https://avatars.githubusercontent.com/u/84431594?v=4" width="48" height="48"></a> <a href="https://github.com/almas1992" target="_blank"><img src="https://avatars.githubusercontent.com/u/9382335?v=4" width="48" height="48"></a>
 
-## Contributors
+## Collaboratori
 
 <a href="https://github.com/merouanekhalili" target="_blank"><img src="https://avatars.githubusercontent.com/u/1122628?v=4" width="48" height="48"></a> <a href="https://github.com/hongyukeji" target="_blank"><img src="https://avatars.githubusercontent.com/u/23145983?v=4" width="48" height="48"></a> <a href="https://github.com/sidshrivastav" target="_blank"><img src="https://avatars.githubusercontent.com/u/28773690?v=4" width="48" height="48"></a> <a href="https://github.com/Juneezee" target="_blank"><img src="https://avatars.githubusercontent.com/u/20135478?v=4" width="48" height="48"></a> <a href="https://github.com/dragoonchang" target="_blank"><img src="https://avatars.githubusercontent.com/u/1432336?v=4" width="48" height="48"></a> <a href="https://github.com/dhanusaputra" target="_blank"><img src="https://avatars.githubusercontent.com/u/35093673?v=4" width="48" height="48"></a> <a href="https://github.com/mauri870" target="_blank"><img src="https://avatars.githubusercontent.com/u/10168637?v=4" width="48" height="48"></a> <a href="https://github.com/Marian0" target="_blank"><img src="https://avatars.githubusercontent.com/u/624592?v=4" width="48" height="48"></a> <a href="https://github.com/ahmed3mar" target="_blank"><img src="https://avatars.githubusercontent.com/u/12982325?v=4" width="48" height="48"></a> <a href="https://github.com/flc1125" target="_blank"><img src="https://avatars.githubusercontent.com/u/14297703?v=4" width="48" height="48"></a> <a href="https://github.com/zzpwestlife" target="_blank"><img src="https://avatars.githubusercontent.com/u/12382180?v=4" width="48" height="48"></a> <a href="https://github.com/juantarrel" target="_blank"><img src="https://avatars.githubusercontent.com/u/7213379?v=4" width="48" height="48"></a> <a href="https://github.com/Kamandlou" target="_blank"><img src="https://avatars.githubusercontent.com/u/77993374?v=4" width="48" height="48"></a> <a href="https://github.com/livghit" target="_blank"><img src="https://avatars.githubusercontent.com/u/108449432?v=4" width="48" height="48"></a> <a href="https://github.com/jeff87218" target="_blank"><img src="https://avatars.githubusercontent.com/u/29706585?v=4" width="48" height="48"></a> <a href="https://github.com/shayan-yousefi" target="_blank"><img src="https://avatars.githubusercontent.com/u/19957980?v=4" width="48" height="48"></a> <a href="https://github.com/zxdstyle" target="_blank"><img src="https://avatars.githubusercontent.com/u/38398954?v=4" width="48" height="48"></a> <a href="https://github.com/milwad-dev" target="_blank"><img src="https://avatars.githubusercontent.com/u/98118400?v=4" width="48" height="48"></a> <a href="https://github.com/mdanialr" target="_blank"><img src="https://avatars.githubusercontent.com/u/48054961?v=4" width="48" height="48"></a> <a href="https://github.com/KlassnayaAfrodita" target="_blank"><img src="https://avatars.githubusercontent.com/u/113383200?v=4" width="48" height="48"></a> <a href="https://github.com/YlanzinhoY" target="_blank"><img src="https://avatars.githubusercontent.com/u/102574758?v=4" width="48" height="48"></a> <a href="https://github.com/gouguoyin" target="_blank"><img src="https://avatars.githubusercontent.com/u/13517412?v=4" width="48" height="48"></a> <a href="https://github.com/dzham" target="_blank"><img src="https://avatars.githubusercontent.com/u/10853451?v=4" width="48" height="48"></a> <a href="https://github.com/praem90" target="_blank"><img src="https://avatars.githubusercontent.com/u/6235720?v=4" width="48" height="48"></a> <a href="https://github.com/vendion" target="_blank"><img src="https://avatars.githubusercontent.com/u/145018?v=4" width="48" height="48"></a> <a href="https://github.com/tzsk" target="_blank"><img src="https://avatars.githubusercontent.com/u/13273787?v=4" width="48" height="48"></a>
 
-## Bug Feedback
+## Feedback Bug
 
-You can report Bug
+Puoi segnalare Bug
 Feedback here,
-please search Issue List for similar questions before
-submitting. The report should contain a title and a clear description of the problem, as much relevant information as
-possible, and a code sample that demonstrates the problem. The goal of Bug Feedback is to make it easy for yourself and
-other persons to reproduce the Bug and develop fixes. Goravel encourages committers to create a PR for the Bug repair at
-the same time, making the open-source project more actively developed.
+per favore cerca Elenco dei Problemi per domande simili prima dell'invio di
+. La relazione dovrebbe contenere un titolo e una descrizione chiara del problema, il maggior numero possibile di informazioni pertinenti
+e un campione di codice che dimostri il problema. L'obiettivo di Bug Feedback è quello di rendere facile per te e
+altre persone per riprodurre il bug e sviluppare correzioni. Goravel incoraggia i committenti a creare una PR per la riparazione di Bug a
+allo stesso tempo, rendendo il progetto open-source più attivamente sviluppato.
 
-## Support Questions
+## Domande Di Supporto
 
-Goravel's GitHub issue trackers are not intended to provide Goravel help or support. Instead, use one of the following
-channels:
+I tracker di problemi GitHub di Goravel non hanno lo scopo di fornire aiuto o supporto a Goravel. Invece, utilizzare uno dei seguenti canali
+:
 
 - [GitHub Discussions](https://github.com/goravel/goravel/discussions)
 - [Telegram](https://github.com/goravel/goravel/tree/master#group)
 - [WeChat](https://github.com/goravel/goravel/blob/master/README_zh.md#%E7%BE%A4%E7%BB%84)
 
-## Development Discussion
+## Discussione Sullo Sviluppo
 
-You may propose new features or improvements to existing Goravel behavior in the Goravel framework
-repository's [GitHub discussion board](https://github.com/goravel/goravel/discussions). Informal discussion regarding
-bugs, new features, and implementation of existing features takes place in Telegram or WeChat. Bowen, the maintainer of
-Goravel, is typically present in the group on weekdays from 9am-6pm (UTC+08:00), and sporadically present in the group
-at other times.
+Puoi proporre nuove funzionalità o miglioramenti al comportamento Goravel esistente nella scheda di discussione di Goravel framework
+del repository [GitHub](https://github.com/goravel/goravel/discussions). La discussione informale sui bug
+, le nuove funzionalità e l'implementazione delle funzionalità esistenti si svolgono in Telegram o WeChat. Bowen, il manutentore di
+Goravel, è tipicamente presente nel gruppo nei giorni feriali dalle 9am-18pm (UTC+08:00), e sporadicamente presente nel gruppo
+in altre occasioni.
 
-## Contribution
+## Contributo
 
-### Find/Create Issue
+### Trova/Crea Problema
 
-You can find or create an issue in [Issue List](https://github.com/goravel/goravel/issues), leave a message to express
-your willingness to deal with the issue, once confirmed by the repository maintainer, the process can be started.
+Puoi trovare o creare un problema in [Elenco emissioni](https://github.com/goravel/goravel/issues), lasciare un messaggio per esprimere
+la tua disponibilità ad affrontare il problema, una volta confermato dal manutentore del deposito, il processo può essere avviato.
 
 ### Create PR
 
-- You can check out [this article](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) if you
-  are new to the process;
-- During the development process, if you encounter a problem, you can describe the problem in detail in issue at any
-  time for future communication, but before that, please make sure that you have tried to solve the problem through
-  Google and other methods as much as possible;
-- Before creating a PR, please improve the unit test coverage as much as possible to provide more stable functions;
-- If you modify any file under the `contracts` folder, please run the `go run github.com/vektra/mockery/v2` command in
-  the root directory to generate the mock file;
-- When the PR is developed, please add the `Review Ready`, the maintainer will review it in a timely manner.
-- After the PR is merged, the issue will be closed automatically if the description in the PR is set correctly;
-- Goravel greatly appreciates your contribution and will add you to the home contribution list at the next release; ❤️
+- Puoi controllare [questo articolo](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) se
+  sei nuovo al processo;
+- Durante il processo di sviluppo, se si incontra un problema, è possibile descrivere il problema in dettaglio in questione in qualsiasi momento
+  per la comunicazione futura, ma prima di questo, assicurati di aver provato a risolvere il problema tramite
+  Google e altri metodi il più possibile;
+- Prima di creare un PR, si prega di migliorare la copertura dell'unità di prova il più possibile per fornire funzioni più stabili;
+- Se modifichi qualsiasi file nella cartella `contracts`, esegui il `go run github. om/vektra/mockery/v2` comando in
+  la directory radice per generare il file fittizio;
+- Quando la PR viene sviluppata, si prega di aggiungere il `Review Ready`, il manutentore lo esaminerà in modo tempestivo.
+- Dopo la fusione della PR, la questione sarà chiusa automaticamente se la descrizione della PR, se impostata correttamente, è la seguente:
+- Goravel apprezza molto il tuo contributo e ti aggiungerà alla lista dei contributi della casa alla prossima release; ❤️
 
-## Which Branch?
+## Quale Ramo?
 
-**All** bug fixes should be sent to the latest version that supports bug fixes, unless they fix features that exist only
-in the upcoming release.
+**Tutti** le correzioni di bug devono essere inviate all'ultima versione che supporta le correzioni di bug, a meno che non correggano le funzionalità che esistono solo
+nella prossima versione.
 
-**New features** or features with breaking changes should always be sent to the `master` branch.
+**Nuove funzionalità** o funzionalità con modifiche di rottura dovrebbero essere sempre inviate al ramo `master`.
 
-## Local Environment
+## Ambiente Locale
 
-| Software                                            | Action                             |
-| --------------------------------------------------- | ---------------------------------- |
-| Golang v1.20                        | The minimum version                |
-| [vektra/mockery](https://github.com/vektra/mockery) | Provider mock files for unit tests |
+| Software                                            | Azione                                |
+| --------------------------------------------------- | ------------------------------------- |
+| Golang v1.20                        | La versione minima                    |
+| [vektra/mockery](https://github.com/vektra/mockery) | Provider mock file per unità di prova |
 
-## Goravel Repository
+## Deposito Goravel
 
-| Repository                                                            | Action                                                                                                                                                     |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [goravel/goravel](https://github.com/goravel/goravel)                 | Goravel artisans                                                                                                                                           |
-| [goravel/framework](https://github.com/goravel/framework)             | Goravel main repository                                                                                                                                    |
-| [goravel/example](https://github.com/goravel/example)                 | Goravel example                                                                                                                                            |
-| [goravel/example-client](https://github.com/goravel/example-client)   | Example for Grpc client                                                                                                                                    |
-| [goravel/example-proto](https://github.com/goravel/example-proto)     | The proto dependency of example                                                                                                                            |
-| [goravel/example-package](https://github.com/goravel/example-package) | Example for package                                                                                                                                        |
-| [goravel/docs](https://github.com/goravel/docs)                       | Document                                                                                                                                                   |
-| [goravel/docs-web](https://github.com/goravel/docs-web)               | Goravel Website                                                                                                                                            |
-| [goravel/s3](https://github.com/goravel/s3)                           | The S3 driver of Storage module                                                                                                                            |
-| [goravel/oss](https://github.com/goravel/oss)                         | The OSS driver of Storage module                                                                                                                           |
-| [goravel/cos](https://github.com/goravel/cos)                         | The COS driver of Storage module                                                                                                                           |
-| [goravel/minio](https://github.com/goravel/minio)                     | The Minio driver of Storage module                                                                                                                         |
-| [goravel/cloudinary](https://github.com/goravel/cloudinary)           | The Cloudinary driver of Storage module                                                                                                                    |
-| [goravel/redis](https://github.com/goravel/redis)                     | The Redis driver of Cache module                                                                                                                           |
-| [goravel/gin](https://github.com/goravel/gin)                         | The Gin driver of Route module                                                                                                                             |
-| [goravel/fiber](https://github.com/goravel/fiber)                     | The Fiber driver of Route module                                                                                                                           |
-| [goravel/file-rotatelogs](https://github.com/goravel/file-rotatelogs) | Providers log splitting functionality for Log module                                                                                                       |
-| [goravel/.github](https://github.com/goravel/.github) | [Community health file](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) |
+| Repository                                                            | Azione                                                                                                                                                          |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [goravel/goravel](https://github.com/goravel/goravel)                 | Artigiani Goravel                                                                                                                                               |
+| [goravel/framework](https://github.com/goravel/framework)             | Deposito principale di Goravel                                                                                                                                  |
+| [goravel/example](https://github.com/goravel/example)                 | Esempio di Goravel                                                                                                                                              |
+| [goravel/example-client](https://github.com/goravel/example-client)   | Esempio di client Grpc                                                                                                                                          |
+| [goravel/example-proto](https://github.com/goravel/example-proto)     | La dipendenza da proto dell'esempio                                                                                                                             |
+| [goravel/example-package](https://github.com/goravel/example-package) | Esempio del pacchetto                                                                                                                                           |
+| [goravel/docs](https://github.com/goravel/docs)                       | Documento                                                                                                                                                       |
+| [goravel/docs-web](https://github.com/goravel/docs-web)               | Sito Goravel                                                                                                                                                    |
+| [goravel/s3](https://github.com/goravel/s3)                           | Il driver S3 del modulo Storage                                                                                                                                 |
+| [goravel/oss](https://github.com/goravel/oss)                         | Il driver OSS del modulo Storage                                                                                                                                |
+| [goravel/cos](https://github.com/goravel/cos)                         | Il driver COS del modulo Storage                                                                                                                                |
+| [goravel/minio](https://github.com/goravel/minio)                     | Il driver Minio del modulo Storage                                                                                                                              |
+| [goravel/cloudinari](https://github.com/goravel/cloudinary)           | Il driver cloud del modulo Storage                                                                                                                              |
+| [goravel/redis](https://github.com/goravel/redis)                     | Il driver Redis del modulo Cache                                                                                                                                |
+| [goravel/gin](https://github.com/goravel/gin)                         | Il driver Gin del modulo Route                                                                                                                                  |
+| [goravel/fiber](https://github.com/goravel/fiber)                     | Il driver in fibra del modulo Route                                                                                                                             |
+| [goravel/file-rotatelogs](https://github.com/goravel/file-rotatelogs) | Funzionalità di divisione log dei fornitori per il modulo Log                                                                                                   |
+| [goravel/.github](https://github.com/goravel/.github) | [File comunitario di salute](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) |
 
-## Code of Conduct
+## Codice di condotta
 
-The Goravel code of conduct is derived from the Laravel code of conduct. Any violations of the code of conduct may be
-reported to Bowen.
+Il codice di condotta di Goravel deriva dal codice di condotta di Laravel. Qualsiasi violazione del codice di condotta può essere
+segnalato a Bowen.
 
-- Participants will be tolerant of opposing views.
-- Participants must ensure that their language and actions are free of personal attacks and disparaging personal
-  remarks.
-- When interpreting the words and actions of others, participants should always assume good intentions.
-- Behavior that can be reasonably considered harassment will not be tolerated.
+- I partecipanti saranno tolleranti nei confronti di opinioni contrapposte.
+- I partecipanti devono garantire che la loro lingua e le loro azioni siano prive di attacchi personali e disprezzanti osservazioni personali
+  .
+- Nell'interpretare le parole e le azioni degli altri, i partecipanti dovrebbero sempre assumere buone intenzioni.
+- Il comportamento che può essere ragionevolmente considerato molestie non sarà tollerato.
