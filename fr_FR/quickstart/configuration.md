@@ -1,65 +1,65 @@
 # Configuration
 
-All configuration files of the Goravel framework are stored in the `config` directory. You can view specific
-instructions and configure them flexibly according to project needs.
+Tous les fichiers de configuration du framework Goravel sont stockés dans le répertoire `config`. Vous pouvez consulter les instructions
+spécifiques et les configurer de manière flexible en fonction des besoins du projet.
 
-## Environment Configuration
+## Configuration de l'environnement
 
-Running applications in different environments usually requires different configurations. For example, you may want to
-turn on the Debug mode locally but don't need it in the production environment.
+Exécuter des applications dans des environnements différents nécessite généralement des configurations différentes. Par exemple, vous pouvez vouloir
+activer le mode débogage localement mais ne pas en avoir besoin dans l'environnement de production.
 
-Therefore, the framework provides the `.env.example` file in the root directory. You need to copy this file, rename it
-to `.env` before you start development, and modify the configuration items in the `.env` file according to your project
-needs.
+Par conséquent, le framework fournit le fichier `.env.example` dans le répertoire racine. Vous devez copier ce fichier, le renommer
+en `.env` avant de commencer le développement, et modifier les éléments de configuration dans le `. nv` fichier selon les besoins de votre projet
+.
 
-Note that the `.env` file should not be added to version control, because when multiple people collaborate, different
-developers may use different configurations, and different deployment environment configurations are different.
+Notez que le `. le fichier nv` ne doit pas être ajouté au contrôle de version, car lorsque plusieurs personnes collaborent, différents développeurs
+peuvent utiliser des configurations différentes, et différentes configurations d'environnement de déploiement sont différentes.
 
-In addition, if an intruder gains access to your code repository, there will be a risk of exposing sensitive
-configuration. If you want to add a new configuration item, you can add it to the `.env.example` file to synchronize the
-configuration of all developers.
+En outre, si un intrus accède à votre dépôt de code, il y aura un risque d'exposer la configuration
+sensible. Si vous voulez ajouter un nouvel élément de configuration, vous pouvez l'ajouter au fichier `.env.example` pour synchroniser la configuration
+de tous les développeurs.
 
-## Retrieve Environment Configuration
+## Récupérer la configuration de l'environnement
 
-Use the following method to obtain the configuration items in the `.env` file:
+Utilisez la méthode suivante pour obtenir les éléments de configuration dans le fichier `.env`:
 
 ```go
-// The first parameter is the configuration key, and the second parameter is the default value
+// Le premier paramètre est la clé de configuration, et le second paramètre est la valeur par défaut
 facades.Config().Env("APP_NAME", "goravel")
 ```
 
-## Access Configuration Values
+## Accéder aux valeurs de configuration
 
-You can easily use the global `facades.Config()` function anywhere in the application to access the configuration values
-in the `config` directory. The access to the configuration value can use the "." syntax. You can also specify a default
-value, if the configuration option does not exist, the default value is returned:
+Vous pouvez facilement utiliser la fonction globale `facades.Config()` n'importe où dans l'application pour accéder aux valeurs de configuration
+dans le répertoire `config`. L'accès à la valeur de configuration peut utiliser la syntaxe "." Vous pouvez également spécifier une valeur
+par défaut, si l'option de configuration n'existe pas, la valeur par défaut est retournée :
 
 ```go
-// Get the configuration through assertion
+// Récupère la configuration via assertion
 facades.Config().Get("app.name", "goravel")
 
-// Get the configuration of the string type
-facades.Config().GetString("app.name", "goravel")
+// Récupère la configuration du type de chaîne de caractères
+facades.Config().GetString("app. ame", "goravel")
 
-// Get the configuration of the int type
-facades.Config().GetInt("app.int", 1)
+// Récupère la configuration du type
+facades.Config().GetInt("app. nt", 1)
 
-// Get the configuration of the bool type
+// Récupère la configuration du type bool
 facades.Config().GetBool("app.debug", true)
 ```
 
-## Set Configuration
+## Configurer la configuration
 
 ```go
 facades.Config().Add("path", "value1")
 facades.Config().Add("path.with.dot.case1", "value1")
-facades.Config().Add("path.with.dot", map[string]any{"case3": "value3"})
+facades.Config().Add("path.with.dot", mapper[string]any{"case3": "value3"})
 ```
 
-## Get Project Information
+## Obtenir des informations sur le projet
 
-You can use the `artisan about` command to view the framework version, configuration, etc.
+Vous pouvez utiliser la commande `artisan about` pour voir la version du framework , la configuration, etc.
 
 ```bash
-go run . artisan about
+allez exécuter. artisan à propos de
 ```
