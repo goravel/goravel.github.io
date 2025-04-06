@@ -13,7 +13,7 @@ hero:
       target: _blank
     - theme: alt
       text: Quick Start
-      link: /en/quickstart
+      link: /quickstart
 
 features:
   - icon: 🚀
