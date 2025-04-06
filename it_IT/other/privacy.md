@@ -1,37 +1,37 @@
-# Privacy Policy
+# Politica Sulla Privacy
 
-## Collection of Information
+## Raccolta di informazioni
 
-We collect certain information about you when you visit goravel.dev. This information may include:
+Raccogliamo determinate informazioni su di voi quando visitate goravel.dev. Tali informazioni possono comprendere:
 
-- Information about the pages you visit on our website
-- Any other information you provide voluntarily
+- Informazioni sulle pagine visitate sul nostro sito web
+- Tutte le altre informazioni fornite volontariamente
 
-## Use of Information
+## Utilizzo delle informazioni
 
-We may use the collected information for various purposes, including:
+Possiamo utilizzare le informazioni raccolte per vari scopi, tra cui:
 
-- Personalizing your experience on our website
-- Improving our website and services
-- Contacting you regarding your inquiries or requests
+- Personalizzare la tua esperienza sul nostro sito web
+- Migliorare il nostro sito web e i nostri servizi
+- Contattandoti per le tue richieste o richieste
 
-## Data Security
+## Sicurezza Dei Dati
 
-We take the security of your data seriously. We implement appropriate technical and organizational measures to protect
+Prendiamo sul serio la sicurezza dei tuoi dati. We implement appropriate technical and organizational measures to protect
 your information from unauthorized access, disclosure, alteration, or destruction.
 
-## Third-Party Disclosure
+## Informativa Di Terzi
 
-We may share your information with trusted third parties who assist us in operating our website or providing services to
-you. These third parties are contractually obligated to keep your information confidential and secure.
+Potremmo condividere le tue informazioni con terze parti fidate che ci assistono nella gestione del nostro sito web o nella fornitura di servizi a
+. Queste terze parti sono obbligate contrattualmente a mantenere le vostre informazioni riservate e sicure.
 
-## Cookies
+## Cookie
 
-Our website may use cookies to enhance your browsing experience. Cookies are small files stored on your device that
-enable certain features and functionality. You may choose to disable cookies in your browser settings, but please note
-that some parts of our website may not function properly.
+Il nostro sito web può utilizzare i cookie per migliorare la tua esperienza di navigazione. I cookie sono piccoli file memorizzati sul tuo dispositivo che
+abilitano determinate funzionalità e funzionalità. Si può scegliere di disabilitare i cookie nelle impostazioni del browser, ma si prega di notare
+che alcune parti del nostro sito web potrebbero non funzionare correttamente.
 
-## Changes to this Policy
+## Modifiche a questa politica
 
-We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the revised policy
-will take effect immediately upon posting.
+Potremmo aggiornare questa Informativa sulla privacy di tanto in tanto. Eventuali modifiche saranno pubblicate in questa pagina, e la politica riveduta
+avrà effetto immediatamente al momento della pubblicazione.
