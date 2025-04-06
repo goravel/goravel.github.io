@@ -1,286 +1,286 @@
-# Migrations
+# Migreringar
 
-When multiple people collaborate to develop applications, it's crucial to have a standardized database structure for
-synchronization. Without this, there could be chaos as everyone's individual data won't match up. Database migration is
-the solution to this problem. The database structure is version-controlled to ensure its consistency within all
-developers.
+När flera personer samarbetar för att utveckla applikationer är det viktigt att ha en standardiserad databasstruktur för
+synkronisering. Utan detta skulle det kunna finnas kaos eftersom allas individuella data inte kommer att matcha upp. Databasmigrering är
+lösningen på problemet. Databasstrukturen är versionskontrollerad för att säkerställa dess konsekvens inom alla
+utvecklare.
 
 ## Konfiguration
 
-The database migration files are stored in the `database/migrations` directory. You can configure the database
-connection information in the `config/database.go` file. Currently, there are two drivers available for migrations: Go
-language migration and SQL migration. However, the SQL migration will be removed in future versions.
+Databasens migreringsfiler lagras i katalogen 'databas/migration'. Du kan konfigurera databasen
+anslutningsinformation i filen 'config/database.go'. För närvarande finns det två drivrutiner för migrering: Gå
+språkmigrering och SQL-migrering. SQL-migreringen kommer dock att tas bort i framtida versioner.
 
 ```go
-// Available Drivers: "default", "sql"
-"migrations": map[string]any{
+// Tillgängliga drivrutiner: "default", "sql"
+"migrationer": karta[string]any{
   "driver": "default",
-  // You can cumstomize the table name of migrations
-  "table":  "migrations",
+  // Du kan cumstomize tabellen namn på migrationer
+  "tabell": "migrationer",
 },
 ```
 
-## Create Migrations
+## Skapa migreringar
 
-Use the `make:migration` command to create the migration:
+Använd kommandot `make:migration` för att skapa migrering:
 
 ```shell
-go run . artisan make:migration create_users_table
+gå kör. hantverkare make:migration create_users_table
 ```
 
-This command will generate migration files in the `database/migrations` directory. Each migration file will begin with a
-timestamp, which Goravel will use to determine the execution order of the migration files.
+Detta kommando kommer att generera migreringsfiler i katalogen 'databas/migration'. Varje migreringsfil kommer att börja med en
+tidsstämpel som Goravel kommer att använda för att bestämma körordningen för migreringsfilerna.
 
-### Quickly Create
+### Skapa snabbt
 
-Use `create_users_table` to automatically generate a table containing the infrastructure of `users`:
+Använd `create_users_table` för att automatiskt generera en tabell som innehåller infrastrukturen för `users`:
 
 ```
 ^create_(\w+)_table$
 ^create_(\w+)$
 ```
 
-Use `add_avatar_to_users_table` to automatically generate a structure for adding fields to the `users` table:
+Använd `add_avatar_to_users_table` för att automatiskt generera en struktur för att lägga till fält till 'users' tabellen:
 
 ```
-_(to|from|in)_(\w+)_table$
-_(to|from|in)_(\w+)$
+_(to<unk> from<unk> in)_(\w+)_table$
+_(to<unk> from<unk> in)_(\w+)$
 ```
 
-If the above conditions are not matched, the framework will generate an empty migration file.
+Om ovanstående villkor inte stämmer överens kommer ramverket att generera en tom migreringsfil.
 
-## Migration Structure
+## Migrering struktur
 
-### Go Language Migration
+### Gå till språkmigrering
 
-The migration struct contains two methods: `Up` and `Down`. The `Up` method is used to add new tables, columns, or
-indexes to the database, while the `Down` method is used to undo the operations performed by the `Up` method. In these
-two methods, you can use `facades.Schema()` to create and operate database tables. For available methods, see
-the [documentation](#tables). The following migration will create a `users` table:
+Migrationsstrukturen innehåller två metoder: `Up` och `Down`. `Up`-metoden används för att lägga till nya tabeller, kolumner eller
+index till databasen, medan `Down`-metoden används för att ångra operationerna som utförs med `Up`-metoden. I dessa
+två metoder kan du använda `facades.Schema()` för att skapa och driva databastabeller. För tillgängliga metoder, se
+the [documentation](#tables). Följande migrering kommer att skapa en `användare` tabell:
 
 ```go
-package migrations
+paketmigrationer
 
 import (
  "github.com/goravel/framework/contracts/database/schema"
- "github.com/goravel/framework/facades"
+ "github. om/goravel/frameing/facades"
 )
 
-type M20241207095921CreateUsersTable struct {
+typ M20241207095921CreateUsersTable struct {
 }
 
-// Signature The unique signature for the migration.
-func (r *M20241207095921CreateUsersTable) Signature() string {
- return "20241207095921_create_users_table"
+// Signatur Den unika signaturen för migrationen.
+func (r *M20241207095921CreateUsersTable) Signatur() sträng {
+ returnera "20241207095921_create_users_table"
 }
 
-// Up Run the migrations.
-func (r *M20241207095921CreateUsersTable) Up() error {
- if !facades.Schema().HasTable("users") {
-  return facades.Schema().Create("users", func(table schema.Blueprint) {
-   table.ID()
-   table.String("name").Nullable()
-   table.String("email").Nullable()
-   table.Timestamps()
+// Upp Kör migrationerna.
+func (r *M20241207095921CreateUsersTable) Up() fel {
+ om !fasader. chema().HasTable("användare") {
+  returfasader.Schema().Skapa("användare", funktion(tabellschema.Blueprint) {
+   tabellen. D()
+   tabell.String("namn").Nullable()
+   tabell.String("e-post").Nullable()
+   tabell. imestamps()
   })
  }
 
  return nil
 }
 
-// Down Reverse the migrations.
-func (r *M20241207095921CreateUsersTable) Down() error {
- return facades.Schema().DropIfExists("users")
+// Down the migrationen.
+func (r *M20241207095921CreateUsersTable) Down() fel {
+ returnera fasader.Schema().DropIfExists("användare")
 }
 ```
 
-#### Set Migration Connection
+#### Ställ in migreringsanslutning
 
-If the migration will interact with a database connection other than the application's default database connection, you
-should use the migration's `Connection` method:
+Om migreringen kommer att interagera med en databasanslutning annat än applikationens standarddatabaskoppling, bör du
+använda migrationens `Connection`-metod:
 
 ```go
 func (r *M20241207095921CreateUsersTable) Connection() string {
-  return "connection-name"
+  returnera "connection-name"
 }
 ```
 
-### SQL Migration
+### SQL migrering
 
-The migration command will generate two migration files: `***.up.sql` and `***.down.sql`, corresponding to execution and
-rollback, respectively. You can write SQL statements directly in these two files.
+Migreringskommandot kommer att generera två migreringsfiler: `***.up.sql` och `***.down.sql`, vilket motsvarar exekvering och
+rollback, respektive. Du kan skriva SQL-satser direkt i dessa två filer.
 
 ```sql
--- ***.up.sql
-CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+-- ***.up. ql
+SKAPA TABLE `users` (
+  `id` bigint(20) osignerad INTE NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` tidsstämpel NULL DEFAULT NULL,
+  `updated_at` tidsstämpel NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ***.down.sql
+-- ***. own.sql
 DROP TABLE `users`;
 ```
 
-## Register Migrations
+## Registrera migrationer
 
-When using Go language migrations, you need to register the migration files in the `database/kernel.go` file after the
-migration files are generated:
+När du använder Go language migrationer, måste du registrera migreringsfilerna i `database/kernel.go`-filen efter att
+migreringsfilerna genereras:
 
 ```go
 // database/kernel.go
 func (kernel Kernel) Migrations() []schema.Migration {
- return []schema.Migration{
+ returnera []schema.Migration{
   &migrations.M20241207095921CreateUsersTable{},
  }
 }
 ```
 
-SQL migrations do not need to be registered, as the framework will automatically scan the SQL files in the
-`database/migrations` directory.
+SQL-migreringar behöver inte registreras, eftersom ramverket automatiskt kommer att skanna SQL-filerna i
+`database/migrations`-katalogen.
 
-## Run Migrations
+## Kör migreringar
 
-To run all of your outstanding migrations, execute the `migrate` Artisan command:
-
-```shell
-go run . artisan migrate
-```
-
-If you would like to see which migrations have run thus far, you may use the `migrate:status` Artisan command:
+För att köra alla dina enastående migreringar, kör `migrate` Artisan-kommandot:
 
 ```shell
-go run . artisan migrate:status
+gå kör. hantverkare migrera
 ```
 
-## Rolling Back Migrations
-
-To roll back the latest migration, use the `rollback` Artisan command. This command rolls back the last "batch" of
-migrations, which may include multiple migration files:
+Om du vill se vilka migreringar som har körts hittills, kan du använda kommandot `migrate:status` Artisan:
 
 ```shell
-go run . artisan migrate:rollback
+gå kör. hantverkare migrerar: status
 ```
 
-You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example,
-the following command will roll back the last five migrations:
+## Rullar tillbaka migreringar
+
+För att rulla tillbaka den senaste migrationen, använd kommandot `rollback` Artisan. Detta kommando rullar tillbaka den sista "batch" av
+migrationer, som kan innehålla flera migrationsfiler:
 
 ```shell
-go run . artisan migrate:rollback --step=5
+gå springa. hantverkare migrerar: rollback
 ```
 
-The `migrate:reset` command will roll back all of your application's migrations:
+Du kan rulla tillbaka ett begränsat antal migreringar genom att ange `step`-alternativet till `rollback`-kommandot. Till exempel,
+följande kommando kommer att rulla tillbaka de senaste fem migrationerna:
 
 ```shell
-go run . artisan migrate:reset
+gå springa. hantverkare migrerar: rollback --step=5
 ```
 
-### Roll Back & Migrate Using A Single Command
-
-The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command
-effectively re-creates your entire database:
+Kommandot `migrera:reset` kommer att rulla tillbaka alla migreringar av din applikation:
 
 ```shell
-go run . artisan migrate:refresh
+gå kör. hantverkare migrerar: återställ
 ```
 
-You may roll back and re-migrate a limited number of migrations by providing the `step` option to the `refresh` command.
-For example, the following command will roll back and re-migrate the last five migrations:
+### Rulla tillbaka och migrera med ett enda kommando
+
+Kommandot `migrate:refresh` kommer att rulla tillbaka alla dina migrationer och sedan köra `migrate`-kommandot. Detta kommando
+återskapar effektivt hela din databas:
 
 ```shell
-go run . artisan migrate:refresh --step=5
+gå kör. hantverkare migrerar: uppdatera
 ```
 
-### Drop All Tables & Migrate
-
-The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+Du kan rulla tillbaka och åter migrera ett begränsat antal migrationer genom att ange `step`-alternativet till `refresh`-kommandot.
+Till exempel kommer följande kommando att rulla tillbaka och åter migrera de senaste fem migrationerna:
 
 ```shell
-go run . artisan migrate:fresh
+gå kör. hantverkare migrerar: uppdatera --step=5
 ```
 
-## Tables
+### Släpp alla tabeller och migrera
 
-### Create Table
+Kommandot `migrate:fresh` kommer att släppa alla tabeller från databasen och sedan köra `migrate`-kommandot:
+
+```shell
+gå kör. hantverkare migrerar: färsk
+```
+
+## Tabeller
+
+### Skapa tabell
 
 ```go
-facades.Schema().Create("users", func(table schema.Blueprint) {
+facades.Schema().Create("användare", funktion(tabellschema.Blueprint) {
   table.ID()
-  table.String("name").Nullable()
-  table.String("email").Nullable()
+  table.String("namn").Nullable()
+  table.String("e-post").Nullable()
   table.Timestamps()
 })
 ```
 
-### Check If Table / Column Exists
+### Kontrollera om tabellen / kolumn finns
 
 ```go
-if facades.Schema().HasTable("users") {}
-if facades.Schema().HasColumn("users", "email") {}
-if facades.Schema().HasColumns("users", []string{"name", "email"}) {}
-if facades.Schema().HasIndex("users", "email_unique") {}
+om fasades.Schema().HasTable("användare") {}
+if facades.Schema().HasColumn("användare", "e-post") {}
+if facades.Schema().Haskolumner("användare", []string{"name", "e-post"}) {}
+if facades.Schema().HasIndex("användare", "email_unique") {}
 ```
 
-### Database Connection
+### Anslutning till databas
 
 ```go
-facades.Schema().Connection("sqlite").Create("users", func(table schema.Blueprint) {
+facades.Schema().Anslutning("sqlite").Create("användare", funktion (tabellschema.Blueprint) {
   table.ID()
 })
 ```
 
-### Update Table
+### Uppdatera tabell
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.String("name").Nullable()
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.String("namn").Nullable()
 })
 ```
 
-### Rename / Drop Table
+### Döp om / Släpp tabell
 
 ```go
-facades.Schema().Rename("users", "new_users")
-facades.Schema().Drop("users")
-facades.Schema().DropIfExists("users")
+fasader.Schema().Byt namn ("användare", "new_users")
+fasader.Schema().Drop("användare")
+fasader.Schema().DropIfExists("användare")
 
 ```
 
-## Columns
+## Kolumner
 
-### Available Column Types
+### Tillgängliga kolumntyper
 
 |                     |                    |                       |                             |
 | ------------------- | ------------------ | --------------------- | --------------------------- |
-| BigIncrements       | BigInteger         | Boolean               | Char                        |
-| Date                | DateTime           | DateTimeTz            | Decimal                     |
-| Double              | [Enum](#enum)      | Float                 | [ID](#id)                   |
-| Increments          | Integer            | IntegerIncrements     | Json                        |
-| Increments          | LongText           | MediumIncrements      | MediumInteger               |
-| MediumText          | SmallIncrements    | SmallInteger          | [SoftDeletes](#softdeletes) |
-| SoftDeletesTz       | String             | Text                  | Time                        |
-| TimeTz              | Timestamp          | Timestamps            | TimestampsTz                |
-| TimestampTz         | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
+| Ökningar            | BigInteger         | Boolean               | Char                        |
+| Datum               | Datumtid           | DatumTimeTz           | Decimal                     |
+| Dubbel              | [Enum](#enum)      | Flytande              | [ID](#id)                   |
+| Ökningar            | Heltal             | IntegerIncrements     | Json                        |
+| Ökningar            | LongText           | Medelökning           | MediumInteger               |
+| Medeltext           | SmallIncrements    | Mindre heltal         | [SoftDeletes](#softdeletes) |
+| SoftDeletesTz       | Sträng             | Text                  | Tid                         |
+| TimeTz              | Tidsstämpel        | Tidsstämplar          | TidsstämplarTz              |
+| TidsstämplTz        | UnsignedBigInteger | TinyIncrements        | TinyInteger                 |
 | TinyText            | UnsignedInteger    | UnsignedMediumInteger | UnsignedSmallInteger        |
 | UnsignedTinyInteger |                    |                       |                             |
 
 #### Enum
 
-Create an `Enum` field that can be stored in `Mysql` according to the type in `[]any`, but in `Postgres`, `Sqlite`, and
-`Sqlserver` databases, it is a `String` type.
+Skapa ett `Enum` fält som kan lagras i `Mysql` enligt typen i `[]any`, men i `Postgres`, `Sqlite`, och
+`Sqlserver` databaser, det är en `String`-typ.
 
 ```go
-table.Enum("difficulty", []any{"easy", "hard"})
+table.Enum("svårighet", []any{"easy", "hard"})
 table.Enum("num", []any{1, 2})
 ```
 
 #### ID
 
-The `ID` method is an alias for the `BigIncrements` method. By default, this method will create an `id` column; however,
-if you would like to assign a different name to the column, you may pass the column name:
+`ID`-metoden är ett alias för `BigIncrements`-metoden. Som standard kommer denna metod att skapa en `id`-kolumn dock
+om du vill tilldela ett annat namn till kolumnen kan du skicka kolumnnamnet:
 
 ```go
 table.ID()
@@ -289,115 +289,115 @@ table.ID("user_id")
 
 #### SoftDeletes
 
-The `SoftDeletes` method adds a nullable `deleted_at` `TIMESTAMP` column. This column is intended to store the
-`deleted_at` timestamp required for the Orm "soft delete" feature:
+`SoftDeletes` -metoden lägger till en `deleted_at` `TIMESTAMP`-kolumn. Denna kolumn är avsedd att lagra den
+`deleted_at` tidsstämpel som krävs för funktionen Orm "soft delete":
 
 ```go
-table.SoftDeletes()
+tabell.SoftDeletes()
 ```
 
-#### Custom column
+#### Anpassad kolumn
 
-If you are using column types that framework does not support yet, you can use the `Column` method to customize the
-field type:
+Om du använder kolumntyper som inte stöder ramverket ännu kan du använda `Column`-metoden för att anpassa
+fälttyp:
 
 ```go
-table.Column("geometry", "geometry")
+tabell.Kolumn ("geometri", "geometri")
 ```
 
-### Column Modifiers
+### Kolumn Modifierare
 
-In addition to the column types listed above, when adding a column to a database table, you can also add "modifiers" to
-the column. For example, to allow a column to be "nullable," you can use the `Nullable` method:
+Förutom de kolumntyper som anges ovan, när du lägger till en kolumn till en databastabell, kan du också lägga till "modifierare" till
+kolumnen. Till exempel, för att tillåta en kolumn att vara "nullable" kan du använda `Nullable`-metoden:
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.String("name").Nullable()
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.String("namn").Nullable()
 })
 ```
 
-The following table contains all available column modifiers:
+Följande tabell innehåller alla tillgängliga kolumnmodifierare:
 
-| Modified                 | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.AutoIncrement()`       | Sets an integer column as auto-incrementing (primary key)                                                     |
-| `.Comment("my comment")` | Adds a comment to the column (MySQL / PostgreSQL)                                                             |
-| `.Default(value)`        | Sets the default value for the column                                                                                            |
-| `.Nullable()`            | Allows NULL values to be inserted into the column                                                                                |
-| `.Unsigned()`            | Sets an integer column as UNSIGNED (MySQL only)                                                               |
-| `.UseCurrent()`          | Sets a timestamp column to use CURRENT_TIMESTAMP as the default value                                       |
-| `.UseCurrentOnUpdate()`  | Sets a timestamp column to use CURRENT_TIMESTAMP when the record is updated (MySQL only) |
+| Ändrad                        | Beskrivning                                                                                                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `.AutoIncrement()`            | Anger en heltalskolumn som automatisk inkrementering (primär nyckel)                                                |
+| `.Kommentar("min kommentar")` | Lägger till en kommentar till kolumnen (MySQL / PostgreSQL)                                                         |
+| `.Standard(värde)`            | Anger standardvärdet för kolumnen                                                                                                      |
+| `.Nullable()`                 | Tillåter att NULL-värden infogas i kolumnen                                                                                            |
+| `.Avsignerad()`               | Anger en heltalskolumn som endast UNSIGNED (MySQL)                                                                  |
+| `.UseCurrent()`               | Anger en tidsstämpel kolumn att använda CURRENT_TIMESTAMP som standardvärde                                       |
+| `.UseCurrentOnUpdate()`       | Anger en tidsstämpel kolumn att använda CURRENT_TIMESTAMP när posten uppdateras (MySQL endast) |
 
-### Drop Column
+### Släpp kolumn
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.DropColumn("name")
-  table.DropColumn("name", "age")
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.DropColumn("namn")
+  tabell.DropColumn("namn", "ålder")
 })
 ```
 
-## Indexes
+## Index
 
-### Create Index
+### Skapa index
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  // Add primary key
-  table.Primary("id")
-  // Add composite primary key
-  table.Primary("id", "name")
+fasades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  // Lägg till primärnyckel
+  tabellen. rimary("id")
+  // Lägg till kompositprimärnyckel
+  tabell.Prioritering("id", "namn")
 
-  // Add unique index
-  table.Unique("name")
-  table.Unique("name", "age")
+  // Lägg till unikt index
+  tabell. nique("namn")
+  tabell.Unique("namn", "ålder")
 
-  // Add normal index
-  table.Index("name")
-  table.Index("name", "age")
+  // Lägg till normalt index
+  tabell.Index("namn")
+  tabell. ndex("name", "age")
 
-  // Add fulltext index
+  // Lägg till fulltextindex
   table.FullText("name")
   table.FullText("name", "age")
 })
 ```
 
-### Rename Index
+### Döp om index
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.RenameIndex("users_name_index", "users_name")
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.RenameIndex("users_name_index", "users_name")
 })
 ```
 
-### Drop Index
+### Släpp index
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.DropPrimary("id")
-  table.DropUnique("name")
-  table.DropUniqueByName("name_unique")
-  table.DropIndex("name")
-  table.DropIndexByName("name_index")
-  table.DropFullText("name")
-  table.DropFullTextByName("name_fulltext")
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.DropPrimary("id")
+  tabell.DropUnique("namn")
+  tabell.DropUniqueByName("name_unique")
+  tabell.DropIndex("
+  tabell.DropIndexByName("name_index")
+  tabell.DropFullText("name")
+  tabell.DropFullTextByName("name_fulltext")
 })
 ```
 
-### Create Foreign Key
+### Skapa främmande nyckel
 
 ```go
-facades.Schema().Table("posts", func(table schema.Blueprint) {
-  table.UnsignedBigInteger("user_id")
-  table.Foreign("user_id").References("id").On("users")
+facades.Schema().Tabell("inlägg", funktion(tabellschema.Blueprint) {
+  tabell.UnsignedBigInteger("user_id")
+  tabell.Foreign("user_id").Referenser("id").On("användare")
 })
 ```
 
-### Drop Foreign Key
+### Släpp främmande nyckel
 
 ```go
-facades.Schema().Table("users", func(table schema.Blueprint) {
-  table.DropForeign("user_id")
-  table.DropForeignByName("user_id_foreign")
+facades.Schema().Tabell("användare", funktion(tabellschema.Blueprint) {
+  tabell.DropForeign("user_id")
+  tabell.DropForeignByName("user_id_foreign")
 })
 ```
