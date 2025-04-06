@@ -1,24 +1,21 @@
-# Getting Started
+# 入门
 
-Goravel makes it easy for developers to interact with databases using `facades.Orm()`. Currently, it provides official
-support for the following four databases:
+Goravel 使开发人员可以轻松地使用 `facades.Orm()` 与数据库进行交互。 目前，它官方支持以下四种数据库：
 
 - MySQL 5.7+
 - PostgreSQL 9.6+
 - SQLite 3.8.8+
 - SQL Server 2017+
 
-Before you start, configure the database in `.env` and confirm the `default` configuration in `config/database.go`.
+在开始之前，请在 `.env` 中配置数据库，并确认 `config/database.go` 中的 `default` 配置。
 
-# Configuration
+# 配置
 
-To configure databases, navigate to `config/database.go`. This is where you can customize all database connections and
-choose a `default` connection. The configuration in this file relies on the project's environment variables and
-showcases various database configurations that Goravel supports.
+要配置数据库，请导航到 `config/database.go`。 在这里，您可以自定义所有数据库连接并选择一个 `default` 连接。 此文件中的配置依赖于项目的环境变量，并展示了Goravel支持的各种数据库配置。
 
 ### DSN
 
-You can also use DSN to connect to the database directly, just configure the `dsn` field in the configuration file:
+你也可以使用DSN直接连接数据库，只需在配置文件中配置`dsn`字段：
 
 ```go
 "postgres": map[string]any{
@@ -28,12 +25,11 @@ You can also use DSN to connect to the database directly, just configure the `ds
 }
 ```
 
-### Read & Write Connections
+### 读写连接
 
-Sometimes you may wish to use one database connection for `SELECT` statements, and another for `INSERT`, `UPDATE`, and
-`DELETE` statements. Goravel makes this a breeze.
+有时你可能希望对`SELECT`语句使用一个数据库连接，而对`INSERT`、`UPDATE`和`DELETE`语句使用另一个连接。 Goravel使这变得轻而易举。
 
-To see how read/write connections should be configured, let's look at this example:
+让我们看一个例子来了解如何配置读/写连接：
 
 ```go
 import "github.com/goravel/framework/contracts/database"
@@ -59,27 +55,23 @@ import "github.com/goravel/framework/contracts/database"
 }
 ```
 
-We have updated the configuration array with two new keys - `read` and `write`. The `read` connection will use
-`192.168.1.1` as the host, while the `write` connection will use `192.168.1.2`. Both connections will share the same
-database prefix, character set, and other options specified in the main mysql array. In case of multiple values in the
-`host` configuration array, a database host will be selected randomly for each request.
+我们已经使用两个新的键更新了配置数组 - `read` 和 `write`。 `read` 连接将使用 `192.168.1.1` 作为主机，而 `write` 连接将使用 `192.168.1.2`。 两个连接将共享相同的数据库前缀、字符集和在主 mysql 数组中指定的其他选项。 如果在 `host` 配置数组中有多个值，系统将为每个请求随机选择一个数据库主机。
 
-### Connection Pool
+### 连接池
 
-You can configure a connection pool in the configuration file, reasonable configuration of connection pool parameters
-can greatly improve concurrency performance:
+您可以在配置文件中配置连接池，合理配置连接池参数
+可以大大提高并发性能：
 
-| Key                                                                              | Action                    |
-| -------------------------------------------------------------------------------- | ------------------------- |
-| pool.max_idle_conns    | Max idle connections      |
-| pool.max_open_conns    | Max open connections      |
-| pool.conn_max_idletime | Connections max idle time |
-| pool.conn_max_lifetime | Connections max lifetime  |
+| 键                                                                                | 作用       |
+| -------------------------------------------------------------------------------- | -------- |
+| pool.max_idle_conns    | 最大空闲连接数  |
+| pool.max_open_conns    | 最大打开连接数  |
+| pool.conn_max_idletime | 连接最大空闲时间 |
+| pool.conn_max_lifetime | 连接最大生存时间 |
 
-### Schema
+### 模式
 
-Postgres and Sqlserver support configuring Schema. Postgres can directly set the Schema in the configuration file, while
-Sqlserver needs to specify the Schema through the `TableName` method in the model.
+Postgres 和 Sqlserver 支持配置 Schema。 Postgres 可以直接在配置文件中设置 Schema，而 Sqlserver 需要通过模型中的 `TableName` 方法指定 Schema。
 
 #### Postgres
 
@@ -101,15 +93,15 @@ func (r *User) TableName() string {
 }
 ```
 
-### Get Database Information
+### 获取数据库信息
 
-You can use the `db:show` command to view all tables in the database.
+您可以使用 `db:show` 命令查看数据库中的所有表。
 
 ```bash
 go run . artisan db:show
 ```
 
-You can also use the `db:table` command to view the structure of a specific table.
+您还可以使用 `db:table` 命令查看特定表的结构。
 
 ```bash
 go run . artisan db:table
