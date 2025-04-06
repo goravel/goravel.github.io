@@ -1,128 +1,128 @@
-# HTTP Tests
+# Teste HTTP
 
-When building web applications, you'll often need to test if your HTTP requests work correctly from start to finish.
-Goravel's testing tools make this straightforward - you can simulate requests and verify responses without setting up
-complex test environments.
+Când se construiesc aplicații web, adesea va trebui să testezi dacă cererile tale HTTP funcționează corect de la început până la finalizare.
+Instrumentele de testare ale Goravel fac acest lucru simplu - puteți simula cereri și verifica răspunsurile fără a configura mediul de testare
+complex.
 
-## Make Requests
+## Solicitări
 
-Testing HTTP endpoints in Goravel uses a simple pattern. Start with the `Http` method from your `TestCase`, which needs
-a `*testing.T` parameter for assertions. This gives you a request object (`framework/contracts/testing.TestRequest`)
-that handles all common HTTP verbs like `Get`, `Post`, and `Put`.
+Testarea criteriilor finale HTTP în Goravel utilizează un model simplu. Începe cu metoda `Http` din `TestCase`, care are nevoie de
+un parametru `*testing.T` pentru aserțiuni. Aceasta vă oferă un obiect de cerere (`framework/contracts/testing.TestRequest`)
+care se ocupă de toate HTTP verbe comune ca `Get`, `Post`, and `Put`.
 
-Instead of making real HTTP calls, these methods simulate your application's request cycle internally. Each request
-returns a response object (`framework/contracts/testing.TestResponse`) with methods to check the results.
+În loc să facă apeluri reale cu HTTP, aceste metode simulează ciclul intern de cerere al aplicației dvs. Fiecare solicitare
+returnează un obiect de răspuns (`framework/contracts/testing.TestResponse`) cu metode de verificare a rezultatelor.
 
-Here's a basic example:
+Iată un exemplu de bază:
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).Get("/users/1")
+ răspuns, err := s.HΠ(s.T()).Get("/users/1")
  s.Nil(err)
  response.AssertStatus(200)
 }
 ```
 
-### Customize Request Headers
+### Personalizați antetele solicitărilor
 
-You can customize request headers using either `WithHeader` for a single header or `WithHeaders` for multiple headers:
+Puteți personaliza antetele solicitărilor folosind fie `WithHeader` pentru un singur antet sau `WithHeaders` pentru mai multe antete:
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
-    // Single header
-    response, err := s.Http(s.T()).WithHeader("X-Custom-Header", "Value").Get("/users/1")
+    // Răspuns Single header
+    , err := s.HΠ(s.T()). ithHeader("X-Custom-Header", "Value").Get("/users/1")
     
     // Multiple headers
-    response, err := s.Http(s.T()).WithHeaders(map[string]string{
-        "X-Custom-Header": "Value",
-        "Accept": "application/json",
-    }).Get("/users/1")
+    , err := s. s.T()). ithHeaders(harta[string]string{
+        "X-Custom-Header": "Valoare",
+        "Accept": "aplicație/json",
+    }). et("/users/1")
 }
 ```
 
-### Cookies
+### Cookie-uri
 
-You may use either `WithCookie` or `WithCookies` method to set cookies value before making a request.
+Puteţi utiliza fie metoda `WithCookie` sau `WithCookies` pentru a seta valoarea cookie-urilor înainte de a face o solicitare.
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithCookie("name", "krishan").Get("/users/1")
+ răspuns, err := s.Http(s.T()).WithCookie("name", "krishan"). et("/users/1")
 
- // or use WithHeaders for multiple Headers
- response, err := s.Http(s.T()).WithHeader(map[string]string{
+ // sau folosiți Retrageri pentru mai multe răspunsuri
+ err := s. s.T()). ithHeader(harta[string]string{
         "name": "krishan",
-        "lang": "en",
-    }).Get("/users/1")
+        "lang": "ro",
+    }). et("/users/1")
 }
 ```
 
-### WithSession
+### Retragere
 
-You may set the data to the session using the `WithSession` method:
+Puteţi seta datele la sesiune folosind metoda `WithSession`:
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
+ răspuns, err := s.HΠ(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
 }
 ```
 
-### Debugging Responses
+### Răspunsuri de depanare
 
-After making request you may use `Session`, `Headers`, `Content`, `Cookies` or `Json` method to check data returned from
-the request.
+După ce faceți cerere puteți utiliza metoda `Session`, `Headers`, `Content`, `Cookies` sau `Json` pentru a verifica datele returnate de la
+solicitarea.
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
- response, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}).Get("/users/1")
+ răspuns, err := s.Http(s.T()).WithSession(map[string]any{"role": "admin"}). et("/users/1") Conținutul
  
- content, err := response.Content()
+ , err := response.Content()
  
- cookies := response.Cookies()
+ cookie-uri := response. ookies()
  
  headers := response.Headers()
  
- json, err := response.Json() // response body parsed as json(map[string]any)
+ json, err := response. son() // răspuns corp analizat ca json(harta[string]any)
  
- session, err := response.Session() // returns all values stored in the current request session
+ , err := response. ession() // returnează toate valorile stocate în solicitarea curentă a sesiunii
 }
 ```
 
-## Building Body
+## Corpul clădirii
 
-For method like `Post`, `Put`, `Delete` etc. Goravel accepts `io.Reader` as second argument. To simplify building
-payloads, the framework provides utility methods for constructing request bodies.
+Pentru metoda ca `Post`, `Put`, `Delete` etc. Goravel acceptă `io.Reader` ca al doilea argument. Pentru a simplifica construcția lui
+payload-uri, cadrul oferă metode de utilitate pentru construirea corpurilor de solicitare.
 
 ```go
 import "github.com/goravel/framework/support/http"
 
 func (s *ExampleTestSuite) TestIndex() {
-    builder := http.NewBody().SetField("name", "krishan")
+    builder := http.NewBody(). etField("name", "krishan")
     
-    body, err := builder.Build()
+    corp, err := builder. () Răspuns
 
-    response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", body)
+    , err := s. Π(s.T().WithHeader("Content-Type", body.ContentType().Post("/users", body)
 }
 ```
 
-## Testing Json APIs
+## Testarea API-ului Json
 
-Goravel provides several helpers to test JSON API responses effectively. It attempts to unmarshal the response body into
-a Go `map[string]any`. If unmarshalling fails, the associated assertions will also fail.
+Goravel oferă mai mulți ajutători pentru a testa eficient răspunsurile API-ului JSON. Acesta încearcă să dezgropeze corpul de răspuns în
+a Du-te pe `harta[string]oricine`. Dacă detrierea eșuează, aserțiunile asociate vor eșua.
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
-    response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", nil)
- s.Nil(err)
+    răspuns, err := s.HΠ(s.T()).WithHeader("Content-Type", body.ContentType().Post((/users", nil)
+ s. il(eroare)
  
  response.AssertStatus(201).
   AssertJson(map[string]any{
-   "created": true,
+   "created": adevărat,
         })
 }
 ```
 
-To access the unmarshalled JSON directly, use the `Json` method on the `TestResponse`. This lets you inspect individual
-elements of the response body.
+Pentru a accesa direct JSON dezlănţuit, utilizaţi metoda `Json` pe `TestResponse`. Acest lucru vă permite să inspectați elementele individuale
+ale corpului de răspuns.
 
 ```go
 json, err := response.Json()
@@ -131,19 +131,19 @@ s.True(json["created"])
 ```
 
 :::tip
-The `AssertJson` method checks whether the response contains all the specified values, even if the response includes
-additional fields. It doesn't require an exact match unless you use `AssertExactJson`.
+Metoda `AssertJson` verifică dacă răspunsul conține toate valorile specificate, chiar dacă răspunsul include câmpuri adiționale
+Nu necesită o potrivire exactă decât dacă folosiți `AssertExactJson`.
 :::
 
-### Asserting Exact JSON Matches
+### Asserting Meciuri Exact JSON
 
-If you need to verify that the response matches your expected JSON exactly (with no extra or missing fields), use the
-`AssertExactJson` method.
+Dacă trebuie să verificați că răspunsul se potrivește cu JSON așteptat exact (fără câmpuri suplimentare sau lipsă), utilizați metoda
+`AssertExactJson`.
 
 ```go
 func (s *ExampleTestSuite) TestIndex() {
-    response, err := s.Http(s.T()).WithHeader("Content-Type", body.ContentType()).Post("/users", nil)
- s.Nil(err)
+    răspuns, err := s.HΠ(s.T()).WithHeader("Content-Type", body.ContentType().Post((/users", nil)
+ s. il(eroare)
  
  response.AssertStatus(201).
   AssertExactJson(map[string]any{
@@ -154,12 +154,12 @@ func (s *ExampleTestSuite) TestIndex() {
 
 ### Fluent JSON Testing
 
-Goravel makes it easy to perform fluent assertions on JSON responses. Using the `AssertFluentJson` method, you can pass
-a closure that provides an instance of `framework/contracts/testing.AssertableJSON`. This instance allows you to check
-specific values or conditions in the JSON response returned by your request.
+Goravel facilitează efectuarea unor afirmaţii fluente privind răspunsurile JSON. Folosind metoda `AssertFluentJson`, poți trece de
+o închidere care oferă o instanță de `framework/contracts/testing.AssertableJSON`. Această instanță vă permite să verificați valoarea sau condițiile specifice
+în răspunsul JSON returnat de solicitarea dvs.
 
-For example, you can use the `Where` method to assert that a particular value exists in the JSON response, and the
-`Missing` method to ensure that an attribute is not present.
+De exemplu, puteţi utiliza metoda "Unde" pentru a afirma că o anumită valoare există în răspunsul JSON, și metoda
+`Missing` pentru a se asigura că un atribut nu este prezent.
 
 ```go
 import contractstesting "github.com/goravel/framework/contracts/testing"
@@ -178,64 +178,64 @@ func (s *ExampleTestSuite) TestIndex() {
 }
 ```
 
-### Asserting Attribute Presence / Absence
+### Assering atribut Prezență / Absență
 
-If you want to check whether an attribute is present or missing, Goravel makes it simple with the `Has` and `Missing`
-methods.
+Dacă doriți să verificați dacă un atribut este prezent sau lipsește, Goravel îl face simplu cu metodele `Has` și `Missing`
+.
 
 ```go
 response.AssertStatus(201).
     AssertFluentJson(func (json contractstesting.AssertableJSON) {
         json.Has("username").
             Missing("password")
-    })
+})
 ```
 
-You can also assert the presence or absence of multiple attributes at once using `HasAll` and `MissingAll`.
+De asemenea, puteţi afirma prezenţa sau absenţa mai multor atribute simultan folosind `HasAll` şi `MissingAll`.
 
 ```go
 response.AssertStatus(201).
     AssertFluentJson(func (json contractstesting.AssertableJSON) {
         json.Has([]string{"username", "email"}).
             MissingAll([]string{"verified", "password"})
-    })
+})
 ```
 
-If you only need to check for the presence of at least one attribute from a list, use the `HasAny` method.
+Dacă trebuie doar să verificați pentru prezența a cel puțin un atribut dintr-o listă, folosiți metoda `HasAny`.
 
 ```go
 response.AssertStatus(201).
     AssertFluentJson(func (json contractstesting.AssertableJSON) {
   json.HasAny([]string{"username", "email"})
-    })
+})
 ```
 
-### Scoping JSON Collection Assertions
+### Realizarea de Asserții JSON
 
-When a response contains a collection of objects under a named key, you can use various methods to assert its structure
-and content.
+Când un răspuns conține o colecție de obiecte sub o cheie numită, poți folosi diferite metode pentru a aserti structura
+și conținutul.
 
 ```go
 type Item struct {
     ID int `json:"id"`
 }
 
-facades.Route().Get("/", func(ctx http.Context) http.Response {
-    items := []Item{
+facades.Route().Get("/", func(tx http.Context) http. esponse {
+    elemente := []Item{
         {ID: 1},
         {ID: 2},
     }
-    return ctx.Response().Json(200, map[string]{
-  "items": items,
+    return ctx. esponse().Json(200, map[string]{
+  "articole": articole,
     })
 }
 ```
 
-You can use the `Count` method to verify the number of elements in the collection. To assert properties of the first
-element, use the `First` method, which provides an instance of `AssertableJson`. Similarly, the `Each` method allows you
-to iterate over all elements and assert their properties individually. Alternatively, the `HasWithScope` method combines
-the functionality of `First` and `Count`, allowing you to assert both the first element and its contents while providing
-an `AssertableJson` instance for scoped assertions.
+Puteţi utiliza metoda `Count` pentru a verifica numărul de elemente din colectare. Pentru a afirma proprietățile primului element
+folosiți metoda `First`, care oferă o instanță de `AssertableJson`. Similarly, the `Each` method allows you
+to iterate over all elements and assert their properties individually. Alternativ, metoda `HasWithScope` combină
+funcţionalitatea `First` şi `Count`, vă permite să afirmați atât primul element, cât și conținutul său în timp ce furnizați
+o instanță `AssertableJson` pentru aserțiuni mărunțite.
 
 ```go
 // Count and First
@@ -265,9 +265,9 @@ response.AssertStatus(200).
     })
 ```
 
-## Available Assertions
+## Asserturi Disponibile
 
-### Response Assertions
+### Asserții de răspuns
 
 |                                                   |                                                         |                                                         |
 | ------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
@@ -285,9 +285,9 @@ response.AssertStatus(200).
 | [AssertStatus](#assertstatus)                     | [AssertSuccessful](#assertsuccessful)                   | [AssertTemporaryRedirect](#asserttemporaryredirect)     |
 | [AssertTooManyRequests](#asserttoomanyrequests)   | [AssertUnauthorized](#assertunauthorized)               | [AssertUnprocessableEntity](#assertunprocessableentity) |
 
-### AssertAccepted
+### AssertAcceptat
 
-Asserts that the response has an `202 Accepted` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `202 acceptat` :
 
 ```go
 response.AssertAccepted()
@@ -295,80 +295,80 @@ response.AssertAccepted()
 
 ### AssertBadRequest
 
-Asserts that the response has a `400 Bad Request` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `400 Bad Request`:
 
 ```go
-response.AssertBadRequest()
+răspunse.AssertBadRequest()
 ```
 
 ### AssertConflict
 
-Asserts that the response has a `409 Conflict` HTTP status code:
+Asfircă răspunsul are un cod de stare HTTP `409`Conflict\` :
 
 ```go
-response.AssertConflict()
+răspuns.AssertConflict()
 ```
 
 ### AssertCookie
 
-Asserts that the response contains a cookie with the specified name and value:
+Asser ca raspunsul contine un cookie cu numele si valoarea specificate:
 
 ```go
 response.AssertCookie("name", "value")
 ```
 
-### AssertCookieExpired
+### AssertCookieExpirat
 
-Asserts that the specified cookie has expired:
+Asserte ca cookie-ul specificat a expirat:
 
 ```go
-response.AssertCookieExpired("name")
+response.AssertCookieExpired("nume")
 ```
 
-### AssertCookieMissing
+### AssertCookieLipsă
 
-Asserts that the response does not contain a cookie with the specified name:
+Asser ca raspunsul nu contine un cookie cu numele specificat:
 
 ```go
-response.AssertCookieMissing("name")
+Răspunse.AssertCookieMissing("nume")
 ```
 
-### AssertCookieNotExpired
+### AssertCookieNotExpirat
 
-Asserts that the specified cookie has not expired:
+Asserturi ca cookie-ul specificat nu a expirat:
 
 ```go
-response.AssertCookieNotExpired("name")
+response.AssertCookieNotExpired("nume")
 ```
 
-### AssertCreated
+### AssertCreat
 
-Asserts that the response has a `201 Created` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `201 creat` :
 
 ```go
-response.AssertCreated()
+răspuns.AssertCreat()
 ```
 
 ### AssertDontSee
 
-Asserts that the response does not contain the specified values. The second parameter (optional) determines whether to
-escape special characters in the values before checking. If not provided, it defaults to true.
+Asfiră că răspunsul nu conține valorile specificate. Al doilea parametru (opțional) determină dacă la
+scapă caractere speciale din valori înainte de verificare. Dacă nu este furnizată, este adevărată în mod implicit.
 
 ```go
-response.AssertDontSee([]string{"<div>"}, false)  // Do not escape special characters
+response.AssertDontSee([]string{"<div>"}, falsă) // Nu scăpa de caractere speciale
 ```
 
 ### AssertExactJson
 
-Asserts that the response JSON matches exactly the provided `map[string]any`:
+Asfircă răspunsul JSON se potriveşte exact cu `harta[string]oferită`:
 
 ```go
-response.AssertExactJson(map[string]any{"created": true})
+response.AssertExactJson(harta[string]any{"created": true})
 ```
 
 ### AssertFluentJson
 
-Asserts the response JSON using a fluent interface:
+Asestază răspunsul JSON folosind o interfaţă fluentă:
 
 ```go
 import contractstesting "github.com/goravel/framework/contracts/testing"
@@ -380,15 +380,15 @@ response.AssertFluentJson(func(json contractstesting.AssertableJSON) {
 
 ### AssertForbidden
 
-Asserts that the response has a `403 Forbidden` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `403 Forbidden`:
 
 ```go
 response.AssertForbidden()
 ```
 
-### AssertFound
+### AssertGăsit
 
-Asserts that the response has a `302 Found` HTTP status code:
+Assertă că răspunsul are un cod de stare HTTP `302 Found` :
 
 ```go
 response.AssertFound()
@@ -396,7 +396,7 @@ response.AssertFound()
 
 ### AssertGone
 
-Asserts that the response has a `410 Gone` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `410 Gone`:
 
 ```go
 response.AssertGone()
@@ -404,23 +404,23 @@ response.AssertGone()
 
 ### AssertHeader
 
-Asserts that the response contains the specified header with the given value:
+Afirmație că răspunsul conține antetul specificat cu valoarea dată:
 
 ```go
-response.AssertHeader("Content-Type", "application/json")
+response.AssertHeader("Conținut-Type", "cerere/json")
 ```
 
-### AssertHeaderMissing
+### AssertHeaderLipsă
 
-Asserts that the response does not contain the specified header:
+Asfiră că răspunsul nu conține antetul specificat:
 
 ```go
-response.AssertHeaderMissing("X-Custom-Header")
+răspuns.AssertHeaderMissing("X-Custom-Header")
 ```
 
-### AssertInternalServerError
+### AssertInternalServerEroare
 
-Asserts that the response has a `500 Internal Server` Error HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP de eroare `500 Intern` :
 
 ```go
 response.AssertInternalServerError()
@@ -428,31 +428,31 @@ response.AssertInternalServerError()
 
 ### AssertJson
 
-Asserts that the response JSON contains the provided fragment:
+Aduce că răspunsul JSON conţine fragmentul furnizat:
 
 ```go
-response.AssertJson(map[string]any{"created": true})
+response.AssertJson(harta[string]any{"created": true})
 ```
 
-### AssertJsonMissing
+### AssertJsonLipsă
 
-Asserts that the specified keys or values are missing in the response JSON:
+Asfiră că cheile sau valorile specificate lipsesc din răspunsul JSON:
 
 ```go
-response.AssertJsonMissing(map[string]any{"created": false})
+response.AssertJsonMissing(harta[string]any{"creat": false})
 ```
 
 ### AssertMethodNotAllowed
 
-Asserts that the response has a `405 Method Not Allowed` HTTP status code:
+Assertă că răspunsul are un cod de stare HTTP `405 Method Not allowed`:
 
 ```go
-response.AssertMethodNotAllowed()
+răspunse.AssertMethodNotAllowed()
 ```
 
-### AssertMovedPermanently
+### AssertMovedPermanent
 
-Asserts that the response has a `301 Moved Permanently` HTTP status code:
+Assertă că răspunsul are codul HTTP `301 Muted Permanently` :
 
 ```go
 response.AssertMovedPermanently()
@@ -460,7 +460,7 @@ response.AssertMovedPermanently()
 
 ### AssertNoContent
 
-Asserts that the response has a `204 No Content` HTTP status code:
+Asfiră că răspunsul are codul `204 Fără conţinut` HTTP :
 
 ```go
 response.AssertNoContent()
@@ -468,81 +468,81 @@ response.AssertNoContent()
 
 ### AssertNotAcceptable
 
-Asserts that the response has a `406 Not Acceptable` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `406 Nu este acceptabil` :
 
 ```go
-response.AssertNotAcceptable()
+response.AssertNotable()
 ```
 
 ### AssertNotFound
 
-Asserts that the response has a `404 Not Found` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `404 Nu a fost găsit` :
 
 ```go
 response.AssertNotFound()
 ```
 
-### AssertNotModified
+### AssertNotat
 
-Asserts that the response has a `304 Not Modified` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `304 Not Modified`:
 
 ```go
-response.AssertNotModified()
+răspuns.AssertNotModified()
 ```
 
 ### AssertOk
 
-Asserts that the response has a `200 OK` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `200 OK`:
 
 ```go
 response.AssertOk()
 ```
 
-### AssertPartialContent
+### AssertPartialConținut
 
-Asserts that the response has a `206 Partial Content` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `206 conţinut parţial`:
 
 ```go
-response.AssertPartialContent()
+răspunse.AssertPartialContent()
 ```
 
-### AssertPaymentRequired
+### AssertPaymentNecesar
 
-Asserts that the response has a `402 Payment Required` HTTP status code:
+Assertează că răspunsul are un cod de stare HTTP `402 Payment necesar` :
 
 ```go
-response.AssertPaymentRequired()
+răspunse.AssertPaymentNecesar()
 ```
 
 ### AssertRequestTimeout
 
-Asserts that the response has a `408 Request Timeout` HTTP status code:
+Asfircă răspunsul are codul de stare HTTP `408 Request Timeout`:
 
 ```go
-response.AssertRequestTimeout()
+răspuns.AssertRequestTimeout()
 ```
 
-### AssertSee
+### AssertVezi
 
-Asserts that the response contains the specified values. The second parameter (optional) determines whether to escape
-special characters in the values before checking. If not provided, it defaults to `true`.
+Aduce că răspunsul conţine valorile specificate. Al doilea parametru (opțional) determină dacă să scape de
+caractere speciale din valori înainte de verificare. Dacă nu este furnizat, acesta este implicit la `true`.
 
 ```go
-response.AssertSee([]string{"<div>"}, false)  // Do not escape special characters
+response.AssertSee([]string{"<div>"}, falsă) // Nu scăpa de caractere speciale
 ```
 
 ### AssertSeeInOrder
 
-Asserts that the response contains the specified values in the given order. The second parameter (optional) determines
-whether to escape special characters in the values before checking. If not provided, it defaults to `true`.
+Afirmație că răspunsul conține valorile specificate în ordinea dată. Al doilea parametru (opțional) determină
+dacă să scape de caractere speciale din valori înainte de verificare. Dacă nu este furnizat, acesta este implicit la `true`.
 
 ```go
-response.AssertSeeInOrder([]string{"First", "Second"}, false)  // Do not escape special characters
+Răspunse.AssertSeeInOrder([]string{"Prima", "Secund"}, false) // Nu scăpa de caractere speciale
 ```
 
 ### AssertServerError
 
-Asserts that the response has a server error (>= 500 , < 600) HTTP status code:
+Asserdă că răspunsul are o eroare de server (>= 500, < 600) cod de stare HTTP:
 
 ```go
 response.AssertServerError()
@@ -550,7 +550,7 @@ response.AssertServerError()
 
 ### AssertServiceUnavailable
 
-Asserts that the response has a `503 Service Unavailable` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP \`503 Service Unavailable\`\` :
 
 ```go
 response.AssertServiceUnavailable()
@@ -558,48 +558,48 @@ response.AssertServiceUnavailable()
 
 ### AssertStatus
 
-Asserts that the response has the specified HTTP status code:
+Asfircă răspunsul are codul de stare HTTP specificat:
 
 ```go
 response.AssertStatus(200)
 ```
 
-### AssertSuccessful
+### AssertSuccesul
 
-Asserts that the response has a successful HTTP status code (2xx):
+Assertează că răspunsul are un cod de stare HTTP cu succes (2xx):
 
 ```go
-response.AssertSuccessful()
+Răspunse.AssertSuccessful()
 ```
 
 ### AssertTemporaryRedirect
 
-Asserts that the response has a `307 Temporary Redirect` HTTP status code:
+Asfiră că răspunsul are un cod `307 Redirecționare temporară` HTTP stare:
 
 ```go
-response.AssertTemporaryRedirect()
+răspuns.AssertTemporaryRedirect()
 ```
 
 ### AssertTooManyRequests
 
-Asserts that the response has a `429 Too Many Requests` HTTP status code:
+Asfiră că răspunsul are codul de stare HTTP `429 Prea multe cereri` :
 
 ```go
-response.AssertTooManyRequests()
+răspuns.AssertTooManyRequests()
 ```
 
-### AssertUnauthorized
+### AssertUnautorizat
 
-Asserts that the response has a `401 Unauthorized` HTTP status code:
+Assertează că răspunsul are un cod de stare HTTP `401 neautorizat` :
 
 ```go
-response.AssertUnauthorized()
+response.AssertUnauthorised ()
 ```
 
-### AssertUnprocessableEntity
+### AssertUnprocessableEntitate
 
-Asserts that the response has a `422 Unprocessable Entity` HTTP status code:
+Asfiră că răspunsul are un cod de stare HTTP `422 Unprocesabil` :
 
 ```go
-response.AssertUnprocessableEntity()
+răspuns.AssertUnprocessableEnty()
 ```
