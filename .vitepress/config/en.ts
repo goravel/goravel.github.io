@@ -1,6 +1,6 @@
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
-export const en = defineConfig({
+export const config = defineConfig({
     lang: 'en-US',
     description: "Goravel is a web application framework with complete functions and excellent scalability. As a starting scaffolding to help Gopher quickly build their own applications.",
 
@@ -8,15 +8,15 @@ export const en = defineConfig({
         nav: nav(),
 
         sidebar: {
-            '/en/quickstart/': { base: '/en/quickstart/', items: sidebarQuickstart() },
-            '/en/upgrade/': { base: '/en/upgrade/', items: sidebarUpgrade() },
-            '/en/foundation/': { base: '/en/foundation/', items: sidebarFoundation() },
-            '/en/basic/': { base: '/en/basic/', items: sidebarBasic() },
-            '/en/advanced/': { base: '/en/advanced/', items: sidebarAdvanced() },
-            '/en/security/': { base: '/en/security/', items: sidebarSecurity() },
-            '/en/orm/': { base: '/en/orm/', items: sidebarOrm() },
-            '/en/testing/': { base: '/en/testing/', items: sidebarTesting() },
-            '/en/other/': { base: '/en/other/', items: sidebarOther() },
+            '/quickstart/': { base: '/quickstart/', items: sidebarQuickstart() },
+            '/upgrade/': { base: '/upgrade/', items: sidebarUpgrade() },
+            '/foundation/': { base: '/foundation/', items: sidebarFoundation() },
+            '/basic/': { base: '/basic/', items: sidebarBasic() },
+            '/advanced/': { base: '/advanced/', items: sidebarAdvanced() },
+            '/security/': { base: '/security/', items: sidebarSecurity() },
+            '/orm/': { base: '/orm/', items: sidebarOrm() },
+            '/testing/': { base: '/testing/', items: sidebarTesting() },
+            '/other/': { base: '/other/', items: sidebarOther() },
         },
 
         editLink: {
@@ -35,47 +35,47 @@ function nav(): DefaultTheme.NavItem[] {
     return [
         {
             text: 'Quickstart',
-            link: '/en/quickstart/installation',
-            activeMatch: '/en/quickstart/'
+            link: '/quickstart/installation',
+            activeMatch: '/quickstart/'
         },
         {
             text: 'Upgrade',
-            link: '/en/upgrade/v1.15',
-            activeMatch: '/en/upgrade/'
+            link: '/upgrade/v1.15',
+            activeMatch: '/upgrade/'
         },
         {
             text: 'Foundation',
-            link: '/en/foundation/lifecycle',
-            activeMatch: '/en/foundation/'
+            link: '/foundation/lifecycle',
+            activeMatch: '/foundation/'
         },
         {
             text: 'Basic',
-            link: '/en/basic/routing',
-            activeMatch: '/en/basic/'
+            link: '/basic/routing',
+            activeMatch: '/basic/'
         },
         {
             text: 'Advanced',
-            link: '/en/advanced/artisan',
-            activeMatch: '/en/advanced/'
+            link: '/advanced/artisan',
+            activeMatch: '/advanced/'
         },
         {
             text: 'Security',
-            link: '/en/security/authentication',
-            activeMatch: '/en/security/'
+            link: '/security/authentication',
+            activeMatch: '/security/'
         },
         {
             text: 'ORM',
-            link: '/en/orm/quickstart',
+            link: '/orm/quickstart',
             activeMatch: '/orm/'
         },
         {
             text: 'Testing',
-            link: '/en/testing/quickstart',
+            link: '/testing/quickstart',
             activeMatch: '/testing/'
         },
         {
             text: 'Other',
-            link: '/en/other/contributing',
+            link: '/other/contributing',
             activeMatch: '/other/'
         },
     ]

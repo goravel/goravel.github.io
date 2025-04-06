@@ -7,9 +7,9 @@ import {defineConfig} from "vitepress";
 export const shared = defineConfig({
     title: 'Goravel',
 
-    /*rewrites: {
+    rewrites: {
         'en/:rest*': ':rest*'
-    },*/
+    },
 
     lastUpdated: true,
     cleanUrls: true,
