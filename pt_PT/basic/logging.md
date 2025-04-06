@@ -1,24 +1,24 @@
-# Logging
+# Registro
 
-In order to understand the running status of the application, Goravel provides a powerful log service that can record
-log messages and system errors to a file or other channels through `facades.Log()`.
+Para entender o status da execução do aplicativo, Goravel fornece um poderoso serviço de log que pode gravar mensagens
+de registro e erros de sistema em um arquivo ou outro canal em 'facades'. og()\`.
 
 ## Configuração
 
-To configure various log channels, custom configurations can be made in `config/logging.go`.
+Para configurar vários canais de log, configurações personalizadas podem ser feitas em `config/logging.go`.
 
-`Goravel` uses `stack` channel to record logs by default, `stack` allows logs to be forwarded to multiple channels.
+`Goravel` usa o canal `stack` para registrar os logs por padrão, `stack` permite que os logs sejam encaminhados para vários canais.
 
-The `print` configuration in `single` and `daily` drivers can control log output to the console.
+A configuração `print` em `single` e `daily` drivers podem controlar a saída de log para o console.
 
-## Available channel drivers
+## Drivers de canal disponíveis
 
-| Name     | Description             |
-| -------- | ----------------------- |
-| `stack`  | Allow multiple channels |
-| `single` | Single log file         |
-| `daily`  | One log file per day    |
-| `custom` | Custom drive            |
+| Nome: | Descrição: |
+| --------------------- | -------------------------- |
+| `pilha`               | Permitir múltiplos canais  |
+| `canto`               | Arquivo de log único       |
+| `diário`              | Um arquivo de log por dia  |
+| `personalizado`       | Unidade personalizada      |
 
 ### Injetar Contexto
 
@@ -26,75 +26,75 @@ The `print` configuration in `single` and `daily` drivers can control log output
 facades.Log().WithContext(ctx)
 ```
 
-## Write log messages
+## Escrever mensagens de log
 
 ```go
 facades.Log().Debug(message)
-facades.Log().Debugf(message, args)
+facades.Log().Debugf(mensagem, args)
 facades.Log().Info(message)
-facades.Log().Infof(message, args)
+facades.Log().Infof(mensagem, args)
 facades.Log().Warning(message)
-facades.Log().Warningf(message, args)
-facades.Log().Error(message)
-facades.Log().Errorf(message, args)
+facades.Log().Warningf(mensagem, args)
+facades. og().Error(message)
+facades.Log().Errorf(mensagem, args)
 facades.Log().Fatal(message)
-facades.Log().Fatalf(message, args)
+facades.Log().Fatalf(mensagem, args)
 facades.Log().Panic(message)
-facades.Log().Panicf(message, args)
+facades.Log().Panicf(mensagem, args)
 ```
 
-### Write to a specific channel
+### Escreva para um canal específico
 
-Sometimes, you may want to record messages to a channel other than the application's default channel:
+Às vezes, você pode querer gravar mensagens em um canal que não seja o canal padrão do aplicativo:
 
 ```go
-facades.Log().Channel("single").Info(message)
+facades.Log().Canal("single").Info(mensagem)
 ```
 
-If you want to write to multiple channels at the same time, you can use the `Stack` method:
+Se você quer escrever em vários canais ao mesmo tempo, você pode usar o método `Stack`:
 
 ```go
-facades.Log().Stack([]string{"single", "slack"}).Info(message)
+facades.Log().Stack([]string{"single", "slack"}).Info(mensagem)
 ```
 
-## Chain Methods
+## Métodos de Cadeia
 
-Goravel provides convenient chain methods, that make it easy to insert more useful information into the log:
+Goravel fornece métodos convenientes de cadeia, que facilitam a inserção de informações mais úteis no log:
 
 ```go
 facades.Log().User("John").Debug(message)
 ```
 
-| Method    | Action                                                                                 |
-| --------- | -------------------------------------------------------------------------------------- |
-| Code      | Set a code or slug that describes the log.                             |
-| Hint      | Set a hint for faster debugging.                                       |
-| In        | Set the feature category or domain in which the log entry is relevant. |
-| Owner     | Useful for alerting purposes.                                          |
-| Request   | Supplies a http.Request.                               |
-| Response  | Supplies a http.Response.                              |
-| Tags      | Add multiple tags, describing the feature returning an error.          |
-| User      | Set the user associated with the log entry.                            |
-| With      | Add key-value pairs to the context of the log entry.                   |
-| WithTrace | Add stack information to the log entry.                                |
+| Método       | Acão                                                                                                  |
+| ------------ | ----------------------------------------------------------------------------------------------------- |
+| Código       | Defina um código ou slug que descreva o log.                                          |
+| Sugestão     | Definir uma dica para uma depuração mais rápida.                                      |
+| Entrada      | Defina a categoria de funcionalidade ou domínio no qual a entrada do log é relevante. |
+| Proprietário | Útil para fins de alerta.                                                             |
+| Pedir        | Suprimentos de um http.Request.                                       |
+| Resposta     | Fornece uma http.Response.                                            |
+| Etiquetas    | Adicione múltiplas tags, descrevendo o recurso que está retornando um erro.           |
+| Usuário      | Defina o usuário associado à entrada de log.                                          |
+| com          | Adicionar pares chave-valor ao contexto da entrada de log.                            |
+| Retirada     | Adicionar informações da pilha à entrada de log.                                      |
 
-## Create a custom channel
+## Criar um canal personalizado
 
-If you want to define a completely custom channel, you can specify the `custom` driver type in the `config/logging.go`
-configuration file.
-Then include a `via` option to implement a `framework\contracts\log\Logger` structure:
+Se você quiser definir um canal completamente personalizado, você pode especificar o tipo de driver `custom` no arquivo de configuração `config/logging.go`
+.
+Em seguida, inclua a opção `via` para implementar uma `framework\contracts\log\Logger`:
 
 ```go
 // config/logging.go
-"custom": map[string]interface{}{
+"custom": mapa[string]interface{}{
     "driver": "custom",
-    "via":    &CustomTest{},
+    "via": &CustomTest{},
 },
 ```
 
-### Implement Driver
+### Motorista da implementação
 
-Implement `framework\contracts\log\Logger` interface.
+Implementar a interface `framework\contracts\log\Logger`.
 
 ```go
 // framework/contracts/log/Logger
@@ -106,43 +106,43 @@ type Logger interface {
 }
 ```
 
-files can be stored in the `app/extensions` folder (modifiable). Exemplo:
+arquivos podem ser armazenados na pasta `app/extensions` (modificável). Exemplo:
 
 ```go
-package extensions
+pacote extensões
 
-import (
+importação (
   "fmt"
 
-  "github.com/goravel/framework/contracts/log"
+  "github. om/goravel/framework/contracts/log"
 )
 
 type Logger struct {
 }
 
 // Handle pass channel config path here
-func (logger *Logger) Handle(channel string) (log.Hook, error) {
+func (logger *Logger) Handle(channel string) (log. ook, erro) {
   return &Hook{}, nil
 }
 
 type Hook struct {
 }
 
-// Levels monitoring level
-func (h *Hook) Levels() []log.Level {
+// Nível de monitoramento
+func (h *Hook) Levels() []log. evel {
   return []log.Level{
-    log.DebugLevel,
+    log. ebugLevel,
     log.InfoLevel,
     log.WarningLevel,
-    log.ErrorLevel,
+    log. rrorLevel,
     log.FatalLevel,
-    log.PanicLevel,
+    log. anicLevel,
   }
 }
 
-// Fire execute logic when trigger
-func (h *Hook) Fire(entry log.Entry) error {
-  fmt.Printf("context=%v level=%v time=%v message=%s", entry.Context(), entry.Level(), entry.Time(), entry.Message())
+// Execução de Fogo ao disparar
+func (h *Hook) Fire(log de entradas. erro {
+  fmt.Printf("context= level=%v%v time=%v message=%s", entrada. ontext(), entry.Level(), entry.Time(), entry.Message())
 
   return nil
 }
