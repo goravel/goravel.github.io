@@ -1,10 +1,10 @@
-# Middleware
+# 中间件
 
-Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application.
+中间件为检查和过滤进入应用程序的 HTTP 请求提供了一种便捷的机制。
 
-## Define Middleware
+## 定义中间件
 
-You can create your own middleware in the `app/http/middleware` directory, the structure is as follows.
+你可以在 `app/http/middleware` 目录中创建自己的中间件，结构如下。
 
 ```go
 package middleware
@@ -20,21 +20,20 @@ func Auth() http.Middleware {
 }
 ```
 
-### Create Middleware By Command
+### 通过命令创建中间件
 
 ```
 go run . artisan make:middleware Auth
 
-// Support nested folders
+// 支持嵌套文件夹
 go run . artisan make:middleware user/Auth
 ```
 
-## Register Middleware
+## 注册中间件
 
-### Global Middleware
+### 全局中间件
 
-If you want to apply middleware for every HTTP request of your application, you only need to register the middleware in
-the `Middleware` in the `app/http/kernel.go` file.
+如果你想为应用程序的每个 HTTP 请求应用中间件，只需要在 `app/http/kernel.go` 文件中的 `Middleware` 中注册该中间件。
 
 ```go
 // app/http/kernel.go
@@ -56,9 +55,9 @@ func (kernel *Kernel) Middleware() []http.Middleware {
 }
 ```
 
-### Assign Middleware for Routing
+### 为路由分配中间件
 
-You can register the middleware for some routing separately:
+你可以单独为某些路由注册中间件：
 
 ```go
 import "github.com/goravel/framework/http/middleware"
@@ -66,9 +65,9 @@ import "github.com/goravel/framework/http/middleware"
 facades.Route().Middleware(middleware.Auth()).Get("users", userController.Show)
 ```
 
-## Abort Request
+## 中止请求
 
-In middleware, if you need to interrupt the request, you can use the `Abort` method.
+在中间件中，如果需要中断请求，可以使用 `Abort` 方法。
 
 ```go
 ctx.Request().Abort()
